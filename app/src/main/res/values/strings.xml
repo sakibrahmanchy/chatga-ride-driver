@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Chaatga Drive</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_earn">Earning</string>
+    <string name="title_profile">Profile</string>
+    <string name="map_key">AIzaSyBiU6aA-izV9_I1ChpwtX3BqdnUYFweaVA</string>
+</resources>

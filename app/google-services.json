@@ -1,0 +1,115 @@
+{
+  "project_info": {
+    "project_number": "707764250103",
+    "firebase_url": "https://chatgaa-ride.firebaseio.com",
+    "project_id": "chatgaa-ride",
+    "storage_bucket": "chatgaa-ride.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:707764250103:android:9eec2ce744ea791f",
+        "android_client_info": {
+          "package_name": "com.demoriderctg.arif.demorider"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "707764250103-8h2sh3uthmneufp50809ef46d24a7q5o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.demoriderctg.arif.demorider",
+            "certificate_hash": "296c225b829e6e3b3d38602e197a841d1d7ffb8d"
+          }
+        },
+        {
+          "client_id": "707764250103-nasqtkfdktsi5okogjbdviqav2pcvkms.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.demoriderctg.arif.demorider",
+            "certificate_hash": "21670a33d1dcdcbda138c602ae737d4dc7baaa78"
+          }
+        },
+        {
+          "client_id": "707764250103-mdl6jl8h9sn44d6jaqbj2c8s6uvgi3g1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.demoriderctg.arif.demorider",
+            "certificate_hash": "96b2359b60a55a36dbf9cbb7881e77c4bec51cd9"
+          }
+        },
+        {
+          "client_id": "707764250103-tgftliar5l3b1breftvclibru5t3gikn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUlumoP9HNAHy8lSTHVWavcrihYe0vNm8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "707764250103-tgftliar5l3b1breftvclibru5t3gikn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:707764250103:android:b2923328b7e396c8",
+        "android_client_info": {
+          "package_name": "com.chaatgadrive.arif.chaatgadrive"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "707764250103-tgfmt5v7ffc3qavc8c1jukh0bfcr8kcf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.chaatgadrive.arif.chaatgadrive",
+            "certificate_hash": "21670a33d1dcdcbda138c602ae737d4dc7baaa78"
+          }
+        },
+        {
+          "client_id": "707764250103-tgftliar5l3b1breftvclibru5t3gikn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUlumoP9HNAHy8lSTHVWavcrihYe0vNm8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "707764250103-tgftliar5l3b1breftvclibru5t3gikn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
