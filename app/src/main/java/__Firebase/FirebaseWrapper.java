@@ -30,6 +30,7 @@ public class FirebaseWrapper {
     private RiderViewModel RiderViewModelInstance;
     private ClientModel ClientModel;
     private RiderModel RiderModel;
+    private CurrentRidingHistoryModel CurrentRidingHistoryModel;
 
     private FirebaseWrapper(){
         FirebaseRootReference = FirebaseDatabase.getInstance().getReference();
@@ -38,6 +39,7 @@ public class FirebaseWrapper {
         RiderViewModelInstance = new RiderViewModel();
         ClientModel = new ClientModel();
         RiderModel = new RiderModel();
+        CurrentRidingHistoryModel = new CurrentRidingHistoryModel();
     }
 
     public static FirebaseWrapper getInstance(){
@@ -65,6 +67,10 @@ public class FirebaseWrapper {
 
     public RiderModel getRiderModelInstance() {
         return RiderModel;
+    }
+
+    public CurrentRidingHistoryModel getRidingHistoryModelModelInstance() {
+        return CurrentRidingHistoryModel;
     }
 
     public static String getDeviceToken(){

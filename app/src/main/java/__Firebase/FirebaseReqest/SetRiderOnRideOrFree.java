@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import __Firebase.Callbacklisteners.CallBackListener;
+import __Firebase.Callbacklisteners.ICallbackMain;
 import __Firebase.FirebaseModel.RiderModel;
 import __Firebase.FirebaseUtility.FirebaseConstant;
 import __Firebase.FirebaseWrapper;
@@ -21,12 +22,10 @@ import __Firebase.FirebaseWrapper;
 public class SetRiderOnRideOrFree {
 
     private RiderModel Rider = null;
-    private int value;
-    private CallBackListener callBackListener = null;
+    private ICallbackMain callBackListener = null;
 
-    public SetRiderOnRideOrFree(RiderModel Rider, int value, CallBackListener callBackListener){
+    public SetRiderOnRideOrFree(RiderModel Rider, ICallbackMain callBackListener){
         this.Rider = Rider;
-        this.value = value;
         this.callBackListener = callBackListener;
 
         Request();
@@ -41,15 +40,17 @@ public class SetRiderOnRideOrFree {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getChildren().iterator().hasNext()) {
                     Map<String, Object> update = new HashMap<>();
-                    update.put(FirebaseConstant.IS_RIDER_ON_RIDE, value);
+                    update.put(FirebaseConstant.IS_RIDER_ON_RIDE, Rider.IsRiderOnRide);
                     dataSnapshot.getChildren().iterator().next().getRef().updateChildren(update);
 
                     Log.d(FirebaseConstant.IS_RIDER_ON_RIDE, FirebaseConstant.IS_RIDER_ON_RIDE);
+                    callBackListener.OnResponseSetRiderOnRideOrFree(true);
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                callBackListener.OnResponseSetRiderOnRideOrFree(false);
             }
         });
     }

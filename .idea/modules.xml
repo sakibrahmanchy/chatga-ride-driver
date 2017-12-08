@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://D:\Work\ChatgaRide\Rider\devRider\ChaatgaDrive.iml" filepath="D:\Work\ChatgaRide\Rider\devRider\ChaatgaDrive.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://D:\Work\ChatgaRide\Rider\devRider\app\app.iml" filepath="D:\Work\ChatgaRide\Rider\devRider\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/devRider.iml" filepath="$PROJECT_DIR$/devRider.iml" />
     </modules>
   </component>

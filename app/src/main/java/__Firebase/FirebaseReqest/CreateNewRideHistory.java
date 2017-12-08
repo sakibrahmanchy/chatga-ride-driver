@@ -6,6 +6,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 
 import __Firebase.Callbacklisteners.CallBackListener;
+import __Firebase.Callbacklisteners.ICallbackMain;
 import __Firebase.FirebaseModel.CurrentRidingHistoryModel;
 import __Firebase.FirebaseUtility.FirebaseConstant;
 import __Firebase.FirebaseWrapper;
@@ -16,10 +17,10 @@ import __Firebase.FirebaseWrapper;
 
 public class CreateNewRideHistory {
 
-    private CallBackListener callBackListener = null;
+    private ICallbackMain callBackListener = null;
     private CurrentRidingHistoryModel HistoryModel = null;
 
-    public CreateNewRideHistory(CurrentRidingHistoryModel HistoryModel, CallBackListener callBackListener){
+    public CreateNewRideHistory(CurrentRidingHistoryModel HistoryModel, ICallbackMain callBackListener){
         this.HistoryModel = HistoryModel;
         this.callBackListener = callBackListener;
         Request();
@@ -33,12 +34,12 @@ public class CreateNewRideHistory {
                     .setValue(HistoryModel, new DatabaseReference.CompletionListener() {
                         @Override
                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                            callBackListener.onCreateNewRideHistory(true);
+                            callBackListener.OnResponseCreateNewHistory(true);
                         }
                     });
 
         } catch (Exception e) {
-            callBackListener.onCreateNewRideHistory(false);
+            callBackListener.OnResponseCreateNewHistory(false);
             e.printStackTrace();
             Log.d(FirebaseConstant.NEW_HISTORY_ERROR, e.toString());
         }

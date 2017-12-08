@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import __Firebase.Callbacklisteners.CallBackListener;
+import __Firebase.Callbacklisteners.ICallbackMain;
 import __Firebase.FirebaseModel.RiderModel;
 import __Firebase.FirebaseUtility.FirebaseConstant;
 import __Firebase.FirebaseWrapper;
@@ -19,13 +20,12 @@ import __Firebase.FirebaseWrapper;
  */
 
 public class SetRiderOnlineBusyOnRider {
-    private RiderModel Rider = null;
-    private int value;
-    private CallBackListener callBackListener = null;
 
-    public SetRiderOnlineBusyOnRider(RiderModel Rider, int value, CallBackListener callBackListener){
+    private RiderModel Rider = null;
+    private ICallbackMain callBackListener = null;
+
+    public SetRiderOnlineBusyOnRider(RiderModel Rider, ICallbackMain callBackListener){
         this.Rider = Rider;
-        this.value = value;
         this.callBackListener = callBackListener;
 
         Request();
@@ -40,15 +40,17 @@ public class SetRiderOnlineBusyOnRider {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getChildren().iterator().hasNext()) {
                     Map<String, Object> update = new HashMap<>();
-                    update.put(FirebaseConstant.ON_LINE_BUSY_ON_RIDE, value);
+                    update.put(FirebaseConstant.ON_LINE_BUSY_ON_RIDE, Rider.OnlineBusyOnRide);
                     dataSnapshot.getChildren().iterator().next().getRef().updateChildren(update);
 
                     Log.d(FirebaseConstant.ON_LINE_BUSY_ON_RIDE, FirebaseConstant.ON_LINE_BUSY_ON_RIDE);
+                    callBackListener.OnResponseSetRiderOnlineBusyOnRide(true);
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                callBackListener.OnResponseSetRiderOnlineBusyOnRide(true);
             }
         });
     }

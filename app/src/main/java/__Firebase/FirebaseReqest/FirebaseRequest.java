@@ -29,51 +29,51 @@ public class FirebaseRequest {
         thread.start();
     }
 
-    public void SetRiderBusyOrFree(final RiderModel Rider, final int value, final CallBackListener callBackListener){
+    public void SetRiderBusyOrFree(final RiderModel Rider, final ICallbackMain callBackListener){
 
         Thread thread = new Thread(){
             @Override
             public void run(){
-                new SetRiderBusyOrFree(Rider, value, callBackListener);
+                new SetRiderBusyOrFree(Rider, callBackListener);
             }
         };
         thread.start();
     }
 
-    public void SetRiderOnRideOrFree(final RiderModel Rider, final int value, final CallBackListener callBackListener){
+    public void SetRiderOnRideOrFree(final RiderModel Rider, final ICallbackMain callBackListener){
 
         Thread thread = new Thread(){
             @Override
             public void run(){
-                new SetRiderOnRideOrFree(Rider, value, callBackListener);
+                new SetRiderOnRideOrFree(Rider, callBackListener);
             }
         };
         thread.start();
     }
 
-    public void SetRiderOnLineOrOffLine(final RiderModel Rider, final int value, final CallBackListener callBackListener){
+    public void SetRiderOnLineOrOffLine(final RiderModel Rider, final ICallbackMain callBackListener){
 
         Thread thread = new Thread(){
             @Override
             public void run(){
-                new SetRiderOnLineOrOffLine(Rider, value, callBackListener);
+                new SetRiderOnLineOrOffLine(Rider, callBackListener);
             }
         };
         thread.start();
     }
 
-    public void SetRiderOnlineBusyOnRider(final RiderModel Rider, final int value, final CallBackListener callBackListener){
+    public void SetRiderOnlineBusyOnRider(final RiderModel Rider, final ICallbackMain callBackListener){
 
         Thread thread = new Thread(){
             @Override
             public void run(){
-                new SetRiderOnlineBusyOnRider(Rider, value, callBackListener);
+                new SetRiderOnlineBusyOnRider(Rider, callBackListener);
             }
         };
         thread.start();
     }
 
-    public void SetHistoryIDonRiderTable(final CurrentRidingHistoryModel HistoryModel, final RiderModel Rider, final CallBackListener callBackListener){
+    public void SetHistoryIDonRiderTable(final CurrentRidingHistoryModel HistoryModel, final RiderModel Rider, final ICallbackMain callBackListener){
 
         Thread thread = new Thread(){
             @Override
@@ -84,7 +84,7 @@ public class FirebaseRequest {
         thread.start();
     }
 
-    public void CreateNewRideHistory(final CurrentRidingHistoryModel HistoryModel, final CallBackListener callBackListener){
+    public void CreateNewRideHistory(final CurrentRidingHistoryModel HistoryModel, final ICallbackMain callBackListener){
 
         Thread thread = new Thread(){
 
@@ -171,6 +171,28 @@ public class FirebaseRequest {
             @Override
             public void run(){
                 new GetCurrentClient(ClientID, callBackListener);
+            }
+        };
+        thread.start();
+    }
+
+    public void GetCurrentRider(final long RiderID, final ICallbackMain callBackListener){
+
+        Thread thread = new Thread(){
+            @Override
+            public void run(){
+                new GetCurrentRider(RiderID, callBackListener);
+            }
+        };
+        thread.start();
+    }
+
+    public void GetRecentHistory(final long HistoryID, final ICallbackMain callBackListener){
+
+        Thread thread = new Thread(){
+            @Override
+            public void run(){
+                new GetRecentHistory(HistoryID, callBackListener);
             }
         };
         thread.start();

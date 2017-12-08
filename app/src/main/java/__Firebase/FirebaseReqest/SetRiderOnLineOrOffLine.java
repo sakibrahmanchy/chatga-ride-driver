@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import __Firebase.Callbacklisteners.CallBackListener;
+import __Firebase.Callbacklisteners.ICallbackMain;
 import __Firebase.FirebaseModel.RiderModel;
 import __Firebase.FirebaseUtility.FirebaseConstant;
 import __Firebase.FirebaseWrapper;
@@ -21,12 +22,10 @@ import __Firebase.FirebaseWrapper;
 public class SetRiderOnLineOrOffLine {
 
     private RiderModel Rider = null;
-    private int value;
-    private CallBackListener callBackListener = null;
+    private ICallbackMain callBackListener = null;
 
-    public SetRiderOnLineOrOffLine(RiderModel Rider, int value, CallBackListener callBackListener){
+    public SetRiderOnLineOrOffLine(RiderModel Rider, ICallbackMain callBackListener){
         this.Rider = Rider;
-        this.value = value;
         this.callBackListener = callBackListener;
 
         Request();
@@ -41,15 +40,17 @@ public class SetRiderOnLineOrOffLine {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getChildren().iterator().hasNext()) {
                     Map<String, Object> update = new HashMap<>();
-                    update.put(FirebaseConstant.IS_RIDER_ON_LINE, value);
+                    update.put(FirebaseConstant.IS_RIDER_ON_LINE, Rider.IsRiderOnline);
                     dataSnapshot.getChildren().iterator().next().getRef().updateChildren(update);
 
                     Log.d(FirebaseConstant.IS_RIDER_ON_LINE, FirebaseConstant.IS_RIDER_ON_LINE);
+                    callBackListener.OnResponseSetRiderOnLineOffLine(true);
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                callBackListener.OnResponseSetRiderOnLineOffLine(false);
             }
         });
     }

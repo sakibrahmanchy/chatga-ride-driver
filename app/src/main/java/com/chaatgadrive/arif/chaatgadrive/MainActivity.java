@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.Mapfragment;
 
 import ContactWithFirebase.Main;
+import __Firebase.FirebaseUtility.FirebaseConstant;
+import __Firebase.FirebaseWrapper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,12 +46,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-       // mTextMessage = (TextView) findViewById(R.id.message);
+        // mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         Main main = new Main();
-        main.CreateNewRiderFirebase();
-    }
+        //main.CreateNewRiderFirebase();
+        //main.CreateNewHistoryModelFirebase();
+        main.GetCurrentRider(1104006); /*Save this ID SQ_LITE or somewhere else*/
+        //main.GetRecentHistory(10101010); /*Save this ID SQ_LITE or somewhere else*/
+        //main.SetRiderBusyOrFre(FirebaseWrapper.getInstance().getRiderModelInstance(), FirebaseConstant.SET_RIDER_BUSY);
+        //main.SetRiderOnRideOrFree(FirebaseWrapper.getInstance().getRiderModelInstance(), FirebaseConstant.SET_RIDER_ON_RIDE);
+        //SetRiderOnLineOrOffLine(FirebaseWrapper.getInstance().getRiderModelInstance(), FirebaseConstant.SET_RIDER_OFF_ONLINE);
 
+    }
 }

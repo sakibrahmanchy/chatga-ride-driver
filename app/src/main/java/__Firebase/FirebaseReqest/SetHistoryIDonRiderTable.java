@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import __Firebase.Callbacklisteners.CallBackListener;
+import __Firebase.Callbacklisteners.ICallbackMain;
 import __Firebase.FirebaseModel.CurrentRidingHistoryModel;
 import __Firebase.FirebaseModel.RiderModel;
 import __Firebase.FirebaseUtility.FirebaseConstant;
@@ -23,9 +24,9 @@ public class SetHistoryIDonRiderTable {
 
     private RiderModel Rider = null;
     private CurrentRidingHistoryModel HistoryModel;
-    private CallBackListener callBackListener = null;
+    private ICallbackMain callBackListener = null;
 
-    public SetHistoryIDonRiderTable(final CurrentRidingHistoryModel HistoryModel, final RiderModel Rider, final CallBackListener callBackListener){
+    public SetHistoryIDonRiderTable(CurrentRidingHistoryModel HistoryModel, RiderModel Rider, ICallbackMain callBackListener){
         this.Rider = Rider;
         this.HistoryModel = HistoryModel;
         this.callBackListener = callBackListener;
@@ -46,11 +47,13 @@ public class SetHistoryIDonRiderTable {
                     dataSnapshot.getChildren().iterator().next().getRef().updateChildren(update);
 
                     Log.d(FirebaseConstant.CURRENT_RIDING_HISTORY, FirebaseConstant.CURRENT_RIDING_HISTORY);
+                    callBackListener.OnSetHistoryIDonRiderTable(true);
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                callBackListener.OnSetHistoryIDonRiderTable(true);
             }
         });
     }

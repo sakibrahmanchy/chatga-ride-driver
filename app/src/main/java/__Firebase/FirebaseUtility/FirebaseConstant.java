@@ -30,6 +30,7 @@ public class FirebaseConstant {
     public static String ON_LINE_BUSY_ON_RIDE = "OnlineBusyOnRide";
     public static String CURRENT_RIDING_HISTORY = "CurrentRidingHistoryID";
     public static String NOTIFICATION_TITLE = "You have a ride";
+    public static String UNDER_SCORE = "_";
 
     public static int ONLINE_NOT_BUSY_NO_RIDE = 100;
     public static int ONLINE_BUSY_NO_RIDE = 110;
@@ -42,24 +43,42 @@ public class FirebaseConstant {
     public static int SET_RIDER_ONLINE = 1;
     public static int SET_RIDER_OFF_ONLINE = 0;
     public static int SET_RIDER_NO_RIDE = 0;
-    public static int SET_RIDER_ON_RIDE = 0;
+    public static int SET_RIDER_ON_RIDE = 1;
     public static int SET_REQUEST_UPDATE_LOCATION = 1;
     public static int UNSET_REQUEST_UPDATE_LOCATION = 0;
+    public static int RIDE_NOT_START = 0;
+    public static int RIDE_START = 1;
+    public static int RIDE_NOT_FINISHED = 0;
+    public static int RIDE_FINISHED = 1;
+    public static int RIDE_CANCELED_BY_RIDER = 1;
+    public static int RIDE_CANCELED_BY_CLIENT = 1;
+    public static int UNKNOWN = 1;
+
 
     /*Log Key*/
     public static String NEW_RIDER_CREATE = "NEW_RIDER_CREATE";
+    public static String NEW_HISTORY_CREATE = "NEW_RIDER_CREATE";
     public static String NEW_RIDER_ERROR = "NEW_USER_ERROR";
     public static String NEW_HISTORY_ERROR = "NEW_HISTORY_ERROR";
     public static String LOCATION_ERROR = "LOCATION_ERROR";
     public static String RIDER_INFO = "RIDER_INFO";
     public static String ALL_RIDER_LOADED = "ALL_RIDER_LOADED";
+    public static String RIDER_LOADED = "RIDER_LOADED";
+    public static String HISTORY_LOADED = "HISTORY_LOADED";
+    public static String HISTORY_LOADED_ERROR = "HISTORY_LOADED_ERROR";
+    public static String HISTORY_ID_ADDED_TO_RIDER = "HISTORY_ID_ADDED_TO_RIDER";
+    public static String RIDER_BUSY_OR_FREE = "RIDER_BUSY_OR_FREE";
+    public static String RIDER_ONLINE_OR_OFFLINE = "RIDER_ONLINE_OR_OFFLINE";
+    public static String RIDER_ON_RIDE_OR_FREE = "RIDER_BUSY_OR_FREE";
     public static String CLIENT_LOADED = "CLIENT_LOADED";
     public static String CLIENT_LOADED_ERROR = "CLIENT_LOADED_ERROR";
+    public static String RIDER_LOADED_ERROR = "RIDER_LOADED_ERROR";
     public static String SET_RIDER_110 = "SET_RIDER_110";
     public static String IS_RIDER_BUSY_OR_FREE_ERROR = "IS_RIDER_BUSY_OR_FREE_ERROR";
     public static String FIREBASE_TOKEN = "FIREBASE_TOKEN";
     public static String REQUEST_FOR_ADD_CHILD = "REQUEST_FOR_ADD_CHILD";
     public static String NOTIFICATION_MESSAGE = "NOTIFICATION_MESSAGE";
+    public static String RIDER_ONLINE_BUSY_ON_RIDE = "RIDER_ONLINE_BUSY_ON_RIDE";
 
     public FirebaseConstant(){
     }
