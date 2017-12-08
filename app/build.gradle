@@ -11,6 +11,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -18,11 +19,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    sourceSets { main { java.srcDirs = ['src/main/java', 'src/main/java/Firebase'] } }
+    sourceSets {
+        main {
+            java.srcDirs = ['src/main/java', 'src/main/java/Firebase', 'src/main/java/MapconstentModel']
+        }
+    }
 }
 
 dependencies {
     implementation 'com.google.firebase:firebase-messaging:11.0.4'
+    implementation 'com.google.firebase:firebase-database:11.0.4'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -33,9 +40,13 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.google.android.gms:play-services-maps:11.0.4'
     compile 'com.google.android.gms:play-services:11.0.4'
-
-
+    compile 'com.android.support:multidex:1.0.0'
 }
+
+
+
+
+
 
 
 apply plugin: 'com.google.gms.google-services'

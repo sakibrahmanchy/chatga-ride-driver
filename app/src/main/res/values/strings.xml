@@ -6,4 +6,6 @@
     <string name="title_earn">Earning</string>
     <string name="title_profile">Profile</string>
     <string name="map_key">AIzaSyBiU6aA-izV9_I1ChpwtX3BqdnUYFweaVA</string>
+    <string name="title_activity_dasboard">DasboardActivity</string>
+    <string name="title_activity_main2">Main2Activity</string>
 </resources>
