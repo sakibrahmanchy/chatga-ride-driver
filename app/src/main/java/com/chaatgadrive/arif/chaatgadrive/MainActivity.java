@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.Mapfragment;
 
+import ContactWithFirebase.Main;
+
 public class MainActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
@@ -45,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
        // mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        Main main = new Main();
+        main.CreateNewRiderFirebase();
     }
 
 }

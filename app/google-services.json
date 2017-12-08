@@ -75,6 +75,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "707764250103-5grv4b9d943kevcr5h1e1s3dve0ave46.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.chaatgadrive.arif.chaatgadrive",
+            "certificate_hash": "296c225b829e6e3b3d38602e197a841d1d7ffb8d"
+          }
+        },
+        {
           "client_id": "707764250103-tgfmt5v7ffc3qavc8c1jukh0bfcr8kcf.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
