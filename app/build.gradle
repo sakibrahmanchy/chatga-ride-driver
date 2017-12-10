@@ -11,7 +11,8 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
-        multiDexEnabled  true
+        multiDexEnabled true
+
     }
     buildTypes {
         release {
@@ -25,6 +26,8 @@ android {
 dependencies {
     implementation 'com.google.firebase:firebase-messaging:11.0.4'
     implementation 'com.google.firebase:firebase-database:11.0.4'
+
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -36,6 +39,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-maps:11.0.4'
     compile 'com.google.android.gms:play-services:11.0.4'
     compile 'com.android.support:multidex:1.0.0'
+
 }
 
 
