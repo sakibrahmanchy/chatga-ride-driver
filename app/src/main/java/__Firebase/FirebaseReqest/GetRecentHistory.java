@@ -50,7 +50,11 @@ public class GetRecentHistory {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                callBackListener.OnResponseGetHistoryModel(true);
+                if(dataSnapshot.exists()) {
+                    callBackListener.OnResponseGetHistoryModel(true);
+                }else {
+                    callBackListener.OnResponseGetHistoryModel(false);
+                }
             }
 
             public void onCancelled(DatabaseError databaseError) {

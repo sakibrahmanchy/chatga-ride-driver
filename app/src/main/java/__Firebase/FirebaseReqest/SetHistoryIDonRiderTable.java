@@ -41,13 +41,17 @@ public class SetHistoryIDonRiderTable {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getChildren().iterator().hasNext()) {
-                    Map<String, Object> update = new HashMap<>();
-                    update.put(FirebaseConstant.CURRENT_RIDING_HISTORY, HistoryModel.HistoryID);
-                    dataSnapshot.getChildren().iterator().next().getRef().updateChildren(update);
 
-                    Log.d(FirebaseConstant.CURRENT_RIDING_HISTORY, FirebaseConstant.CURRENT_RIDING_HISTORY);
-                    callBackListener.OnSetHistoryIDonRiderTable(true);
+                if(dataSnapshot.exists() && dataSnapshot.hasChildren()) {
+                    if (dataSnapshot.getChildren().iterator().hasNext()) {
+
+                        Map<String, Object> update = new HashMap<>();
+                        update.put(FirebaseConstant.CURRENT_RIDING_HISTORY, HistoryModel.HistoryID);
+                        dataSnapshot.getChildren().iterator().next().getRef().updateChildren(update);
+
+                        Log.d(FirebaseConstant.CURRENT_RIDING_HISTORY, FirebaseConstant.CURRENT_RIDING_HISTORY);
+                        callBackListener.OnSetHistoryIDonRiderTable(true);
+                    }
                 }
             }
 

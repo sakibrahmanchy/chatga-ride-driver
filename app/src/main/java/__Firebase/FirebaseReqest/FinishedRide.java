@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import __Firebase.Callbacklisteners.CallBackListener;
+import __Firebase.Callbacklisteners.ICallbackMain;
 import __Firebase.FirebaseModel.CurrentRidingHistoryModel;
 import __Firebase.FirebaseModel.RiderModel;
 import __Firebase.FirebaseUtility.FirebaseConstant;
@@ -21,13 +22,10 @@ import __Firebase.FirebaseWrapper;
 public class FinishedRide {
 
     private CurrentRidingHistoryModel HistoryModel = null;
-    private RiderModel Rider = null;
-    private CallBackListener callBackListener = null;
+    private ICallbackMain callBackListener = null;
 
-    public FinishedRide(CurrentRidingHistoryModel HistoryModel, RiderModel Rider, CallBackListener callBackListener){
-
+    public FinishedRide(CurrentRidingHistoryModel HistoryModel, ICallbackMain callBackListener){
         this.HistoryModel = HistoryModel;
-        this.Rider = Rider;
         this.callBackListener = callBackListener;
 
         Request();
@@ -43,28 +41,32 @@ public class FinishedRide {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                if(dataSnapshot.getChildren().iterator().hasNext()) {
+                if(dataSnapshot.exists() && dataSnapshot.hasChildren()) {
+                    if (dataSnapshot.getChildren().iterator().hasNext()) {
 
-                    Map<String, Object> FinishedRide = new HashMap<>();
-                    FinishedRide.put(FirebaseConstant.IS_RIDE_FINISHED, HistoryModel.IsRideFinished);
-                    dataSnapshot.getChildren().iterator().next().getRef().updateChildren(FinishedRide);
+                        Map<String, Object> FinishedRide = new HashMap<>();
+                        FinishedRide.put(FirebaseConstant.IS_RIDE_FINISHED, HistoryModel.IsRideFinished);
+                        dataSnapshot.getChildren().iterator().next().getRef().updateChildren(FinishedRide);
 
-                    Map<String, Object> CostSoFar  = new HashMap<>();
-                    CostSoFar.put(FirebaseConstant.COST_SO_FAR, HistoryModel.CostSoFar);
-                    dataSnapshot.getChildren().iterator().next().getRef().updateChildren(CostSoFar);
+                        Map<String, Object> CostSoFar = new HashMap<>();
+                        CostSoFar.put(FirebaseConstant.COST_SO_FAR, HistoryModel.CostSoFar);
+                        dataSnapshot.getChildren().iterator().next().getRef().updateChildren(CostSoFar);
 
-                    for (DataSnapshot ds: (dataSnapshot.getChildren().iterator().next()).getChildren()){
-                        if(ds.getKey().equals(FirebaseConstant.ENDING_LOCATION)){
+                        if((dataSnapshot.getChildren().iterator().next()).hasChildren()) {
+                            for (DataSnapshot ds : (dataSnapshot.getChildren().iterator().next()).getChildren()) {
+                                if (ds.getKey().equals(FirebaseConstant.ENDING_LOCATION)) {
 
-                            Map<String, Object> Longitude = new HashMap<>();
-                            Longitude.put(FirebaseConstant.LATITUDE, HistoryModel.EndingLocation.Latitude);
-                            ds.getRef().updateChildren(Longitude);
+                                    Map<String, Object> Longitude = new HashMap<>();
+                                    Longitude.put(FirebaseConstant.LATITUDE, HistoryModel.EndingLocation.Latitude);
+                                    ds.getRef().updateChildren(Longitude);
 
-                            Map<String, Object> Latitude = new HashMap<>();
-                            Longitude.put(FirebaseConstant.LONGITUDE, HistoryModel.EndingLocation.Longitude);
-                            ds.getRef().updateChildren(Longitude);
+                                    Map<String, Object> Latitude = new HashMap<>();
+                                    Longitude.put(FirebaseConstant.LONGITUDE, HistoryModel.EndingLocation.Longitude);
+                                    ds.getRef().updateChildren(Longitude);
 
-                            break;
+                                    break;
+                                }
+                            }
                         }
                     }
                 }

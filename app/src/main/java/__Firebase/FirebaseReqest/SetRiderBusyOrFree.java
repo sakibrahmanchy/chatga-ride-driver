@@ -38,14 +38,17 @@ public class SetRiderBusyOrFree {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists() && dataSnapshot.getChildren().iterator().hasNext()) {
 
-                    Map<String, Object> update = new HashMap<>();
-                    update.put(FirebaseConstant.IS_RIDER_BUSY_OR_FREE, Rider.IsRiderBusy);
-                    dataSnapshot.getChildren().iterator().next().getRef().updateChildren(update);
+                if(dataSnapshot.exists() &&  dataSnapshot.hasChildren()) {
+                    if (dataSnapshot.getChildren().iterator().hasNext()) {
 
-                    callBackListener.OnResponseSetRiderBusyOrFree(true);
-                    Log.d(FirebaseConstant.IS_RIDER_BUSY_OR_FREE, FirebaseConstant.IS_RIDER_BUSY_OR_FREE_ERROR);
+                        Map<String, Object> update = new HashMap<>();
+                        update.put(FirebaseConstant.IS_RIDER_BUSY_OR_FREE, Rider.IsRiderBusy);
+                        dataSnapshot.getChildren().iterator().next().getRef().updateChildren(update);
+
+                        callBackListener.OnResponseSetRiderBusyOrFree(true);
+                        Log.d(FirebaseConstant.IS_RIDER_BUSY_OR_FREE, FirebaseConstant.IS_RIDER_BUSY_OR_FREE_ERROR);
+                    }
                 }
             }
 

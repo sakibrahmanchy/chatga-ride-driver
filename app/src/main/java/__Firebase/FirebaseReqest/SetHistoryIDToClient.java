@@ -9,6 +9,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 
 import __Firebase.Callbacklisteners.CallBackListener;
+import __Firebase.Callbacklisteners.ICallbackMain;
 import __Firebase.FirebaseModel.ClientModel;
 import __Firebase.FirebaseModel.CurrentRidingHistoryModel;
 import __Firebase.FirebaseUtility.FirebaseConstant;
@@ -22,9 +23,9 @@ public class SetHistoryIDToClient {
 
     private CurrentRidingHistoryModel HistoryModel = null;
     private ClientModel Client = null;
-    private CallBackListener callBackListener = null;
+    private ICallbackMain callBackListener = null;
 
-    public SetHistoryIDToClient(CurrentRidingHistoryModel HistoryModel, ClientModel Client, CallBackListener callBackListener){
+    public SetHistoryIDToClient(CurrentRidingHistoryModel HistoryModel, ClientModel Client, ICallbackMain callBackListener){
         this.HistoryModel = HistoryModel;
         this.Client = Client;
         this.callBackListener = callBackListener;
@@ -41,12 +42,14 @@ public class SetHistoryIDToClient {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                HashMap<String, Object> UpdatedCost = new HashMap<>();
-                UpdatedCost.put(FirebaseConstant.CURRENT_RIDING_HISTORY_ID, HistoryModel.HistoryID);
+                if(dataSnapshot.exists()) {
+                    HashMap<String, Object> UpdatedCost = new HashMap<>();
+                    UpdatedCost.put(FirebaseConstant.CURRENT_RIDING_HISTORY_ID, HistoryModel.HistoryID);
 
-                if(dataSnapshot.getChildren().iterator().hasNext()) {
-                    DataSnapshot snp = dataSnapshot.getChildren().iterator().next();
-                    snp.getRef().updateChildren(UpdatedCost);
+                    if (dataSnapshot.getChildren().iterator().hasNext()) {
+                        DataSnapshot snp = dataSnapshot.getChildren().iterator().next();
+                        snp.getRef().updateChildren(UpdatedCost);
+                    }
                 }
             }
 

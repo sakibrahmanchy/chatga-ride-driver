@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import __Firebase.Callbacklisteners.CallBackListener;
+import __Firebase.Callbacklisteners.ICallbackMain;
 import __Firebase.FirebaseModel.RiderModel;
 import __Firebase.FirebaseUtility.FirebaseConstant;
 import __Firebase.FirebaseWrapper;
@@ -20,9 +21,9 @@ import __Firebase.FirebaseWrapper;
 public class ResetRiderStatus {
 
     private RiderModel Rider = null;
-    private CallBackListener callBackListener = null;
+    private ICallbackMain callBackListener = null;
 
-    public ResetRiderStatus(RiderModel Rider, CallBackListener callBackListener){
+    public ResetRiderStatus(RiderModel Rider, ICallbackMain callBackListener){
         this.Rider = Rider;
         this.callBackListener = callBackListener;
 
@@ -38,27 +39,25 @@ public class ResetRiderStatus {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                if(dataSnapshot.getChildren().iterator().hasNext()) {
+                if(dataSnapshot.exists() && dataSnapshot.hasChildren()) {
+                    if (dataSnapshot.getChildren().iterator().hasNext()) {
 
-                    Map<String, Object> IsRiderOnline = new HashMap<>();
-                    IsRiderOnline.put(FirebaseConstant.IS_RIDER_ON_LINE, Rider.IsRiderOnline);
-                    dataSnapshot.getChildren().iterator().next().getRef().updateChildren(IsRiderOnline);
+                        Map<String, Object> IsRiderOnline = new HashMap<>();
+                        IsRiderOnline.put(FirebaseConstant.IS_RIDER_ON_LINE, Rider.IsRiderOnline);
+                        dataSnapshot.getChildren().iterator().next().getRef().updateChildren(IsRiderOnline);
 
-                    Map<String, Object> IsRiderStart = new HashMap<>();
-                    IsRiderStart.put(FirebaseConstant.IS_RIDE_START, FirebaseConstant.IS_RIDE_START_SET);
-                    dataSnapshot.getChildren().iterator().next().getRef().updateChildren(IsRiderStart);
+                        Map<String, Object> IsRiderOnRide = new HashMap<>();
+                        IsRiderOnRide.put(FirebaseConstant.IS_RIDER_ON_RIDE, Rider.IsRiderOnRide);
+                        dataSnapshot.getChildren().iterator().next().getRef().updateChildren(IsRiderOnRide);
 
-                    Map<String, Object> IsRiderOnRide = new HashMap<>();
-                    IsRiderOnRide.put(FirebaseConstant.IS_RIDER_ON_RIDE, Rider.IsRiderOnRide);
-                    dataSnapshot.getChildren().iterator().next().getRef().updateChildren(IsRiderOnRide);
+                        Map<String, Object> IsRiderBusy = new HashMap<>();
+                        IsRiderBusy.put(FirebaseConstant.IS_RIDER_BUSY_OR_FREE, Rider.IsRiderBusy);
+                        dataSnapshot.getChildren().iterator().next().getRef().updateChildren(IsRiderBusy);
 
-                    Map<String, Object> IsRiderBusy = new HashMap<>();
-                    IsRiderBusy.put(FirebaseConstant.IS_RIDER_BUSY_OR_FREE, Rider.IsRiderBusy);
-                    dataSnapshot.getChildren().iterator().next().getRef().updateChildren(IsRiderBusy);
-
-                    Map<String, Object> OnlineBusyOnRide = new HashMap<>();
-                    OnlineBusyOnRide.put(FirebaseConstant.ON_LINE_BUSY_ON_RIDE, Rider.OnlineBusyOnRide);
-                    dataSnapshot.getChildren().iterator().next().getRef().updateChildren(OnlineBusyOnRide);
+                        Map<String, Object> OnlineBusyOnRide = new HashMap<>();
+                        OnlineBusyOnRide.put(FirebaseConstant.ON_LINE_BUSY_ON_RIDE, Rider.OnlineBusyOnRide);
+                        dataSnapshot.getChildren().iterator().next().getRef().updateChildren(OnlineBusyOnRide);
+                    }
                 }
             }
 

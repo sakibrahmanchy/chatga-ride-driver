@@ -53,6 +53,7 @@ public class FirebaseConstant {
     public static int RIDE_CANCELED_BY_RIDER = 1;
     public static int RIDE_CANCELED_BY_CLIENT = 1;
     public static int UNKNOWN = 1;
+    public static int UPDATE_LOCATION = 0;
 
 
     /*Log Key*/
@@ -79,6 +80,7 @@ public class FirebaseConstant {
     public static String REQUEST_FOR_ADD_CHILD = "REQUEST_FOR_ADD_CHILD";
     public static String NOTIFICATION_MESSAGE = "NOTIFICATION_MESSAGE";
     public static String RIDER_ONLINE_BUSY_ON_RIDE = "RIDER_ONLINE_BUSY_ON_RIDE";
+    public static String RESET_RIDER_STATUS = "RESET_RIDER_STATUS";
 
     public FirebaseConstant(){
     }

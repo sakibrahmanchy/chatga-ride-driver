@@ -1,7 +1,9 @@
 package ContactWithFirebase;
 
 import android.util.Log;
+import android.util.Pair;
 
+import __Firebase.Callbacklisteners.CallBackListener;
 import __Firebase.Callbacklisteners.ICallbackMain;
 import __Firebase.FirebaseModel.ClientModel;
 import __Firebase.FirebaseModel.CurrentRidingHistoryModel;
@@ -165,6 +167,96 @@ public class Main implements ICallbackMain {
         return true;
     }
 
+    public boolean UpdateRiderLocation(/*Firebase Rider Model*/ RiderModel riderModel, Pair<Double, Double> newLocation){
+
+        this.firebaseWrapper = FirebaseWrapper.getInstance();
+        this.riderModel = riderModel;
+
+        this.riderModel.CurrentRiderLocation.Latitude = newLocation.first;
+        this.riderModel.CurrentRiderLocation.Longitude = newLocation.second;
+        this.riderModel.CurrentRiderLocation.RequestForUpdateLocation = FirebaseConstant.UPDATE_LOCATION;
+
+        firebaseWrapper.getFirebaseRequestInstance().UpdateRiderLocation(this.riderModel, Main.this);
+
+        return true;
+    }
+
+    public boolean GetCurrentClient(long ClientId){
+
+        firebaseWrapper = FirebaseWrapper.getInstance();
+        firebaseWrapper.getFirebaseRequestInstance().GetCurrentClient(ClientId, Main.this);
+        return true;
+    }
+
+    public boolean SetHistoryIDToClient(/* Firebase HistoryModel, RiderModel */ CurrentRidingHistoryModel HistoryModel, ClientModel Client){
+
+        firebaseWrapper = FirebaseWrapper.getInstance();
+        firebaseWrapper.getFirebaseRequestInstance().SetHistoryIDToClient(HistoryModel, Client, Main.this);
+        return true;
+    }
+
+    public boolean ResetRiderStatus(/* Firebase HistoryModel, RiderModel */ RiderModel Rider){
+
+        this.firebaseWrapper = FirebaseWrapper.getInstance();
+        this.riderModel = Rider;
+
+        this.riderModel.IsRiderOnline = FirebaseConstant.SET_RIDER_ONLINE;
+        this.riderModel.IsRiderOnRide = FirebaseConstant.SET_RIDER_NO_RIDE;
+        this.riderModel.IsRiderBusy = FirebaseConstant.SET_RIDER_FREE;
+        this.riderModel.OnlineBusyOnRide = FirebaseConstant.ONLINE_NOT_BUSY_NO_RIDE;
+
+        firebaseWrapper.getFirebaseRequestInstance().ResetRiderStatus(riderModel, Main.this);
+
+        return true;
+    }
+
+    public boolean InitialAcceptanceOfRide(/* Firebase HistoryModel, RiderModel */ CurrentRidingHistoryModel HistoryModel, RiderModel Rider){
+
+        firebaseWrapper = FirebaseWrapper.getInstance();
+        this.riderModel = Rider;
+        this.currentRidingHistoryModel = HistoryModel;
+
+        this.riderModel.IsRiderBusy = FirebaseConstant.SET_RIDER_BUSY;
+        this.riderModel.OnlineBusyOnRide = FirebaseConstant.ONLINE_BUSY_NO_RIDE;
+
+        firebaseWrapper.getFirebaseRequestInstance().InitialAcceptanceOfRide(currentRidingHistoryModel, riderModel, Main.this);
+        return true;
+    }
+
+    public boolean FinalAcceptanceOfRide(/* Firebase HistoryModel, RiderModel */ CurrentRidingHistoryModel HistoryModel, RiderModel Rider){
+
+        firebaseWrapper = FirebaseWrapper.getInstance();
+        this.riderModel = Rider;
+        this.currentRidingHistoryModel = HistoryModel;
+
+        this.riderModel.IsRiderOnRide = FirebaseConstant.SET_RIDER_ON_RIDE;
+        this.riderModel.IsRiderBusy = FirebaseConstant.SET_RIDER_BUSY;
+        this.riderModel.OnlineBusyOnRide = FirebaseConstant.ONLINE_BUSY_ON_RIDE;
+
+        this.currentRidingHistoryModel.IsRideStart = FirebaseConstant.IS_RIDE_START_SET;
+
+        firebaseWrapper.getFirebaseRequestInstance().FinalAcceptanceOfRide(currentRidingHistoryModel, riderModel, Main.this);
+        return true;
+    }
+
+    public boolean FinishedRide(/* Firebase HistoryModel, RiderModel */ CurrentRidingHistoryModel HistoryModel, RiderModel Rider, /*Server*/long FinalCost, /*Local*/ Pair<Double, Double>FinalLocation){
+
+        firebaseWrapper = FirebaseWrapper.getInstance();
+        this.riderModel = Rider;
+        this.currentRidingHistoryModel = HistoryModel;
+
+        this.currentRidingHistoryModel.IsRideFinished = FirebaseConstant.RIDE_FINISHED;
+        this.currentRidingHistoryModel.CostSoFar = FinalCost;
+        this.currentRidingHistoryModel.EndingLocation.Latitude = FinalLocation.first;
+        this.currentRidingHistoryModel.EndingLocation.Longitude = FinalLocation.second;
+
+        firebaseWrapper.getFirebaseRequestInstance().FinishedRide(currentRidingHistoryModel, Main.this);
+        return true;
+    }
+
+
+
+    /* All Responses Goes Here */
     @Override
     public void OnResponseCreateNewRider(boolean value) {
         Log.d(FirebaseConstant.NEW_RIDER_CREATE, value + "");
@@ -178,8 +270,6 @@ public class Main implements ICallbackMain {
     @Override
     public void OnResponseGetRiderModel(boolean value) {
         Log.d(FirebaseConstant.RIDER_LOADED, value + "");
-        this.GetRecentHistory(10101010);
-        //this.SetRiderOnlineBusyOnRider(FirebaseWrapper.getInstance().getRiderModelInstance(), FirebaseConstant.ONLINE_BUSY_ON_RIDE);
     }
 
     @Override
@@ -204,15 +294,21 @@ public class Main implements ICallbackMain {
 
     @Override
     public void OnResponseGetHistoryModel(boolean value) {
-        this.SetHistoryIDonRiderTable(
-                FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance(),
-                FirebaseWrapper.getInstance().getRiderModelInstance()
-        );
         Log.d(FirebaseConstant.RIDER_LOADED, value + "");
     }
 
     @Override
     public void OnSetHistoryIDonRiderTable(boolean value) {
         Log.d(FirebaseConstant.HISTORY_ID_ADDED_TO_RIDER, value + "");
+    }
+
+    @Override
+    public void OnGetCurrentClient(boolean value) {
+        Log.d(FirebaseConstant.CLIENT_LOADED, value + "");
+    }
+
+    @Override
+    public void OnResetRiderStatus(boolean value) {
+        Log.d(FirebaseConstant.RESET_RIDER_STATUS, value + "");
     }
 }

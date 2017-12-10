@@ -38,13 +38,17 @@ public class SetRiderOnLineOrOffLine {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getChildren().iterator().hasNext()) {
-                    Map<String, Object> update = new HashMap<>();
-                    update.put(FirebaseConstant.IS_RIDER_ON_LINE, Rider.IsRiderOnline);
-                    dataSnapshot.getChildren().iterator().next().getRef().updateChildren(update);
 
-                    Log.d(FirebaseConstant.IS_RIDER_ON_LINE, FirebaseConstant.IS_RIDER_ON_LINE);
-                    callBackListener.OnResponseSetRiderOnLineOffLine(true);
+                if(dataSnapshot.exists() && dataSnapshot.hasChildren()) {
+                    if (dataSnapshot.getChildren().iterator().hasNext()) {
+
+                        Map<String, Object> update = new HashMap<>();
+                        update.put(FirebaseConstant.IS_RIDER_ON_LINE, Rider.IsRiderOnline);
+                        dataSnapshot.getChildren().iterator().next().getRef().updateChildren(update);
+
+                        Log.d(FirebaseConstant.IS_RIDER_ON_LINE, FirebaseConstant.IS_RIDER_ON_LINE);
+                        callBackListener.OnResponseSetRiderOnLineOffLine(true);
+                    }
                 }
             }
 

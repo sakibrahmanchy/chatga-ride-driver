@@ -14,4 +14,6 @@ public interface ICallbackMain {
     void OnResponseSetRiderOnlineBusyOnRide(boolean value);
     void OnResponseGetHistoryModel(boolean value);
     void OnSetHistoryIDonRiderTable(boolean value);
+    void OnGetCurrentClient(boolean value);
+    void OnResetRiderStatus(boolean value);
 }

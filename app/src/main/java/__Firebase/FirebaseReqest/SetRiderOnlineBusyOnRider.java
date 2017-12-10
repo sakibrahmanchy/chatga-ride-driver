@@ -38,13 +38,17 @@ public class SetRiderOnlineBusyOnRider {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getChildren().iterator().hasNext()) {
-                    Map<String, Object> update = new HashMap<>();
-                    update.put(FirebaseConstant.ON_LINE_BUSY_ON_RIDE, Rider.OnlineBusyOnRide);
-                    dataSnapshot.getChildren().iterator().next().getRef().updateChildren(update);
 
-                    Log.d(FirebaseConstant.ON_LINE_BUSY_ON_RIDE, FirebaseConstant.ON_LINE_BUSY_ON_RIDE);
-                    callBackListener.OnResponseSetRiderOnlineBusyOnRide(true);
+                if(dataSnapshot.exists() && dataSnapshot.hasChildren()) {
+                    if (dataSnapshot.getChildren().iterator().hasNext()) {
+
+                        Map<String, Object> update = new HashMap<>();
+                        update.put(FirebaseConstant.ON_LINE_BUSY_ON_RIDE, Rider.OnlineBusyOnRide);
+                        dataSnapshot.getChildren().iterator().next().getRef().updateChildren(update);
+
+                        Log.d(FirebaseConstant.ON_LINE_BUSY_ON_RIDE, FirebaseConstant.ON_LINE_BUSY_ON_RIDE);
+                        callBackListener.OnResponseSetRiderOnlineBusyOnRide(true);
+                    }
                 }
             }
 

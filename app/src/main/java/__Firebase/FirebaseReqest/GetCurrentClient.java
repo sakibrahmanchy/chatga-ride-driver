@@ -8,6 +8,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import __Firebase.Callbacklisteners.CallBackListener;
+import __Firebase.Callbacklisteners.ICallbackMain;
 import __Firebase.FirebaseUtility.FirebaseConstant;
 import __Firebase.FirebaseWrapper;
 
@@ -18,9 +19,9 @@ import __Firebase.FirebaseWrapper;
 public class GetCurrentClient {
 
     private long ClientID = 0;
-    private CallBackListener callBackListener = null;
+    private ICallbackMain callBackListener = null;
 
-    public GetCurrentClient(long ClientID, CallBackListener callBackListener){
+    public GetCurrentClient(long ClientID, ICallbackMain callBackListener){
         this.ClientID = ClientID;
         this.callBackListener = callBackListener;
 
@@ -34,26 +35,35 @@ public class GetCurrentClient {
                 .orderByChild(FirebaseConstant.CLIENT_ID).equalTo(this.ClientID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                DataSnapshot snp = dataSnapshot.getChildren().iterator().next();
-                //MainActivity.firebaseWrapper.getClientModelInstance().LoadData(snp);
+
+                if(dataSnapshot.exists() && dataSnapshot.hasChildren()) {
+                    if(dataSnapshot.getChildren().iterator().hasNext()) {
+                        DataSnapshot snp = dataSnapshot.getChildren().iterator().next();
+                        FirebaseWrapper.getInstance().getClientModelInstance().LoadData(snp);
+                    }
+                }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Log.d(FirebaseConstant.CLIENT_LOADED_ERROR, databaseError.toString());
             }
         });
-        firebaseWrapper.FirebaseRootReference.child(FirebaseConstant.CLIENT)
-                .orderByChild(FirebaseConstant.CLIENT_ID).equalTo(this.ClientID).addListenerForSingleValueEvent(new ValueEventListener() {
+        firebaseWrapper.FirebaseRootReference.child(FirebaseConstant.CLIENT).orderByChild(FirebaseConstant.CLIENT_ID).equalTo(this.ClientID).addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                callBackListener.onGetCurrentClient(true);
-                //Log.d(FirebaseConstant.CLIENT_LOADED, MainActivity.firebaseWrapper.getClientModelInstance().FullName);
+                if(dataSnapshot.exists()) {
+                    callBackListener.OnGetCurrentClient(true);
+                    Log.d(FirebaseConstant.CLIENT_LOADED, FirebaseConstant.CLIENT_LOADED + FirebaseWrapper.getInstance().getClientModelInstance().FullName);
+                }else{
+                    callBackListener.OnGetCurrentClient(false);
+                }
             }
 
             public void onCancelled(DatabaseError databaseError) {
                 Log.d(FirebaseConstant.CLIENT_LOADED_ERROR, databaseError.toString());
+                callBackListener.OnGetCurrentClient(false);
             }
         });
     }

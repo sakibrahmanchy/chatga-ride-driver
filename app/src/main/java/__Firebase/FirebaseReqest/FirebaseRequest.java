@@ -96,19 +96,19 @@ public class FirebaseRequest {
         thread.start();
     }
 
-    public void FinishedRide(final CurrentRidingHistoryModel HistoryModel, final RiderModel Rider, final CallBackListener callBackListener){
+    public void FinishedRide(final CurrentRidingHistoryModel HistoryModel, final ICallbackMain callBackListener){
 
         Thread thread = new Thread(){
 
             @Override
             public void run(){
-                new FinishedRide(HistoryModel, Rider, callBackListener);
+                new FinishedRide(HistoryModel, callBackListener);
             }
         };
         thread.start();
     }
 
-    public void ResetRiderStatus(final RiderModel Rider, final CallBackListener callBackListener){
+    public void ResetRiderStatus(final RiderModel Rider, final ICallbackMain callBackListener){
 
         Thread thread = new Thread(){
             @Override
@@ -123,7 +123,7 @@ public class FirebaseRequest {
         // Later, If needed
     }
 
-    public void UpdateRiderLocation(final RiderModel Rider, final CallBackListener callBackListener){
+    public void UpdateRiderLocation(final RiderModel Rider, final ICallbackMain callBackListener){
 
         Thread thread = new Thread(){
 
@@ -135,7 +135,7 @@ public class FirebaseRequest {
         thread.start();
     }
 
-    public void FinalAcceptanceOfRide(final CurrentRidingHistoryModel HistoryModel, final RiderModel Rider, final CallBackListener callBackListener){
+    public void FinalAcceptanceOfRide(final CurrentRidingHistoryModel HistoryModel, final RiderModel Rider, final ICallbackMain callBackListener){
 
         Thread thread = new Thread(){
 
@@ -147,7 +147,7 @@ public class FirebaseRequest {
         thread.start();
     }
 
-    public void InitialAcceptanceOfRide(final CurrentRidingHistoryModel HistoryModel, final RiderModel Rider, final long ClientID, final CallBackListener callBackListener){
+    public void InitialAcceptanceOfRide(final CurrentRidingHistoryModel HistoryModel, final RiderModel Rider, final ICallbackMain callBackListener){
 
         /*
         * Get Client Model
@@ -159,13 +159,13 @@ public class FirebaseRequest {
         Thread thread = new Thread(){
             @Override
             public void run(){
-                new InitialAcceptanceOfRide(HistoryModel, Rider, ClientID, callBackListener);
+                new InitialAcceptanceOfRide(HistoryModel, Rider, callBackListener);
             }
         };
         thread.start();
     }
 
-    public void GetCurrentClient(final long ClientID, final CallBackListener callBackListener){
+    public void GetCurrentClient(final long ClientID, final ICallbackMain callBackListener){
 
         Thread thread = new Thread(){
             @Override
@@ -198,7 +198,7 @@ public class FirebaseRequest {
         thread.start();
     }
 
-    public void SetHistoryIDToClient(final CurrentRidingHistoryModel HistoryModel, final ClientModel Client, final CallBackListener callBackListener){
+    public void SetHistoryIDToClient(final CurrentRidingHistoryModel HistoryModel, final ClientModel Client, final ICallbackMain callBackListener){
 
         Thread thread = new Thread(){
             @Override

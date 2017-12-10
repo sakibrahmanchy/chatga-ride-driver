@@ -51,7 +51,11 @@ public class GetCurrentRider {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                callBackListener.OnResponseGetRiderModel(true);
+                if(dataSnapshot.exists()) {
+                    callBackListener.OnResponseGetRiderModel(true);
+                }else {
+                    callBackListener.OnResponseGetRiderModel(false);
+                }
             }
 
             public void onCancelled(DatabaseError databaseError) {

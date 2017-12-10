@@ -57,7 +57,8 @@ public class MainActivity extends AppCompatActivity {
         //main.GetRecentHistory(10101010); /*Save this ID SQ_LITE or somewhere else*/
         //main.SetRiderBusyOrFre(FirebaseWrapper.getInstance().getRiderModelInstance(), FirebaseConstant.SET_RIDER_BUSY);
         //main.SetRiderOnRideOrFree(FirebaseWrapper.getInstance().getRiderModelInstance(), FirebaseConstant.SET_RIDER_ON_RIDE);
-        //SetRiderOnLineOrOffLine(FirebaseWrapper.getInstance().getRiderModelInstance(), FirebaseConstant.SET_RIDER_OFF_ONLINE);
-
+        //main.SetRiderOnLineOrOffLine(FirebaseWrapper.getInstance().getRiderModelInstance(), FirebaseConstant.SET_RIDER_OFF_ONLINE);
+        //main.UpdateRiderLocation(FirebaseWrapper.getInstance().getRiderModelInstance(), Pair.create(1010d, 1010d));
+        //main.GetCurrentClient(1104011);
     }
 }
