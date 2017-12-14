@@ -1,13 +1,17 @@
 package com.chaatgadrive.arif.chaatgadrive;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.util.Pair;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.chaatgadrive.arif.chaatgadrive.chaatgamap.GetCurrentLocation;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.Mapfragment;
 import com.chaatgadrive.arif.chaatgadrive.dashboard.DashboardFragment;
 
@@ -21,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
     private Mapfragment mapfragment = new Mapfragment();
     private DashboardFragment dashboardFragment = new DashboardFragment();
     private FragmentManager manager = getSupportFragmentManager();
+    private Main main = new Main();
+    private GetCurrentLocation getCurrentLocation = null;
+    private Handler handler = new Handler();
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -53,20 +60,29 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getCurrentLocation = new GetCurrentLocation(this);
+        this.MandatoryCall();
 
         //mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+    }
 
-        Main main = new Main();
-        //main.CreateNewRiderFirebase();
-        //main.CreateNewHistoryModelFirebase();
-        //main.GetCurrentRider(1104006); /*Save this ID SQ_LITE or somewhere else*/
-        //main.GetRecentHistory(10101010); /*Save this ID SQ_LITE or somewhere else*/
-        //main.SetRiderBusyOrFre(FirebaseWrapper.getInstance().getRiderModelInstance(), FirebaseConstant.SET_RIDER_BUSY);
-        //main.SetRiderOnRideOrFree(FirebaseWrapper.getInstance().getRiderModelInstance(), FirebaseConstant.SET_RIDER_ON_RIDE);
-        //main.SetRiderOnLineOrOffLine(FirebaseWrapper.getInstance().getRiderModelInstance(), FirebaseConstant.SET_RIDER_OFF_ONLINE);
-        //main.UpdateRiderLocation(FirebaseWrapper.getInstance().getRiderModelInstance(), Pair.create(1010d, 1010d));
-        //main.GetCurrentClient(1104011);
+    private void MandatoryCall() {
+
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                FirebaseWrapper.getInstance().getRiderModelInstance().RiderID = 10001;
+                final Pair newLocation = Pair.create(getCurrentLocation.getLatitude(), getCurrentLocation.getLongitude());
+                main.UpdateRiderLocation(
+                        FirebaseWrapper.getInstance().getRiderModelInstance(),
+                        newLocation
+                );
+                Log.d(FirebaseConstant.UPDATE_LOCATION_TIMER, FirebaseConstant.UPDATE_LOCATION_TIMER);
+                handler.postDelayed(this, 5000);
+            }
+        };
+        handler.postDelayed(runnable, 5000);
     }
 }
