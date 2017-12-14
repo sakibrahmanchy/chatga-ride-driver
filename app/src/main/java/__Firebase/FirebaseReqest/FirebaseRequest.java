@@ -126,7 +126,6 @@ public class FirebaseRequest {
     public void UpdateRiderLocation(final RiderModel Rider, final ICallbackMain callBackListener){
 
         Thread thread = new Thread(){
-
             @Override
             public void run(){
                 new UpdateRiderLocation(Rider, callBackListener);

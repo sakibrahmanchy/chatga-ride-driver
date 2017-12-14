@@ -81,6 +81,7 @@ public class FirebaseConstant {
     public static String NOTIFICATION_MESSAGE = "NOTIFICATION_MESSAGE";
     public static String RIDER_ONLINE_BUSY_ON_RIDE = "RIDER_ONLINE_BUSY_ON_RIDE";
     public static String RESET_RIDER_STATUS = "RESET_RIDER_STATUS";
+    public static String UPDATE_LOCATION_TIMER = "UPDATE_LOCATION_TIMER";
 
     public FirebaseConstant(){
     }
