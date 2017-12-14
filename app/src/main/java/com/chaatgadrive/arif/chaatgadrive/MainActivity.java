@@ -1,11 +1,14 @@
 package com.chaatgadrive.arif.chaatgadrive;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.Mapfragment;
@@ -21,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     private Mapfragment mapfragment = new Mapfragment();
     private DashboardFragment dashboardFragment = new DashboardFragment();
     private FragmentManager manager = getSupportFragmentManager();
+
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -54,6 +59,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref",0);
+        if(pref.getString("access_token",null)==null){
+            Intent intent = new Intent(MainActivity.this, UserCheckActivity.class);
+            startActivity(intent);
+        }
         //mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);

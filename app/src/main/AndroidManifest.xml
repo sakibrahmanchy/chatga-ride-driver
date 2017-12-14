@@ -30,6 +30,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".PhoneVerificationActivity"
+            android:label="@string/title_activity_login"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+            android:windowSoftInputMode="adjustNothing"/>
+        <activity
+            android:name=".UserCheckActivity"
+            android:label="@string/title_activity_user_check"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".RegistrationActivity"
+            android:label="@string/title_activity_registration"></activity>
 
         <service android:name=".__FirebaseInstanceIDService">
             <intent-filter>
