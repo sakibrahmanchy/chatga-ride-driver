@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         Main main = new Main();
         //main.CreateNewRiderFirebase();
         //main.CreateNewHistoryModelFirebase();
-        main.GetCurrentRider(1104006); /*Save this ID SQ_LITE or somewhere else*/
+        //main.GetCurrentRider(1104006); /*Save this ID SQ_LITE or somewhere else*/
         //main.GetRecentHistory(10101010); /*Save this ID SQ_LITE or somewhere else*/
         //main.SetRiderBusyOrFre(FirebaseWrapper.getInstance().getRiderModelInstance(), FirebaseConstant.SET_RIDER_BUSY);
         //main.SetRiderOnRideOrFree(FirebaseWrapper.getInstance().getRiderModelInstance(), FirebaseConstant.SET_RIDER_ON_RIDE);
