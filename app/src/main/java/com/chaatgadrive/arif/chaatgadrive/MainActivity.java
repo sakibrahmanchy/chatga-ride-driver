@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         this.MandatoryCall();
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref",0);
-        if(pref.getString("access_token",null)==null){
+        if(pref.getString("access_token",null) == null){
             Intent intent = new Intent(MainActivity.this, UserCheckActivity.class);
             startActivity(intent);
         }
