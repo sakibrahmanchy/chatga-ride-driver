@@ -32,8 +32,6 @@ public class MainActivity extends AppCompatActivity {
     private GetCurrentLocation getCurrentLocation = null;
     private Handler handler = new Handler();
 
-
-
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
