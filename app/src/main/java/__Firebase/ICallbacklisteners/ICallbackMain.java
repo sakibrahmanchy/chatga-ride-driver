@@ -1,4 +1,4 @@
-package __Firebase.Callbacklisteners;
+package __Firebase.ICallbacklisteners;
 
 /**
  * Created by User on 12/8/2017.

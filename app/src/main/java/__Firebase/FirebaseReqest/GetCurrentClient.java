@@ -7,8 +7,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+<<<<<<< Updated upstream:app/src/main/java/__Firebase/FirebaseReqest/GetCurrentClient.java
 import __Firebase.Callbacklisteners.CallBackListener;
 import __Firebase.Callbacklisteners.ICallbackMain;
+=======
+import __Firebase.ICallbacklisteners.ICallbackMain;
+>>>>>>> Stashed changes:app/src/main/java/__Firebase/FirebaseRequest/GetCurrentClient.java
 import __Firebase.FirebaseUtility.FirebaseConstant;
 import __Firebase.FirebaseWrapper;
 

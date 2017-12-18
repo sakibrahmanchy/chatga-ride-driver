@@ -8,8 +8,12 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 import java.util.Map;
 
+<<<<<<< Updated upstream:app/src/main/java/__Firebase/FirebaseReqest/FinalAcceptanceOfRide.java
 import __Firebase.Callbacklisteners.CallBackListener;
 import __Firebase.Callbacklisteners.ICallbackMain;
+=======
+import __Firebase.ICallbacklisteners.ICallbackMain;
+>>>>>>> Stashed changes:app/src/main/java/__Firebase/FirebaseRequest/FinalAcceptanceOfRide.java
 import __Firebase.FirebaseModel.CurrentRidingHistoryModel;
 import __Firebase.FirebaseModel.RiderModel;
 import __Firebase.FirebaseUtility.FirebaseConstant;
