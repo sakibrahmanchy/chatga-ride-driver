@@ -11,7 +11,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import __Firebase.FirebaseModel.*;
-import __Firebase.FirebaseReqest.*;
+import __Firebase.FirebaseRequest.*;
 import __Firebase.FirebaseResponse.*;
 import __Firebase.FirebaseUtility.FirebaseConstant;
 import __Firebase.ViewModel.RiderViewModel;
@@ -25,7 +25,7 @@ public class FirebaseWrapper {
     private static FirebaseWrapper Instance = null;
 
     public DatabaseReference FirebaseRootReference;
-    private FirebaseRequest FirebaseRequestInstance;
+    private __FirebaseRequest FirebaseRequestInstance;
     private FirebaseResponse FirebaseResponseInstance;
     private RiderViewModel RiderViewModelInstance;
     private ClientModel ClientModel;
@@ -34,7 +34,7 @@ public class FirebaseWrapper {
 
     private FirebaseWrapper(){
         FirebaseRootReference = FirebaseDatabase.getInstance().getReference();
-        FirebaseRequestInstance = new FirebaseRequest();
+        FirebaseRequestInstance = new __FirebaseRequest();
         FirebaseResponseInstance = new FirebaseResponse();
         RiderViewModelInstance = new RiderViewModel();
         ClientModel = new ClientModel();
@@ -49,7 +49,7 @@ public class FirebaseWrapper {
         return Instance;
     }
 
-    public FirebaseRequest getFirebaseRequestInstance() {
+    public __FirebaseRequest getFirebaseRequestInstance() {
         return FirebaseRequestInstance;
     }
 

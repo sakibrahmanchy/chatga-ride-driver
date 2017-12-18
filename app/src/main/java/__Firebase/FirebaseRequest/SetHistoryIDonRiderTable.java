@@ -1,4 +1,4 @@
-package __Firebase.FirebaseReqest;
+package __Firebase.FirebaseRequest;
 
 import android.util.Log;
 
@@ -9,8 +9,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 import java.util.Map;
 
-import __Firebase.Callbacklisteners.CallBackListener;
 import __Firebase.Callbacklisteners.ICallbackMain;
+import __Firebase.FirebaseModel.CurrentRidingHistoryModel;
 import __Firebase.FirebaseModel.RiderModel;
 import __Firebase.FirebaseUtility.FirebaseConstant;
 import __Firebase.FirebaseWrapper;
@@ -19,13 +19,15 @@ import __Firebase.FirebaseWrapper;
  * Created by User on 11/27/2017.
  */
 
-public class SetRiderOnLineOrOffLine {
+public class SetHistoryIDonRiderTable {
 
     private RiderModel Rider = null;
+    private CurrentRidingHistoryModel HistoryModel;
     private ICallbackMain callBackListener = null;
 
-    public SetRiderOnLineOrOffLine(RiderModel Rider, ICallbackMain callBackListener){
+    public SetHistoryIDonRiderTable(CurrentRidingHistoryModel HistoryModel, RiderModel Rider, ICallbackMain callBackListener){
         this.Rider = Rider;
+        this.HistoryModel = HistoryModel;
         this.callBackListener = callBackListener;
 
         Request();
@@ -43,18 +45,18 @@ public class SetRiderOnLineOrOffLine {
                     if (dataSnapshot.getChildren().iterator().hasNext()) {
 
                         Map<String, Object> update = new HashMap<>();
-                        update.put(FirebaseConstant.IS_RIDER_ON_LINE, Rider.IsRiderOnline);
+                        update.put(FirebaseConstant.CURRENT_RIDING_HISTORY, HistoryModel.HistoryID);
                         dataSnapshot.getChildren().iterator().next().getRef().updateChildren(update);
 
-                        Log.d(FirebaseConstant.IS_RIDER_ON_LINE, FirebaseConstant.IS_RIDER_ON_LINE);
-                        callBackListener.OnResponseSetRiderOnLineOffLine(true);
+                        Log.d(FirebaseConstant.CURRENT_RIDING_HISTORY, FirebaseConstant.CURRENT_RIDING_HISTORY);
+                        callBackListener.OnSetHistoryIDonRiderTable(true);
                     }
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                callBackListener.OnResponseSetRiderOnLineOffLine(false);
+                callBackListener.OnSetHistoryIDonRiderTable(true);
             }
         });
     }

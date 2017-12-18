@@ -1,4 +1,4 @@
-package __Firebase.FirebaseReqest;
+package __Firebase.FirebaseRequest;
 
 import android.util.Log;
 
@@ -9,26 +9,22 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 import java.util.Map;
 
-import __Firebase.Callbacklisteners.CallBackListener;
 import __Firebase.Callbacklisteners.ICallbackMain;
-import __Firebase.FirebaseModel.CurrentRidingHistoryModel;
 import __Firebase.FirebaseModel.RiderModel;
 import __Firebase.FirebaseUtility.FirebaseConstant;
 import __Firebase.FirebaseWrapper;
 
 /**
- * Created by User on 11/27/2017.
+ * Created by User on 11/25/2017.
  */
 
-public class SetHistoryIDonRiderTable {
+public class SetRiderOnRideOrFree {
 
     private RiderModel Rider = null;
-    private CurrentRidingHistoryModel HistoryModel;
     private ICallbackMain callBackListener = null;
 
-    public SetHistoryIDonRiderTable(CurrentRidingHistoryModel HistoryModel, RiderModel Rider, ICallbackMain callBackListener){
+    public SetRiderOnRideOrFree(RiderModel Rider, ICallbackMain callBackListener){
         this.Rider = Rider;
-        this.HistoryModel = HistoryModel;
         this.callBackListener = callBackListener;
 
         Request();
@@ -46,18 +42,18 @@ public class SetHistoryIDonRiderTable {
                     if (dataSnapshot.getChildren().iterator().hasNext()) {
 
                         Map<String, Object> update = new HashMap<>();
-                        update.put(FirebaseConstant.CURRENT_RIDING_HISTORY, HistoryModel.HistoryID);
+                        update.put(FirebaseConstant.IS_RIDER_ON_RIDE, Rider.IsRiderOnRide);
                         dataSnapshot.getChildren().iterator().next().getRef().updateChildren(update);
 
-                        Log.d(FirebaseConstant.CURRENT_RIDING_HISTORY, FirebaseConstant.CURRENT_RIDING_HISTORY);
-                        callBackListener.OnSetHistoryIDonRiderTable(true);
+                        Log.d(FirebaseConstant.IS_RIDER_ON_RIDE, FirebaseConstant.IS_RIDER_ON_RIDE);
+                        callBackListener.OnResponseSetRiderOnRideOrFree(true);
                     }
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                callBackListener.OnSetHistoryIDonRiderTable(true);
+                callBackListener.OnResponseSetRiderOnRideOrFree(false);
             }
         });
     }

@@ -1,4 +1,4 @@
-package __Firebase.FirebaseReqest;
+package __Firebase.FirebaseRequest;
 
 import android.util.Log;
 
@@ -9,22 +9,21 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 import java.util.Map;
 
-import __Firebase.Callbacklisteners.CallBackListener;
 import __Firebase.Callbacklisteners.ICallbackMain;
 import __Firebase.FirebaseModel.RiderModel;
 import __Firebase.FirebaseUtility.FirebaseConstant;
 import __Firebase.FirebaseWrapper;
 
 /**
- * Created by User on 11/25/2017.
+ * Created by User on 11/27/2017.
  */
 
-public class SetRiderOnRideOrFree {
+public class SetRiderOnLineOrOffLine {
 
     private RiderModel Rider = null;
     private ICallbackMain callBackListener = null;
 
-    public SetRiderOnRideOrFree(RiderModel Rider, ICallbackMain callBackListener){
+    public SetRiderOnLineOrOffLine(RiderModel Rider, ICallbackMain callBackListener){
         this.Rider = Rider;
         this.callBackListener = callBackListener;
 
@@ -43,18 +42,18 @@ public class SetRiderOnRideOrFree {
                     if (dataSnapshot.getChildren().iterator().hasNext()) {
 
                         Map<String, Object> update = new HashMap<>();
-                        update.put(FirebaseConstant.IS_RIDER_ON_RIDE, Rider.IsRiderOnRide);
+                        update.put(FirebaseConstant.IS_RIDER_ON_LINE, Rider.IsRiderOnline);
                         dataSnapshot.getChildren().iterator().next().getRef().updateChildren(update);
 
-                        Log.d(FirebaseConstant.IS_RIDER_ON_RIDE, FirebaseConstant.IS_RIDER_ON_RIDE);
-                        callBackListener.OnResponseSetRiderOnRideOrFree(true);
+                        Log.d(FirebaseConstant.IS_RIDER_ON_LINE, FirebaseConstant.IS_RIDER_ON_LINE);
+                        callBackListener.OnResponseSetRiderOnLineOffLine(true);
                     }
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                callBackListener.OnResponseSetRiderOnRideOrFree(false);
+                callBackListener.OnResponseSetRiderOnLineOffLine(false);
             }
         });
     }

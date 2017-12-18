@@ -1,4 +1,4 @@
-package __Firebase.FirebaseReqest;
+package __Firebase.FirebaseRequest;
 
 import android.util.Log;
 
@@ -9,22 +9,21 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 import java.util.Map;
 
-import __Firebase.Callbacklisteners.CallBackListener;
 import __Firebase.Callbacklisteners.ICallbackMain;
 import __Firebase.FirebaseModel.RiderModel;
 import __Firebase.FirebaseUtility.FirebaseConstant;
 import __Firebase.FirebaseWrapper;
 
 /**
- * Created by User on 11/27/2017.
+ * Created by User on 11/25/2017.
  */
 
-public class SetRiderOnlineBusyOnRider {
+public class SetRiderBusyOrFree {
 
     private RiderModel Rider = null;
     private ICallbackMain callBackListener = null;
 
-    public SetRiderOnlineBusyOnRider(RiderModel Rider, ICallbackMain callBackListener){
+    public SetRiderBusyOrFree(RiderModel Rider, ICallbackMain callBackListener){
         this.Rider = Rider;
         this.callBackListener = callBackListener;
 
@@ -39,22 +38,22 @@ public class SetRiderOnlineBusyOnRider {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                if(dataSnapshot.exists() && dataSnapshot.hasChildren()) {
+                if(dataSnapshot.exists() &&  dataSnapshot.hasChildren()) {
                     if (dataSnapshot.getChildren().iterator().hasNext()) {
 
                         Map<String, Object> update = new HashMap<>();
-                        update.put(FirebaseConstant.ON_LINE_BUSY_ON_RIDE, Rider.OnlineBusyOnRide);
+                        update.put(FirebaseConstant.IS_RIDER_BUSY_OR_FREE, Rider.IsRiderBusy);
                         dataSnapshot.getChildren().iterator().next().getRef().updateChildren(update);
 
-                        Log.d(FirebaseConstant.ON_LINE_BUSY_ON_RIDE, FirebaseConstant.ON_LINE_BUSY_ON_RIDE);
-                        callBackListener.OnResponseSetRiderOnlineBusyOnRide(true);
+                        callBackListener.OnResponseSetRiderBusyOrFree(true);
+                        Log.d(FirebaseConstant.IS_RIDER_BUSY_OR_FREE, FirebaseConstant.IS_RIDER_BUSY_OR_FREE_ERROR);
                     }
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                callBackListener.OnResponseSetRiderOnlineBusyOnRide(true);
+                callBackListener.OnResponseSetRiderBusyOrFree(false);
             }
         });
     }

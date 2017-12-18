@@ -1,4 +1,4 @@
-package __Firebase.FirebaseReqest;
+package __Firebase.FirebaseRequest;
 
 import __Firebase.Callbacklisteners.CallBackListener;
 import __Firebase.Callbacklisteners.ICallbackMain;
@@ -10,12 +10,12 @@ import __Firebase.FirebaseModel.RiderModel;
  * Created by User on 11/16/2017.
  */
 
-public class FirebaseRequest {
+public class __FirebaseRequest {
 
     private boolean IsRiderAlreadyCreated = false;
     private CallBackListener callBackListener = null;
 
-    public FirebaseRequest(){
+    public __FirebaseRequest(){
     }
 
     public void CreateRiderFirstTime(final RiderModel Rider, final ICallbackMain callBackListener){
