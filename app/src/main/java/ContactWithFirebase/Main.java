@@ -3,12 +3,8 @@ package ContactWithFirebase;
 import android.util.Log;
 import android.util.Pair;
 
-<<<<<<< Updated upstream
-import __Firebase.Callbacklisteners.CallBackListener;
-import __Firebase.Callbacklisteners.ICallbackMain;
-=======
+
 import __Firebase.ICallbacklisteners.ICallbackMain;
->>>>>>> Stashed changes
 import __Firebase.FirebaseModel.ClientModel;
 import __Firebase.FirebaseModel.CurrentRidingHistoryModel;
 import __Firebase.FirebaseModel.RiderModel;

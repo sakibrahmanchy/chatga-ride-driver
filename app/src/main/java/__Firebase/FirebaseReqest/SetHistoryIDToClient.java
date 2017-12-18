@@ -8,12 +8,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
-<<<<<<< Updated upstream:app/src/main/java/__Firebase/FirebaseReqest/SetHistoryIDToClient.java
-import __Firebase.Callbacklisteners.CallBackListener;
-import __Firebase.Callbacklisteners.ICallbackMain;
-=======
 import __Firebase.ICallbacklisteners.ICallbackMain;
->>>>>>> Stashed changes:app/src/main/java/__Firebase/FirebaseRequest/SetHistoryIDToClient.java
 import __Firebase.FirebaseModel.ClientModel;
 import __Firebase.FirebaseModel.CurrentRidingHistoryModel;
 import __Firebase.FirebaseUtility.FirebaseConstant;
