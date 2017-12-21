@@ -1,4 +1,4 @@
-package __Firebase.FirebaseRequest;
+package __Firebase.FirebaseReqest;
 
 import android.util.Log;
 
@@ -9,7 +9,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 import java.util.Map;
 
-import __Firebase.Callbacklisteners.ICallbackMain;
+import __Firebase.ICallbacklisteners.ICallbackMain;
 import __Firebase.FirebaseModel.RiderModel;
 import __Firebase.FirebaseUtility.FirebaseConstant;
 import __Firebase.FirebaseWrapper;

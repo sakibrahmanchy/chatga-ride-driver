@@ -1,6 +1,6 @@
 package __Firebase.FirebaseResponse;
 
-import __Firebase.Callbacklisteners.CallBackListener;
+import __Firebase.ICallbacklisteners.CallBackListener;
 import __Firebase.FirebaseModel.RiderModel;
 
 /**

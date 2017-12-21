@@ -3,11 +3,12 @@ package ContactWithFirebase;
 import android.util.Log;
 import android.util.Pair;
 
-import __Firebase.Callbacklisteners.ICallbackMain;
+
+import __Firebase.ICallbacklisteners.ICallbackMain;
 import __Firebase.FirebaseModel.ClientModel;
 import __Firebase.FirebaseModel.CurrentRidingHistoryModel;
 import __Firebase.FirebaseModel.RiderModel;
-import __Firebase.FirebaseRequest.__FirebaseRequest;
+import __Firebase.FirebaseReqest.FirebaseRequest;
 import __Firebase.FirebaseUtility.FirebaseConstant;
 import __Firebase.FirebaseWrapper;
 
@@ -20,7 +21,7 @@ public class Main implements ICallbackMain {
     private FirebaseWrapper firebaseWrapper = null;
     private RiderModel riderModel = null;
     private CurrentRidingHistoryModel currentRidingHistoryModel = null;
-    private __FirebaseRequest FirebaseRequestInstance;
+    private FirebaseRequest FirebaseRequestInstance;
 
     public Main(){
     }
