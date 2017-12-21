@@ -1,4 +1,4 @@
-package __Firebase.FirebaseReqest;
+package __Firebase.FirebaseRequest;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

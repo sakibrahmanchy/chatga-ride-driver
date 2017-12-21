@@ -1,4 +1,4 @@
-package __Firebase.FirebaseReqest;
+package __Firebase.FirebaseRequest;
 
 import android.util.Pair;
 
