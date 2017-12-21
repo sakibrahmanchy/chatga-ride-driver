@@ -1,5 +1,6 @@
 package com.chaatgadrive.arif.chaatgadrive;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.chaatgadrive.arif.chaatgadrive.Dailog.ViewDialog;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.GetCurrentLocation;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.Mapfragment;
 import com.chaatgadrive.arif.chaatgadrive.dashboard.DashboardFragment;
@@ -46,8 +48,10 @@ public class MainActivity extends AppCompatActivity {
                     manager.beginTransaction().replace(R.id.content,dashboardFragment,dashboardFragment.getTag()).commit();
                     return true;
                 case R.id.navigation_notifications:
-                    manager.beginTransaction().replace(R.id.content,dashboardFragment,dashboardFragment.getTag()).commit();
-                    return true;
+                    ViewDialog alert = new ViewDialog();
+                    alert.showDialog(MainActivity.this, "Error de conexión al servidor");
+                  //  manager.beginTransaction().replace(R.id.content,dashboardFragment,dashboardFragment.getTag()).commit();
+                return true;
                 case R.id.navigation_earning:
                     manager.beginTransaction().replace(R.id.content,dashboardFragment,dashboardFragment.getTag()).commit();
                     return true;

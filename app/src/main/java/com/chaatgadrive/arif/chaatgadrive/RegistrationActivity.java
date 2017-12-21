@@ -84,7 +84,7 @@ public class RegistrationActivity extends Activity {
         mConfirmPasswordView = (EditText) findViewById(R.id.confirmPassword);
         mPasswordView = (EditText) findViewById(R.id.password);
         Username = (EditText) findViewById(R.id.userName);
-        dateFormatter = new SimpleDateFormat("YYYY-MM-DD", Locale.US);
+        dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         phoneNumber = getIntent().getStringExtra("phoneNumber");
 
         birthDayText = (EditText) findViewById(R.id.birthday_edittext);
