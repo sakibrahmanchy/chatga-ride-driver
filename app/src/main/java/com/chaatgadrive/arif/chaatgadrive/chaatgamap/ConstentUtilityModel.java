@@ -2,10 +2,6 @@ package com.chaatgadrive.arif.chaatgadrive.chaatgamap;
 
 import com.google.android.gms.maps.model.LatLng;
 
-/**
- * Created by Arif on 12/8/2017.
- */
-
 public class ConstentUtilityModel {
 
     public static String MapFragment = "MapFragment";
