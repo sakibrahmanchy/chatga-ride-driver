@@ -1,6 +1,8 @@
 package com.chaatgadrive.arif.chaatgadrive;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -13,6 +15,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
+import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.DeviceTokenModels.UpdateDeviceTokenData;
+import com.chaatgadrive.arif.chaatgadrive.rest.ApiClient;
+import com.chaatgadrive.arif.chaatgadrive.rest.ApiInterface;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -25,6 +30,11 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 
 import java.util.concurrent.TimeUnit;
+
+import __Firebase.FirebaseWrapper;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PhoneVerificationActivity extends AppCompatActivity implements
         View.OnClickListener {
@@ -60,7 +70,7 @@ public class PhoneVerificationActivity extends AppCompatActivity implements
     private Button mResendButton;
     private Button mSignOutButton;
     private ProgressBar spinner;
-
+    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,19 +131,60 @@ public class PhoneVerificationActivity extends AppCompatActivity implements
                 spinner.setVisibility(View.GONE);
                 // [START_EXCLUDE silenst]
                 mVerificationInProgress = false;
-                // [END_EXCLUDE]
 
-                // [START_EXCLUDE silent]
-                // Update the UI and attempt sign in with the phone credential
-                updateUI(STATE_VERIFY_SUCCESS, credential);
-                // [END_EXCLUDE]
+                SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref",0);
+                if(pref.getString("access_token",null)==null){
+                    signInWithPhoneAuthCredential(credential);
+                    Intent intent = new Intent(PhoneVerificationActivity.this, RegistrationActivity.class);
+                    intent.putExtra("phoneNumber",phoneNumber);
+                    startActivity(intent);
+                }else{
 
-                signInWithPhoneAuthCredential(credential);
+                    dialog = new ProgressDialog(PhoneVerificationActivity.this);
+                    dialog.setMessage("Saving your new device..");
+                    dialog.show();
 
-                Intent intent = new Intent(PhoneVerificationActivity.this, RegistrationActivity.class);
-                intent.putExtra("phoneNumber",phoneNumber);
-                startActivity(intent);
+                    ApiInterface apiService =
+                            ApiClient.getClient().create(ApiInterface.class);
+                    String authHeader = "Bearer "+pref.getString("access_token",null);
+                    String deviceToken = FirebaseWrapper.getDeviceToken();
+                    Call<UpdateDeviceTokenData> call = apiService.updateDeviceToken(authHeader,phoneNumber, deviceToken);
 
+                    call.enqueue(new Callback<UpdateDeviceTokenData>() {
+                        @Override
+                        public void onResponse(Call<UpdateDeviceTokenData> call, Response<UpdateDeviceTokenData> response) {
+
+                            int statusCode = response.code();
+                            dialog.dismiss();
+
+                            switch(statusCode){
+                                case 200:
+
+                                    boolean responseCode = response.body().getStatus();
+                                    if(responseCode){
+                                        //No phone verification required, redirect to home
+                                        Intent intent = new Intent(PhoneVerificationActivity.this, MainActivity.class);
+                                        startActivity(intent);
+                                    }
+                                    break;
+                                case 500:
+                                    Log.d(TAG, response.errorBody().toString());
+                                default:
+//                        Snackbar.make(findViewById(android.R.id.content), "Sorry, network error.",
+//                                Snackbar.LENGTH_SHORT).show();q
+                                    break;
+                            }
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<UpdateDeviceTokenData> call, Throwable t) {
+                            // Log error here since request failed
+                            Log.e(TAG, "Failuure eadfasfaaaf"+t.toString());
+                        }
+                    });
+
+                }
 
             }
 
