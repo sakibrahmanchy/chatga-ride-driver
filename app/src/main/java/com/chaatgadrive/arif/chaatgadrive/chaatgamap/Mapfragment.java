@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.chaatgadrive.arif.chaatgadrive.ConnectionCheck;
 import com.chaatgadrive.arif.chaatgadrive.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -53,6 +54,7 @@ public class Mapfragment extends Fragment implements OnMapReadyCallback {
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     public Boolean mLocationPermissionsGranted;
     private GetCurrentLocation getCurrentLocation;
+    private ConnectionCheck connectionCheck;
 
     public Mapfragment() {
         // Required empty public constructor
@@ -68,6 +70,7 @@ public class Mapfragment extends Fragment implements OnMapReadyCallback {
                 .findFragmentById(R.id.map);
         Tag = ConstentUtilityModel.MapFragment;
         getCurrentLocation = new GetCurrentLocation(getContext());
+        connectionCheck  = new ConnectionCheck(getContext());
 
         if (getCurrentLocation.isGPSEnabled && getCurrentLocation.isGPSEnabled) {
             getLocationPermission();
@@ -86,7 +89,7 @@ public class Mapfragment extends Fragment implements OnMapReadyCallback {
         mMap = googleMap;
         //ask for permissions..
 
-        if (ConstentUtilityModel.mLocationPermissionsGranted) {
+        if (ConstentUtilityModel.mLocationPermissionsGranted &&connectionCheck.isGpsEnable() && connectionCheck.isNetworkConnected()) {
             getDeviceLocation();
 
 
@@ -112,46 +115,9 @@ public class Mapfragment extends Fragment implements OnMapReadyCallback {
 
 
     private void getDeviceLocation(){
-        Log.d(ConstentUtilityModel.MapFragment, "getDeviceLocation: getting the devices current location");
-        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getContext());
-
-        try{
-            if(ConstentUtilityModel.mLocationPermissionsGranted ){
-
-                final Task location = mFusedLocationProviderClient.getLastLocation();
-                location.addOnCompleteListener(new OnCompleteListener() {
-                    @Override
-                    public void onComplete(@NonNull Task task) {
-                        if(task.isSuccessful()){
-                            Log.d(ConstentUtilityModel.MapFragment, "onComplete: found location!");
-                            Location currentLocation = (Location) task.getResult();
-
-                            Geocoder myLocation = new Geocoder(getActivity(), Locale.getDefault());
-                            try {
-                                List<Address> myList = myLocation.getFromLocation(currentLocation.getLatitude(), currentLocation.getLongitude(), 1);
-                                Address address = (Address) myList.get(0);
-
-
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            ConstentUtilityModel.DriverSource = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-                           // markerPoints.add(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()));
-
-                            moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
-                                    ConstentUtilityModel.DEFAULT_ZOOM,
-                                    "My Location");
-
-                        }else{
-                            Log.d(ConstentUtilityModel.MapFragment, "onComplete: current location is null");
-                            Toast.makeText(getContext(), "unable to get current location", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-            }
-        }catch (SecurityException e){
-            Log.e(ConstentUtilityModel.MapFragment, "getDeviceLocation: SecurityException: " + e.getMessage() );
-        }
+        moveCamera(new LatLng(getCurrentLocation.getLatitude(), getCurrentLocation.getLongitude()),
+                ConstentUtilityModel.DEFAULT_ZOOM,
+                "My Location");
     }
 
     private void getLocationPermission(){

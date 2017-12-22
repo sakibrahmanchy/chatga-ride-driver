@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.GetCurrentLocation;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.Mapfragment;
 import com.chaatgadrive.arif.chaatgadrive.dashboard.DashboardFragment;
+import com.chaatgadrive.arif.chaatgadrive.profile.ProfileViewFragment;
 
 import ContactWithFirebase.Main;
 import __Firebase.FirebaseUtility.FirebaseConstant;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView mTextMessage;
     private Mapfragment mapfragment = new Mapfragment();
     private DashboardFragment dashboardFragment = new DashboardFragment();
+    private ProfileViewFragment profileViewFragment = new ProfileViewFragment();
     private FragmentManager manager = getSupportFragmentManager();
     private Main main = new Main();
     private GetCurrentLocation getCurrentLocation = null;
@@ -75,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                     manager.beginTransaction().replace(R.id.content,dashboardFragment,dashboardFragment.getTag()).commit();
                     return true;
                 case R.id.navigation_profile:
-                    manager.beginTransaction().replace(R.id.content,dashboardFragment,dashboardFragment.getTag()).commit();
+                    manager.beginTransaction().replace(R.id.content,profileViewFragment,profileViewFragment.getTag()).commit();
                     return true;
             }
             return false;
