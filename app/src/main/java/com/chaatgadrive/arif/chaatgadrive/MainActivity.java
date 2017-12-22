@@ -1,13 +1,16 @@
 package com.chaatgadrive.arif.chaatgadrive;
 
 import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.Pair;
@@ -16,6 +19,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
     private Main main = new Main();
     private GetCurrentLocation getCurrentLocation = null;
     private Handler handler = new Handler();
+    private  Switch OffOnSwitch;
+    private ConnectionCheck connectionCheck;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -44,7 +51,18 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
 
                 case R.id.navigation_home:
-                    manager.beginTransaction().replace(R.id.content,mapfragment,mapfragment.getTag()).commit();
+                    if(connectionCheck.isNetworkConnected() && connectionCheck.isGpsEnable()){
+                        manager.beginTransaction().replace(R.id.content,mapfragment,mapfragment.getTag()).commit();
+                    }
+                    else if (!connectionCheck.isGpsEnable()){
+                        connectionCheck.showGPSDisabledAlertToUser();
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(), "Check Internet Or GPS Connection", Toast.LENGTH_SHORT)
+                                .show();
+
+                    }
+
                     return true;
                 case R.id.navigation_dashboard:
                     //mTextMessage.setText(R.string.title_dashboard);
@@ -69,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getCurrentLocation = new GetCurrentLocation(this);
+        connectionCheck = new ConnectionCheck(this);
         this.MandatoryCall();
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref",0);
@@ -91,12 +110,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            // action with ID action_refresh was selected
-            case R.id.action_refresh:
-                Toast.makeText(this, "Refresh selected", Toast.LENGTH_SHORT)
-                        .show();
-                break;
-            // action with ID action_settings was selected
             case R.id.action_settings:
                 Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT)
                         .show();
@@ -108,29 +121,33 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-
-
-
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if(event.getAction() == MotionEvent.ACTION_DOWN) {
-            toggleActionBar();
-        }
-        return true;
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem actionViewItem = menu.findItem(R.id.switchView);
+        // Retrieve the action-view from menu
+        View v = MenuItemCompat.getActionView(actionViewItem);
+        // Find the button within action-view
+         OffOnSwitch = (Switch) v.findViewById(R.id.switch1);
+        // Handle button click here
+        OffOnSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // do something, the isChecked will be
+                // true if the switch is in the On position
+                Toast.makeText(getApplicationContext(), "Refresh selected= "+isChecked, Toast.LENGTH_SHORT)
+                        .show();
+                if(isChecked){
+                    OffOnSwitch.setText("ON");
+                }
+                else{
+                    OffOnSwitch.setText("OFF");
+                }
+            }
+        });
+        return super.onPrepareOptionsMenu(menu);
     }
 
-    private void toggleActionBar() {
-        ActionBar actionBar = getActionBar();
 
-        if(actionBar != null) {
-            if(actionBar.isShowing()) {
-                actionBar.hide();
-            }
-            else {
-                actionBar.show();
-            }
-        }
-    }
+
     private void MandatoryCall() {
 
         Runnable runnable = new Runnable() {
