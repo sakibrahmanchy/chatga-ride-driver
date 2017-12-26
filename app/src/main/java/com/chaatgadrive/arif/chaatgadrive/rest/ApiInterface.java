@@ -5,6 +5,7 @@ package com.chaatgadrive.arif.chaatgadrive.rest;
  */
 
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.AccessTokenModels.AuthToken;
+import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.DeviceTokenModels.UpdateDeviceTokenData;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginModel;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RegistrationModels.RegistrationModel;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.User;
@@ -40,6 +41,12 @@ public interface ApiInterface {
     Call<LoginModel> loginUser(@Header("Authorization") String authHeader,
                                @Field("phone_number") String phoneNumber,
                                @Field("device_token") String deviceToken);
+
+    @POST("api/v1/user/device_token")
+    @FormUrlEncoded
+    Call<UpdateDeviceTokenData> updateDeviceToken(@Header("Authorization") String authHeader,
+                                                  @Field("phone_number") String phoneNumber,
+                                                  @Field("device_token") String deviceToken);
 
     @POST("api/v1/rider")
     @FormUrlEncoded
