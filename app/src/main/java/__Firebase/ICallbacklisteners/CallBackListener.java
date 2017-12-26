@@ -1,4 +1,4 @@
-package __Firebase.Callbacklisteners;
+package __Firebase.ICallbacklisteners;
 
 import __Firebase.FirebaseResponse.NotificationModel;
 

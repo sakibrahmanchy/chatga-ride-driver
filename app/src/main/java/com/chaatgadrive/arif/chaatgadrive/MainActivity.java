@@ -92,7 +92,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        getCurrentLocation = new GetCurrentLocation(this);
+        connectionCheck = new ConnectionCheck(this);
+        this.MandatoryCall();
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref",0);
         if(pref.getString("access_token",null) == null){
@@ -139,13 +141,14 @@ public class MainActivity extends AppCompatActivity {
         // Retrieve the action-view from menu
         View v = MenuItemCompat.getActionView(actionViewItem);
         // Find the button within action-view
-        OffOnSwitch = (Switch) v.findViewById(R.id.switch1);
+         OffOnSwitch = (Switch) v.findViewById(R.id.switch1);
         // Handle button click here
         OffOnSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // do something, the isChecked will be
                 // true if the switch is in the On position
-
+                Toast.makeText(getApplicationContext(), "Refresh selected= "+isChecked, Toast.LENGTH_SHORT)
+                        .show();
                 if(isChecked){
                     OffOnSwitch.setText("ON");
                 }
@@ -161,10 +164,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void MandatoryCall() {
 
+        main.CreateNewRiderFirebase();
+
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-
+                FirebaseWrapper.getInstance().getRiderModelInstance().RiderID = 1104048;
                 final Pair newLocation = Pair.create(getCurrentLocation.getLatitude(), getCurrentLocation.getLongitude());
                 main.UpdateRiderLocation(
                         FirebaseWrapper.getInstance().getRiderModelInstance(),

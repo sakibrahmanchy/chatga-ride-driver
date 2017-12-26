@@ -3,7 +3,8 @@ package ContactWithFirebase;
 import android.util.Log;
 import android.util.Pair;
 
-import __Firebase.Callbacklisteners.ICallbackMain;
+
+import __Firebase.ICallbacklisteners.ICallbackMain;
 import __Firebase.FirebaseModel.ClientModel;
 import __Firebase.FirebaseModel.CurrentRidingHistoryModel;
 import __Firebase.FirebaseModel.RiderModel;
@@ -25,26 +26,35 @@ public class Main implements ICallbackMain {
     public Main(){
     }
 
+    public boolean IsRiderAlreadyCreated(RiderModel RiderModel){
+
+        firebaseWrapper = FirebaseWrapper.getInstance();
+        FirebaseRequestInstance = firebaseWrapper.getFirebaseRequestInstance();
+
+        FirebaseRequestInstance.IsRiderAlreadyCreated(RiderModel, Main.this);
+        return true;
+    }
+
     public boolean CreateNewRiderFirebase(/*Main Rider Mode*/){
 
         firebaseWrapper = FirebaseWrapper.getInstance();
         riderModel = firebaseWrapper.getRiderModelInstance();
         FirebaseRequestInstance = firebaseWrapper.getFirebaseRequestInstance();
 
-        riderModel.RiderID = 1104006;
-        riderModel.FullName = "FirebaseWrapper";
+        riderModel.RiderID = 1104048;
+        riderModel.FullName = "Ariful Islam";
         riderModel.PhoneNumber = Long.parseLong("01752062838");
-        riderModel.CurrentRiderLocation = new RiderModel.RiderLocation(11, 11, FirebaseConstant.UNSET_REQUEST_UPDATE_LOCATION);
+        riderModel.CurrentRiderLocation = new RiderModel.RiderLocation(0, 0, FirebaseConstant.UNSET_REQUEST_UPDATE_LOCATION);
 
         riderModel.DeviceToken = FirebaseWrapper.getDeviceToken();
-        riderModel.CurrentRidingHistoryID = 0;
-        riderModel.DistanceFromClient = 0;
+        riderModel.CurrentRidingHistoryID = FirebaseConstant.UNKNOWN;
+        riderModel.DistanceFromClient = FirebaseConstant.UNKNOWN;
         riderModel.IsRiderBusy = FirebaseConstant.SET_RIDER_FREE;
         riderModel.IsRiderOnline = FirebaseConstant.SET_RIDER_ONLINE;
         riderModel.IsRiderOnRide = FirebaseConstant.SET_RIDER_NO_RIDE;
         riderModel.OnlineBusyOnRide = FirebaseConstant.ONLINE_NOT_BUSY_NO_RIDE;
 
-        FirebaseRequestInstance.CreateRiderFirstTime(riderModel, Main.this);
+        this.IsRiderAlreadyCreated(riderModel);
         return true;
     }
 
@@ -309,5 +319,11 @@ public class Main implements ICallbackMain {
     @Override
     public void OnResetRiderStatus(boolean value) {
         Log.d(FirebaseConstant.RESET_RIDER_STATUS, value + "");
+    }
+
+    @Override
+    public void OnOnIsRiderAlreadyCreated(boolean value) {
+        if(value == true)   return;
+        FirebaseRequestInstance.CreateRiderFirstTime(riderModel, Main.this);
     }
 }
