@@ -16,4 +16,5 @@ public interface ICallbackMain {
     void OnSetHistoryIDonRiderTable(boolean value);
     void OnGetCurrentClient(boolean value);
     void OnResetRiderStatus(boolean value);
+    void OnOnIsRiderAlreadyCreated(boolean value);
 }

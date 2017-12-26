@@ -152,10 +152,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void MandatoryCall() {
 
+        main.CreateNewRiderFirebase();
+
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                FirebaseWrapper.getInstance().getRiderModelInstance().RiderID = 10001;
+                FirebaseWrapper.getInstance().getRiderModelInstance().RiderID = 1104048;
                 final Pair newLocation = Pair.create(getCurrentLocation.getLatitude(), getCurrentLocation.getLongitude());
                 main.UpdateRiderLocation(
                         FirebaseWrapper.getInstance().getRiderModelInstance(),

@@ -36,15 +36,18 @@ public class FirebaseWrapper {
         FirebaseRootReference = FirebaseDatabase.getInstance().getReference();
         FirebaseRequestInstance = new __FirebaseRequest();
         FirebaseResponseInstance = new FirebaseResponse();
-        RiderViewModelInstance = new RiderViewModel();
+        //RiderViewModelInstance = new RiderViewModel();
         ClientModel = new ClientModel();
         RiderModel = new RiderModel();
         CurrentRidingHistoryModel = new CurrentRidingHistoryModel();
     }
 
-    public static FirebaseWrapper getInstance(){
-        if(Instance == null){
-            Instance = new FirebaseWrapper();
+    public static FirebaseWrapper getInstance() {
+        if (Instance == null) {
+            synchronized (FirebaseWrapper.class) {
+                if (Instance == null)
+                    Instance = new FirebaseWrapper();
+            }
         }
         return Instance;
     }
@@ -74,6 +77,7 @@ public class FirebaseWrapper {
     }
 
     public static String getDeviceToken(){
+        Log.d(FirebaseConstant.FIREBASE_TOKEN, FirebaseInstanceId.getInstance().getToken().toString());
         return  FirebaseInstanceId.getInstance().getToken().toString();
     }
 
