@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +28,7 @@ import android.widget.Toast;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.GetCurrentLocation;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.Mapfragment;
 import com.chaatgadrive.arif.chaatgadrive.dashboard.DashboardFragment;
+import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginData;
 import com.chaatgadrive.arif.chaatgadrive.profile.ProfileViewFragment;
 
 import ContactWithFirebase.Main;
@@ -45,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
     private Handler handler = new Handler();
     private  Switch OffOnSwitch;
     private ConnectionCheck connectionCheck;
+    private LoginData loginData;
+    private UserInformation userInformation;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -88,18 +92,24 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getCurrentLocation = new GetCurrentLocation(this);
-        connectionCheck = new ConnectionCheck(this);
-        this.MandatoryCall();
+
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref",0);
         if(pref.getString("access_token",null) == null){
             Intent intent = new Intent(MainActivity.this, UserCheckActivity.class);
             startActivity(intent);
+        }else{
+            BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+            navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+            userInformation = new UserInformation(this);
+            loginData = userInformation.getuserInformation();
+            getCurrentLocation = new GetCurrentLocation(this);
+            connectionCheck = new ConnectionCheck(this);
+            this.MandatoryCall();
         }
         //mTextMessage = (TextView) findViewById(R.id.message);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
     }
 
     @Override
@@ -129,14 +139,13 @@ public class MainActivity extends AppCompatActivity {
         // Retrieve the action-view from menu
         View v = MenuItemCompat.getActionView(actionViewItem);
         // Find the button within action-view
-         OffOnSwitch = (Switch) v.findViewById(R.id.switch1);
+        OffOnSwitch = (Switch) v.findViewById(R.id.switch1);
         // Handle button click here
         OffOnSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // do something, the isChecked will be
                 // true if the switch is in the On position
-                Toast.makeText(getApplicationContext(), "Refresh selected= "+isChecked, Toast.LENGTH_SHORT)
-                        .show();
+
                 if(isChecked){
                     OffOnSwitch.setText("ON");
                 }
@@ -155,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                FirebaseWrapper.getInstance().getRiderModelInstance().RiderID = 10001;
+
                 final Pair newLocation = Pair.create(getCurrentLocation.getLatitude(), getCurrentLocation.getLongitude());
                 main.UpdateRiderLocation(
                         FirebaseWrapper.getInstance().getRiderModelInstance(),

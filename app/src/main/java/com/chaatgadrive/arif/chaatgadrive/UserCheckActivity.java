@@ -95,7 +95,7 @@ public class UserCheckActivity extends Activity {
         dialog.setMessage("Please Wait..");
         dialog.show();
 
-        Call<UserCheckResponse> call = apiService.checkUser("+88"+phoneNumber);
+        Call<UserCheckResponse> call = apiService.checkUser(phoneNumber);
 
         call.enqueue(new Callback<UserCheckResponse>() {
             @Override
@@ -220,7 +220,6 @@ public class UserCheckActivity extends Activity {
         dialog.setMessage("Logging in To App..");
         dialog.show();
 
-        //String deviceToken = "asfs2xfasas2xx";
         String deviceToken = FirebaseWrapper.getDeviceToken();
         String authHeader = "Bearer "+pref.getString("access_token",null);
         Call<LoginModel> call = apiService.loginUser(authHeader,phoneNumber, deviceToken);

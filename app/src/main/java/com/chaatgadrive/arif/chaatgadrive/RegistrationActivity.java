@@ -13,16 +13,13 @@ import android.support.design.widget.Snackbar;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RegistrationModels.RegistrationModel;
 import com.chaatgadrive.arif.chaatgadrive.rest.ApiClient;
@@ -57,16 +54,16 @@ public class RegistrationActivity extends Activity {
 
     // UI references.
     private AutoCompleteTextView mEmailView;
-    private EditText mPasswordView;
-    private EditText Username;
+    private EditText userFirstName,userLastName;
     private View mProgressView;
     private View mLoginFormView;
     private RadioGroup mGender;
-    private EditText mConfirmPasswordView;
-    private  String email,phoneNumber,userName,password,gender,deviceToken,birthDate;
+    private  String email,phoneNumber, firstName,lastName,password,gender,
+            deviceToken,birthDate, nid, drivingLicense, motorbikeRegistration;
     private   ApiInterface apiService ;
     private ProgressDialog dialog;
     private EditText birthDayText;
+    private EditText nidText, drivingLicenseText, motorbikeRegistrationText;
     private DatePickerDialog birthDayPickerDialog;
     private SimpleDateFormat dateFormatter;
 
@@ -81,11 +78,12 @@ public class RegistrationActivity extends Activity {
 
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         mGender = (RadioGroup) findViewById(R.id.gender_radio_group);
-        mConfirmPasswordView = (EditText) findViewById(R.id.confirmPassword);
-        mPasswordView = (EditText) findViewById(R.id.password);
-        Username = (EditText) findViewById(R.id.userName);
+        userFirstName = (EditText) findViewById(R.id.userFirstName);
+        userLastName = (EditText) findViewById(R.id.userLastName);
         dateFormatter = new SimpleDateFormat("YYYY-MM-DD", Locale.US);
         phoneNumber = getIntent().getStringExtra("phoneNumber");
+
+
 
         birthDayText = (EditText) findViewById(R.id.birthday_edittext);
         birthDayText.setInputType(InputType.TYPE_NULL);
@@ -96,17 +94,11 @@ public class RegistrationActivity extends Activity {
             }
         });
 
+        nidText = (EditText) findViewById(R.id.nid_edittext);
+        drivingLicenseText = (EditText) findViewById(R.id.driving_license_edittext);
+        motorbikeRegistrationText = (EditText) findViewById(R.id.motorbike_registration_edittext);
+
         setDateTimeField();
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
-                }
-                return false;
-            }
-        });
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
@@ -148,16 +140,17 @@ public class RegistrationActivity extends Activity {
 
         boolean ok=true;
         mEmailView.setError(null);
-        mPasswordView.setError(null);
-        Username.setError(null);
+        userFirstName.setError(null);
 
         email = mEmailView.getText().toString();
-        password = mPasswordView.getText().toString();
-        userName = Username.getText().toString();
+        firstName = userFirstName.getText().toString();
+        lastName = userLastName.getText().toString();
         deviceToken = FirebaseWrapper.getDeviceToken();
         birthDate = birthDayText.getText().toString();
+        nid = nidText.getText().toString();
+        drivingLicense = drivingLicenseText.getText().toString();
+        motorbikeRegistration = motorbikeRegistrationText.getText().toString();
 
-        String confrimPassowrd = mConfirmPasswordView.getText().toString();
         int selectedId = mGender.getCheckedRadioButtonId();
 
         if(selectedId == R.id.female_radio_btn)
@@ -168,25 +161,9 @@ public class RegistrationActivity extends Activity {
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
-            cancel = true;
-            ok=false;
-        }
-
-        // Check for a confirmposword, if the user entered one.
-        if (!password.equals(confrimPassowrd)) {
-            mPasswordView.setError("password not match");
-            focusView = mPasswordView;
-            cancel = true;
-            ok=false;
-        }
-
-        if (TextUtils.isEmpty(userName)) {
+        if (TextUtils.isEmpty(firstName)) {
             mEmailView.setError(getString(R.string.error_field_required));
-            focusView = Username;
+            focusView = userFirstName;
             cancel = true;
             ok=false;
         }
@@ -247,17 +224,15 @@ public class RegistrationActivity extends Activity {
         dialog.setMessage("Please Wait..");
         dialog.show();
 
-       // Call<RegistrationModel> call = apiService.signUpClient(userName,"shaikat",email,"01815003723",password,"","",gender);
-        Call<RegistrationModel> call = apiService.signUpClient(userName,userName,email,phoneNumber,password, deviceToken, birthDate,gender);
+       // Call<RegistrationModel> call = apiService.signUpClient(firstName,"shaikat",email,"01815003723",password,"","",gender);
+        Call<RegistrationModel> call = apiService.signUpRider(firstName, lastName,email,phoneNumber,
+                                                                deviceToken, birthDate,gender, nid,drivingLicense,motorbikeRegistration);
 
         call.enqueue(new Callback<RegistrationModel>() {
             @Override
             public void onResponse(Call<RegistrationModel> call, Response<RegistrationModel> response) {
 
                 int statusCode = response.code();
-                String testStatusCode = statusCode+"";
-                Snackbar.make(findViewById(android.R.id.content), testStatusCode,
-                        Snackbar.LENGTH_SHORT).show();
                 dialog.dismiss();
                 switch(statusCode){
 
@@ -334,14 +309,6 @@ public class RegistrationActivity extends Activity {
                                 Snackbar.LENGTH_SHORT).show();
                         break;
                 }
-//                if(status.equals("true") && statusCode == 200){
-//                    Intent intent = new Intent(UserCheckActivity.this, MapActivity.class);
-//                    intent.putExtra("phoneNumber",phoneNumber);
-//                    startActivity(intent);
-//                }else{
-//                    Snackbar.make(findViewById(android.R.id.content), "Error Verifying.",
-//                            Snackbar.LENGTH_SHORT).show();
-//                }
             }
 
             @Override

@@ -27,7 +27,7 @@ public interface ApiInterface {
     @GET("chaatga_rider/api/v1/users/")
     Call<ArrayList<User>> getAllUsers(@Header("Authorization") String authHeader, @Header("Accept") String authType);
 
-    @GET("api/v1/user_exists")
+    @GET("api/v1/driver_exists")
     Call<UserCheckResponse> checkUser(@Query("phoneNumber") String phoneNumber);
 
 
@@ -50,14 +50,16 @@ public interface ApiInterface {
 
     @POST("api/v1/rider")
     @FormUrlEncoded
-    Call<RegistrationModel> signUpClient(@Field("first_name") String firstName,
+    Call<RegistrationModel> signUpRider(@Field("first_name") String firstName,
                                          @Field("last_name") String lastName,
                                          @Field("email") String email,
                                          @Field("phone_number") String phoneNumber,
-                                         @Field("password") String password,
                                          @Field("device_token") String deviceToken,
                                          @Field("birth_date") String birthDate,
-                                         @Field("gender") String gender);
+                                         @Field("gender") String gender,
+                                         @Field("nid") String nid,
+                                         @Field("driving_license") String drivingLicense,
+                                         @Field("motorbike_registration") String motorbikeRegistration);
 
 
 }
