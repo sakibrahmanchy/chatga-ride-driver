@@ -1,10 +1,10 @@
-package com.demoriderctg.arif.demorider;
+package com.chaatgadrive.arif.chaatgadrive;;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.demoriderctg.arif.demorider.models.ApiModels.LoginModels.LoginData;
+import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginData;
 import com.google.gson.Gson;
 
 /**
