@@ -69,11 +69,14 @@ public class UserCheckActivity extends Activity {
             public void onClick(View v) {
 
                 String phoneNumber = mPhoneNumberField.getText().toString();
-                if(phoneNumber.length()<11){
+                if(phoneNumber.length() < 11){
                     mPhoneNumberField.setError(getString(R.string.error_invalid_phone_number));
                 }
-                else
-                UserExists(phoneNumber);
+                else {
+                    editor.putString("phoneNumber", phoneNumber);
+                    editor.commit();
+                    UserExists(phoneNumber);
+                }
 
             }
         });
@@ -87,15 +90,14 @@ public class UserCheckActivity extends Activity {
 
     public void UserExists(final String phoneNumber){
 
-         apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+         apiService = ApiClient.getClient().create(ApiInterface.class);
 
         APP_ID = GenerateAppId();
         dialog = new ProgressDialog(UserCheckActivity.this);
         dialog.setMessage("Please Wait..");
         dialog.show();
 
-        Call<UserCheckResponse> call = apiService.checkUser("+88"+phoneNumber);
+        Call<UserCheckResponse> call = apiService.checkUser(phoneNumber);
 
         call.enqueue(new Callback<UserCheckResponse>() {
             @Override
@@ -220,7 +222,6 @@ public class UserCheckActivity extends Activity {
         dialog.setMessage("Logging in To App..");
         dialog.show();
 
-        //String deviceToken = "asfs2xfasas2xx";
         String deviceToken = FirebaseWrapper.getDeviceToken();
         String authHeader = "Bearer "+pref.getString("access_token",null);
         Call<LoginModel> call = apiService.loginUser(authHeader,phoneNumber, deviceToken);

@@ -1,7 +1,7 @@
 package __Firebase.FirebaseRequest;
 
-import __Firebase.Callbacklisteners.CallBackListener;
-import __Firebase.Callbacklisteners.ICallbackMain;
+import __Firebase.ICallbacklisteners.CallBackListener;
+import __Firebase.ICallbacklisteners.ICallbackMain;
 import __Firebase.FirebaseModel.ClientModel;
 import __Firebase.FirebaseModel.CurrentRidingHistoryModel;
 import __Firebase.FirebaseModel.RiderModel;
@@ -12,10 +12,20 @@ import __Firebase.FirebaseModel.RiderModel;
 
 public class __FirebaseRequest {
 
-    private boolean IsRiderAlreadyCreated = false;
     private CallBackListener callBackListener = null;
 
     public __FirebaseRequest(){
+    }
+
+    public void IsRiderAlreadyCreated(final RiderModel Rider, final ICallbackMain callBackListener){
+
+        Thread thread = new Thread(){
+            @Override
+            public void run(){
+                new IsRiderAlreadyCreated(Rider, callBackListener);
+            }
+        };
+        thread.start();
     }
 
     public void CreateRiderFirstTime(final RiderModel Rider, final ICallbackMain callBackListener){

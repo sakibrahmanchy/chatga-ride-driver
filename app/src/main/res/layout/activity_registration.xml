@@ -33,13 +33,23 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/userName"
+                android:id="@+id/userFirstName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Name"
+                android:hint="First Name"
                 android:inputType="text"
                 android:maxLines="1"
                 android:singleLine="true" />
+
+            <EditText
+                android:id="@+id/userLastName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Last Name"
+                android:inputType="text"
+                android:maxLines="1"
+                android:singleLine="true" />
+
 
             <AutoCompleteTextView
                 android:id="@+id/email"
@@ -47,28 +57,6 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/prompt_email"
                 android:inputType="textEmailAddress"
-                android:maxLines="1"
-                android:singleLine="true" />
-
-            <EditText
-                android:id="@+id/password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/prompt_password"
-                android:imeActionId="@+id/login"
-                android:imeActionLabel="@string/action_sign_in_short"
-                android:imeOptions="actionUnspecified"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:singleLine="true" />
-
-            <EditText
-                android:id="@+id/confirmPassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Confirm Password"
-
-                android:inputType="textPassword"
                 android:maxLines="1"
                 android:singleLine="true" />
 
@@ -100,13 +88,35 @@
                 android:layout_weight=".5"
                 android:hint="Birth Date" />
 
+            <EditText
+                android:id="@+id/nid_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:hint="National Identity No.:" />
+
+            <EditText
+                android:id="@+id/driving_license_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:hint="Driving License No.:" />
+
+            <EditText
+                android:id="@+id/motorbike_registration_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:hint="Motorbike Registration No.:" />
+
             <Button
                 android:id="@+id/email_sign_in_button"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/action_sign_in" />
+                android:text="@string/action_sign_in"
+                android:theme="@style/ThemeOverlay.MyDarkButton"/>
 
         </LinearLayout>
     </ScrollView>

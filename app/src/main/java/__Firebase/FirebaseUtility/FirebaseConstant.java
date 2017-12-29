@@ -31,10 +31,12 @@ public class FirebaseConstant {
     public static String CURRENT_RIDING_HISTORY = "CurrentRidingHistoryID";
     public static String NOTIFICATION_TITLE = "You have a ride";
     public static String UNDER_SCORE = "_";
+    public static String RIDE_NOTIFICATION = "RIDE_NOTIFICATION";
 
     public static int ONLINE_NOT_BUSY_NO_RIDE = 100;
     public static int ONLINE_BUSY_NO_RIDE = 110;
     public static int ONLINE_BUSY_ON_RIDE = 111;
+    public static int OFFLINE_NOT_BUSY_ON_RIDE = 000;
     public static int BUSY_RIDER = 1;
     public static int SET_RIDER_BUSY = 1;
     public static int SET_RIDER_FREE = 0;
@@ -52,7 +54,7 @@ public class FirebaseConstant {
     public static int RIDE_FINISHED = 1;
     public static int RIDE_CANCELED_BY_RIDER = 1;
     public static int RIDE_CANCELED_BY_CLIENT = 1;
-    public static int UNKNOWN = 1;
+    public static int UNKNOWN = -1;
     public static int UPDATE_LOCATION = 0;
 
 

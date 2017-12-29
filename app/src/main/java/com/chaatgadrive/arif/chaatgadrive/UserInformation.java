@@ -1,8 +1,8 @@
-package com.chaatgadrive.arif.chaatgadrive;;
+package com.chaatgadrive.arif.chaatgadrive;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+
 
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginData;
 import com.google.gson.Gson;
@@ -29,6 +29,11 @@ public class UserInformation {
         String jsonString = sharedpreferences.getString("userData", null);
         loginData = gson.fromJson(jsonString, LoginData.class);
         return loginData;
+    }
+
+    public String getRiderPhoneNumber(){
+        String phoneNumber = sharedpreferences.getString("phoneNumber", null);
+        return phoneNumber;
     }
 
 }

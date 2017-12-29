@@ -163,16 +163,20 @@ public class PhoneVerificationActivity extends AppCompatActivity implements
                                     boolean responseCode = response.body().getStatus();
                                     if(responseCode){
                                         //No phone verification required, redirect to home
-                                        Intent intent = new Intent(PhoneVerificationActivity.this, MainActivity.class);
-                                        startActivity(intent);
+
+                                        String clientId = getString(R.string.APP_CLIENT);
+                                        String clientSecret = getString(R.string.APP_CLIENT_SECRET);
+
+                                        LoginHelper loginHelper = new LoginHelper(PhoneVerificationActivity.this);
+                                        loginHelper.AccessTokenCall(clientId, clientSecret,phoneNumber);
                                     }
                                     break;
                                 case 500:
                                     Log.d(TAG, response.errorBody().toString());
                                 default:
-//                        Snackbar.make(findViewById(android.R.id.content), "Sorry, network error.",
-//                                Snackbar.LENGTH_SHORT).show();q
-                                    break;
+                                Snackbar.make(findViewById(android.R.id.content), "Sorry, network error.",
+                                        Snackbar.LENGTH_SHORT).show();
+                                break;
                             }
 
                         }
@@ -180,7 +184,7 @@ public class PhoneVerificationActivity extends AppCompatActivity implements
                         @Override
                         public void onFailure(Call<UpdateDeviceTokenData> call, Throwable t) {
                             // Log error here since request failed
-                            Log.e(TAG, "Failuure eadfasfaaaf"+t.toString());
+                            Log.e(TAG, "Failure "+t.toString());
                         }
                     });
 

@@ -1,4 +1,4 @@
-package __Firebase.Callbacklisteners;
+package __Firebase.ICallbacklisteners;
 
 /**
  * Created by User on 12/8/2017.
@@ -16,4 +16,5 @@ public interface ICallbackMain {
     void OnSetHistoryIDonRiderTable(boolean value);
     void OnGetCurrentClient(boolean value);
     void OnResetRiderStatus(boolean value);
+    void OnOnIsRiderAlreadyCreated(boolean value);
 }
