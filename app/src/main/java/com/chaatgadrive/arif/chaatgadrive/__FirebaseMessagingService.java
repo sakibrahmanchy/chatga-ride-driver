@@ -14,6 +14,7 @@ import com.google.firebase.messaging.RemoteMessage;
 
 import __Firebase.FirebaseResponse.NotificationModel;
 import __Firebase.FirebaseUtility.FirebaseConstant;
+import __Firebase.FirebaseWrapper;
 
 /**
  * Created by User on 12/2/2017.
@@ -24,7 +25,7 @@ public class __FirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
-        NotificationModel notificationModel = new NotificationModel();
+        NotificationModel notificationModel = FirebaseWrapper.getInstance().getNotificationModelInstance();
 
         if (remoteMessage.getData().size() > 0) {
             notificationModel.title = remoteMessage.getData().get("title");
@@ -37,6 +38,7 @@ public class __FirebaseMessagingService extends FirebaseMessagingService {
         }
 
         Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra(FirebaseConstant.RIDE_NOTIFICATION, FirebaseConstant.RIDE_NOTIFICATION);
         intent.setFlags(intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 

@@ -69,11 +69,14 @@ public class UserCheckActivity extends Activity {
             public void onClick(View v) {
 
                 String phoneNumber = mPhoneNumberField.getText().toString();
-                if(phoneNumber.length()<11){
+                if(phoneNumber.length() < 11){
                     mPhoneNumberField.setError(getString(R.string.error_invalid_phone_number));
                 }
-                else
-                UserExists(phoneNumber);
+                else {
+                    editor.putString("phoneNumber", phoneNumber);
+                    editor.commit();
+                    UserExists(phoneNumber);
+                }
 
             }
         });
@@ -87,8 +90,7 @@ public class UserCheckActivity extends Activity {
 
     public void UserExists(final String phoneNumber){
 
-         apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+         apiService = ApiClient.getClient().create(ApiInterface.class);
 
         APP_ID = GenerateAppId();
         dialog = new ProgressDialog(UserCheckActivity.this);

@@ -31,4 +31,9 @@ public class UserInformation {
         return loginData;
     }
 
+    public String getRiderPhoneNumber(){
+        String phoneNumber = sharedpreferences.getString("phoneNumber", null);
+        return phoneNumber;
+    }
+
 }

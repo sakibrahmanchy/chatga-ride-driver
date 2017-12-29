@@ -1,8 +1,12 @@
 package ContactWithFirebase;
 
+import android.content.Context;
 import android.util.Log;
 import android.util.Pair;
 
+
+import com.chaatgadrive.arif.chaatgadrive.chaatgamap.GetCurrentLocation;
+import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginData;
 
 import __Firebase.ICallbacklisteners.ICallbackMain;
 import __Firebase.FirebaseModel.ClientModel;
@@ -18,12 +22,14 @@ import __Firebase.FirebaseWrapper;
 
 public class Main implements ICallbackMain {
 
+    private GetCurrentLocation getCurrentLocation = null;
     private FirebaseWrapper firebaseWrapper = null;
     private RiderModel riderModel = null;
     private CurrentRidingHistoryModel currentRidingHistoryModel = null;
     private __FirebaseRequest FirebaseRequestInstance;
 
-    public Main(){
+    public Main(Context context){
+        getCurrentLocation = new GetCurrentLocation(context);
     }
 
     public boolean IsRiderAlreadyCreated(RiderModel RiderModel){
@@ -35,16 +41,20 @@ public class Main implements ICallbackMain {
         return true;
     }
 
-    public boolean CreateNewRiderFirebase(/*Main Rider Mode*/){
+    public boolean CreateNewRiderFirebase(/*Main Rider Mode*/LoginData loginData, String phoneNumber){
 
         firebaseWrapper = FirebaseWrapper.getInstance();
         riderModel = firebaseWrapper.getRiderModelInstance();
         FirebaseRequestInstance = firebaseWrapper.getFirebaseRequestInstance();
 
-        riderModel.RiderID = 1104048;
-        riderModel.FullName = "Ariful Islam";
-        riderModel.PhoneNumber = Long.parseLong("01752062838");
-        riderModel.CurrentRiderLocation = new RiderModel.RiderLocation(0, 0, FirebaseConstant.UNSET_REQUEST_UPDATE_LOCATION);
+        riderModel.RiderID = Long.parseLong(loginData.getUserId());
+        riderModel.FullName = loginData.getFirstName();
+        riderModel.PhoneNumber = Long.parseLong(phoneNumber);
+        riderModel.CurrentRiderLocation = new RiderModel.RiderLocation(
+                getCurrentLocation.getLatitude(),
+                getCurrentLocation.getLongitude(),
+                FirebaseConstant.UNSET_REQUEST_UPDATE_LOCATION
+        );
 
         riderModel.DeviceToken = FirebaseWrapper.getDeviceToken();
         riderModel.CurrentRidingHistoryID = FirebaseConstant.UNKNOWN;
@@ -102,7 +112,7 @@ public class Main implements ICallbackMain {
         return true;
     }
 
-    public boolean SetRiderBusyOrFre(/*Firebase Rider Model*/ RiderModel riderModel, int value){
+    public boolean SetRiderBusyOrFree(/*Firebase Rider Model*/ RiderModel riderModel, int value){
 
         this.firebaseWrapper = FirebaseWrapper.getInstance();
         this.riderModel = riderModel;
@@ -158,8 +168,10 @@ public class Main implements ICallbackMain {
             this.riderModel.OnlineBusyOnRide = FirebaseConstant.ONLINE_NOT_BUSY_NO_RIDE;
         }else if(value == FirebaseConstant.ONLINE_BUSY_NO_RIDE){
             this.riderModel.OnlineBusyOnRide = FirebaseConstant.ONLINE_BUSY_NO_RIDE;
-        }else {
+        }else if(value == FirebaseConstant.ONLINE_BUSY_ON_RIDE) {
             this.riderModel.OnlineBusyOnRide = FirebaseConstant.ONLINE_BUSY_ON_RIDE;
+        } else {
+            this.riderModel.OnlineBusyOnRide = FirebaseConstant.OFFLINE_NOT_BUSY_ON_RIDE;
         }
 
         firebaseWrapper.getFirebaseRequestInstance().SetRiderOnlineBusyOnRider(this.riderModel, Main.this);
