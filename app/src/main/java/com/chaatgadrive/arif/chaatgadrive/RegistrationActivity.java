@@ -80,7 +80,7 @@ public class RegistrationActivity extends Activity {
         mGender = (RadioGroup) findViewById(R.id.gender_radio_group);
         userFirstName = (EditText) findViewById(R.id.userFirstName);
         userLastName = (EditText) findViewById(R.id.userLastName);
-        dateFormatter = new SimpleDateFormat("YYYY-MM-DD", Locale.US);
+        dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         phoneNumber = getIntent().getStringExtra("phoneNumber");
 
 
