@@ -2,6 +2,8 @@ package com.chaatgadrive.arif.chaatgadrive;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -20,6 +22,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.chaatgadrive.arif.chaatgadrive.Dailog.RiderDailog;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.GetCurrentLocation;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.Mapfragment;
 import com.chaatgadrive.arif.chaatgadrive.dashboard.DashboardFragment;
@@ -93,6 +96,10 @@ public class MainActivity extends AppCompatActivity {
         if(notification != null){
             NotificationModel nm = FirebaseWrapper.getInstance().getNotificationModelInstance();
             Log.d(notification, nm.clientId + "");
+
+            RiderDailog riderDailog = new RiderDailog(MainActivity.this);
+            riderDailog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            riderDailog.show();
         }
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
@@ -143,6 +150,10 @@ public class MainActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Toast.makeText(getApplicationContext(), "Refresh selected= " + isChecked, Toast.LENGTH_SHORT).show();
                 if (isChecked) {
+
+                    RiderDailog riderDailog = new RiderDailog(MainActivity.this);
+                    riderDailog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    riderDailog.show();
                     OffOnSwitch.setText("ON");
                     if (FirebaseWrapper.getInstance().getRiderModelInstance().RiderID > 0) {
                         main.SetRiderOnLineOrOffLine(

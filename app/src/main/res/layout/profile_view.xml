@@ -15,7 +15,7 @@
         <ImageView
             android:id="@+id/header_cover_image"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="120dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:scaleType="centerCrop"
 
@@ -30,8 +30,8 @@
             app:civ_border_color="#FFFFFFFF"
 
             android:id="@+id/profile"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_below="@+id/header_cover_image"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="-130dp"
