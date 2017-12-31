@@ -21,7 +21,8 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-        <meta-data android:name="android.support.UI_OPTIONS"
+        <meta-data
+            android:name="android.support.UI_OPTIONS"
             android:value="splitActionBarWhenNarrow" />
 
         <activity
@@ -37,14 +38,14 @@
             android:name=".PhoneVerificationActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
-            android:windowSoftInputMode="adjustNothing"/>
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".UserCheckActivity"
             android:label="@string/title_activity_user_check"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".RegistrationActivity"
-            android:label="@string/title_activity_registration"></activity>
+            android:label="@string/title_activity_registration" />
 
         <service android:name=".__FirebaseInstanceIDService">
             <intent-filter>
@@ -57,6 +58,7 @@
             </intent-filter>
         </service>
 
+        <activity android:name=".OnrideMode.OnRideModeActivity"></activity>
     </application>
 
 </manifest>
