@@ -133,13 +133,13 @@ public class PhoneVerificationActivity extends AppCompatActivity implements
                 mVerificationInProgress = false;
 
                 SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref",0);
-                if(pref.getString("access_token",null)==null){
+                if(pref.getString("userData",null)==null){
                     signInWithPhoneAuthCredential(credential);
                     Intent intent = new Intent(PhoneVerificationActivity.this, RegistrationActivity.class);
                     intent.putExtra("phoneNumber",phoneNumber);
                     startActivity(intent);
                 }else{
-
+                    Log.e(TAG, pref.getString("access_token",null));
                     dialog = new ProgressDialog(PhoneVerificationActivity.this);
                     dialog.setMessage("Saving your new device..");
                     dialog.show();
@@ -174,6 +174,7 @@ public class PhoneVerificationActivity extends AppCompatActivity implements
                                 case 500:
                                     Log.d(TAG, response.errorBody().toString());
                                 default:
+                                    Log.d(TAG, response.errorBody().toString());
                                 Snackbar.make(findViewById(android.R.id.content), "Sorry, network error.",
                                         Snackbar.LENGTH_SHORT).show();
                                 break;

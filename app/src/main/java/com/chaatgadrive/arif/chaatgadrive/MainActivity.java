@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
-        if (pref.getString("access_token", null) == null) {
+        if (pref.getString("userData", null) == null) {
             Intent intent = new Intent(MainActivity.this, UserCheckActivity.class);
             startActivity(intent);
         } else {
