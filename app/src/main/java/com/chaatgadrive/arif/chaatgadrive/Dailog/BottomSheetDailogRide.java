@@ -32,7 +32,7 @@ public class BottomSheetDailogRide extends BottomSheetDialogFragment {
     private ImageView userProfilePic;
     private ImageButton call;
 
-    static BottomSheetDailogRide newInstance(String string) {
+    public static BottomSheetDailogRide newInstance(String string) {
         BottomSheetDailogRide f = new BottomSheetDailogRide();
         Bundle args = new Bundle();
         args.putString("string", string);
