@@ -31,6 +31,10 @@ public class __FirebaseMessagingService extends FirebaseMessagingService {
             notificationModel.title = remoteMessage.getData().get("title");
             notificationModel.body = remoteMessage.getData().get("body");
             notificationModel.clientId = Long.parseLong(remoteMessage.getData().get("clientId"));
+            notificationModel.clientName = remoteMessage.getData().get("clientName");
+            notificationModel.clientPhone = remoteMessage.getData().get("clientPhone");
+            notificationModel.sourceName = remoteMessage.getData().get("sourceName");
+            notificationModel.destinationName = remoteMessage.getData().get("destinationName");
             notificationModel.sourceLatitude = Double.parseDouble(remoteMessage.getData().get("sourceLatitude"));
             notificationModel.sourceLongitude = Double.parseDouble(remoteMessage.getData().get("sourceLongitude"));
             notificationModel.destinationLatitude = Double.parseDouble(remoteMessage.getData().get("destinationLatitude"));
