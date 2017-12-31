@@ -151,9 +151,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Refresh selected= " + isChecked, Toast.LENGTH_SHORT).show();
                 if (isChecked) {
 
-                    RiderDailog riderDailog = new RiderDailog(MainActivity.this);
-                    riderDailog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                    riderDailog.show();
+
                     OffOnSwitch.setText("ON");
                     if (FirebaseWrapper.getInstance().getRiderModelInstance().RiderID > 0) {
                         main.SetRiderOnLineOrOffLine(
