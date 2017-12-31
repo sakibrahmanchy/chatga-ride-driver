@@ -2,14 +2,17 @@ package com.chaatgadrive.arif.chaatgadrive.OnrideMode;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.chaatgadrive.arif.chaatgadrive.ConnectionCheck;
+import com.chaatgadrive.arif.chaatgadrive.Dailog.BottomSheetDailogRide;
 import com.chaatgadrive.arif.chaatgadrive.R;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.ConstentUtilityModel;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.GetCurrentLocation;
@@ -37,6 +40,13 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     }
 
     void AllActionClick(){
+        ic_info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final BottomSheetDialogFragment myBottomSheet = BottomSheetDailogRide.newInstance("Modal Bottom Sheet");
+                myBottomSheet.show(getSupportFragmentManager(), myBottomSheet.getTag());
+            }
+        });
 
     }
 

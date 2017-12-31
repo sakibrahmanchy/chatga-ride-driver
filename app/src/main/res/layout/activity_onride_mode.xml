@@ -28,7 +28,7 @@
             android:layout_marginBottom="57dp"
             android:layout_marginEnd="18dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/clientInfo" />
+            android:src="@drawable/client_info" />
 
 
 

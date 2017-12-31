@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="10dp"
-        android:text="Are you sure you want to quit?"
+        android:text="You have a Ride !!!"
         android:textStyle="bold"
         android:gravity="center"/>
 
@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_title"
         android:gravity="center"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="80dp"
         android:orientation="horizontal"
         android:id="@+id/linearLayout">
         <Button
@@ -35,6 +35,7 @@
             android:id="@+id/btn_yes"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="100dp"
             android:clickable="true"
             android:text="Yes"
             android:textColor="#35e664"
@@ -48,20 +49,21 @@
         android:orientation="vertical"
         android:id="@+id/linearLayout2">
         <TextView
-            android:id="@+id/road_location"
+            android:id="@+id/from_road_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TextView" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/To"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TO" />
+        <TextView
+            android:id="@+id/to_road_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TextView" />
     </LinearLayout>
-
-
-
-
 
 </RelativeLayout>
