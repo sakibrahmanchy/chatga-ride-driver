@@ -146,6 +146,7 @@ public class LoginHelper {
                             Gson gson = new Gson();
                             String json = gson.toJson(data);
                             editor.putString("userData",json);
+                            editor.putString("phoneNumber",phoneNumber);
                             editor.commit();
 
                             Intent intent = new Intent(context, MainActivity.class);

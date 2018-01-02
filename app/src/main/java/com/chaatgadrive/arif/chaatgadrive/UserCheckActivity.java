@@ -246,15 +246,15 @@ public class UserCheckActivity extends Activity {
                             Gson gson = new Gson();
                             String json = gson.toJson(data);
                             editor.putString("userData",json);
+                            editor.putString("phoneNumber",phoneNumber);
                             editor.commit();
 
                             Intent intent = new Intent(UserCheckActivity.this, MainActivity.class);
                             startActivity(intent);
 
                         }else{
-
-//                            Snackbar.make(findViewById(android.R.id.content), "Error Verifying.",
-//                                    Snackbar.LENGTH_SHORT).show();
+                            Snackbar.make(findViewById(android.R.id.content), "Error Verifying.",
+                                    Snackbar.LENGTH_SHORT).show();
                         }
                         break;
                     case 500:
