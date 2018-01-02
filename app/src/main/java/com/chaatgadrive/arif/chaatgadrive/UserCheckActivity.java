@@ -90,7 +90,7 @@ public class UserCheckActivity extends Activity {
 
     public void UserExists(final String phoneNumber){
 
-         apiService = ApiClient.getClient().create(ApiInterface.class);
+        apiService = ApiClient.getClient().create(ApiInterface.class);
 
         APP_ID = GenerateAppId();
         dialog = new ProgressDialog(UserCheckActivity.this);
@@ -250,10 +250,6 @@ public class UserCheckActivity extends Activity {
 
                             Intent intent = new Intent(UserCheckActivity.this, MainActivity.class);
                             startActivity(intent);
-//                            Snackbar.make(findViewById(android.R.id.content),data.getUserId(),
-//                                    Snackbar.LENGTH_SHORT).show();
-//                            Snackbar.make(findViewById(android.R.id.content),accessToken,
-//                                    Snackbar.LENGTH_SHORT).show();
 
                         }else{
 
@@ -291,14 +287,7 @@ public class UserCheckActivity extends Activity {
 //                                Snackbar.LENGTH_SHORT).show();
                         break;
                 }
-//                if(status.equals("true") && statusCode == 200){
-//                    Intent intent = new Intent(UserCheckActivity.this, MapActivity.class);
-//                    intent.putExtra("phoneNumber",phoneNumber);
-//                    startActivity(intent);
-//                }else{
-//                    Snackbar.make(findViewById(android.R.id.content), "Error Verifying.",
-//                            Snackbar.LENGTH_SHORT).show();
-//                }
+
             }
 
             @Override
