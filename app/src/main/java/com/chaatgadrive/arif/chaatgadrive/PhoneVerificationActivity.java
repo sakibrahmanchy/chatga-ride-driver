@@ -71,6 +71,7 @@ public class PhoneVerificationActivity extends AppCompatActivity implements
     private Button mSignOutButton;
     private ProgressBar spinner;
     private ProgressDialog dialog;
+    private String phoneNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +107,7 @@ public class PhoneVerificationActivity extends AppCompatActivity implements
         mAuth = FirebaseAuth.getInstance();
         // [END initialize_auth]
         Intent intent = getIntent();
-        final String phoneNumber = intent.getStringExtra("phoneNumber");
+        phoneNumber = intent.getStringExtra("phoneNumber");
         mPhoneNumberField.setText(phoneNumber);
         // mStartButton.performClick();
         // Initialize phone auth callbacks
@@ -132,65 +133,7 @@ public class PhoneVerificationActivity extends AppCompatActivity implements
                 // [START_EXCLUDE silenst]
                 mVerificationInProgress = false;
 
-                SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref",0);
-
-                if(getIntent().getStringExtra("loginStatus").equals("REGISTRATION_REQUIRED")){
-                    Intent intent = new Intent(PhoneVerificationActivity.this, RegistrationActivity.class);
-                    intent.putExtra("phoneNumber",phoneNumber);
-                    startActivity(intent);
-                }else if(getIntent().getStringExtra("loginStatus").equals("PHONE_VERIFICATION_REQUIRED")){
-                    Log.e(TAG, pref.getString("access_token",null));
-                    dialog = new ProgressDialog(PhoneVerificationActivity.this);
-                    dialog.setMessage("Saving your new device..");
-                    dialog.show();
-
-                    ApiInterface apiService =
-                            ApiClient.getClient().create(ApiInterface.class);
-                    String authHeader = "Bearer "+pref.getString("access_token",null);
-                    String deviceToken = FirebaseWrapper.getDeviceToken();
-                    Call<UpdateDeviceTokenData> call = apiService.updateDeviceToken(authHeader,phoneNumber, deviceToken);
-
-                    call.enqueue(new Callback<UpdateDeviceTokenData>() {
-                        @Override
-                        public void onResponse(Call<UpdateDeviceTokenData> call, Response<UpdateDeviceTokenData> response) {
-
-                            int statusCode = response.code();
-                            dialog.dismiss();
-
-                            switch(statusCode){
-                                case 200:
-
-                                    boolean responseCode = response.body().getStatus();
-                                    if(responseCode){
-                                        //No phone verification required, redirect to home
-
-                                        String clientId = getString(R.string.APP_CLIENT);
-                                        String clientSecret = getString(R.string.APP_CLIENT_SECRET);
-
-                                        LoginHelper loginHelper = new LoginHelper(PhoneVerificationActivity.this);
-                                        loginHelper.AccessTokenCall(clientId, clientSecret,phoneNumber);
-                                    }
-                                    break;
-                                case 500:
-                                    Log.d(TAG, response.errorBody().toString());
-                                default:
-                                    Log.d(TAG, response.errorBody().toString());
-                                    Snackbar.make(findViewById(android.R.id.content), "Sorry, network error.",
-                                            Snackbar.LENGTH_SHORT).show();
-                                    break;
-                            }
-
-                        }
-
-                        @Override
-                        public void onFailure(Call<UpdateDeviceTokenData> call, Throwable t) {
-                            // Log error here since request failed
-                            Log.e(TAG, "Failure "+t.toString());
-                        }
-                    });
-                }
-
-
+                deviceTokenCheck(phoneNumber);
             }
 
             @Override
@@ -327,7 +270,7 @@ public class PhoneVerificationActivity extends AppCompatActivity implements
 
                             FirebaseUser user = task.getResult().getUser();
                             // [START_EXCLUDE]
-                            updateUI(STATE_SIGNIN_SUCCESS, user);
+                            deviceTokenCheck(phoneNumber);
                             // [END_EXCLUDE]
                         } else {
                             // Sign in failed, display a message and update the UI
@@ -492,5 +435,68 @@ public class PhoneVerificationActivity extends AppCompatActivity implements
                 signOut();
                 break;
         }
+    }
+
+    public void deviceTokenCheck(String phone){
+
+        final String phoneNumner = phone;
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref",0);
+
+        if(getIntent().getStringExtra("loginStatus").equals("REGISTRATION_REQUIRED")){
+            Intent intent = new Intent(PhoneVerificationActivity.this, RegistrationActivity.class);
+            intent.putExtra("phoneNumber",phoneNumber);
+            startActivity(intent);
+        }else if(getIntent().getStringExtra("loginStatus").equals("PHONE_VERIFICATION_REQUIRED")){
+            Log.e(TAG, pref.getString("access_token",null));
+            dialog = new ProgressDialog(PhoneVerificationActivity.this);
+            dialog.setMessage("Saving your new device..");
+            dialog.show();
+
+            ApiInterface apiService =
+                    ApiClient.getClient().create(ApiInterface.class);
+            String authHeader = "Bearer "+pref.getString("access_token",null);
+            String deviceToken = FirebaseWrapper.getDeviceToken();
+            Call<UpdateDeviceTokenData> call = apiService.updateDeviceToken(authHeader,phoneNumber, deviceToken);
+
+            call.enqueue(new Callback<UpdateDeviceTokenData>() {
+                @Override
+                public void onResponse(Call<UpdateDeviceTokenData> call, Response<UpdateDeviceTokenData> response) {
+
+                    int statusCode = response.code();
+                    dialog.dismiss();
+
+                    switch(statusCode){
+                        case 200:
+
+                            boolean responseCode = response.body().getStatus();
+                            if(responseCode){
+                                //No phone verification required, redirect to home
+
+                                String clientId = getString(R.string.APP_CLIENT);
+                                String clientSecret = getString(R.string.APP_CLIENT_SECRET);
+
+                                LoginHelper loginHelper = new LoginHelper(PhoneVerificationActivity.this);
+                                loginHelper.AccessTokenCall(clientId, clientSecret,phoneNumber);
+                            }
+                            break;
+                        case 500:
+                            Log.d(TAG, response.errorBody().toString());
+                        default:
+                            Log.d(TAG, response.errorBody().toString());
+                            Snackbar.make(findViewById(android.R.id.content), "Sorry, network error.",
+                                    Snackbar.LENGTH_SHORT).show();
+                            break;
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<UpdateDeviceTokenData> call, Throwable t) {
+                    // Log error here since request failed
+                    Log.e(TAG, "Failure "+t.toString());
+                }
+            });
+        }
+
     }
 }
