@@ -108,7 +108,7 @@ public class PhoneVerificationActivity extends AppCompatActivity implements
         Intent intent = getIntent();
         final String phoneNumber = intent.getStringExtra("phoneNumber");
         mPhoneNumberField.setText(phoneNumber);
-       // mStartButton.performClick();
+        // mStartButton.performClick();
         // Initialize phone auth callbacks
         // [START phone_auth_callbacks]
         mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
@@ -133,12 +133,12 @@ public class PhoneVerificationActivity extends AppCompatActivity implements
                 mVerificationInProgress = false;
 
                 SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref",0);
-                if(pref.getString("userData",null)==null){
-                    signInWithPhoneAuthCredential(credential);
+
+                if(getIntent().getStringExtra("loginStatus").equals("REGISTRATION_REQUIRED")){
                     Intent intent = new Intent(PhoneVerificationActivity.this, RegistrationActivity.class);
                     intent.putExtra("phoneNumber",phoneNumber);
                     startActivity(intent);
-                }else{
+                }else if(getIntent().getStringExtra("loginStatus").equals("PHONE_VERIFICATION_REQUIRED")){
                     Log.e(TAG, pref.getString("access_token",null));
                     dialog = new ProgressDialog(PhoneVerificationActivity.this);
                     dialog.setMessage("Saving your new device..");
@@ -175,9 +175,9 @@ public class PhoneVerificationActivity extends AppCompatActivity implements
                                     Log.d(TAG, response.errorBody().toString());
                                 default:
                                     Log.d(TAG, response.errorBody().toString());
-                                Snackbar.make(findViewById(android.R.id.content), "Sorry, network error.",
-                                        Snackbar.LENGTH_SHORT).show();
-                                break;
+                                    Snackbar.make(findViewById(android.R.id.content), "Sorry, network error.",
+                                            Snackbar.LENGTH_SHORT).show();
+                                    break;
                             }
 
                         }
@@ -188,8 +188,8 @@ public class PhoneVerificationActivity extends AppCompatActivity implements
                             Log.e(TAG, "Failure "+t.toString());
                         }
                     });
-
                 }
+
 
             }
 
@@ -468,7 +468,7 @@ public class PhoneVerificationActivity extends AppCompatActivity implements
 
     @Override
     public void onClick(View view) {
-            switch (view.getId()) {
+        switch (view.getId()) {
             case R.id.button_start_verification:
                 if (!validatePhoneNumber()) {
                     return;
