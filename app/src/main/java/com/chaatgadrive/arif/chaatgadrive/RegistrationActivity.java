@@ -246,67 +246,18 @@ public class RegistrationActivity extends Activity {
                         loginHelper.AccessTokenCall(clientId, clientSecret,phoneNumber);
 
                         break;
-                    case 406:
-                        try {
-                            JSONObject error = new JSONObject(response.errorBody().string());
-                            JSONArray errors = error.getJSONArray("errors");
-                            //String error = response.errorBody().string();
-                            for (int i = 0; i < errors.length(); i++) {
-                                JSONObject jsonObj = errors.getJSONObject(i);
-                                String k = jsonObj.keys().next();
-                                Log.i("Info",  jsonObj.getString(k));
 
-                                Snackbar.make(findViewById(android.R.id.content), jsonObj.getString(k),
-                                        Snackbar.LENGTH_LONG).show();
-                            }
-
-
-                        } catch (Exception e) {
-                            Snackbar.make(findViewById(android.R.id.content), e.getMessage(), Snackbar.LENGTH_LONG).show();
-                        }
-                    case 200:
-                        responseCode = response.body().getSuccess().toString();
-                        if(responseCode.equals("user-found")){
-                            //No phone verification required, redirect to home
-                            Intent intent = new Intent(RegistrationActivity.this, UserCheckActivity.class);
-                            intent.putExtra("phoneNumber",phoneNumber);
-                            startActivity(intent);
-
-                        }else{
-                            Snackbar.make(findViewById(android.R.id.content), "Error Verifying.",
-                                    Snackbar.LENGTH_SHORT).show();
-                        }
-                        break;
-                    case 500:
-                        try {
-                            //JSONObject error = new JSONObject(response.errorBody().string());
-                            //String errorCode = error.getString("message");
-                            String error = response.errorBody().string();
-                            Log.d(TAG, error);
-                            Snackbar.make(findViewById(android.R.id.content), error,
-                                    Snackbar.LENGTH_LONG).show();
-
-                        } catch (Exception e) {
-                            Snackbar.make(findViewById(android.R.id.content), e.getMessage(),
-
-                           Snackbar.LENGTH_SHORT).show();
-                        }
-                        break;
                     default:
                         try {
-                            String error = response.errorBody().string();
-                            Log.d(TAG, error);
-//                            String errorCode = error.getString("message");
-                            Snackbar.make(findViewById(android.R.id.content), error,
+                            JSONObject error = new JSONObject(response.errorBody().string());
+                            String errorMessage = error.getString("message");
+                            Snackbar.make(findViewById(android.R.id.content), errorMessage,
                                     Snackbar.LENGTH_SHORT).show();
 
                         } catch (Exception e) {
                             Snackbar.make(findViewById(android.R.id.content), e.getMessage(),
                                     Snackbar.LENGTH_SHORT).show();
                         }
-
-                        Snackbar.make(findViewById(android.R.id.content), "Sorry, network error.",
-                                Snackbar.LENGTH_SHORT).show();
                         break;
                 }
             }

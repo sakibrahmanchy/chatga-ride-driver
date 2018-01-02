@@ -130,6 +130,7 @@ public class UserCheckActivity extends Activity {
 
                                 Intent intent = new Intent(UserCheckActivity.this, PhoneVerificationActivity.class);
                                 intent.putExtra("phoneNumber",phoneNumber);
+                                intent.putExtra("loginStatus","REGISTRATION_REQUIRED");
                                 startActivity(intent);
                             }
 
@@ -269,6 +270,7 @@ public class UserCheckActivity extends Activity {
                                 case "auth/phone-verification-required":
                                     Intent intent = new Intent(UserCheckActivity.this, PhoneVerificationActivity.class);
                                     intent.putExtra("phoneNumber",phoneNumber);
+                                    intent.putExtra("loginStatus","PHONE_VERIFICATION_REQUIRED");
                                     startActivity(intent);
                                     break;
                                 default:
