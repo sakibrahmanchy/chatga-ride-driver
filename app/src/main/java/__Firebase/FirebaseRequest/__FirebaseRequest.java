@@ -83,6 +83,17 @@ public class __FirebaseRequest {
         thread.start();
     }
 
+    public void SetDeviceTokenToRiderTable(final RiderModel Rider, final ICallbackMain callBackListener){
+
+        Thread thread = new Thread(){
+            @Override
+            public void run(){
+                new SetDeviceTokenToRiderTable(Rider, callBackListener);
+            }
+        };
+        thread.start();
+    }
+
     public void SetHistoryIDonRiderTable(final CurrentRidingHistoryModel HistoryModel, final RiderModel Rider, final ICallbackMain callBackListener){
 
         Thread thread = new Thread(){

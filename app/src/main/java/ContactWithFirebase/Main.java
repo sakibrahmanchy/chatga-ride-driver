@@ -8,6 +8,7 @@ import android.util.Pair;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.GetCurrentLocation;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginData;
 
+import __Firebase.FirebaseUtility.FirebaseUtilMethod;
 import __Firebase.ICallbacklisteners.ICallbackMain;
 import __Firebase.FirebaseModel.ClientModel;
 import __Firebase.FirebaseModel.CurrentRidingHistoryModel;
@@ -188,6 +189,18 @@ public class Main implements ICallbackMain {
         return true;
     }
 
+    public boolean SetDeviceTokenToRiderTable(/*Firebase Rider Model*/ RiderModel riderModel, String deviceToken){
+
+        if(riderModel == null || riderModel.RiderID < 1 || FirebaseUtilMethod.IsEmptyOrNull(deviceToken))   return false;
+
+        this.firebaseWrapper = FirebaseWrapper.getInstance();
+        this.riderModel = riderModel;
+        this.riderModel.DeviceToken = deviceToken;
+
+        firebaseWrapper.getFirebaseRequestInstance().SetDeviceTokenToRiderTable(this.riderModel, Main.this);
+        return true;
+    }
+
     public boolean UpdateRiderLocation(/*Firebase Rider Model*/ RiderModel riderModel, Pair<Double, Double> newLocation){
 
         this.firebaseWrapper = FirebaseWrapper.getInstance();
@@ -335,7 +348,18 @@ public class Main implements ICallbackMain {
 
     @Override
     public void OnOnIsRiderAlreadyCreated(boolean value) {
-        if(value == true)   return;
+        if(value == true){
+            SetDeviceTokenToRiderTable(
+                    FirebaseWrapper.getInstance().getRiderModelInstance(),
+                    FirebaseWrapper.getDeviceToken()
+            );
+            return;
+        }
         FirebaseRequestInstance.CreateRiderFirstTime(riderModel, Main.this);
+    }
+
+    @Override
+    public void OnSetDeviceTokenToRiderTable(boolean value) {
+        Log.d(FirebaseConstant.DEVICE_TOKEN_UPDATE, value + "");
     }
 }

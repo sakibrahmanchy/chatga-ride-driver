@@ -11,17 +11,9 @@ public class FirebaseUtilMethod {
     public FirebaseUtilMethod(){
     }
 
-    public static double distance(Pair<Double, Double> Source, Pair<Double, Double> Destination) {
-        double theta = Source.second - Destination.second;
-        double dist = Math.sin(deg2rad(Source.first))
-                * Math.sin(deg2rad(Destination.first))
-                + Math.cos(deg2rad(Source.first))
-                * Math.cos(deg2rad(Destination.first))
-                * Math.cos(deg2rad(theta));
-        dist = Math.acos(dist);
-        dist = rad2deg(dist);
-        dist = dist * 60 * 1.1515;
-        return (dist);
+    public static boolean IsEmptyOrNull(String data) {
+        if (data == null || data.trim().isEmpty()) return true;
+        return false;
     }
 
     private static double deg2rad(double deg) {

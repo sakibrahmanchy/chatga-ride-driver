@@ -32,6 +32,7 @@ public class FirebaseConstant {
     public static String NOTIFICATION_TITLE = "You have a ride";
     public static String UNDER_SCORE = "_";
     public static String RIDE_NOTIFICATION = "RIDE_NOTIFICATION";
+    public static String DEVICE_TOKEN = "DeviceToken";
 
     public static int ONLINE_NOT_BUSY_NO_RIDE = 100;
     public static int ONLINE_BUSY_NO_RIDE = 110;
@@ -84,6 +85,7 @@ public class FirebaseConstant {
     public static String RIDER_ONLINE_BUSY_ON_RIDE = "RIDER_ONLINE_BUSY_ON_RIDE";
     public static String RESET_RIDER_STATUS = "RESET_RIDER_STATUS";
     public static String UPDATE_LOCATION_TIMER = "UPDATE_LOCATION_TIMER";
+    public static String DEVICE_TOKEN_UPDATE = "DEVICE_TOKEN_UPDATE";
 
     public FirebaseConstant(){
     }

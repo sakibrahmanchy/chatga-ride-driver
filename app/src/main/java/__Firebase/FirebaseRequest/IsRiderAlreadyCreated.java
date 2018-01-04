@@ -31,14 +31,12 @@ public class IsRiderAlreadyCreated {
         firebaseWrapper.FirebaseRootReference.child(FirebaseConstant.RIDER).orderByChild(FirebaseConstant.RIDER_ID).equalTo(Rider.RiderID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
                 if (dataSnapshot.exists() && dataSnapshot.hasChildren()) {
                     callBackListener.OnOnIsRiderAlreadyCreated(true);
                 } else {
                     callBackListener.OnOnIsRiderAlreadyCreated(false);
                 }
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
 

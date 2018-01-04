@@ -17,4 +17,5 @@ public interface ICallbackMain {
     void OnGetCurrentClient(boolean value);
     void OnResetRiderStatus(boolean value);
     void OnOnIsRiderAlreadyCreated(boolean value);
+    void OnSetDeviceTokenToRiderTable(boolean value);
 }
