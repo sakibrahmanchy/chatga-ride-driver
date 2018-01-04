@@ -93,6 +93,16 @@ public class MainActivity extends AppCompatActivity {
         getCurrentLocation = new GetCurrentLocation(this);
         connectionCheck = new ConnectionCheck(this);
 
+        if (connectionCheck.isNetworkConnected() && connectionCheck.isGpsEnable()) {
+            manager.beginTransaction().replace(R.id.content, mapfragment, mapfragment.getTag()).commit();
+        } else if (!connectionCheck.isGpsEnable()) {
+            connectionCheck.showGPSDisabledAlertToUser();
+        } else {
+            Toast.makeText(getApplicationContext(), "Check Internet Or GPS Connection", Toast.LENGTH_SHORT)
+                    .show();
+
+        }
+
         String notification = getIntent().getStringExtra(FirebaseConstant.RIDE_NOTIFICATION);
         if(notification != null){
 
