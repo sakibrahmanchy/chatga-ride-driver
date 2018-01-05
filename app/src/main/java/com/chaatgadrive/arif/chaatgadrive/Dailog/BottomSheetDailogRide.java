@@ -1,6 +1,7 @@
 package com.chaatgadrive.arif.chaatgadrive.Dailog;
 
 import android.Manifest;
+import android.app.Notification;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -20,6 +21,9 @@ import android.widget.TextView;
 
 import com.chaatgadrive.arif.chaatgadrive.R;
 
+import __Firebase.FirebaseResponse.NotificationModel;
+import __Firebase.FirebaseWrapper;
+
 /**
  * Created by Arif on 12/30/2017.
  */
@@ -31,6 +35,7 @@ public class BottomSheetDailogRide extends BottomSheetDialogFragment {
     private TextView userRidingPath;
     private ImageView userProfilePic;
     private ImageButton call;
+    private NotificationModel notificationModel;
 
     public static BottomSheetDailogRide newInstance(String string) {
         BottomSheetDailogRide f = new BottomSheetDailogRide();
@@ -44,6 +49,7 @@ public class BottomSheetDailogRide extends BottomSheetDialogFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mString = getArguments().getString("string");
+        notificationModel = notificationModel = FirebaseWrapper.getInstance().getNotificationModelInstance();
     }
 
     @Override
@@ -78,7 +84,7 @@ public class BottomSheetDailogRide extends BottomSheetDialogFragment {
                     new String[]{Manifest.permission.CALL_PHONE},
                     123);
         } else {
-            startActivity(new Intent(Intent.ACTION_CALL).setData(Uri.parse("tel:01675908553")));
+            startActivity(new Intent(Intent.ACTION_CALL).setData(Uri.parse("tel:0"+notificationModel.clientPhone)));
         }
     }
 

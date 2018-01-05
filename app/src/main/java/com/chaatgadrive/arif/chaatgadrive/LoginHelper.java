@@ -129,7 +129,6 @@ public class LoginHelper {
                         if(responseCode.equals("auth/logged-in-successfully")){
                             //No phone verification required, redirect to home
                             LoginData data = response.body().getLoginData();
-
                             Gson gson = new Gson();
                             String json = gson.toJson(data);
                             editor.putString("userData",json);
