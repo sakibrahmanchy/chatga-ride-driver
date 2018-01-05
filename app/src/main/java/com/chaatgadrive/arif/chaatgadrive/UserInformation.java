@@ -24,7 +24,7 @@ public class UserInformation {
 
     }
 
-    LoginData getuserInformation() {
+   public LoginData getuserInformation() {
 
         String jsonString = sharedpreferences.getString("userData", null);
         loginData = gson.fromJson(jsonString, LoginData.class);

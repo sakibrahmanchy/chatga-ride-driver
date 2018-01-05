@@ -1,10 +1,14 @@
 package com.chaatgadrive.arif.chaatgadrive.OnrideMode;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.util.Pair;
 
 import com.chaatgadrive.arif.chaatgadrive.CostEstimation.CostEstimation;
+import com.chaatgadrive.arif.chaatgadrive.UserInformation;
+import com.chaatgadrive.arif.chaatgadrive.models.HistoryModel.RiderHistory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -22,6 +26,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import ContactWithFirebase.Main;
+import __Firebase.FirebaseModel.CurrentRidingHistoryModel;
+import __Firebase.FirebaseResponse.NotificationModel;
+import __Firebase.FirebaseUtility.FirebaseConstant;
+
 /**
  * Created by Arif on 11/12/2017.
  */
@@ -31,13 +40,23 @@ public class GetDistanceAndDuration extends AsyncTask<String, Void, String> {
     private String duration;
     private LatLng source, dest;
     CostEstimation costEstimation;
+    private NotificationModel notificationModel;
+    private Main main;
+    private Context mContex;
+    private RiderHistory riderHistory;
+    private UserInformation userInformation;
 
-    public GetDistanceAndDuration(LatLng source, LatLng dest) {
+    public GetDistanceAndDuration(Context context, LatLng source, LatLng dest) {
         this.source = source;
         this.dest = dest;
         costEstimation = new CostEstimation();
         String Url =getDirectionsUrl(source,dest);
         this.execute(Url);
+        notificationModel = new NotificationModel();
+        this.mContex = context;
+        main = new Main(mContex);
+        riderHistory = new RiderHistory();
+        userInformation = new UserInformation(mContex);
 
     }
 
@@ -63,12 +82,8 @@ public class GetDistanceAndDuration extends AsyncTask<String, Void, String> {
 
     }
 
-    /**
-     * A class to parse the Google Places in JSON format
-     */
     private class ParserTask extends AsyncTask<String, Integer, String> {
 
-        // Parsing the data in non-ui thread
         @Override
         protected String doInBackground(String... jsonData) {
 
@@ -78,7 +93,6 @@ public class GetDistanceAndDuration extends AsyncTask<String, Void, String> {
             try {
                 jObject = new JSONObject(jsonData[0]);
                 DirectionsJSONParser parser = new DirectionsJSONParser(jObject);
-
 
                  distance= parser.getDistance();
                 //GET Time to Source to Destination
@@ -96,9 +110,23 @@ public class GetDistanceAndDuration extends AsyncTask<String, Void, String> {
              for(int i=0; i<result.length()-3; i++){
                  value+=result.charAt(i);
              }
-            double x = Double.parseDouble(value);
+            double distance = Double.parseDouble(value);
 
-         costEstimation.getTotalCost(x,0);
+            LatLng Source = new LatLng(notificationModel.sourceLatitude,notificationModel.sourceLongitude);
+            LatLng Destination = new LatLng(notificationModel.destinationLatitude,notificationModel.destinationLongitude);
+            riderHistory.ClientID = notificationModel.clientId;
+            riderHistory.CostSoFar = (long) costEstimation.getTotalCost(distance,0);
+            riderHistory.HistoryID=2;
+            riderHistory.RiderID=Integer.parseInt(userInformation.getuserInformation().userId);
+            riderHistory.StartLocation =Source;
+            riderHistory.EndLocation=Destination;
+            riderHistory.Client_History = notificationModel.destinationName;
+            riderHistory.Rider_History=notificationModel.destinationName;
+            riderHistory.IsRideFinished= FirebaseConstant.RIDE_NOT_FINISHED;
+            riderHistory.IsRideStart=FirebaseConstant.RIDE_NOT_START;
+
+            main.CreateNewHistoryModelFirebase(riderHistory);
+
         }
 
 
@@ -128,9 +156,7 @@ public class GetDistanceAndDuration extends AsyncTask<String, Void, String> {
         return url;
     }
 
-    /**
-     * A method to download json data from url
-     */
+
     private String downloadUrl(String strUrl) throws IOException {
         String data = "";
         InputStream iStream = null;

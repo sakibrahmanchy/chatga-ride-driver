@@ -7,6 +7,7 @@ import android.util.Pair;
 
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.GetCurrentLocation;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginData;
+import com.chaatgadrive.arif.chaatgadrive.models.HistoryModel.RiderHistory;
 
 import __Firebase.FirebaseUtility.FirebaseUtilMethod;
 import __Firebase.ICallbacklisteners.ICallbackMain;
@@ -69,33 +70,33 @@ public class Main implements ICallbackMain {
         return true;
     }
 
-    public boolean CreateNewHistoryModelFirebase(/*Main History Mode, Client Model, Rider Model*/){
+    public boolean CreateNewHistoryModelFirebase(RiderHistory riderHistory){
 
         firebaseWrapper = FirebaseWrapper.getInstance();
-        currentRidingHistoryModel = firebaseWrapper.getRidingHistoryModelModelInstance();
+        this.currentRidingHistoryModel = firebaseWrapper.getRidingHistoryModelModelInstance();
         FirebaseRequestInstance = firebaseWrapper.getFirebaseRequestInstance();
 
-        currentRidingHistoryModel.HistoryID = 11040066;
-        currentRidingHistoryModel.ClientID = 11040067;
-        currentRidingHistoryModel.RiderID = 11040068;
-        currentRidingHistoryModel.Client_History = "11040067" + FirebaseConstant.UNDER_SCORE + "11040066";
-        currentRidingHistoryModel.Rider_History = "11040068" + FirebaseConstant.UNDER_SCORE + "11040066";;
-        currentRidingHistoryModel.StartingLocation = new CurrentRidingHistoryModel.Location(
-                11.04006d,
-                11.04006d
+        this.currentRidingHistoryModel.HistoryID = riderHistory.HistoryID;
+        this.currentRidingHistoryModel.ClientID = riderHistory.ClientID;
+        this.currentRidingHistoryModel.RiderID = riderHistory.RiderID;
+        this.currentRidingHistoryModel.Client_History =riderHistory.Client_History  + FirebaseConstant.UNDER_SCORE + "11040066";
+        this.currentRidingHistoryModel.Rider_History = riderHistory.Rider_History + FirebaseConstant.UNDER_SCORE + "11040066";;
+        this.currentRidingHistoryModel.StartingLocation = new CurrentRidingHistoryModel.Location(
+                riderHistory.StartLocation.latitude,
+                riderHistory.StartLocation.longitude
         );
-        currentRidingHistoryModel.EndingLocation = new CurrentRidingHistoryModel.Location(
-                11.04006d,
-                11.04006d
+        this.currentRidingHistoryModel.EndingLocation = new CurrentRidingHistoryModel.Location(
+                riderHistory.EndLocation.latitude,
+                riderHistory.EndLocation.longitude
         );
-        currentRidingHistoryModel.CostSoFar = 1111;
+        this.currentRidingHistoryModel.CostSoFar = 1111;
 
-        currentRidingHistoryModel.IsRideStart = FirebaseConstant.RIDE_NOT_START;
-        currentRidingHistoryModel.IsRideFinished = FirebaseConstant.RIDE_NOT_FINISHED;
-        currentRidingHistoryModel.RideCanceledByClient = FirebaseConstant.UNKNOWN;
-        currentRidingHistoryModel.RideCanceledByRider = FirebaseConstant.UNKNOWN;
+        this.currentRidingHistoryModel.IsRideStart = FirebaseConstant.RIDE_NOT_START;
+        this.currentRidingHistoryModel.IsRideFinished = FirebaseConstant.RIDE_NOT_FINISHED;
+        this.currentRidingHistoryModel.RideCanceledByClient = FirebaseConstant.UNKNOWN;
+        this.currentRidingHistoryModel.RideCanceledByRider = FirebaseConstant.UNKNOWN;
 
-        FirebaseRequestInstance.CreateNewRideHistory(currentRidingHistoryModel, Main.this);
+        FirebaseRequestInstance.CreateNewRideHistory(this.currentRidingHistoryModel, Main.this);
         return true;
     }
 

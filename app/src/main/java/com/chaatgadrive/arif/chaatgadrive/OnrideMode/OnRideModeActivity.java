@@ -74,7 +74,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
             DownloadTask downloadTask = new DownloadTask(mMap,source,destination);
 
             downloadTask.execute(url);
-             new  GetDistanceAndDuration(source,destination);
+             new  GetDistanceAndDuration(this,source,destination);
 
         }
         else{
