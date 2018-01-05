@@ -35,6 +35,8 @@ public class LoginData {
         this.userId = userId;
     }
 
+    public LoginData(){}
+
     public String getFirstName() {
         return firstName;
     }
