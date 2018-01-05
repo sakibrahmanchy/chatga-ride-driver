@@ -35,7 +35,8 @@ public class ShowDerectionInGoogleMap {
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
         builder.include(source).include(destination);
 
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(builder.build(), 320);
-        mMap.moveCamera(cameraUpdate);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(builder.build(), 400);
+        mMap.animateCamera(cameraUpdate);
     }
+
 }

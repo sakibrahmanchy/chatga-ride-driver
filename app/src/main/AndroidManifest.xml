@@ -60,7 +60,9 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".OnrideMode.OnRideModeActivity"></activity>
+        <activity
+            android:name=".OnrideMode.OnRideModeActivity"
+           />
     </application>
 
 </manifest>

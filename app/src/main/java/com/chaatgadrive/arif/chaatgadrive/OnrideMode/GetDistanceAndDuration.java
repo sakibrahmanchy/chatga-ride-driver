@@ -106,10 +106,13 @@ public class GetDistanceAndDuration extends AsyncTask<String, Void, String> {
         @Override
         protected void onPostExecute(String result) {
 
-             String value="";
-             for(int i=0; i<result.length()-3; i++){
-                 value+=result.charAt(i);
+             String value="0";
+             if(result !=null){
+                 for(int i=0; i<result.length()-3; i++){
+                     value+=result.charAt(i);
+                 }
              }
+
             double distance = Double.parseDouble(value);
 
             LatLng Source = new LatLng(notificationModel.sourceLatitude,notificationModel.sourceLongitude);

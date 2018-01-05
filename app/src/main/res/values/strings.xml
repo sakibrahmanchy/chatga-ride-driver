@@ -122,7 +122,7 @@
     <string name="nav_notifications">Notifications</string>
     <string name="nav_settings">Settings</string>
     <string name="nav_about_us">About Us</string>
-    <string name="menu_switch">OFF</string>
+    <string name="menu_switch">ON</string>
 
     <!-- Toolbar titles when navigation menu item is selected -->
     <string-array name="nav_item_activity_titles">
@@ -139,4 +139,7 @@
     <string name="action_logout">Logout</string>
     <string name="action_mark_all_read">Mark All as Read</string>
     <string name="privacy_policy">Privacy Policy</string>
+
+    <string name="final_start_ride">Start Ride</string>
+    <string name="final_finish_ride">Finish Ride</string>
 </resources>

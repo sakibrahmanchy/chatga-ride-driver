@@ -30,6 +30,27 @@
             android:scaleType="centerCrop"
             android:src="@drawable/client_info" />
 
+        <Button
+            android:id="@+id/startBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="23dp"
+            android:text="@string/final_start_ride"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:theme="@style/ThemeOverlay.MyDarkButton"
+            android:layout_margin="5dp"/>
+        <Button
+            android:id="@+id/finishbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/startBtn"
+            android:text="@string/final_finish_ride"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:theme="@style/ThemeOverlay.MyDarkButton"
+            android:layout_margin="5dp"/>
 
 
 
