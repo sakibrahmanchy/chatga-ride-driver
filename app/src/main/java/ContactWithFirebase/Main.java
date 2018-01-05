@@ -147,6 +147,8 @@ public class Main implements ICallbackMain {
 
     public boolean SetRiderOnLineOrOffLine(/*Firebase Rider Model*/ RiderModel riderModel, int value){
 
+        if(riderModel == null || riderModel.RiderID < 1)    return false;
+
         this.firebaseWrapper = FirebaseWrapper.getInstance();
         this.riderModel = riderModel;
 
@@ -187,6 +189,17 @@ public class Main implements ICallbackMain {
         this.currentRidingHistoryModel = historyModel;
 
         firebaseWrapper.getFirebaseRequestInstance().SetHistoryIDonRiderTable(this.currentRidingHistoryModel, this.riderModel, Main.this);
+        return true;
+    }
+
+    public boolean SentNotificationToRider(/*Firebase Client Mode*/RiderModel Rider, String clientDeviceToken){
+
+        if(Rider == null || Rider.RiderID < 1 || FirebaseUtilMethod.IsEmptyOrNull(clientDeviceToken))   return false;
+
+        this.riderModel = Rider;
+        firebaseWrapper = FirebaseWrapper.getInstance();
+
+        firebaseWrapper.getFirebaseRequestInstance().SentNotificationToRider(this.riderModel, clientDeviceToken,Main.this);
         return true;
     }
 
@@ -232,6 +245,7 @@ public class Main implements ICallbackMain {
 
     public boolean ResetRiderStatus(/* Firebase HistoryModel, RiderModel */ RiderModel Rider){
 
+        if(Rider == null || Rider.RiderID < 1)  return false;
         this.firebaseWrapper = FirebaseWrapper.getInstance();
         this.riderModel = Rider;
 
@@ -241,7 +255,6 @@ public class Main implements ICallbackMain {
         this.riderModel.OnlineBusyOnRide = FirebaseConstant.ONLINE_NOT_BUSY_NO_RIDE;
 
         firebaseWrapper.getFirebaseRequestInstance().ResetRiderStatus(riderModel, Main.this);
-
         return true;
     }
 
@@ -350,10 +363,11 @@ public class Main implements ICallbackMain {
     @Override
     public void OnOnIsRiderAlreadyCreated(boolean value) {
         if(value == true){
-            SetDeviceTokenToRiderTable(
+            this.SetDeviceTokenToRiderTable(
                     FirebaseWrapper.getInstance().getRiderModelInstance(),
                     FirebaseWrapper.getDeviceToken()
             );
+            this.ResetRiderStatus(FirebaseWrapper.getInstance().getRiderModelInstance());
             return;
         }
         FirebaseRequestInstance.CreateRiderFirstTime(riderModel, Main.this);
@@ -362,5 +376,10 @@ public class Main implements ICallbackMain {
     @Override
     public void OnSetDeviceTokenToRiderTable(boolean value) {
         Log.d(FirebaseConstant.DEVICE_TOKEN_UPDATE, value + "");
+    }
+
+    @Override
+    public void OnSentNotificationToRider(boolean value) {
+        Log.d(FirebaseConstant.NOTIFICATION_SEND, Boolean.toString(value));
     }
 }

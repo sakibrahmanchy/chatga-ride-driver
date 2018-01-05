@@ -6,14 +6,14 @@ package __Firebase.FirebaseResponse;
 
 public class NotificationModel {
 
-    public String title, body, clientName, clientPhone, sourceName, destinationName;
+    public String title, body, clientName, clientPhone, sourceName, destinationName, clientDeviceToken;
     public long clientId;
     public double sourceLatitude, sourceLongitude, destinationLatitude, destinationLongitude;
 
     public NotificationModel() {
     }
 
-    public NotificationModel(String title, String body, String clientName, String clientPhone, String sourceName, String destinationName, long clientId, double sourceLatitude, double sourceLongitude, double destinationLatitude, double destinationLongitude) {
+    public NotificationModel(String title, String body, String clientName, String clientPhone, String sourceName, String destinationName, long clientId, double sourceLatitude, double sourceLongitude, double destinationLatitude, double destinationLongitude, String clientDeviceToken) {
         this.title = title;
         this.body = body;
         this.clientId = clientId;
@@ -25,5 +25,6 @@ public class NotificationModel {
         this.sourceLongitude = sourceLongitude;
         this.destinationLatitude = destinationLatitude;
         this.destinationLongitude = destinationLongitude;
+        this.clientDeviceToken = clientDeviceToken;
     }
 }

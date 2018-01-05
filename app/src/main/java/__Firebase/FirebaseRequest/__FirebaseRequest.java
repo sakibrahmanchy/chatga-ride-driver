@@ -1,5 +1,8 @@
 package __Firebase.FirebaseRequest;
 
+import android.support.v7.app.AppCompatActivity;
+import android.util.Pair;
+
 import __Firebase.ICallbacklisteners.CallBackListener;
 import __Firebase.ICallbacklisteners.ICallbackMain;
 import __Firebase.FirebaseModel.ClientModel;
@@ -10,7 +13,7 @@ import __Firebase.FirebaseModel.RiderModel;
  * Created by User on 11/16/2017.
  */
 
-public class __FirebaseRequest {
+public class __FirebaseRequest extends AppCompatActivity {
 
     private CallBackListener callBackListener = null;
 
@@ -70,6 +73,18 @@ public class __FirebaseRequest {
             }
         };
         thread.start();
+    }
+
+    public void SentNotificationToRider(final RiderModel Rider, final String clientDeviceToken, final ICallbackMain callbackListener){
+
+        SentNotificationToClient pendingTask = new SentNotificationToClient(this, callbackListener);
+        pendingTask.execute(
+                Long.toString(Rider.RiderID),
+                Rider.FullName,
+                Long.toString(Rider.PhoneNumber),
+                clientDeviceToken
+        );
+        finish();
     }
 
     public void SetRiderOnlineBusyOnRider(final RiderModel Rider, final ICallbackMain callBackListener){

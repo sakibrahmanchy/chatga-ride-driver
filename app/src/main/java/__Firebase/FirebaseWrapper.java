@@ -34,14 +34,16 @@ public class FirebaseWrapper {
     private NotificationModel NotificationModel;
 
     private FirebaseWrapper(){
-        FirebaseRootReference = FirebaseDatabase.getInstance().getReference();
-        FirebaseRequestInstance = new __FirebaseRequest();
-        FirebaseResponseInstance = new FirebaseResponse();
-        //RiderViewModelInstance = new RiderViewModel();
-        ClientModel = new ClientModel();
-        RiderModel = new RiderModel();
-        CurrentRidingHistoryModel = new CurrentRidingHistoryModel();
-        NotificationModel = new NotificationModel();
+        synchronized (FirebaseWrapper.class) {
+            FirebaseRootReference = FirebaseDatabase.getInstance().getReference();
+            FirebaseRequestInstance = new __FirebaseRequest();
+            FirebaseResponseInstance = new FirebaseResponse();
+            //RiderViewModelInstance = new RiderViewModel();
+            ClientModel = new ClientModel();
+            RiderModel = new RiderModel();
+            CurrentRidingHistoryModel = new CurrentRidingHistoryModel();
+            NotificationModel = new NotificationModel();
+        }
     }
 
     public static FirebaseWrapper getInstance() {
