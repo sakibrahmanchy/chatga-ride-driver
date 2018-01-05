@@ -23,7 +23,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chaatgadrive.arif.chaatgadrive.Dailog.RiderDailog;
-import com.chaatgadrive.arif.chaatgadrive.OnrideMode.OnRideModeActivity;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.GetCurrentLocation;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.Mapfragment;
 import com.chaatgadrive.arif.chaatgadrive.dashboard.DashboardFragment;
@@ -31,7 +30,6 @@ import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginData
 import com.chaatgadrive.arif.chaatgadrive.profile.ProfileViewFragment;
 
 import ContactWithFirebase.Main;
-import __Firebase.FirebaseResponse.NotificationModel;
 import __Firebase.FirebaseUtility.FirebaseConstant;
 import __Firebase.FirebaseWrapper;
 
@@ -49,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private ConnectionCheck connectionCheck;
     private LoginData loginData;
     private UserInformation userInformation;
+    private boolean check = true;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -104,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         String notification = getIntent().getStringExtra(FirebaseConstant.RIDE_NOTIFICATION);
-        if(notification != null){
+        if (notification != null) {
 
             RiderDailog riderDailog = new RiderDailog(MainActivity.this);
             riderDailog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -112,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
-        if (pref.getString("userData", null) == null) {
+        if (pref.getString("userData", null) == null && !check) {
             Intent intent = new Intent(MainActivity.this, UserCheckActivity.class);
             startActivity(intent);
         } else {
@@ -155,12 +154,11 @@ public class MainActivity extends AppCompatActivity {
         MenuItem actionViewItem = menu.findItem(R.id.switchView);
         View v = MenuItemCompat.getActionView(actionViewItem);
         OffOnSwitch = (Switch) v.findViewById(R.id.switch1);
+        OffOnSwitch.setChecked(true);
         OffOnSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Toast.makeText(getApplicationContext(), "Refresh selected= " + isChecked, Toast.LENGTH_SHORT).show();
                 if (isChecked) {
-
-
                     OffOnSwitch.setText("ON");
                     if (FirebaseWrapper.getInstance().getRiderModelInstance().RiderID > 0) {
                         main.SetRiderOnLineOrOffLine(
@@ -191,7 +189,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void MandatoryCall() {
+
         if (loginData != null) {
+            main.CreateNewRiderFirebase(loginData, userInformation.getRiderPhoneNumber());
+        } else {
+            loginData = new LoginData();
+            loginData.userId = "1010";
+            loginData.firstName = "Jobayer";
             main.CreateNewRiderFirebase(loginData, userInformation.getRiderPhoneNumber());
         }
 

@@ -66,9 +66,9 @@ public class RiderDailog extends Dialog implements android.view.View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_yes:
-                 Intent intent =new Intent(getContext(),OnRideModeActivity.class);
+                Intent intent = new Intent(getContext(),OnRideModeActivity.class);
                 getContext().startActivity(intent);
-
+                SendPushNotification();
                 break;
             case R.id.btn_no:
                 dismiss();
@@ -77,5 +77,12 @@ public class RiderDailog extends Dialog implements android.view.View.OnClickList
                 break;
         }
         dismiss();
+    }
+
+    private void SendPushNotification(){
+        new Main(getContext()).SentNotificationToRider(
+                FirebaseWrapper.getInstance().getRiderModelInstance(),
+                FirebaseWrapper.getInstance().getNotificationModelInstance().clientDeviceToken
+        );
     }
 }
