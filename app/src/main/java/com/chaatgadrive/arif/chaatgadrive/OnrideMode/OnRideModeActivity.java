@@ -5,25 +5,27 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
-import com.chaatgadrive.arif.chaatgadrive.ConnectionCheck;
+import com.chaatgadrive.arif.chaatgadrive.InternetConnection.ConnectionCheck;
 import com.chaatgadrive.arif.chaatgadrive.CostEstimation.CostEstimation;
 import com.chaatgadrive.arif.chaatgadrive.Dailog.BottomSheetDailogRide;
+import com.chaatgadrive.arif.chaatgadrive.InternetConnection.InternetCheckActivity;
+import com.chaatgadrive.arif.chaatgadrive.MainActivity;
 import com.chaatgadrive.arif.chaatgadrive.R;
-import com.chaatgadrive.arif.chaatgadrive.UserCheckActivity;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.ConstentUtilityModel;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.GetCurrentLocation;
 import com.google.android.gms.maps.GoogleMap;
@@ -50,6 +52,8 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     private Button finishRide;
     private Notification note;
     private NotificationManager notificationManager;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +66,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         connectionCheck  = new ConnectionCheck(this);
         costEstimation = new CostEstimation();
 
+
         ic_info = (ImageView) findViewById(R.id.ic_info);
         startRide = (Button) findViewById(R.id.startBtn);
         finishRide = (Button) findViewById(R.id.finishbtn);
@@ -69,12 +74,26 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         dialog.setMessage("Please Wait..");
         notification = new NotificationCompat.Builder(OnRideModeActivity.this);
         notification.setAutoCancel(false);
+        notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         startRide.setVisibility(View.VISIBLE);
         finishRide.setVisibility(View.INVISIBLE);
+        if(AppConstant.RIDING_FLAG==2){
+            startRide.setVisibility(View.INVISIBLE);
+            finishRide.setVisibility(View.VISIBLE);
+        }
 
-        initMap();
+        if(!connectionCheck.isNetworkConnected()){
+            Intent intent = new Intent(OnRideModeActivity.this, InternetCheckActivity.class);
+            startActivityForResult(intent,AppConstant.INTERNET_CHECK);
+        }
+        else if (!connectionCheck.isGpsEnable()){
+            connectionCheck.showGPSDisabledAlertToUser();
+        }
+        else {
+            initMap();
+            AllActionClick();
+        }
 
-        AllActionClick();
 //        dialog.show();
     }
 
@@ -90,26 +109,38 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         startRide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                   notification.setSmallIcon(R.drawable.logo);
-                   notification.setTicker("this Chaadga Ride");
-                   notification.setContentTitle("You are in Ride");
-                   notification.setOnlyAlertOnce(true);
-                   notification.setContentText(notificationModel.sourceName + "  To "+notificationModel.destinationName);
-                   notification.setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND);
 
-                Intent intent = new Intent(OnRideModeActivity.this,OnRideModeActivity.class);
-                PendingIntent pendingIntent =PendingIntent.getActivity(OnRideModeActivity.this,0,intent,0);
-                notification.setContentIntent(pendingIntent);
+                if(!connectionCheck.isNetworkConnected()){
+                    Intent intent = new Intent(OnRideModeActivity.this, InternetCheckActivity.class);
+                    startActivityForResult(intent,AppConstant.INTERNET_CHECK);
+                }
+                else if (!connectionCheck.isGpsEnable()){
+                    connectionCheck.showGPSDisabledAlertToUser();
+                }
+                else {
+                    AppConstant.RIDING_FLAG=2;
+                    notification.setSmallIcon(R.drawable.logo);
+                    notification.setTicker("this Chaadga Ride");
+                    notification.setContentTitle("You are in Ride");
+                    notification.setOnlyAlertOnce(true);
+                    notification.setContentText(notificationModel.sourceName + "  To "+notificationModel.destinationName);
+                    notification.setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND);
+
+                    Intent intent = new Intent(OnRideModeActivity.this,OnRideModeActivity.class);
+                    PendingIntent pendingIntent =PendingIntent.getActivity(OnRideModeActivity.this,0,intent,0);
+                    notification.setContentIntent(pendingIntent);
 
 
-                 notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                 note = notification.build();
-                note.flags = Notification.FLAG_ONGOING_EVENT;
-                notificationManager.notify(AppConstant.NOTIFICATION_ID,note);
 
-                startRide.setVisibility(View.INVISIBLE);
-                finishRide.setVisibility(View.VISIBLE);
-                setTitle("You are in Ride");
+                    note = notification.build();
+                    note.flags = Notification.FLAG_ONGOING_EVENT;
+                    notificationManager.notify(AppConstant.NOTIFICATION_ID,note);
+
+                    startRide.setVisibility(View.INVISIBLE);
+                    finishRide.setVisibility(View.VISIBLE);
+                    setTitle("You are in Ride");
+                }
+
             }
         });
 
@@ -117,9 +148,33 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         finishRide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                notification.setAutoCancel(true);
-                notificationManager.cancel(AppConstant.NOTIFICATION_ID);
-                finish();
+
+                if(!connectionCheck.isNetworkConnected()){
+                    Intent intent = new Intent(OnRideModeActivity.this, InternetCheckActivity.class);
+                    startActivityForResult(intent,AppConstant.INTERNET_CHECK);
+                }
+                else if (!connectionCheck.isGpsEnable()){
+                    connectionCheck.showGPSDisabledAlertToUser();
+                }
+                else {
+                    new AlertDialog.Builder(OnRideModeActivity.this)
+                            .setTitle("Really Exit?")
+                            .setMessage("Are you sure you want to finish ?")
+                            .setNegativeButton(android.R.string.no, null)
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                                public void onClick(DialogInterface arg0, int arg1) {
+                                    notification.setAutoCancel(true);
+                                    notificationManager.cancel(AppConstant.NOTIFICATION_ID);
+                                    AppConstant.RIDING_FLAG=1;
+                                    finish();
+                                    Intent intent = new Intent(OnRideModeActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                }
+                            }).create().show();
+                }
+
+
             }
         });
 
@@ -192,6 +247,25 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
 
 
         return url;
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        new AlertDialog.Builder(this)
+                .setTitle("Really Exit?")
+                .setMessage("Are you sure you want to exit?")
+                .setNegativeButton(android.R.string.no, null)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        finish();
+                        Intent intent = new Intent(OnRideModeActivity.this, MainActivity.class);
+                        startActivity(intent);
+
+                    }
+                }).create().show();
+
     }
 
 

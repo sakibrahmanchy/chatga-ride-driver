@@ -22,7 +22,10 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
 import com.chaatgadrive.arif.chaatgadrive.Dailog.RiderDailog;
+import com.chaatgadrive.arif.chaatgadrive.InternetConnection.ConnectionCheck;
+import com.chaatgadrive.arif.chaatgadrive.InternetConnection.InternetCheckActivity;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.GetCurrentLocation;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.Mapfragment;
 import com.chaatgadrive.arif.chaatgadrive.dashboard.DashboardFragment;
@@ -56,14 +59,15 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
 
                 case R.id.navigation_home:
-                    if (connectionCheck.isNetworkConnected() && connectionCheck.isGpsEnable()) {
-                        manager.beginTransaction().replace(R.id.content, mapfragment, mapfragment.getTag()).commit();
+                    if (!connectionCheck.isNetworkConnected()) {
+                        Intent intent  = new Intent(MainActivity.this,InternetCheckActivity.class);
+                        startActivity(intent);
+
                     } else if (!connectionCheck.isGpsEnable()) {
                         connectionCheck.showGPSDisabledAlertToUser();
                     } else {
-                        Toast.makeText(getApplicationContext(), "Check Internet Or GPS Connection", Toast.LENGTH_SHORT)
-                                .show();
 
+                        manager.beginTransaction().replace(R.id.content, mapfragment, mapfragment.getTag()).commit();
                     }
 
                     return true;
@@ -78,7 +82,17 @@ public class MainActivity extends AppCompatActivity {
                     manager.beginTransaction().replace(R.id.content, dashboardFragment, dashboardFragment.getTag()).commit();
                     return true;
                 case R.id.navigation_profile:
-                    manager.beginTransaction().replace(R.id.content, profileViewFragment, profileViewFragment.getTag()).commit();
+                    if (!connectionCheck.isNetworkConnected()) {
+                        Intent intent  = new Intent(MainActivity.this,InternetCheckActivity.class);
+                        startActivityForResult(intent, AppConstant.INTERNET_CHECK);
+
+                    } else if (!connectionCheck.isGpsEnable()) {
+                        connectionCheck.showGPSDisabledAlertToUser();
+                    } else {
+
+                        manager.beginTransaction().replace(R.id.content, profileViewFragment, profileViewFragment.getTag()).commit();
+                    }
+
                     return true;
             }
             return false;
@@ -92,14 +106,16 @@ public class MainActivity extends AppCompatActivity {
         getCurrentLocation = new GetCurrentLocation(this);
         connectionCheck = new ConnectionCheck(this);
 
-        if (connectionCheck.isNetworkConnected() && connectionCheck.isGpsEnable()) {
-            manager.beginTransaction().replace(R.id.content, mapfragment, mapfragment.getTag()).commit();
+        if (!connectionCheck.isNetworkConnected()) {
+
+            Intent intent  = new Intent(MainActivity.this,InternetCheckActivity.class);
+            startActivity(intent);
+
         } else if (!connectionCheck.isGpsEnable()) {
             connectionCheck.showGPSDisabledAlertToUser();
         } else {
-            Toast.makeText(getApplicationContext(), "Check Internet Or GPS Connection", Toast.LENGTH_SHORT)
-                    .show();
 
+            manager.beginTransaction().replace(R.id.content, mapfragment, mapfragment.getTag()).commit();
         }
 
         String notification = getIntent().getStringExtra(FirebaseConstant.RIDE_NOTIFICATION);

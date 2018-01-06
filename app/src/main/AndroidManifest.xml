@@ -36,8 +36,8 @@
         </activity>
         <activity
             android:name=".PhoneVerificationActivity"
-            android:noHistory="true"
             android:label="@string/title_activity_login"
+            android:noHistory="true"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
             android:windowSoftInputMode="adjustNothing" />
         <activity
@@ -47,7 +47,7 @@
         <activity
             android:name=".RegistrationActivity"
             android:label="@string/title_activity_registration"
-            android:noHistory="true"/>
+            android:noHistory="true" />
 
         <service android:name=".__FirebaseInstanceIDService">
             <intent-filter>
@@ -60,9 +60,8 @@
             </intent-filter>
         </service>
 
-        <activity
-            android:name=".OnrideMode.OnRideModeActivity"
-           />
+        <activity android:name=".OnrideMode.OnRideModeActivity" />
+        <activity android:name=".InternetConnection.InternetCheckActivity"></activity>
     </application>
 
 </manifest>

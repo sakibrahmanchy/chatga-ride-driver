@@ -1,4 +1,4 @@
-package com.chaatgadrive.arif.chaatgadrive;
+package com.chaatgadrive.arif.chaatgadrive.InternetConnection;
 
 import android.content.Context;
 import android.content.DialogInterface;
