@@ -109,6 +109,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
 
                 startRide.setVisibility(View.INVISIBLE);
                 finishRide.setVisibility(View.VISIBLE);
+                setTitle("You are in Ride");
             }
         });
 

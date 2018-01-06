@@ -143,6 +143,10 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT)
                         .show();
                 break;
+            case  R.id.refreshView:
+                Toast.makeText(this, "Refresh selected", Toast.LENGTH_SHORT)
+                        .show();
+                break;
             default:
                 break;
         }
