@@ -192,14 +192,14 @@ public class Main implements ICallbackMain {
         return true;
     }
 
-    public boolean SentNotificationToRider(/*Firebase Client Mode*/RiderModel Rider, String clientDeviceToken){
+    public boolean SentNotificationToClient(/*Firebase Rider Mode*/RiderModel Rider, String clientDeviceToken){
 
         if(Rider == null || Rider.RiderID < 1 || FirebaseUtilMethod.IsEmptyOrNull(clientDeviceToken))   return false;
 
         this.riderModel = Rider;
         firebaseWrapper = FirebaseWrapper.getInstance();
 
-        firebaseWrapper.getFirebaseRequestInstance().SentNotificationToRider(this.riderModel, clientDeviceToken,Main.this);
+        firebaseWrapper.getFirebaseRequestInstance().SentNotificationToClient(this.riderModel, clientDeviceToken,Main.this);
         return true;
     }
 

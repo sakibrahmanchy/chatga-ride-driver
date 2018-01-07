@@ -80,7 +80,7 @@ public class RiderDailog extends Dialog implements android.view.View.OnClickList
     }
 
     private void SendPushNotification(){
-        new Main(getContext()).SentNotificationToRider(
+        new Main(getContext()).SentNotificationToClient(
                 FirebaseWrapper.getInstance().getRiderModelInstance(),
                 FirebaseWrapper.getInstance().getNotificationModelInstance().clientDeviceToken
         );

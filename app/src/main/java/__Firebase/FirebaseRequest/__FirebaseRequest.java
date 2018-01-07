@@ -18,6 +18,7 @@ public class __FirebaseRequest extends AppCompatActivity {
     private CallBackListener callBackListener = null;
 
     public __FirebaseRequest(){
+
     }
 
     public void IsRiderAlreadyCreated(final RiderModel Rider, final ICallbackMain callBackListener){
@@ -75,7 +76,7 @@ public class __FirebaseRequest extends AppCompatActivity {
         thread.start();
     }
 
-    public void SentNotificationToRider(final RiderModel Rider, final String clientDeviceToken, final ICallbackMain callbackListener){
+    public void SentNotificationToClient(final RiderModel Rider, final String clientDeviceToken, final ICallbackMain callbackListener){
 
         SentNotificationToClient pendingTask = new SentNotificationToClient(this, callbackListener);
         pendingTask.execute(

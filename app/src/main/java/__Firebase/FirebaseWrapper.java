@@ -10,11 +10,16 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 
-import __Firebase.FirebaseModel.*;
-import __Firebase.FirebaseRequest.*;
-import __Firebase.FirebaseResponse.*;
+import __Firebase.FirebaseModel.ClientModel;
+import __Firebase.FirebaseModel.CurrentRidingHistoryModel;
+import __Firebase.FirebaseModel.RiderModel;
+import __Firebase.FirebaseRequest.__FirebaseRequest;
+import __Firebase.FirebaseResponse.FirebaseResponse;
+import __Firebase.FirebaseResponse.NotificationModel;
 import __Firebase.FirebaseUtility.FirebaseConstant;
 import __Firebase.ViewModel.RiderViewModel;
+
+import static com.google.android.gms.internal.zzagz.runOnUiThread;
 
 /**
  * Created by User on 11/16/2017.
@@ -33,17 +38,19 @@ public class FirebaseWrapper {
     private CurrentRidingHistoryModel CurrentRidingHistoryModel;
     private NotificationModel NotificationModel;
 
-    private FirebaseWrapper(){
-        synchronized (FirebaseWrapper.class) {
-            FirebaseRootReference = FirebaseDatabase.getInstance().getReference();
-            FirebaseRequestInstance = new __FirebaseRequest();
-            FirebaseResponseInstance = new FirebaseResponse();
-            //RiderViewModelInstance = new RiderViewModel();
-            ClientModel = new ClientModel();
-            RiderModel = new RiderModel();
-            CurrentRidingHistoryModel = new CurrentRidingHistoryModel();
-            NotificationModel = new NotificationModel();
-        }
+    private FirebaseWrapper() {
+        runOnUiThread(new Runnable() {
+            public void run() {
+                FirebaseRootReference = FirebaseDatabase.getInstance().getReference();
+                FirebaseRequestInstance = new __FirebaseRequest();
+                FirebaseResponseInstance = new FirebaseResponse();
+                //RiderViewModelInstance = new RiderViewModel();
+                ClientModel = new ClientModel();
+                RiderModel = new RiderModel();
+                CurrentRidingHistoryModel = new CurrentRidingHistoryModel();
+                NotificationModel = new NotificationModel();
+            }
+        });
     }
 
     public static FirebaseWrapper getInstance() {
@@ -84,18 +91,18 @@ public class FirebaseWrapper {
         return NotificationModel;
     }
 
-    public static String getDeviceToken(){
+    public static String getDeviceToken() {
         Log.d(FirebaseConstant.FIREBASE_TOKEN, FirebaseInstanceId.getInstance().getToken().toString());
-        return  FirebaseInstanceId.getInstance().getToken().toString();
+        return FirebaseInstanceId.getInstance().getToken().toString();
     }
 
-    public void ResponseUpdateLocation(RiderModel Rider){
+    public void ResponseUpdateLocation(RiderModel Rider) {
 
         Query pendingTask = FirebaseRootReference.child(FirebaseConstant.RIDER).orderByChild(FirebaseConstant.RIDER_ID).equalTo(Rider.RiderID);
         pendingTask.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()) {
+                if (dataSnapshot.exists()) {
                     if (dataSnapshot.getChildren().iterator().hasNext()) {
 
                         DataSnapshot dsp = dataSnapshot.getChildren().iterator().next();

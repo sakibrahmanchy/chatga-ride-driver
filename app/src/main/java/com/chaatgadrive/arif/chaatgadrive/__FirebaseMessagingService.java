@@ -28,18 +28,18 @@ public class __FirebaseMessagingService extends FirebaseMessagingService {
         NotificationModel notificationModel = FirebaseWrapper.getInstance().getNotificationModelInstance();
 
         if (remoteMessage.getData().size() > 0) {
-            notificationModel.title = remoteMessage.getData().get("title");
-            notificationModel.body = remoteMessage.getData().get("body");
-            notificationModel.clientId = Long.parseLong(remoteMessage.getData().get("clientId"));
-            notificationModel.clientName = remoteMessage.getData().get("clientName");
-            notificationModel.clientPhone = remoteMessage.getData().get("clientPhone");
-            notificationModel.clientDeviceToken = remoteMessage.getData().get("clientDeviceToken");
-            notificationModel.sourceName = remoteMessage.getData().get("sourceName");
-            notificationModel.destinationName = remoteMessage.getData().get("destinationName");
-            notificationModel.sourceLatitude = Double.parseDouble(remoteMessage.getData().get("sourceLatitude"));
-            notificationModel.sourceLongitude = Double.parseDouble(remoteMessage.getData().get("sourceLongitude"));
-            notificationModel.destinationLatitude = Double.parseDouble(remoteMessage.getData().get("destinationLatitude"));
-            notificationModel.destinationLongitude = Double.parseDouble(remoteMessage.getData().get("destinationLongitude"));
+            notificationModel.title = remoteMessage.getData().containsKey("title") ? remoteMessage.getData().get("title") : FirebaseConstant.Empty;
+            notificationModel.body = remoteMessage.getData().containsKey("body") ? remoteMessage.getData().get("body") : FirebaseConstant.Empty;
+            notificationModel.clientId = Long.parseLong(remoteMessage.getData().containsKey("clientId") ? remoteMessage.getData().get("clientId") : "0");
+            notificationModel.clientName = remoteMessage.getData().containsKey("clientName") ? remoteMessage.getData().get("clientName") : FirebaseConstant.Empty;
+            notificationModel.clientPhone = remoteMessage.getData().containsKey("clientPhone") ? remoteMessage.getData().get("clientPhone") : FirebaseConstant.Empty;
+            notificationModel.clientDeviceToken = remoteMessage.getData().containsKey("clientDeviceToken") ? remoteMessage.getData().get("clientDeviceToken") : FirebaseConstant.Empty;
+            notificationModel.sourceName = remoteMessage.getData().containsKey("sourceName") ? remoteMessage.getData().get("sourceName") : FirebaseConstant.Empty;
+            notificationModel.destinationName = remoteMessage.getData().containsKey("destinationName") ? remoteMessage.getData().get("destinationName") : FirebaseConstant.Empty;
+            notificationModel.sourceLatitude = Double.parseDouble(remoteMessage.getData().containsKey("sourceLatitude") ? remoteMessage.getData().get("sourceLatitude") : "0");
+            notificationModel.sourceLongitude = Double.parseDouble(remoteMessage.getData().containsKey("sourceLongitude") ? remoteMessage.getData().get("sourceLongitude") : "0");
+            notificationModel.destinationLatitude = Double.parseDouble(remoteMessage.getData().containsKey("destinationLatitude") ? remoteMessage.getData().get("destinationLatitude") : "0");
+            notificationModel.destinationLongitude = Double.parseDouble(remoteMessage.getData().containsKey("destinationLongitude") ? remoteMessage.getData().get("destinationLongitude") : "0");
         }
 
         Intent intent = new Intent(this, MainActivity.class);
