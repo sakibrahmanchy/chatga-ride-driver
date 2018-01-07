@@ -7,16 +7,17 @@
         app:actionLayout="@layout/switch_action_bar"
         android:title="@string/action_logout"
         app:showAsAction="ifRoom"/>
-    <item
-        android:id="@+id/refreshView"
-        android:icon="@mipmap/ic_refresh_white_24dp"
-        android:title="@string/menu_refresh"
-        app:showAsAction="always"/>
 
     <!-- Settings, should always be in the overflow -->
     <item android:id="@+id/action_settings"
         android:title="@string/nav_settings"
         app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/refreshView"
+        android:title="@string/menu_refresh"
+        app:showAsAction="never"/>
+
 
 
 </menu>
