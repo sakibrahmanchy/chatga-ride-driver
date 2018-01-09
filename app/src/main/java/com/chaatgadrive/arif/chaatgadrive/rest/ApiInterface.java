@@ -8,6 +8,7 @@ import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.AccessTokenModels.Aut
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.DeviceTokenModels.UpdateDeviceTokenData;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginModel;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RegistrationModels.RegistrationModel;
+import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideHistory.RideHistoryResponse;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.User;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.UserCheckResponse;
 
@@ -60,6 +61,18 @@ public interface ApiInterface {
                                          @Field("nid") String nid,
                                          @Field("driving_license") String drivingLicense,
                                          @Field("motorbike_registration") String motorbikeRegistration);
+
+    @POST("api/v1/ride/history")
+    @FormUrlEncoded
+    Call<RideHistoryResponse> createRideHistory(@Field("clientId") int clientId,
+                                                @Field("riderId") int riderId,
+                                                @Field("start_time") String startTime,
+                                                @Field("end_time") String endTime,
+                                                @Field("pick_point_latitude") String pickPointLat,
+                                                @Field("pick_point_longitude") String pickPointLon,
+                                                @Field("destination_point_latitude") String destinationPointLat,
+                                                @Field("destination_point_longitude") String destinationPointLon,
+                                                @Field("initial_approx_cost") String initialApproxCost);
 
 
 }
