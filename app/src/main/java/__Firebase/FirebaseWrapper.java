@@ -39,18 +39,7 @@ public class FirebaseWrapper {
     private NotificationModel NotificationModel;
 
     private FirebaseWrapper() {
-        runOnUiThread(new Runnable() {
-            public void run() {
-                FirebaseRootReference = FirebaseDatabase.getInstance().getReference();
-                FirebaseRequestInstance = new __FirebaseRequest();
-                FirebaseResponseInstance = new FirebaseResponse();
-                //RiderViewModelInstance = new RiderViewModel();
-                ClientModel = new ClientModel();
-                RiderModel = new RiderModel();
-                CurrentRidingHistoryModel = new CurrentRidingHistoryModel();
-                NotificationModel = new NotificationModel();
-            }
-        });
+        FirebaseRootReference = FirebaseDatabase.getInstance().getReference();
     }
 
     public static FirebaseWrapper getInstance() {
@@ -64,6 +53,12 @@ public class FirebaseWrapper {
     }
 
     public __FirebaseRequest getFirebaseRequestInstance() {
+        if (FirebaseRequestInstance == null) {
+            synchronized (FirebaseWrapper.class) {
+                if (FirebaseRequestInstance == null)
+                    FirebaseRequestInstance = new __FirebaseRequest();
+            }
+        }
         return FirebaseRequestInstance;
     }
 
@@ -72,22 +67,52 @@ public class FirebaseWrapper {
     }
 
     public RiderViewModel getRiderViewModelInstance() {
+        if (RiderViewModelInstance == null) {
+            synchronized (FirebaseWrapper.class) {
+                if (RiderViewModelInstance == null)
+                    RiderViewModelInstance = new RiderViewModel();
+            }
+        }
         return RiderViewModelInstance;
     }
 
     public ClientModel getClientModelInstance() {
+        if (ClientModel == null) {
+            synchronized (FirebaseWrapper.class) {
+                if (ClientModel == null)
+                    ClientModel = new ClientModel();
+            }
+        }
         return ClientModel;
     }
 
     public RiderModel getRiderModelInstance() {
+        if (RiderModel == null) {
+            synchronized (FirebaseWrapper.class) {
+                if (RiderModel == null)
+                    RiderModel = new RiderModel();
+            }
+        }
         return RiderModel;
     }
 
     public CurrentRidingHistoryModel getRidingHistoryModelModelInstance() {
+        if (CurrentRidingHistoryModel == null) {
+            synchronized (FirebaseWrapper.class) {
+                if (CurrentRidingHistoryModel == null)
+                    CurrentRidingHistoryModel = new CurrentRidingHistoryModel();
+            }
+        }
         return CurrentRidingHistoryModel;
     }
 
     public NotificationModel getNotificationModelInstance() {
+        if (NotificationModel == null) {
+            synchronized (FirebaseWrapper.class) {
+                if (NotificationModel == null)
+                    NotificationModel = new NotificationModel();
+            }
+        }
         return NotificationModel;
     }
 

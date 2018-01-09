@@ -28,6 +28,7 @@ public class __FirebaseMessagingService extends FirebaseMessagingService {
         NotificationModel notificationModel = FirebaseWrapper.getInstance().getNotificationModelInstance();
 
         if (remoteMessage.getData().size() > 0) {
+
             notificationModel.title = remoteMessage.getData().containsKey("title") ? remoteMessage.getData().get("title") : FirebaseConstant.Empty;
             notificationModel.body = remoteMessage.getData().containsKey("body") ? remoteMessage.getData().get("body") : FirebaseConstant.Empty;
             notificationModel.clientId = Long.parseLong(remoteMessage.getData().containsKey("clientId") ? remoteMessage.getData().get("clientId") : "0");
