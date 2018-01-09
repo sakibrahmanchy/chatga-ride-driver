@@ -481,6 +481,7 @@ public class PhoneVerificationActivity extends AppCompatActivity implements
                             break;
                         case 500:
                             Log.d(TAG, response.errorBody().toString());
+                            break;
                         default:
                             Log.d(TAG, response.errorBody().toString());
                             Snackbar.make(findViewById(android.R.id.content), "Sorry, network error.",

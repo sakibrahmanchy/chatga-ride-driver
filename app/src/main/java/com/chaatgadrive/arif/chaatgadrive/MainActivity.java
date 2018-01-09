@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private ConnectionCheck connectionCheck;
     private LoginData loginData;
     private UserInformation userInformation;
-    private boolean check = true;
+    private boolean check = false;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -66,10 +66,8 @@ public class MainActivity extends AppCompatActivity {
                     } else if (!connectionCheck.isGpsEnable()) {
                         connectionCheck.showGPSDisabledAlertToUser();
                     } else {
-
                         manager.beginTransaction().replace(R.id.content, mapfragment, mapfragment.getTag()).commit();
                     }
-
                     return true;
                 case R.id.navigation_dashboard:
                     //mTextMessage.setText(R.string.title_dashboard);
@@ -92,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
 
                         manager.beginTransaction().replace(R.id.content, profileViewFragment, profileViewFragment.getTag()).commit();
                     }
-
                     return true;
             }
             return false;
