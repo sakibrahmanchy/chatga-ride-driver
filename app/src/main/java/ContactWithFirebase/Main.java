@@ -89,7 +89,7 @@ public class Main implements ICallbackMain {
                 riderHistory.EndLocation.latitude,
                 riderHistory.EndLocation.longitude
         );
-        this.currentRidingHistoryModel.CostSoFar = 1111;
+        this.currentRidingHistoryModel.CostSoFar = riderHistory.CostSoFar;
 
         this.currentRidingHistoryModel.IsRideStart = FirebaseConstant.RIDE_NOT_START;
         this.currentRidingHistoryModel.IsRideFinished = FirebaseConstant.RIDE_NOT_FINISHED;

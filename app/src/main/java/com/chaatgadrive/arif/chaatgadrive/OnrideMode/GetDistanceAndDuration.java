@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.util.Pair;
 
+import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
 import com.chaatgadrive.arif.chaatgadrive.CostEstimation.CostEstimation;
 import com.chaatgadrive.arif.chaatgadrive.UserInformation;
 import com.chaatgadrive.arif.chaatgadrive.models.HistoryModel.RiderHistory;
@@ -36,18 +37,11 @@ import __Firebase.FirebaseUtility.FirebaseConstant;
  */
 
 public class GetDistanceAndDuration extends AsyncTask<String, Void, String> {
-    private String distance;
-    private String duration;
-    private LatLng source, dest;
-    CostEstimation costEstimation;
-    private NotificationModel notificationModel;
 
     public GetDistanceAndDuration(Context context, LatLng source, LatLng dest) {
-        this.source = source;
-        this.dest = dest;
         String Url =getDirectionsUrl(source,dest);
         this.execute(Url);
-        notificationModel = new NotificationModel();
+
 
     }
 
@@ -85,28 +79,17 @@ public class GetDistanceAndDuration extends AsyncTask<String, Void, String> {
                 jObject = new JSONObject(jsonData[0]);
                 DirectionsJSONParser parser = new DirectionsJSONParser(jObject);
 
-                 distance= parser.getDistance();
+                 AppConstant.DISTANCE= parser.getDistance();
                 //GET Time to Source to Destination
-                //Distance= parser.getDuration().toString();
+                AppConstant.DURATION= parser.getDuration().toString();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return distance;
+            return null;
         }
 
         @Override
         protected void onPostExecute(String result) {
-
-             String value="0";
-             if(result !=null){
-                 for(int i=0; i<result.length()-3; i++){
-                     value+=result.charAt(i);
-                 }
-             }
-
-            double distance = Double.parseDouble(value);
-
-
 
         }
 

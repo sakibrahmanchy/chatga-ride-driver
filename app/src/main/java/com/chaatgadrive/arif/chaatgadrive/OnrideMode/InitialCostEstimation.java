@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 
+import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
 import com.chaatgadrive.arif.chaatgadrive.CostEstimation.CostEstimation;
 import com.chaatgadrive.arif.chaatgadrive.LoginHelper;
 import com.chaatgadrive.arif.chaatgadrive.PhoneVerificationActivity;
@@ -73,17 +74,20 @@ public class InitialCostEstimation {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String currentDateandTime = sdf.format(new Date());
-
+        String TotalDuration = String.valueOf(costEstimation.getDuration(AppConstant.DURATION));
         apiService = ApiClient.getClient().create(ApiInterface.class);
 
         dialog = new ProgressDialog(mContext);
         dialog.setMessage("Please Wait..");
         dialog.show();
 
+        final String TotalCost = String.valueOf(costEstimation.getTotalCost(AppConstant.DISTANCE,AppConstant.DURATION));
         String authHeader = "Bearer "+pref.getString("access_token",null);
-        Call<RideHistoryResponse> call = apiService.createRideHistory(authHeader,(int)notificationModel.clientId,(int)notificationModel.riderId,currentDateandTime,"5",
-                String.valueOf(notificationModel.sourceLatitude), String.valueOf(notificationModel.sourceLatitude),
-                String.valueOf(notificationModel.destinationLatitude), String.valueOf(notificationModel.destinationLongitude),150+"");
+        Call<RideHistoryResponse> call = apiService.createRideHistory(authHeader,(int)notificationModel.clientId,(int)notificationModel.riderId,currentDateandTime,
+                TotalDuration,
+                String.valueOf(notificationModel.sourceLatitude), String.valueOf(notificationModel.destinationLongitude),
+                String.valueOf(notificationModel.destinationLatitude), String.valueOf(notificationModel.destinationLongitude),
+                TotalCost);
 
         call.enqueue(new Callback<RideHistoryResponse>() {
             @Override
@@ -100,7 +104,7 @@ public class InitialCostEstimation {
                             LatLng Source = new LatLng(notificationModel.sourceLatitude,notificationModel.sourceLongitude);
                             LatLng Destination = new LatLng(notificationModel.destinationLatitude,notificationModel.destinationLongitude);
                             riderHistory.ClientID = notificationModel.clientId;
-                            riderHistory.CostSoFar = (long) costEstimation.getTotalCost(notificationModel.shortestDistance,notificationModel.shortestTime);
+                            riderHistory.CostSoFar = (long) (costEstimation.getTotalCost(AppConstant.DISTANCE,AppConstant.DURATION));
                             riderHistory.HistoryID=history.getClientId();
                             riderHistory.RiderID = notificationModel.riderId;
                             riderHistory.StartLocation =Source;
@@ -109,7 +113,6 @@ public class InitialCostEstimation {
                             riderHistory.Rider_History=notificationModel.destinationName;
                             riderHistory.IsRideFinished= FirebaseConstant.RIDE_NOT_FINISHED;
                             riderHistory.IsRideStart=FirebaseConstant.RIDE_NOT_START;
-
                             main.CreateNewHistoryModelFirebase(riderHistory);
                         }
                         break;
