@@ -52,6 +52,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     private Button finishRide;
     private Notification note;
     private NotificationManager notificationManager;
+    private InitialCostEstimation initialCostEstimation;
 
 
     @Override
@@ -65,7 +66,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         getCurrentLocation = new GetCurrentLocation(this);
         connectionCheck  = new ConnectionCheck(this);
         costEstimation = new CostEstimation();
-
+        initialCostEstimation = new InitialCostEstimation(this);
 
         ic_info = (ImageView) findViewById(R.id.ic_info);
         startRide = (Button) findViewById(R.id.startBtn);
@@ -119,19 +120,17 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                 }
                 else {
                     AppConstant.RIDING_FLAG=2;
+
+                    initialCostEstimation.CreateInitialHistory();
                     notification.setSmallIcon(R.drawable.logo);
                     notification.setTicker("this Chaadga Ride");
                     notification.setContentTitle("You are in Ride");
                     notification.setOnlyAlertOnce(true);
                     notification.setContentText(notificationModel.sourceName + "  To "+notificationModel.destinationName);
                     notification.setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND);
-
                     Intent intent = new Intent(OnRideModeActivity.this,OnRideModeActivity.class);
                     PendingIntent pendingIntent =PendingIntent.getActivity(OnRideModeActivity.this,0,intent,0);
                     notification.setContentIntent(pendingIntent);
-
-
-
                     note = notification.build();
                     note.flags = Notification.FLAG_ONGOING_EVENT;
                     notificationManager.notify(AppConstant.NOTIFICATION_ID,note);
@@ -139,6 +138,8 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                     startRide.setVisibility(View.INVISIBLE);
                     finishRide.setVisibility(View.VISIBLE);
                     setTitle("You are in Ride");
+
+
                 }
 
             }
