@@ -41,22 +41,13 @@ public class GetDistanceAndDuration extends AsyncTask<String, Void, String> {
     private LatLng source, dest;
     CostEstimation costEstimation;
     private NotificationModel notificationModel;
-    private Main main;
-    private Context mContex;
-    private RiderHistory riderHistory;
-    private UserInformation userInformation;
 
     public GetDistanceAndDuration(Context context, LatLng source, LatLng dest) {
         this.source = source;
         this.dest = dest;
-        costEstimation = new CostEstimation();
         String Url =getDirectionsUrl(source,dest);
         this.execute(Url);
         notificationModel = new NotificationModel();
-        this.mContex = context;
-        main = new Main(mContex);
-        riderHistory = new RiderHistory();
-        userInformation = new UserInformation(mContex);
 
     }
 
@@ -115,20 +106,7 @@ public class GetDistanceAndDuration extends AsyncTask<String, Void, String> {
 
             double distance = Double.parseDouble(value);
 
-            LatLng Source = new LatLng(notificationModel.sourceLatitude,notificationModel.sourceLongitude);
-            LatLng Destination = new LatLng(notificationModel.destinationLatitude,notificationModel.destinationLongitude);
-            riderHistory.ClientID = notificationModel.clientId;
-            riderHistory.CostSoFar = (long) costEstimation.getTotalCost(distance,0);
-            riderHistory.HistoryID=2;
-            riderHistory.RiderID=Integer.parseInt(userInformation.getuserInformation().userId);
-            riderHistory.StartLocation =Source;
-            riderHistory.EndLocation=Destination;
-            riderHistory.Client_History = notificationModel.destinationName;
-            riderHistory.Rider_History=notificationModel.destinationName;
-            riderHistory.IsRideFinished= FirebaseConstant.RIDE_NOT_FINISHED;
-            riderHistory.IsRideStart=FirebaseConstant.RIDE_NOT_START;
 
-            main.CreateNewHistoryModelFirebase(riderHistory);
 
         }
 

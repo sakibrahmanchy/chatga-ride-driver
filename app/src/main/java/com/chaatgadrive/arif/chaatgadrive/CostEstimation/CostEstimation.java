@@ -16,8 +16,8 @@ public class CostEstimation {
 
     }
 
-   public double getTotalCost(double distance,double duration){
-        double totalCost = AppConstant.BASE_TAKA + AppConstant.PER_KILOMITTER*distance + AppConstant.DURATION_PER_KILOMITTER*duration;
-        return totalCost;
+   public double getTotalCost(String distance,String duration){
+      //  double totalCost = AppConstant.BASE_TAKA + AppConstant.PER_KILOMITTER*distance + AppConstant.DURATION_PER_KILOMITTER*duration;
+        return 0;
     }
 }
