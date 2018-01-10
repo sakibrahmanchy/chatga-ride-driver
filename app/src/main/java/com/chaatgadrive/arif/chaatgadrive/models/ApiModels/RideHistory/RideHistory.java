@@ -16,13 +16,13 @@ public class RideHistory {
     private String startTime;
     @SerializedName("end_time")
     private String endTime;
-    @SerializedName("pick_point_latitude")
+    @SerializedName("pick_point_lat")
     private String pickPointLat;
-    @SerializedName("pick_point_longitude")
+    @SerializedName("pick_point_lon")
     private String pickPoinLon;
-    @SerializedName("destination_point_latitude")
+    @SerializedName("destination_point_lat")
     private String destinationPointLat;
-    @SerializedName("destination_point_longitude")
+    @SerializedName("destination_point_lon")
     private String destinationPointLon;
     @SerializedName("initial_approx_cost")
     private String initialApproxCost;
