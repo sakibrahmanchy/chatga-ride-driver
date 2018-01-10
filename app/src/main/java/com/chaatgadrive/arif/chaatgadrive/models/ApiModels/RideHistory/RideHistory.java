@@ -27,6 +27,7 @@ public class RideHistory {
     @SerializedName("initial_approx_cost")
     private String initialApproxCost;
 
+
     public RideHistory(int clientId, int riderId, String startTime, String endTime, String pickPointLat, String pickPoinLon, String destinationPointLat, String destinationPointLon, String initialApproxCost) {
         this.clientId = clientId;
         this.riderId = riderId;

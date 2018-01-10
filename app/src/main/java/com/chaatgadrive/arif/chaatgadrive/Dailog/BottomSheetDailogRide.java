@@ -49,7 +49,7 @@ public class BottomSheetDailogRide extends BottomSheetDialogFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mString = getArguments().getString("string");
-        notificationModel = notificationModel = FirebaseWrapper.getInstance().getNotificationModelInstance();
+        notificationModel  = FirebaseWrapper.getInstance().getNotificationModelInstance();
     }
 
     @Override

@@ -47,8 +47,6 @@ public class InitialCostEstimation {
         this.mContext=context;
         dialog = new ProgressDialog(mContext);
         notificationModel = FirebaseWrapper.getInstance().getNotificationModelInstance();
-        dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-
 
     }
 
@@ -76,10 +74,8 @@ public class InitialCostEstimation {
                 dialog.dismiss();
                 switch(statusCode){
                     case 200:
-
                         break;
                     case 500:
-
                         break;
 
                     default:
