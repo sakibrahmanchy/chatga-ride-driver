@@ -64,8 +64,9 @@ public interface ApiInterface {
 
     @POST("api/v1/ride/history")
     @FormUrlEncoded
-    Call<RideHistoryResponse> createRideHistory(@Field("clientId") int clientId,
-                                                @Field("riderId") int riderId,
+    Call<RideHistoryResponse> createRideHistory(@Header("Authorization") String authHeader,
+                                                @Field("client_id") int clientId,
+                                                @Field("rider_id") int riderId,
                                                 @Field("start_time") String startTime,
                                                 @Field("end_time") String endTime,
                                                 @Field("pick_point_latitude") String pickPointLat,
