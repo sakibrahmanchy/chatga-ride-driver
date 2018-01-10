@@ -3,14 +3,17 @@ package com.chaatgadrive.arif.chaatgadrive.OnrideMode;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 
 import com.chaatgadrive.arif.chaatgadrive.LoginHelper;
 import com.chaatgadrive.arif.chaatgadrive.PhoneVerificationActivity;
 import com.chaatgadrive.arif.chaatgadrive.UserCheckActivity;
+import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideHistory.RideHistory;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideHistory.RideHistoryResponse;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.UserCheckResponse;
+import com.chaatgadrive.arif.chaatgadrive.models.HistoryModel.RiderHistory;
 import com.chaatgadrive.arif.chaatgadrive.rest.ApiClient;
 import com.chaatgadrive.arif.chaatgadrive.rest.ApiInterface;
 
@@ -40,6 +43,7 @@ public class InitialCostEstimation {
     private ProgressDialog dialog;
     private NotificationModel notificationModel;
     private SimpleDateFormat dateFormatter;
+    private SharedPreferences pref;
 
     public InitialCostEstimation(Context context) {
 
@@ -47,13 +51,15 @@ public class InitialCostEstimation {
         this.mContext=context;
         dialog = new ProgressDialog(mContext);
         notificationModel = FirebaseWrapper.getInstance().getNotificationModelInstance();
+        dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        pref = this.mContext.getSharedPreferences("MyPref", 0);
 
     }
 
     public void CreateInitialHistory(){
 
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd:HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String currentDateandTime = sdf.format(new Date());
         apiService =
                 ApiClient.getClient().create(ApiInterface.class);
@@ -62,7 +68,8 @@ public class InitialCostEstimation {
         dialog.setMessage("Please Wait..");
         dialog.show();
 
-        Call<RideHistoryResponse> call = apiService.createRideHistory((int)notificationModel.clientId,1,currentDateandTime,"5",
+        String authHeader = "Bearer "+pref.getString("access_token",null);
+        Call<RideHistoryResponse> call = apiService.createRideHistory(authHeader,(int)notificationModel.clientId,1,currentDateandTime,"5",
                 notificationModel.sourceLatitude+"",notificationModel.sourceLatitude+"",
                 notificationModel.destinationLatitude+"",notificationModel.destinationLongitude+"",150+"");
 
@@ -74,8 +81,15 @@ public class InitialCostEstimation {
                 dialog.dismiss();
                 switch(statusCode){
                     case 200:
+
+                        if(response.body().isSuccess()){
+                            RideHistory history = response.body().getHistory();
+
+                        }
+
                         break;
                     case 500:
+
                         break;
 
                     default:
