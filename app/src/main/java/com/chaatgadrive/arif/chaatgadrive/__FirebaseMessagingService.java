@@ -35,8 +35,11 @@ public class __FirebaseMessagingService extends FirebaseMessagingService {
             notificationModel.clientName = remoteMessage.getData().containsKey("clientName") ? remoteMessage.getData().get("clientName") : FirebaseConstant.Empty;
             notificationModel.clientPhone = remoteMessage.getData().containsKey("clientPhone") ? remoteMessage.getData().get("clientPhone") : FirebaseConstant.Empty;
             notificationModel.clientDeviceToken = remoteMessage.getData().containsKey("clientDeviceToken") ? remoteMessage.getData().get("clientDeviceToken") : FirebaseConstant.Empty;
+            notificationModel.riderId = Long.parseLong(remoteMessage.getData().containsKey("riderId") ? remoteMessage.getData().get("riderId") : "0");
             notificationModel.sourceName = remoteMessage.getData().containsKey("sourceName") ? remoteMessage.getData().get("sourceName") : FirebaseConstant.Empty;
             notificationModel.destinationName = remoteMessage.getData().containsKey("destinationName") ? remoteMessage.getData().get("destinationName") : FirebaseConstant.Empty;
+            notificationModel.shortestTime = remoteMessage.getData().containsKey("shortestTime") ? remoteMessage.getData().get("shortestTime") : FirebaseConstant.Empty;
+            notificationModel.shortestDistance = remoteMessage.getData().containsKey("shortestDistance") ? remoteMessage.getData().get("shortestDistance") : FirebaseConstant.Empty;
             notificationModel.sourceLatitude = Double.parseDouble(remoteMessage.getData().containsKey("sourceLatitude") ? remoteMessage.getData().get("sourceLatitude") : "0");
             notificationModel.sourceLongitude = Double.parseDouble(remoteMessage.getData().containsKey("sourceLongitude") ? remoteMessage.getData().get("sourceLongitude") : "0");
             notificationModel.destinationLatitude = Double.parseDouble(remoteMessage.getData().containsKey("destinationLatitude") ? remoteMessage.getData().get("destinationLatitude") : "0");
