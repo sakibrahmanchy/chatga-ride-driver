@@ -60,7 +60,7 @@ public interface ApiInterface {
                                          @Field("gender") String gender,
                                          @Field("nid") String nid,
                                          @Field("driving_license") String drivingLicense,
-                                         @Field("motorbike_registration") String motorbikeRegistration);
+                                         @Field("destination_address") String motorbikeRegistration);
 
     @POST("api/v1/ride/history")
     @FormUrlEncoded
@@ -73,6 +73,8 @@ public interface ApiInterface {
                                                 @Field("pick_point_longitude") String pickPointLon,
                                                 @Field("destination_point_latitude") String destinationPointLat,
                                                 @Field("destination_point_longitude") String destinationPointLon,
+                                                @Field("pick_point_address") String pickPointAddress,
+                                                @Field("destination_point_longitude") String destinationAddress,
                                                 @Field("initial_approx_cost") String initialApproxCost);
 
 
