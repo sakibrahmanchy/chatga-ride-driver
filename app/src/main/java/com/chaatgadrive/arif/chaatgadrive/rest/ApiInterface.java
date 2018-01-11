@@ -74,7 +74,7 @@ public interface ApiInterface {
                                                 @Field("destination_point_latitude") String destinationPointLat,
                                                 @Field("destination_point_longitude") String destinationPointLon,
                                                 @Field("pick_point_address") String pickPointAddress,
-                                                @Field("destination_point_longitude") String destinationAddress,
+                                                @Field("destination_address") String destinationAddress,
                                                 @Field("initial_approx_cost") String initialApproxCost);
 
 
