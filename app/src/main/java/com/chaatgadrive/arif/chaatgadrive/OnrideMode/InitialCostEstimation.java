@@ -87,6 +87,7 @@ public class InitialCostEstimation {
                 TotalDuration,
                 String.valueOf(notificationModel.sourceLatitude), String.valueOf(notificationModel.destinationLongitude),
                 String.valueOf(notificationModel.destinationLatitude), String.valueOf(notificationModel.destinationLongitude),
+                notificationModel.sourceName,notificationModel.destinationName,
                 TotalCost);
 
         call.enqueue(new Callback<RideHistoryResponse>() {
@@ -117,6 +118,8 @@ public class InitialCostEstimation {
                         }
                         break;
                     case 500:
+
+                        Log.d("Onride",response.errorBody().toString());
                         break;
 
                     default:
