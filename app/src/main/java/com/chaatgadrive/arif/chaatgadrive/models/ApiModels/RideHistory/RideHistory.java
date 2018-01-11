@@ -28,8 +28,14 @@ public class RideHistory {
     private String destinationPointLon;
     @SerializedName("initial_approx_cost")
     private String initialApproxCost;
+    @SerializedName("pick_point_address")
+    private String pickPointAddress;
+    @SerializedName("destination_address")
+    private String destinationAddress;
 
-    public RideHistory(int historyId, int clientId, int riderId, String startTime, String endTime, String pickPointLat, String pickPoinLon, String destinationPointLat, String destinationPointLon, String initialApproxCost) {
+    public RideHistory(int historyId, int clientId, int riderId, String startTime, String endTime,
+                       String pickPointLat, String pickPoinLon, String destinationPointLat,
+                       String destinationPointLon, String initialApproxCost, String pickPointAddress, String destinationAddress) {
         this.historyId = historyId;
         this.clientId = clientId;
         this.riderId = riderId;
@@ -40,6 +46,8 @@ public class RideHistory {
         this.destinationPointLat = destinationPointLat;
         this.destinationPointLon = destinationPointLon;
         this.initialApproxCost = initialApproxCost;
+        this.pickPointAddress = pickPointAddress;
+        this.destinationAddress = destinationAddress;
     }
 
     public int getHistoryId() {
@@ -120,5 +128,21 @@ public class RideHistory {
 
     public void setInitialApproxCost(String initialApproxCost) {
         this.initialApproxCost = initialApproxCost;
+    }
+
+    public String getPickPointAddress() {
+        return pickPointAddress;
+    }
+
+    public void setPickPointAddress(String pickPointAddress) {
+        this.pickPointAddress = pickPointAddress;
+    }
+
+    public String getDestinationAddress() {
+        return destinationAddress;
+    }
+
+    public void setDestinationAddress(String destinationAddress) {
+        this.destinationAddress = destinationAddress;
     }
 }
