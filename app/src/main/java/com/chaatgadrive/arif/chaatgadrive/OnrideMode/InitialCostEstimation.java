@@ -106,7 +106,8 @@ public class InitialCostEstimation {
                             LatLng Destination = new LatLng(notificationModel.destinationLatitude,notificationModel.destinationLongitude);
                             riderHistory.ClientID = notificationModel.clientId;
                             riderHistory.CostSoFar = (long) (costEstimation.getTotalCost(AppConstant.DISTANCE,AppConstant.DURATION));
-                            riderHistory.HistoryID=history.getClientId();
+                            riderHistory.HistoryID=history.getHistoryId();
+                            ;
                             riderHistory.RiderID = notificationModel.riderId;
                             riderHistory.StartLocation =Source;
                             riderHistory.EndLocation=Destination;
