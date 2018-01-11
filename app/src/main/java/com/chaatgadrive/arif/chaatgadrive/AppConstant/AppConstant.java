@@ -1,5 +1,7 @@
 package com.chaatgadrive.arif.chaatgadrive.AppConstant;
 
+import com.google.android.gms.maps.model.LatLng;
+
 /**
  * Created by Arif on 1/4/2018.
  */
@@ -13,5 +15,6 @@ public class AppConstant {
     public static  int INTERNET_CHECK=0;
     public static String DISTANCE="";
     public static String DURATION="";
+    public static LatLng PREVIOUS_LATLONG=null;
 
 }

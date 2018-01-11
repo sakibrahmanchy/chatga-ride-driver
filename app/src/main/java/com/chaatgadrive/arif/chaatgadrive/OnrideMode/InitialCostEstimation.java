@@ -99,8 +99,8 @@ public class InitialCostEstimation {
                     case 200:
 
                         if(response.body().isSuccess()){
-                            RideHistory history = response.body().getHistory();
 
+                            RideHistory history = response.body().getHistory();
                             LatLng Source = new LatLng(notificationModel.sourceLatitude,notificationModel.sourceLongitude);
                             LatLng Destination = new LatLng(notificationModel.destinationLatitude,notificationModel.destinationLongitude);
                             riderHistory.ClientID = notificationModel.clientId;
@@ -127,7 +127,6 @@ public class InitialCostEstimation {
 
             @Override
             public void onFailure(Call<RideHistoryResponse> call, Throwable t) {
-                // Log error here since request failed
                 Log.e(TAG, t.toString());
             }
         });

@@ -8,12 +8,15 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Handler;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -28,12 +31,14 @@ import com.chaatgadrive.arif.chaatgadrive.MainActivity;
 import com.chaatgadrive.arif.chaatgadrive.R;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.ConstentUtilityModel;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.GetCurrentLocation;
+import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginData;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
 import __Firebase.FirebaseResponse.NotificationModel;
+import __Firebase.FirebaseUtility.FirebaseConstant;
 import __Firebase.FirebaseWrapper;
 
 public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -44,7 +49,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     private ConnectionCheck connectionCheck;
     private ImageView ic_info;
     private NotificationModel notificationModel;
-    private LatLng source,destination;
+    private LatLng source,destination,currentLatlong;
     private Button startRide;
     private ProgressDialog dialog;
     private NotificationCompat.Builder notification;
@@ -53,20 +58,20 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     private NotificationManager notificationManager;
     private InitialCostEstimation initialCostEstimation;
     private GetDistanceAndDuration getDistanceAndDuration;
+    private Handler handler = new Handler();
+    private GetDistanceFromMap  getDistanceFromMap;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_onride_mode);
-
         notificationModel = FirebaseWrapper.getInstance().getNotificationModelInstance();
 
-
-        getCurrentLocation = new GetCurrentLocation(this);
         connectionCheck  = new ConnectionCheck(this);
         initialCostEstimation = new InitialCostEstimation(this);
-
+        getCurrentLocation = new GetCurrentLocation(this);
+        getDistanceFromMap = new GetDistanceFromMap();
 
         ic_info = (ImageView) findViewById(R.id.ic_info);
         startRide = (Button) findViewById(R.id.startBtn);
@@ -123,8 +128,8 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                     connectionCheck.showGPSDisabledAlertToUser();
                 }
                 else {
-                    AppConstant.RIDING_FLAG=2;
 
+                    AppConstant.RIDING_FLAG=2;
                     initialCostEstimation.CreateInitialHistory();
                     notification.setSmallIcon(R.drawable.logo);
                     notification.setTicker("this Chaadga Ride");
@@ -138,14 +143,12 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                     note = notification.build();
                     note.flags = Notification.FLAG_ONGOING_EVENT;
                     notificationManager.notify(AppConstant.NOTIFICATION_ID,note);
-
+                    AppConstant.PREVIOUS_LATLONG = new LatLng(notificationModel.sourceLatitude,notificationModel.destinationLongitude);
                     startRide.setVisibility(View.INVISIBLE);
                     finishRide.setVisibility(View.VISIBLE);
                     setTitle("You are in Ride");
 
-
                 }
-
             }
         });
 
@@ -164,10 +167,9 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                 else {
                     new AlertDialog.Builder(OnRideModeActivity.this)
                             .setTitle("Really Exit?")
-                            .setMessage("Are you sure you want to finish ?")
+                            .setMessage("Are you sure you want to finish?")
                             .setNegativeButton(android.R.string.no, null)
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
                                 public void onClick(DialogInterface arg0, int arg1) {
                                     notification.setAutoCancel(true);
                                     notificationManager.cancel(AppConstant.NOTIFICATION_ID);
@@ -261,7 +263,6 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                 .setMessage("Are you sure you want to exit?")
                 .setNegativeButton(android.R.string.no, null)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
                     public void onClick(DialogInterface arg0, int arg1) {
                         finish();
                         Intent intent = new Intent(OnRideModeActivity.this, MainActivity.class);
@@ -270,6 +271,25 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                     }
                 }).create().show();
 
+    }
+
+
+
+    private void MandatoryCall() {
+
+
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+
+                currentLatlong = new LatLng(getCurrentLocation.getLatitude(),getCurrentLocation.getLongitude());
+                double distance = getDistanceFromMap.getDistance(AppConstant.PREVIOUS_LATLONG, currentLatlong);
+                AppConstant.PREVIOUS_LATLONG = currentLatlong;
+
+                handler.postDelayed(this, 5000);
+            }
+        };
+        handler.postDelayed(runnable, 5000);
     }
 
 
