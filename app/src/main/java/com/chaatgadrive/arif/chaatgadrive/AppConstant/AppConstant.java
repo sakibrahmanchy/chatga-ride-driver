@@ -11,5 +11,7 @@ public class AppConstant {
     public static final int NOTIFICATION_ID=1010;
     public  static int RIDING_FLAG=1;
     public static  int INTERNET_CHECK=0;
+    public static String DISTANCE="";
+    public static String DURATION="";
 
 }

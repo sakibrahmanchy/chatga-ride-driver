@@ -45,7 +45,6 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     private ImageView ic_info;
     private NotificationModel notificationModel;
     private LatLng source,destination;
-    private CostEstimation costEstimation;
     private Button startRide;
     private ProgressDialog dialog;
     private NotificationCompat.Builder notification;
@@ -53,6 +52,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     private Notification note;
     private NotificationManager notificationManager;
     private InitialCostEstimation initialCostEstimation;
+    private GetDistanceAndDuration getDistanceAndDuration;
 
 
     @Override
@@ -65,8 +65,8 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
 
         getCurrentLocation = new GetCurrentLocation(this);
         connectionCheck  = new ConnectionCheck(this);
-        costEstimation = new CostEstimation();
         initialCostEstimation = new InitialCostEstimation(this);
+
 
         ic_info = (ImageView) findViewById(R.id.ic_info);
         startRide = (Button) findViewById(R.id.startBtn);
@@ -91,8 +91,12 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
             connectionCheck.showGPSDisabledAlertToUser();
         }
         else {
+
+            getDistanceAndDuration = new GetDistanceAndDuration(this,new LatLng(notificationModel.sourceLatitude,notificationModel.sourceLongitude),
+                    new LatLng(notificationModel.destinationLatitude,notificationModel.destinationLongitude));
             initMap();
             AllActionClick();
+
         }
 
 //        dialog.show();
@@ -189,9 +193,8 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
 
             String url = getDirectionsUrl(source, destination);
             DownloadTask downloadTask = new DownloadTask(mMap,source,destination);
-
             downloadTask.execute(url);
-             new  GetDistanceAndDuration(this,source,destination);
+
 
         }
         else{
