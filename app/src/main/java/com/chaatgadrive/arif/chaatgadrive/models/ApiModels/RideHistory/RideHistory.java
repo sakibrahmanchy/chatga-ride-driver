@@ -8,6 +8,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class RideHistory {
 
+    @SerializedName("id")
+    private int historyId;
     @SerializedName("client_id")
     private int clientId;
     @SerializedName("rider_id")
@@ -27,9 +29,8 @@ public class RideHistory {
     @SerializedName("initial_approx_cost")
     private String initialApproxCost;
 
-
-    public RideHistory(int clientId, int riderId, String startTime, String endTime, String pickPointLat, String pickPoinLon, String destinationPointLat, String destinationPointLon, String initialApproxCost) {
-
+    public RideHistory(int historyId, int clientId, int riderId, String startTime, String endTime, String pickPointLat, String pickPoinLon, String destinationPointLat, String destinationPointLon, String initialApproxCost) {
+        this.historyId = historyId;
         this.clientId = clientId;
         this.riderId = riderId;
         this.startTime = startTime;
@@ -39,6 +40,14 @@ public class RideHistory {
         this.destinationPointLat = destinationPointLat;
         this.destinationPointLon = destinationPointLon;
         this.initialApproxCost = initialApproxCost;
+    }
+
+    public int getHistoryId() {
+        return historyId;
+    }
+
+    public void setHistoryId(int historyId) {
+        this.historyId = historyId;
     }
 
     public int getClientId() {
