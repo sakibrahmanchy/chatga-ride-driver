@@ -25,7 +25,7 @@ public class GetDistanceFromMap {
     public double getDistance(LatLng startPoint, LatLng endPoint){
         Startlocation.setLatitude(startPoint.latitude);
         Startlocation.setLongitude(startPoint.longitude);
-        Endlocation.setLongitude(endPoint.latitude);
+        Endlocation.setLatitude(endPoint.latitude);
         Endlocation.setLongitude(endPoint.longitude);
         double distance = Startlocation.distanceTo(Endlocation);//in meters
         return  distance;

@@ -1,5 +1,7 @@
 package com.chaatgadrive.arif.chaatgadrive.CostEstimation;
 
+import android.util.Log;
+
 import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -20,28 +22,42 @@ public class CostEstimation {
         double distance = getDistance(Stringdistance);
         double duration = getDuration(Stringduration);
 
-        double totalCost = AppConstant.BASE_TAKA + AppConstant.PER_KILOMITTER*distance + AppConstant.DURATION_PER_KILOMITTER*duration;
+        double totalCost =  AppConstant.PER_KILOMITTER*distance + AppConstant.DURATION_PER_KILOMITTER*duration;
         return totalCost;
     }
 
-    public long getDistance(String StringDistance){
+    public double getDistance(String StringDistance){
              String value="0";
-            for(int i=0; i<StringDistance.length()-3; i++){
-                value+=StringDistance.charAt(i);
-            }
+             double distance =0;
+             try {
 
-        long distance = (long) Double.parseDouble(value);
+                 for(int i=0; i<StringDistance.length()-3; i++){
+                     value+=StringDistance.charAt(i);
+                 }
+
+                  distance =  Double.parseDouble(value);
+             }catch (Exception e){
+                 Log.d("Distance Execption",e+"");
+             }
+
        return distance;
     }
 
 
     public long getDuration(String StringDuration){
         String value="0";
-        for(int i=0; i<StringDuration.length()-4; i++){
-            value+=StringDuration.charAt(i);
+        long duration =0;
+        try{
+            for(int i=0; i<StringDuration.length()-4; i++){
+                value+=StringDuration.charAt(i);
+            }
+
+            duration = (long) Double.parseDouble(value);
+        }
+        catch (Exception e){
+            Log.d("Duration Execption",e+"");
         }
 
-        long duration = (long) Double.parseDouble(value);
         return duration;
     }
 }

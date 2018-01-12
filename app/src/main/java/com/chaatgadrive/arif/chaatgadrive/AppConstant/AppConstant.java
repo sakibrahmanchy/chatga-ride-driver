@@ -2,6 +2,8 @@ package com.chaatgadrive.arif.chaatgadrive.AppConstant;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.Date;
+
 /**
  * Created by Arif on 1/4/2018.
  */
@@ -16,5 +18,8 @@ public class AppConstant {
     public static String DISTANCE="";
     public static String DURATION="";
     public static LatLng PREVIOUS_LATLONG=null;
+    public static double TOTAL_DISTANCE =0.0;
+    public static boolean IS_RIDE_FINISH=false;
+    public static double TOTAL_DURATION=0;
 
 }

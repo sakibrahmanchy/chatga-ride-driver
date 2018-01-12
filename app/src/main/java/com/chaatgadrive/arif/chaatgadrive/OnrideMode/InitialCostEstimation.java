@@ -42,7 +42,6 @@ import static android.content.ContentValues.TAG;
 
 public class InitialCostEstimation {
 
-
     private ApiInterface apiService ;
     private Context mContext;
     private ProgressDialog dialog;
@@ -52,7 +51,6 @@ public class InitialCostEstimation {
     private CostEstimation costEstimation;
     private RiderHistory riderHistory;
     private Main main;
-
 
     public InitialCostEstimation(Context context) {
 
@@ -66,7 +64,6 @@ public class InitialCostEstimation {
         riderHistory = new RiderHistory();
         main = new Main(context);
 
-
     }
 
     public void CreateInitialHistory(){
@@ -76,12 +73,11 @@ public class InitialCostEstimation {
         String currentDateandTime = sdf.format(new Date());
         String TotalDuration = String.valueOf(costEstimation.getDuration(AppConstant.DURATION));
         apiService = ApiClient.getClient().create(ApiInterface.class);
-
         dialog = new ProgressDialog(mContext);
         dialog.setMessage("Please Wait..");
         dialog.show();
 
-        final String TotalCost = String.valueOf(costEstimation.getTotalCost(AppConstant.DISTANCE,AppConstant.DURATION));
+        final String TotalCost = String.valueOf(costEstimation.getTotalCost(AppConstant.DISTANCE,AppConstant.DURATION)+AppConstant.BASE_TAKA);
         String authHeader = "Bearer "+pref.getString("access_token",null);
         Call<RideHistoryResponse> call = apiService.createRideHistory(authHeader,(int)notificationModel.clientId,(int)notificationModel.riderId,currentDateandTime,
                 TotalDuration,
@@ -107,7 +103,6 @@ public class InitialCostEstimation {
                             riderHistory.ClientID = notificationModel.clientId;
                             riderHistory.CostSoFar = (long) (costEstimation.getTotalCost(AppConstant.DISTANCE,AppConstant.DURATION));
                             riderHistory.HistoryID=history.getHistoryId();
-                            ;
                             riderHistory.RiderID = notificationModel.riderId;
                             riderHistory.StartLocation =Source;
                             riderHistory.EndLocation=Destination;
