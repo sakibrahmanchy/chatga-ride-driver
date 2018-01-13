@@ -96,20 +96,19 @@ public class InitialCostEstimation {
                     case 200:
 
                         if(response.body().isSuccess()){
-
                             RideHistory history = response.body().getHistory();
-                            LatLng Source = new LatLng(notificationModel.sourceLatitude,notificationModel.sourceLongitude);
-                            LatLng Destination = new LatLng(notificationModel.destinationLatitude,notificationModel.destinationLongitude);
+                            LatLng Source = new LatLng(notificationModel.sourceLatitude, notificationModel.sourceLongitude);
+                            LatLng Destination = new LatLng(notificationModel.destinationLatitude, notificationModel.destinationLongitude);
                             riderHistory.ClientID = notificationModel.clientId;
-                            riderHistory.CostSoFar = (long) (costEstimation.getTotalCost(AppConstant.DISTANCE,AppConstant.DURATION));
-                            riderHistory.HistoryID=history.getHistoryId();
+                            riderHistory.CostSoFar = (long)(costEstimation.getTotalCost(AppConstant.DISTANCE, AppConstant.DURATION));
+                            riderHistory.HistoryID = history.getHistoryId();
                             riderHistory.RiderID = notificationModel.riderId;
-                            riderHistory.StartLocation =Source;
-                            riderHistory.EndLocation=Destination;
-                            riderHistory.Client_History = notificationModel.destinationName;
-                            riderHistory.Rider_History=notificationModel.destinationName;
-                            riderHistory.IsRideFinished= FirebaseConstant.RIDE_NOT_FINISHED;
-                            riderHistory.IsRideStart=FirebaseConstant.RIDE_NOT_START;
+                            riderHistory.StartLocation = Source;
+                            riderHistory.EndLocation = Destination;
+                            riderHistory.Client_History = Long.toString(notificationModel.clientId) + FirebaseConstant.UNDER_SCORE + Long.toString(riderHistory.HistoryID);
+                            riderHistory.Rider_History = Long.toString(notificationModel.riderId) + FirebaseConstant.UNDER_SCORE + Long.toString(riderHistory.HistoryID);
+                            riderHistory.IsRideFinished = FirebaseConstant.RIDE_NOT_FINISHED;
+                            riderHistory.IsRideStart = FirebaseConstant.RIDE_NOT_START;
                             main.CreateNewHistoryModelFirebase(riderHistory);
                         }
                         break;

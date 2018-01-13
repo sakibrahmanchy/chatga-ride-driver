@@ -52,4 +52,14 @@ public class ClientModel {
             Log.d(FirebaseConstant.CLIENT_LOADED_ERROR, e.getStackTrace().toString());
         }
     }
+
+    public void ClearData(){
+        this.ClientID = FirebaseConstant.UNKNOWN;
+        this.PhoneNumber = FirebaseConstant.UNKNOWN;
+        this.DeviceToken = FirebaseConstant.Empty;
+        this.FullName = FirebaseConstant.Empty;
+        this.CostOfCurrentRide = FirebaseConstant.UNKNOWN;
+        this.IsSearchingOrOnRide = FirebaseConstant.UNKNOWN;
+        this.CurrentRidingHistoryID = FirebaseConstant.UNKNOWN;
+    }
 }

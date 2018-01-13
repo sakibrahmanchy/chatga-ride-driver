@@ -23,6 +23,7 @@ public class FinalAcceptanceOfRide {
     private CurrentRidingHistoryModel HistoryModel = null;
     private RiderModel Rider = null;
     private ICallbackMain callBackListener = null;
+    private int IS_REQUEST_COMPLETE = 0;
 
     public FinalAcceptanceOfRide(CurrentRidingHistoryModel HistoryModel, RiderModel Rider, ICallbackMain callBackListener){
         this.HistoryModel = HistoryModel;
@@ -55,6 +56,7 @@ public class FinalAcceptanceOfRide {
                         Map<String, Object> OnlineBusyOnRide = new HashMap<>();
                         OnlineBusyOnRide.put(FirebaseConstant.ON_LINE_BUSY_ON_RIDE, Rider.OnlineBusyOnRide);
                         dataSnapshot.getChildren().iterator().next().getRef().updateChildren(OnlineBusyOnRide);
+                        IS_REQUEST_COMPLETE = 1;
                     }
                 }
             }
@@ -75,6 +77,7 @@ public class FinalAcceptanceOfRide {
                     Map<String, Object> IsRiderOnline = new HashMap<>();
                     IsRiderOnline.put(FirebaseConstant.IS_RIDE_START, HistoryModel.IsRideStart);
                     dataSnapshot.getChildren().iterator().next().getRef().updateChildren(IsRiderOnline);
+                    IS_REQUEST_COMPLETE = 2;
                 }
             }
 
@@ -82,5 +85,7 @@ public class FinalAcceptanceOfRide {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
+        if(IS_REQUEST_COMPLETE == 2)    callBackListener.OnFinalAcceptanceOfRide(true);
+        else    callBackListener.OnFinalAcceptanceOfRide(false);
     }
 }

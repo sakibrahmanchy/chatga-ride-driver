@@ -4,19 +4,18 @@ import android.content.Context;
 import android.util.Log;
 import android.util.Pair;
 
-
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.GetCurrentLocation;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginData;
 import com.chaatgadrive.arif.chaatgadrive.models.HistoryModel.RiderHistory;
 
-import __Firebase.FirebaseUtility.FirebaseUtilMethod;
-import __Firebase.ICallbacklisteners.ICallbackMain;
 import __Firebase.FirebaseModel.ClientModel;
 import __Firebase.FirebaseModel.CurrentRidingHistoryModel;
 import __Firebase.FirebaseModel.RiderModel;
 import __Firebase.FirebaseRequest.__FirebaseRequest;
 import __Firebase.FirebaseUtility.FirebaseConstant;
+import __Firebase.FirebaseUtility.FirebaseUtilMethod;
 import __Firebase.FirebaseWrapper;
+import __Firebase.ICallbacklisteners.ICallbackMain;
 
 /**
  * Created by User on 12/8/2017.
@@ -27,14 +26,15 @@ public class Main implements ICallbackMain {
     private GetCurrentLocation getCurrentLocation = null;
     private FirebaseWrapper firebaseWrapper = null;
     private RiderModel riderModel = null;
+    private ClientModel clientModel = null;
     private CurrentRidingHistoryModel currentRidingHistoryModel = null;
     private __FirebaseRequest FirebaseRequestInstance;
 
-    public Main(Context context){
+    public Main(Context context) {
         getCurrentLocation = new GetCurrentLocation(context);
     }
 
-    public boolean IsRiderAlreadyCreated(RiderModel RiderModel){
+    public boolean IsRiderAlreadyCreated(RiderModel RiderModel) {
 
         firebaseWrapper = FirebaseWrapper.getInstance();
         FirebaseRequestInstance = firebaseWrapper.getFirebaseRequestInstance();
@@ -43,7 +43,7 @@ public class Main implements ICallbackMain {
         return true;
     }
 
-    public boolean CreateNewRiderFirebase(/*Main Rider Mode*/LoginData loginData, String phoneNumber){
+    public boolean CreateNewRiderFirebase(/*Main Rider Mode*/LoginData loginData, String phoneNumber) {
 
         firebaseWrapper = FirebaseWrapper.getInstance();
         riderModel = firebaseWrapper.getRiderModelInstance();
@@ -70,17 +70,21 @@ public class Main implements ICallbackMain {
         return true;
     }
 
-    public boolean CreateNewHistoryModelFirebase(RiderHistory riderHistory){
+    public boolean CreateNewHistoryModelFirebase(RiderHistory riderHistory) {
 
-        firebaseWrapper = FirebaseWrapper.getInstance();
+        if (riderHistory == null || riderHistory.HistoryID < 1) return false;
+
+        this.firebaseWrapper = FirebaseWrapper.getInstance();
+        this.riderModel = FirebaseWrapper.getInstance().getRiderModelInstance();
+        this.clientModel = FirebaseWrapper.getInstance().getClientModelInstance();
         this.currentRidingHistoryModel = firebaseWrapper.getRidingHistoryModelModelInstance();
         FirebaseRequestInstance = firebaseWrapper.getFirebaseRequestInstance();
 
         this.currentRidingHistoryModel.HistoryID = riderHistory.HistoryID;
         this.currentRidingHistoryModel.ClientID = riderHistory.ClientID;
         this.currentRidingHistoryModel.RiderID = riderHistory.RiderID;
-        this.currentRidingHistoryModel.Client_History =riderHistory.Client_History  + FirebaseConstant.UNDER_SCORE + "11040066";
-        this.currentRidingHistoryModel.Rider_History = riderHistory.Rider_History + FirebaseConstant.UNDER_SCORE + "11040066";;
+        this.currentRidingHistoryModel.Client_History = riderHistory.Client_History;
+        this.currentRidingHistoryModel.Rider_History = riderHistory.Rider_History;
         this.currentRidingHistoryModel.StartingLocation = new CurrentRidingHistoryModel.Location(
                 riderHistory.StartLocation.latitude,
                 riderHistory.StartLocation.longitude
@@ -100,28 +104,28 @@ public class Main implements ICallbackMain {
         return true;
     }
 
-    public boolean GetCurrentRider(long RiderId){
+    public boolean GetCurrentRider(long RiderId) {
 
         firebaseWrapper = FirebaseWrapper.getInstance();
         firebaseWrapper.getFirebaseRequestInstance().GetCurrentRider(RiderId, Main.this);
         return true;
     }
 
-    public boolean GetRecentHistory(long HistoryId){
+    public boolean GetRecentHistory(long HistoryId) {
 
         firebaseWrapper = FirebaseWrapper.getInstance();
         firebaseWrapper.getFirebaseRequestInstance().GetRecentHistory(HistoryId, Main.this);
         return true;
     }
 
-    public boolean SetRiderBusyOrFree(/*Firebase Rider Model*/ RiderModel riderModel, int value){
+    public boolean SetRiderBusyOrFree(/*Firebase Rider Model*/ RiderModel riderModel, int value) {
 
         this.firebaseWrapper = FirebaseWrapper.getInstance();
         this.riderModel = riderModel;
 
-        if(value == FirebaseConstant.SET_RIDER_FREE){
+        if (value == FirebaseConstant.SET_RIDER_FREE) {
             this.riderModel.IsRiderBusy = FirebaseConstant.SET_RIDER_FREE;
-        }else {
+        } else {
             this.riderModel.IsRiderBusy = FirebaseConstant.SET_RIDER_BUSY;
         }
 
@@ -129,14 +133,16 @@ public class Main implements ICallbackMain {
         return true;
     }
 
-    public boolean SetRiderOnRideOrFree(/*Firebase Rider Model*/ RiderModel riderModel, int value){
+    public boolean SetRiderOnRideOrFree(/*Firebase Rider Model*/ RiderModel riderModel, int value) {
+
+        if (riderModel == null || riderModel.RiderID < 1 || value < 0) return false;
 
         this.firebaseWrapper = FirebaseWrapper.getInstance();
         this.riderModel = riderModel;
 
-        if(value == FirebaseConstant.SET_RIDER_NO_RIDE){
+        if (value == FirebaseConstant.SET_RIDER_NO_RIDE) {
             this.riderModel.IsRiderOnRide = FirebaseConstant.SET_RIDER_NO_RIDE;
-        }else {
+        } else {
             this.riderModel.IsRiderOnRide = FirebaseConstant.SET_RIDER_ON_RIDE;
         }
 
@@ -145,16 +151,16 @@ public class Main implements ICallbackMain {
         return true;
     }
 
-    public boolean SetRiderOnLineOrOffLine(/*Firebase Rider Model*/ RiderModel riderModel, int value){
+    public boolean SetRiderOnLineOrOffLine(/*Firebase Rider Model*/ RiderModel riderModel, int value) {
 
-        if(riderModel == null || riderModel.RiderID < 1)    return false;
+        if (riderModel == null || riderModel.RiderID < 1) return false;
 
         this.firebaseWrapper = FirebaseWrapper.getInstance();
         this.riderModel = riderModel;
 
-        if(value == FirebaseConstant.SET_RIDER_ONLINE){
+        if (value == FirebaseConstant.SET_RIDER_ONLINE) {
             this.riderModel.IsRiderOnline = FirebaseConstant.SET_RIDER_ONLINE;
-        }else {
+        } else {
             this.riderModel.IsRiderOnline = FirebaseConstant.SET_RIDER_OFF_ONLINE;
         }
 
@@ -163,16 +169,18 @@ public class Main implements ICallbackMain {
         return true;
     }
 
-    public boolean SetRiderOnlineBusyOnRider(/*Firebase Rider Model*/ RiderModel riderModel, int value){
+    public boolean SetRiderOnlineBusyOnRider(/*Firebase Rider Model*/ RiderModel riderModel, int value) {
+
+        if (riderModel == null || riderModel.RiderID < 1 || value < 0) return false;
 
         this.firebaseWrapper = FirebaseWrapper.getInstance();
         this.riderModel = riderModel;
 
-        if(value == FirebaseConstant.ONLINE_NOT_BUSY_NO_RIDE){
+        if (value == FirebaseConstant.ONLINE_NOT_BUSY_NO_RIDE) {
             this.riderModel.OnlineBusyOnRide = FirebaseConstant.ONLINE_NOT_BUSY_NO_RIDE;
-        }else if(value == FirebaseConstant.ONLINE_BUSY_NO_RIDE){
+        } else if (value == FirebaseConstant.ONLINE_BUSY_NO_RIDE) {
             this.riderModel.OnlineBusyOnRide = FirebaseConstant.ONLINE_BUSY_NO_RIDE;
-        }else if(value == FirebaseConstant.ONLINE_BUSY_ON_RIDE) {
+        } else if (value == FirebaseConstant.ONLINE_BUSY_ON_RIDE) {
             this.riderModel.OnlineBusyOnRide = FirebaseConstant.ONLINE_BUSY_ON_RIDE;
         } else {
             this.riderModel.OnlineBusyOnRide = FirebaseConstant.OFFLINE_NOT_BUSY_ON_RIDE;
@@ -182,7 +190,10 @@ public class Main implements ICallbackMain {
         return true;
     }
 
-    public boolean SetHistoryIDonRiderTable(/*Firebase Rider Model*/ CurrentRidingHistoryModel historyModel, RiderModel riderModel){
+    public boolean SetHistoryIDonRiderTable(/*Firebase Rider Model*/ CurrentRidingHistoryModel historyModel, RiderModel riderModel) {
+
+        if (historyModel == null || riderModel == null) return false;
+        if (historyModel.HistoryID < 1 || riderModel.RiderID < 1) return false;
 
         this.firebaseWrapper = FirebaseWrapper.getInstance();
         this.riderModel = riderModel;
@@ -192,20 +203,22 @@ public class Main implements ICallbackMain {
         return true;
     }
 
-    public boolean SentNotificationToClient(/*Firebase Rider Mode*/RiderModel Rider, String clientDeviceToken){
+    public boolean SentNotificationToClient(/*Firebase Rider Mode*/RiderModel Rider, String clientDeviceToken) {
 
-        if(Rider == null || Rider.RiderID < 1 || FirebaseUtilMethod.IsEmptyOrNull(clientDeviceToken))   return false;
+        if (Rider == null || Rider.RiderID < 1 || FirebaseUtilMethod.IsEmptyOrNull(clientDeviceToken))
+            return false;
 
         this.riderModel = Rider;
         firebaseWrapper = FirebaseWrapper.getInstance();
 
-        firebaseWrapper.getFirebaseRequestInstance().SentNotificationToClient(this.riderModel, clientDeviceToken,Main.this);
+        firebaseWrapper.getFirebaseRequestInstance().SentNotificationToClient(this.riderModel, clientDeviceToken, Main.this);
         return true;
     }
 
-    public boolean SetDeviceTokenToRiderTable(/*Firebase Rider Model*/ RiderModel riderModel, String deviceToken){
+    public boolean SetDeviceTokenToRiderTable(/*Firebase Rider Model*/ RiderModel riderModel, String deviceToken) {
 
-        if(riderModel == null || riderModel.RiderID < 1 || FirebaseUtilMethod.IsEmptyOrNull(deviceToken))   return false;
+        if (riderModel == null || riderModel.RiderID < 1 || FirebaseUtilMethod.IsEmptyOrNull(deviceToken))
+            return false;
 
         this.firebaseWrapper = FirebaseWrapper.getInstance();
         this.riderModel = riderModel;
@@ -215,7 +228,7 @@ public class Main implements ICallbackMain {
         return true;
     }
 
-    public boolean UpdateRiderLocation(/*Firebase Rider Model*/ RiderModel riderModel, Pair<Double, Double> newLocation){
+    public boolean UpdateRiderLocation(/*Firebase Rider Model*/ RiderModel riderModel, Pair<Double, Double> newLocation) {
 
         this.firebaseWrapper = FirebaseWrapper.getInstance();
         this.riderModel = riderModel;
@@ -229,23 +242,26 @@ public class Main implements ICallbackMain {
         return true;
     }
 
-    public boolean GetCurrentClient(long ClientId){
+    public boolean GetCurrentClient(long ClientId) {
 
         firebaseWrapper = FirebaseWrapper.getInstance();
         firebaseWrapper.getFirebaseRequestInstance().GetCurrentClient(ClientId, Main.this);
         return true;
     }
 
-    public boolean SetHistoryIDToClient(/* Firebase HistoryModel, RiderModel */ CurrentRidingHistoryModel HistoryModel, ClientModel Client){
+    public boolean SetHistoryIDToClient(/* Firebase HistoryModel, RiderModel */ CurrentRidingHistoryModel HistoryModel, ClientModel Client) {
+
+        if (HistoryModel == null || HistoryModel.HistoryID < 1 || Client == null || Client.ClientID < 1)
+            return false;
 
         firebaseWrapper = FirebaseWrapper.getInstance();
         firebaseWrapper.getFirebaseRequestInstance().SetHistoryIDToClient(HistoryModel, Client, Main.this);
         return true;
     }
 
-    public boolean ResetRiderStatus(/* Firebase HistoryModel, RiderModel */ RiderModel Rider){
+    public boolean ResetRiderStatus(/* Firebase HistoryModel, RiderModel */ RiderModel Rider) {
 
-        if(Rider == null || Rider.RiderID < 1)  return false;
+        if (Rider == null || Rider.RiderID < 1) return false;
         this.firebaseWrapper = FirebaseWrapper.getInstance();
         this.riderModel = Rider;
 
@@ -258,7 +274,9 @@ public class Main implements ICallbackMain {
         return true;
     }
 
-    public boolean InitialAcceptanceOfRide(/* Firebase HistoryModel, RiderModel */ CurrentRidingHistoryModel HistoryModel, RiderModel Rider){
+    public boolean InitialAcceptanceOfRide(/* Firebase HistoryModel, RiderModel */ CurrentRidingHistoryModel HistoryModel, RiderModel Rider) {
+
+        if(HistoryModel == null || HistoryModel.HistoryID < 1 || Rider == null || Rider.RiderID < 1)    return false;
 
         firebaseWrapper = FirebaseWrapper.getInstance();
         this.riderModel = Rider;
@@ -271,7 +289,10 @@ public class Main implements ICallbackMain {
         return true;
     }
 
-    public boolean FinalAcceptanceOfRide(/* Firebase HistoryModel, RiderModel */ CurrentRidingHistoryModel HistoryModel, RiderModel Rider){
+    public boolean FinalAcceptanceOfRide(/* Firebase HistoryModel, RiderModel */ CurrentRidingHistoryModel HistoryModel, RiderModel Rider) {
+
+        if (HistoryModel == null || HistoryModel.HistoryID < 1 || Rider == null || Rider.RiderID < 1)
+            return false;
 
         firebaseWrapper = FirebaseWrapper.getInstance();
         this.riderModel = Rider;
@@ -287,7 +308,7 @@ public class Main implements ICallbackMain {
         return true;
     }
 
-    public boolean FinishedRide(/* Firebase HistoryModel, RiderModel */ CurrentRidingHistoryModel HistoryModel, RiderModel Rider, /*Server*/long FinalCost, /*Local*/ Pair<Double, Double>FinalLocation){
+    public boolean FinishedRide(/* Firebase HistoryModel, RiderModel */ CurrentRidingHistoryModel HistoryModel, RiderModel Rider, /*Server*/long FinalCost, /*Local*/ Pair<Double, Double> FinalLocation) {
 
         firebaseWrapper = FirebaseWrapper.getInstance();
         this.riderModel = Rider;
@@ -302,6 +323,96 @@ public class Main implements ICallbackMain {
         return true;
     }
 
+    /*Accept Ride*/
+    public boolean ForcedAcceptanceOfRide(int value) {
+
+        if (value == FirebaseConstant.FINAL_ACCEPTANCE) {
+            this.FinalAcceptanceOfRide(
+                    FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance(),
+                    FirebaseWrapper.getInstance().getRiderModelInstance()
+            );
+        } else if (value == FirebaseConstant.INITIAL_ACCEPTANCE) {
+            this.InitialAcceptanceOfRide(
+                    FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance(),
+                    FirebaseWrapper.getInstance().getRiderModelInstance()
+            );
+        }
+        return true;
+    }
+
+    /*Cancel Ride*/
+    public boolean ForcedCancelRide(int value) {
+
+        if(value == FirebaseConstant.HISTORY_CREATED_FOR_THIS_RIDE){
+            this.SetRiderBusyOrFree(
+                    FirebaseWrapper.getInstance().getRiderModelInstance(),
+                    FirebaseConstant.SET_RIDER_FREE
+            );
+            this.SetRiderOnlineBusyOnRider(
+                    FirebaseWrapper.getInstance().getRiderModelInstance(),
+                    FirebaseConstant.ONLINE_NOT_BUSY_NO_RIDE
+            );
+        }
+
+        return true;
+    }
+
+    /*Final Finish*/
+    public boolean ForcedFinishedRide(final long finalCost, final Pair<Double, Double> finalLocation) {
+
+        this.SetRiderOnRideOrFree(
+                FirebaseWrapper.getInstance().getRiderModelInstance(),
+                FirebaseConstant.SET_RIDER_NO_RIDE
+        );
+        this.SetRiderBusyOrFree(
+                FirebaseWrapper.getInstance().getRiderModelInstance(),
+                FirebaseConstant.SET_RIDER_FREE
+        );
+        this.SetRiderOnlineBusyOnRider(
+                FirebaseWrapper.getInstance().getRiderModelInstance(),
+                FirebaseConstant.ONLINE_NOT_BUSY_NO_RIDE
+        );
+        this.FinishedRide(
+                FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance(),
+                FirebaseWrapper.getInstance().getRiderModelInstance(),
+                finalCost,
+                finalLocation
+        );
+        return true;
+    }
+
+    /*Refresh Rider*/
+    public boolean ForcedRefreshRider() {
+
+        this.SetRiderOnRideOrFree(
+                FirebaseWrapper.getInstance().getRiderModelInstance(),
+                FirebaseConstant.SET_RIDER_NO_RIDE
+        );
+        this.SetRiderBusyOrFree(
+                FirebaseWrapper.getInstance().getRiderModelInstance(),
+                FirebaseConstant.SET_RIDER_FREE
+        );
+        this.SetRiderOnLineOrOffLine(
+                FirebaseWrapper.getInstance().getRiderModelInstance(),
+                FirebaseConstant.SET_RIDER_ONLINE
+        );
+        this.SetRiderOnlineBusyOnRider(
+                FirebaseWrapper.getInstance().getRiderModelInstance(),
+                FirebaseConstant.ONLINE_NOT_BUSY_NO_RIDE
+        );
+        return true;
+    }
+
+    public static boolean ForcedClearFirebaseData(int value){
+
+        if(value == FirebaseConstant.RIDE_FINISHED){
+            FirebaseWrapper.getInstance().getClientModelInstance().ClearData();
+            FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance().ClearData();
+            FirebaseWrapper.getInstance().getNotificationModelInstance().ClearData();
+        }
+
+        return true;
+    }
 
 
     /* All Responses Goes Here */
@@ -312,7 +423,16 @@ public class Main implements ICallbackMain {
 
     @Override
     public void OnResponseCreateNewHistory(boolean value) {
-        Log.d(FirebaseConstant.NEW_HISTORY_CREATE, value + "");
+        this.SetHistoryIDonRiderTable(
+                FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance(),
+                FirebaseWrapper.getInstance().getRiderModelInstance()
+        );
+        this.SetHistoryIDToClient(
+                FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance(),
+                FirebaseWrapper.getInstance().getClientModelInstance()
+        );
+        this.ForcedAcceptanceOfRide(FirebaseConstant.FINAL_ACCEPTANCE);
+        Log.d(FirebaseConstant.NEW_HISTORY_CREATE, Boolean.toString(value));
     }
 
     @Override
@@ -322,12 +442,12 @@ public class Main implements ICallbackMain {
 
     @Override
     public void OnResponseSetRiderBusyOrFree(boolean value) {
-        Log.d(FirebaseConstant.RIDER_BUSY_OR_FREE, value + "");
+        Log.d(FirebaseConstant.RIDER_BUSY_OR_FREE, Boolean.toString(value));
     }
 
     @Override
     public void OnResponseSetRiderOnRideOrFree(boolean value) {
-        Log.d(FirebaseConstant.RIDER_ON_RIDE_OR_FREE, value + "");
+        Log.d(FirebaseConstant.RIDER_ON_RIDE_OR_FREE, Boolean.toString(value));
     }
 
     @Override
@@ -337,7 +457,7 @@ public class Main implements ICallbackMain {
 
     @Override
     public void OnResponseSetRiderOnlineBusyOnRide(boolean value) {
-        Log.d(FirebaseConstant.RIDER_ONLINE_BUSY_ON_RIDE, value + "");
+        Log.d(FirebaseConstant.RIDER_ONLINE_BUSY_ON_RIDE, Boolean.toString(value));
     }
 
     @Override
@@ -347,7 +467,7 @@ public class Main implements ICallbackMain {
 
     @Override
     public void OnSetHistoryIDonRiderTable(boolean value) {
-        Log.d(FirebaseConstant.HISTORY_ID_ADDED_TO_RIDER, value + "");
+        Log.d(FirebaseConstant.HISTORY_ID_ADDED_TO_RIDER, Boolean.toString(value));
     }
 
     @Override
@@ -362,7 +482,7 @@ public class Main implements ICallbackMain {
 
     @Override
     public void OnOnIsRiderAlreadyCreated(boolean value) {
-        if(value == true){
+        if (value == true) {
             this.SetDeviceTokenToRiderTable(
                     FirebaseWrapper.getInstance().getRiderModelInstance(),
                     FirebaseWrapper.getDeviceToken()
@@ -379,7 +499,31 @@ public class Main implements ICallbackMain {
     }
 
     @Override
-    public void OnSentNotificationToRider(boolean value) {
+    public void OnSentNotificationToClient(boolean value) {
+
+        if (value == true) {
+            this.SetRiderOnlineBusyOnRider(
+                    FirebaseWrapper.getInstance().getRiderModelInstance(),
+                    FirebaseConstant.ONLINE_BUSY_NO_RIDE
+            );
+            this.SetRiderBusyOrFree(
+                    FirebaseWrapper.getInstance().getRiderModelInstance(),
+                    FirebaseConstant.SET_RIDER_BUSY
+            );
+        }
         Log.d(FirebaseConstant.NOTIFICATION_SEND, Boolean.toString(value));
+    }
+
+    @Override
+    public void OnFinalAcceptanceOfRide(boolean value) {
+        Log.d(FirebaseConstant.RIDE_STARTED, Boolean.toString(value));
+    }
+
+    @Override
+    public void OnFinishedRide(boolean value) {
+        if(value == true){
+            ForcedClearFirebaseData(FirebaseConstant.RIDE_FINISHED);
+        }
+        Log.d(FirebaseConstant.FINISHED_RIDE, Boolean.toString(value));
     }
 }

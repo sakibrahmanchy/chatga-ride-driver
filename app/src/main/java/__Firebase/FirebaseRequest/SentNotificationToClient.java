@@ -112,6 +112,6 @@ public class SentNotificationToClient extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         Log.d(FirebaseConstant.RESPONSE_FROM_SERVER, result);
-        this.callbackListener.OnSentNotificationToRider(true);
+        this.callbackListener.OnSentNotificationToClient(true);
     }
 }
