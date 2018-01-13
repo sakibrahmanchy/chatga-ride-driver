@@ -52,9 +52,5 @@
             android:theme="@style/ThemeOverlay.MyDarkButton"
             android:layout_margin="5dp"/>
 
-
-
-
-
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

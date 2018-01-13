@@ -288,8 +288,6 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
 
     }
 
-
-
     private void MandatoryCall() {
 
 
