@@ -4,6 +4,8 @@ import android.util.Pair;
 
 import com.google.firebase.database.DataSnapshot;
 
+import __Firebase.FirebaseUtility.FirebaseConstant;
+
 /**
  * Created by User on 11/16/2017.
  */
@@ -65,11 +67,28 @@ public class CurrentRidingHistoryModel {
         this.Client_History = currentRidingHistoryModel.Client_History;
         this.Rider_History = currentRidingHistoryModel.Rider_History;
         this.StartingLocation = new Location(currentRidingHistoryModel.StartingLocation.Latitude, currentRidingHistoryModel.StartingLocation.Longitude);
-        this.EndingLocation = new Location(currentRidingHistoryModel.EndingLocation.Latitude, currentRidingHistoryModel.EndingLocation.Longitude);;
+        this.EndingLocation = new Location(currentRidingHistoryModel.EndingLocation.Latitude, currentRidingHistoryModel.EndingLocation.Longitude);
         this.CostSoFar = currentRidingHistoryModel.CostSoFar;
         this.IsRideStart = currentRidingHistoryModel.IsRideStart;
         this.IsRideFinished = currentRidingHistoryModel.IsRideFinished;
         this.RideCanceledByClient = currentRidingHistoryModel.RideCanceledByClient;
         this.RideCanceledByRider = currentRidingHistoryModel.RideCanceledByRider;
+    }
+
+    public void ClearData(){
+        this.HistoryID = FirebaseConstant.UNKNOWN;
+        this.ClientID = FirebaseConstant.UNKNOWN;
+        this.RiderID = FirebaseConstant.UNKNOWN;
+        this.Client_History = FirebaseConstant.Empty;
+        this.Rider_History = FirebaseConstant.Empty;
+        this.StartingLocation.Latitude = FirebaseConstant.UNKNOWN;
+        this.StartingLocation.Longitude = FirebaseConstant.UNKNOWN;
+        this.EndingLocation.Latitude = FirebaseConstant.UNKNOWN;
+        this.EndingLocation.Longitude = FirebaseConstant.UNKNOWN;
+        this.CostSoFar = FirebaseConstant.UNKNOWN;
+        this.IsRideStart = FirebaseConstant.UNKNOWN;
+        this.IsRideFinished = FirebaseConstant.UNKNOWN;
+        this.RideCanceledByClient = FirebaseConstant.UNKNOWN;
+        this.RideCanceledByRider = FirebaseConstant.UNKNOWN;
     }
 }

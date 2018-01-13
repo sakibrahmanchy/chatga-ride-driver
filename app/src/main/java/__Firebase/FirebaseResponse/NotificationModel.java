@@ -1,5 +1,7 @@
 package __Firebase.FirebaseResponse;
 
+import __Firebase.FirebaseUtility.FirebaseConstant;
+
 /**
  * Created by User on 12/2/2017.
  */
@@ -32,5 +34,23 @@ public class NotificationModel {
         this.clientDeviceToken = clientDeviceToken;
         this.shortestTime = shortestTime;
         this.shortestDistance = shortestDistance;
+    }
+
+    public void ClearData(){
+        this.title = FirebaseConstant.Empty;
+        this.body = FirebaseConstant.Empty;
+        this.clientId = FirebaseConstant.UNKNOWN;
+        this.clientName = FirebaseConstant.Empty;
+        this.clientPhone = FirebaseConstant.Empty;
+        this.riderId = FirebaseConstant.UNKNOWN;
+        this.sourceName = FirebaseConstant.Empty;
+        this.destinationName = FirebaseConstant.Empty;
+        this.sourceLatitude = FirebaseConstant.UNKNOWN;
+        this.sourceLongitude = FirebaseConstant.UNKNOWN;
+        this.destinationLatitude = FirebaseConstant.UNKNOWN;
+        this.destinationLongitude = FirebaseConstant.UNKNOWN;
+        this.clientDeviceToken = FirebaseConstant.Empty;
+        this.shortestTime = FirebaseConstant.Empty;
+        this.shortestDistance = FirebaseConstant.Empty;
     }
 }

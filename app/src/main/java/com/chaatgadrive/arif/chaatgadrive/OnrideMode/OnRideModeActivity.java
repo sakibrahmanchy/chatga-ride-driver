@@ -43,6 +43,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import ContactWithFirebase.Main;
 import __Firebase.FirebaseResponse.NotificationModel;
 import __Firebase.FirebaseUtility.FirebaseConstant;
 import __Firebase.FirebaseWrapper;
@@ -67,7 +68,8 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     private Handler handler = new Handler();
     private GetDistanceFromMap  getDistanceFromMap;
     private SetNotificationWhenRideStart setNotificationWhenRideStart;
-    private long CurrentTimeInSecond=0;
+    private long CurrentTimeInSecond = 0;
+    private Main main = null;
 
     Calendar rightNow = Calendar.getInstance();
 
@@ -77,6 +79,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_onride_mode);
         notificationModel = FirebaseWrapper.getInstance().getNotificationModelInstance();
+        main = new Main(this);
 
         connectionCheck  = new ConnectionCheck(this);
         initialCostEstimation = new InitialCostEstimation(this);
@@ -146,8 +149,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                     connectionCheck.showGPSDisabledAlertToUser();
                 }
                 else {
-
-                    AppConstant.RIDING_FLAG=2;
+                    AppConstant.RIDING_FLAG = 2;
                     initialCostEstimation.CreateInitialHistory();
                     startRide.setVisibility(View.INVISIBLE);
                     finishRide.setVisibility(View.VISIBLE);
@@ -155,7 +157,6 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                     setNotificationWhenRideStart.Notification();
                     AppConstant.PREVIOUS_LATLONG = new LatLng(notificationModel.sourceLatitude,notificationModel.sourceLongitude);
                     MandatoryCall();
-
                 }
             }
         });
@@ -167,34 +168,31 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
 
                 if(!connectionCheck.isNetworkConnected()){
                     Intent intent = new Intent(OnRideModeActivity.this, InternetCheckActivity.class);
-                    startActivityForResult(intent,AppConstant.INTERNET_CHECK);
+                    startActivityForResult(intent, AppConstant.INTERNET_CHECK);
                 }
                 else if (!connectionCheck.isGpsEnable()){
                     connectionCheck.showGPSDisabledAlertToUser();
                 }
                 else {
-
-                    AppConstant.IS_RIDE_FINISH=true;
+                    AppConstant.IS_RIDE_FINISH = true;
                     new AlertDialog.Builder(OnRideModeActivity.this)
                             .setTitle("Really Exit?")
                             .setMessage("Are you sure you want to finish?")
                             .setNegativeButton(android.R.string.no, null)
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface arg0, int arg1) {
+                                    main.ForcedFinishedRide(000 /*Final cost*/, Pair.create(0d, 0d)/*Final Destination*/);
                                     notification.setAutoCancel(true);
                                     notificationManager.cancel(AppConstant.NOTIFICATION_ID);
-                                    AppConstant.RIDING_FLAG=1;
+                                    AppConstant.RIDING_FLAG = 1;
                                     finish();
                                     Intent intent = new Intent(OnRideModeActivity.this, MainActivity.class);
                                     startActivity(intent);
                                 }
                             }).create().show();
                 }
-
-
             }
         });
-
     }
 
     void setUpMap(){

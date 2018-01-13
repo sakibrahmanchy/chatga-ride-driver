@@ -62,7 +62,7 @@ public class FinishedRide {
                                     Map<String, Object> Latitude = new HashMap<>();
                                     Longitude.put(FirebaseConstant.LONGITUDE, HistoryModel.EndingLocation.Longitude);
                                     ds.getRef().updateChildren(Longitude);
-
+                                    callBackListener.OnFinishedRide(true);
                                     break;
                                 }
                             }
@@ -73,6 +73,7 @@ public class FinishedRide {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                callBackListener.OnFinishedRide(false);
             }
         });
     }
