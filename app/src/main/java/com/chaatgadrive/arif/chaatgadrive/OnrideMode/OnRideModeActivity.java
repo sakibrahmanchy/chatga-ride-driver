@@ -155,7 +155,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                     finishRide.setVisibility(View.VISIBLE);
                     setTitle("You are in Ride");
                     setNotificationWhenRideStart.Notification();
-                    AppConstant.PREVIOUS_LATLONG = new LatLng(notificationModel.sourceLatitude,notificationModel.sourceLongitude);
+                    AppConstant.PREVIOUS_LATLONG = new LatLng(mMap.getMyLocation().getLatitude(),mMap.getMyLocation().getLongitude());
                     MandatoryCall();
                 }
             }
@@ -297,15 +297,12 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                 try {
 
                     double Currentdistance=0;
-                    double CurrentDuration =0;
-
                     AppConstant.TOTAL_DURATION +=5;
 
-                    currentLatlong = new LatLng(getCurrentLocation.getLatitude(),getCurrentLocation.getLongitude());
+                    currentLatlong = new LatLng(mMap.getMyLocation().getLongitude(),mMap.getMyLocation().getLongitude());
                     Currentdistance= getDistanceFromMap.getDistance(AppConstant.PREVIOUS_LATLONG,currentLatlong);
                     AppConstant.PREVIOUS_LATLONG = currentLatlong;
                     AppConstant.TOTAL_DISTANCE += (Currentdistance/1000.0);
-
 
 
                     Log.d("Total_Distance  ",AppConstant.TOTAL_DISTANCE+" ");
