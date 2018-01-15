@@ -27,4 +27,5 @@ public class AppConstant {
     public static boolean mRequestingLocationUpdates =true;
     public  static final int UPDATE_INTERVAL_IN_MILLISECONDS =3000;
     public static final int FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =2000;
+
 }

@@ -133,6 +133,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                     finishRide.setVisibility(View.VISIBLE);
 
                 }
+
                 getDistanceAndDuration = new GetDistanceAndDuration(this,new LatLng(notificationModel.sourceLatitude,notificationModel.sourceLongitude),
                         new LatLng(notificationModel.destinationLatitude,notificationModel.destinationLongitude));
             }catch (Exception e){
@@ -176,8 +177,6 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                     //noinspection deprecation
                     Gson gson = new Gson();
                     String json = gson.toJson(notificationModel);
-                    editor.putString("notificationModel",json);
-                    editor.commit();
                     AppConstant.RIDING_FLAG = 2;
                     initialCostEstimation.CreateInitialHistory();
                     startRide.setVisibility(View.INVISIBLE);
@@ -231,6 +230,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
 
                                     }catch (Exception e){
                                         notification.setAutoCancel(true);
+                                        notificationManager.cancel(AppConstant.NOTIFICATION_ID);
                                         userInformation.RemoveNotification();
                                         notification.setAutoCancel(true);
                                         finish();
@@ -295,6 +295,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         mapFragment.getMapAsync(OnRideModeActivity.this);
     }
 
+
     private String getDirectionsUrl(LatLng origin, LatLng dest) {
 
         // Origin of route
@@ -336,6 +337,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                 }).create().show();
 
     }
+
 
     private void MandatoryCall() {
 

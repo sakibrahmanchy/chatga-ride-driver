@@ -46,6 +46,13 @@ public class UserInformation {
         notificationModel = gson.fromJson(jsonString, NotificationModel.class);
         return notificationModel;
     }
+
+    public String DriveOnRide() {
+
+        return sharedpreferences.getString("Driver", "");
+
+    }
+
     public void RemoveNotification(){
             editor.remove("notificationModel");
             editor.commit();
