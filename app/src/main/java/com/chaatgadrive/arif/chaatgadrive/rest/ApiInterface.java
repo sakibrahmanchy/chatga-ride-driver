@@ -79,7 +79,7 @@ public interface ApiInterface {
                                                 @Field("initial_approx_cost") String initialApproxCost);
 
 
-    @POST("api/v1/ride/Finish")
+    @POST("api/v1/ride/finish")
     @FormUrlEncoded
     Call<RideFinishResponse> createRideFinishHistory(@Header("Authorization") String authHeader,
                                                      @Field("price_per_km") int clientId,
