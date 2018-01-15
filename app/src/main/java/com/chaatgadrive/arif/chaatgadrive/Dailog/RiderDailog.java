@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.app.FragmentActivity;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import com.chaatgadrive.arif.chaatgadrive.OnrideMode.OnRideModeActivity;
 import com.chaatgadrive.arif.chaatgadrive.R;
+import com.google.gson.Gson;
 
 import ContactWithFirebase.Main;
 import __Firebase.FirebaseModel.ClientModel;
@@ -34,15 +36,20 @@ public class RiderDailog extends Dialog implements android.view.View.OnClickList
     private ClientModel clientModel;
     private TextView From_road_location,To_road_location;
 
+    private   NotificationModel notificationModel;
+
     public RiderDailog(Activity activity) {
         super(activity);
         this.activity = activity;
         myContext = (FragmentActivity) activity;
+
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.custom_dialog_ride);
@@ -54,10 +61,10 @@ public class RiderDailog extends Dialog implements android.view.View.OnClickList
         btnYes.setOnClickListener(this);
         btnNo.setOnClickListener(this);
         main = new Main(getContext());
-        NotificationModel nm = FirebaseWrapper.getInstance().getNotificationModelInstance();
+      notificationModel= FirebaseWrapper.getInstance().getNotificationModelInstance();
       //  clientModel = FirebaseWrapper.getInstance().getClientModelInstance();
-        From_road_location.setText(nm.sourceName);
-        To_road_location.setText(nm.destinationName);
+        From_road_location.setText(notificationModel.sourceName);
+        To_road_location.setText(notificationModel.destinationName);
 
 
     }
@@ -66,6 +73,7 @@ public class RiderDailog extends Dialog implements android.view.View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_yes:
+
                 Intent intent = new Intent(getContext(),OnRideModeActivity.class);
                 getContext().startActivity(intent);
                 SendPushNotification();

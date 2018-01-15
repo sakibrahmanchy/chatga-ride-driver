@@ -1,19 +1,11 @@
 package com.chaatgadrive.arif.chaatgadrive.OnrideMode;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.util.Pair;
 
 import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
-import com.chaatgadrive.arif.chaatgadrive.CostEstimation.CostEstimation;
-import com.chaatgadrive.arif.chaatgadrive.UserInformation;
-import com.chaatgadrive.arif.chaatgadrive.models.HistoryModel.RiderHistory;
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.PolylineOptions;
 
 import org.json.JSONObject;
 
@@ -23,14 +15,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import ContactWithFirebase.Main;
-import __Firebase.FirebaseModel.CurrentRidingHistoryModel;
-import __Firebase.FirebaseResponse.NotificationModel;
-import __Firebase.FirebaseUtility.FirebaseConstant;
 
 /**
  * Created by Arif on 11/12/2017.
