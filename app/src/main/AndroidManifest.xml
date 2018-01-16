@@ -61,7 +61,12 @@
         </service>
 
         <activity android:name=".OnrideMode.OnRideModeActivity" />
-        <activity android:name=".InternetConnection.InternetCheckActivity"></activity>
+        <activity android:name=".InternetConnection.InternetCheckActivity" />
+
+        <service
+            android:name=".OnLocationChange.UpdateLocationService"
+            android:enabled="true"
+            android:exported="false"></service>
     </application>
 
 </manifest>

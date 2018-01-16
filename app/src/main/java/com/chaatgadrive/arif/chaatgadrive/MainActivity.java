@@ -30,6 +30,7 @@ import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
 import com.chaatgadrive.arif.chaatgadrive.Dailog.RiderDailog;
 import com.chaatgadrive.arif.chaatgadrive.InternetConnection.ConnectionCheck;
 import com.chaatgadrive.arif.chaatgadrive.InternetConnection.InternetCheckActivity;
+import com.chaatgadrive.arif.chaatgadrive.OnLocationChange.UpdateLocationService;
 import com.chaatgadrive.arif.chaatgadrive.SharedPreferences.UserInformation;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.GetCurrentLocation;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.Mapfragment;
@@ -221,6 +222,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void MandatoryCall() {
 
+        Intent intent = new Intent(MainActivity.this, UpdateLocationService.class);
+        startService(intent);
         if (loginData != null) {
             main.CreateNewRiderFirebase(loginData, userInformation.getRiderPhoneNumber());
         } else {
@@ -230,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
             main.CreateNewRiderFirebase(loginData, userInformation.getRiderPhoneNumber());
         }
 
-
+/*
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -246,6 +249,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         handler.postDelayed(runnable, 5000);
+        */
 
     }
 
