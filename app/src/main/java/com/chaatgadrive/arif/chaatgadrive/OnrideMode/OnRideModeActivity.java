@@ -198,9 +198,8 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                                     }
 
                                     try {
-                                        main.ForcedFinishedRide(costEstimation.TotalCost((int)AppConstant.TOTAL_DURATION,AppConstant.TOTAL_DISTANCE)/*Final cost*/, Pair.create(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude())/*Final Destination*/);
-                                        initialAndFinalCostEstimation.UpdateFinalHistory(AppConstant.CURRENT_HISTORY_ID,AppConstant.TOTAL_DURATION,AppConstant.TOTAL_DISTANCE,
-                                                AppConstant.CURRENT_CLIENT_DISCOUNT_ID);
+
+                                        initialAndFinalCostEstimation.UpdateFinalHistory(AppConstant.CURRENT_HISTORY_ID,AppConstant.TOTAL_DURATION,AppConstant.TOTAL_DISTANCE, AppConstant.CURRENT_CLIENT_DISCOUNT_ID);
                                         notification.setAutoCancel(true);
                                         notificationManager.cancel(AppConstant.NOTIFICATION_ID);
                                         AppConstant.RIDING_FLAG = 1;

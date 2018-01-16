@@ -29,5 +29,6 @@ public class AppConstant {
     public static final int FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =2000;
     public static int CURRENT_HISTORY_ID=0;
     public static int CURRENT_CLIENT_DISCOUNT_ID=0;
+    public static int TOTAL_RIDING_COST=0;
 
 }

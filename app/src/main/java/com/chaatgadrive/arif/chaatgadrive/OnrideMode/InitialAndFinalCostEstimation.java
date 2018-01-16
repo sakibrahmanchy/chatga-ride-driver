@@ -3,17 +3,24 @@ package com.chaatgadrive.arif.chaatgadrive.OnrideMode;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
 import com.chaatgadrive.arif.chaatgadrive.CostEstimation.CostEstimation;
+import com.chaatgadrive.arif.chaatgadrive.Dailog.RideFinishDailog;
+import com.chaatgadrive.arif.chaatgadrive.Dailog.RiderDailog;
 import com.chaatgadrive.arif.chaatgadrive.LoginHelper;
 import com.chaatgadrive.arif.chaatgadrive.MainActivity;
 import com.chaatgadrive.arif.chaatgadrive.PhoneVerificationActivity;
 import com.chaatgadrive.arif.chaatgadrive.UserCheckActivity;
+import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideFinishModel.RideFinishData;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideFinishModel.RideFinishResponse;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideHistory.RideHistory;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideHistory.RideHistoryResponse;
@@ -151,12 +158,18 @@ public class InitialAndFinalCostEstimation {
                 dialog.dismiss();
                 switch(statusCode){
                     case 200:
-
-                        Intent intent = new Intent(mContext, MainActivity.class);
-                        mContext.startActivity(intent);
-                        ((Activity)mContext).finish();
                         if(response.body().isSuccess()){
 
+                            RideFinishData rideFinishData = response.body().getData();
+                            AppConstant.TOTAL_RIDING_COST = (int)rideFinishData.getCostAfterDiscount();
+                            RideFinishDailog rideFinishDailog = new RideFinishDailog((Activity) mContext);
+                            rideFinishDailog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                            rideFinishDailog.show();
+                            /*
+                            Intent intent = new Intent(mContext, MainActivity.class);
+                            mContext.startActivity(intent);
+                            ((Activity)mContext).finish();
+                            */
                         }
                         break;
                     case 500:
