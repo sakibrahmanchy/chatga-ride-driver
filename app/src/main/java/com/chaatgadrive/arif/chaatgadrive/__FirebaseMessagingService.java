@@ -12,6 +12,7 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import __Firebase.FirebaseModel.ClientModel;
 import __Firebase.FirebaseResponse.NotificationModel;
 import __Firebase.FirebaseUtility.FirebaseConstant;
 import __Firebase.FirebaseWrapper;
@@ -26,6 +27,7 @@ public class __FirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
         NotificationModel notificationModel = FirebaseWrapper.getInstance().getNotificationModelInstance();
+        ClientModel clientModel = FirebaseWrapper.getInstance().getClientModelInstance();
 
         if (remoteMessage.getData().size() > 0) {
 
@@ -44,6 +46,11 @@ public class __FirebaseMessagingService extends FirebaseMessagingService {
             notificationModel.sourceLongitude = Double.parseDouble(remoteMessage.getData().containsKey("sourceLongitude") ? remoteMessage.getData().get("sourceLongitude") : "0");
             notificationModel.destinationLatitude = Double.parseDouble(remoteMessage.getData().containsKey("destinationLatitude") ? remoteMessage.getData().get("destinationLatitude") : "0");
             notificationModel.destinationLongitude = Double.parseDouble(remoteMessage.getData().containsKey("destinationLongitude") ? remoteMessage.getData().get("destinationLongitude") : "0");
+
+            clientModel.ClientID = notificationModel.clientId;
+            clientModel.FullName = notificationModel.clientName;
+            clientModel.PhoneNumber = Long.parseLong(notificationModel.clientPhone);
+            clientModel.DeviceToken = notificationModel.clientDeviceToken;
         }
 
         Intent intent = new Intent(this, MainActivity.class);

@@ -12,6 +12,7 @@ import __Firebase.FirebaseModel.ClientModel;
 import __Firebase.FirebaseModel.CurrentRidingHistoryModel;
 import __Firebase.FirebaseModel.RiderModel;
 import __Firebase.FirebaseRequest.__FirebaseRequest;
+import __Firebase.FirebaseResponse.FirebaseResponse;
 import __Firebase.FirebaseUtility.FirebaseConstant;
 import __Firebase.FirebaseUtility.FirebaseUtilMethod;
 import __Firebase.FirebaseWrapper;
@@ -432,6 +433,7 @@ public class Main implements ICallbackMain {
                 FirebaseWrapper.getInstance().getClientModelInstance()
         );
         this.ForcedAcceptanceOfRide(FirebaseConstant.FINAL_ACCEPTANCE);
+        FirebaseResponse.RiderCanceledByRiderResponse(FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance().HistoryID);
         Log.d(FirebaseConstant.NEW_HISTORY_CREATE, Boolean.toString(value));
     }
 
