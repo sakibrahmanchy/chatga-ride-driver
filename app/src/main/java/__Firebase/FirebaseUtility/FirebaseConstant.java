@@ -98,6 +98,7 @@ public class FirebaseConstant {
     public static String NOTIFICATION_SEND = "NOTIFICATION_SEND";
     public static String RIDE_STARTED = "RIDE_STARTED";
     public static String FINISHED_RIDE = "FINISHED_RIDE";
+    public static String RIDE_CANCELED = "RIDE_CANCELED";
 
     /*Notification Action Type*/
     public static String RIDER_TO_CLIENT = "3012";
