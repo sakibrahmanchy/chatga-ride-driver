@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class RideFinishResponse {
 
-    @SerializedName("successs")
+    @SerializedName("success")
     private boolean success;
     @SerializedName("message")
     private boolean message;
