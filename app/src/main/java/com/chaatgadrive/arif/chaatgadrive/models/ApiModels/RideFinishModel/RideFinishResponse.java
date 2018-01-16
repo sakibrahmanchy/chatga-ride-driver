@@ -11,11 +11,11 @@ public class RideFinishResponse {
     @SerializedName("success")
     private boolean success;
     @SerializedName("message")
-    private boolean message;
+    private String message;
     @SerializedName("data")
     private RideFinishData data;
 
-    public RideFinishResponse(boolean success, boolean message, RideFinishData data) {
+    public RideFinishResponse(boolean success, String message, RideFinishData data) {
         this.success = success;
         this.message = message;
         this.data = data;
@@ -29,11 +29,11 @@ public class RideFinishResponse {
         this.success = success;
     }
 
-    public boolean isMessage() {
+    public String getMessage() {
         return message;
     }
 
-    public void setMessage(boolean message) {
+    public void setMessage(String message) {
         this.message = message;
     }
 
