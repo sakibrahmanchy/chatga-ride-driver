@@ -89,7 +89,7 @@ public class UpdateLocationService extends Service implements GoogleApiClient.Co
                 Log.d(FirebaseConstant.UPDATE_LOCATION_TIMER, FirebaseConstant.UPDATE_LOCATION_TIMER);
             }
         }
-       Toast.makeText(UpdateLocationService.this, "onLocationChanged "+location, Toast.LENGTH_SHORT).show();
+      // Toast.makeText(UpdateLocationService.this, "onLocationChanged "+location, Toast.LENGTH_SHORT).show();
 
     }
 
