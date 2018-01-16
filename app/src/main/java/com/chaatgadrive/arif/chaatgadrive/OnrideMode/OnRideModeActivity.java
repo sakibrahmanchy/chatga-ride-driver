@@ -3,15 +3,12 @@ package com.chaatgadrive.arif.chaatgadrive.OnrideMode;
 import android.Manifest;
 import android.app.Notification;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
@@ -32,27 +29,18 @@ import com.chaatgadrive.arif.chaatgadrive.Dailog.BottomSheetDailogRide;
 import com.chaatgadrive.arif.chaatgadrive.InternetConnection.InternetCheckActivity;
 import com.chaatgadrive.arif.chaatgadrive.MainActivity;
 import com.chaatgadrive.arif.chaatgadrive.R;
-import com.chaatgadrive.arif.chaatgadrive.SharedPreferences.UserInformation;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.ConstentUtilityModel;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.GetCurrentLocation;
-import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginData;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.gson.Gson;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 import ContactWithFirebase.Main;
 import __Firebase.FirebaseResponse.NotificationModel;
-import __Firebase.FirebaseUtility.FirebaseConstant;
 import __Firebase.FirebaseWrapper;
 
 public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationChangeListener {
@@ -70,7 +58,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     private Button finishRide;
     private Notification note;
     private NotificationManager notificationManager;
-    private InitialCostEstimation initialCostEstimation;
+    private InitialAndFinalCostEstimation initialAndFinalCostEstimation;
     private GetDistanceAndDuration getDistanceAndDuration;
     private Handler handler = new Handler();
     private GetDistanceFromMap  getDistanceFromMap;
@@ -90,7 +78,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         notificationModel = FirebaseWrapper.getInstance().getNotificationModelInstance();
         main = new Main(this);
         connectionCheck  = new ConnectionCheck(this);
-        initialCostEstimation = new InitialCostEstimation(this);
+        initialAndFinalCostEstimation = new InitialAndFinalCostEstimation(this);
         getCurrentLocation = new GetCurrentLocation(this);
         getDistanceFromMap = new GetDistanceFromMap();
         setNotificationWhenRideStart = new SetNotificationWhenRideStart(this);
@@ -169,7 +157,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                     startTime = new Date();
                     //noinspection deprecation
                     AppConstant.RIDING_FLAG = 2;
-                    initialCostEstimation.CreateInitialHistory();
+                    initialAndFinalCostEstimation.CreateInitialHistory();
                     startRide.setVisibility(View.INVISIBLE);
                     finishRide.setVisibility(View.VISIBLE);
                     setTitle("You are in Ride");

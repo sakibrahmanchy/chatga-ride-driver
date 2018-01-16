@@ -12,6 +12,7 @@ import com.chaatgadrive.arif.chaatgadrive.CostEstimation.CostEstimation;
 import com.chaatgadrive.arif.chaatgadrive.LoginHelper;
 import com.chaatgadrive.arif.chaatgadrive.PhoneVerificationActivity;
 import com.chaatgadrive.arif.chaatgadrive.UserCheckActivity;
+import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideFinishModel.RideFinishResponse;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideHistory.RideHistory;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideHistory.RideHistoryResponse;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.UserCheckResponse;
@@ -40,7 +41,7 @@ import static android.content.ContentValues.TAG;
  * Created by Arif on 1/10/2018.
  */
 
-public class InitialCostEstimation {
+public class InitialAndFinalCostEstimation {
 
     private ApiInterface apiService ;
     private Context mContext;
@@ -52,7 +53,7 @@ public class InitialCostEstimation {
     private RiderHistory riderHistory;
     private Main main;
 
-    public InitialCostEstimation(Context context) {
+    public InitialAndFinalCostEstimation(Context context) {
 
         apiService =   ApiClient.getClient().create(ApiInterface.class);
         this.mContext=context;
@@ -67,7 +68,6 @@ public class InitialCostEstimation {
     }
 
     public void CreateInitialHistory(){
-
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String currentDateandTime = sdf.format(new Date());
@@ -129,6 +129,70 @@ public class InitialCostEstimation {
             }
         });
     }
+
+    /*
+    public void UpdateFinalHistory(){
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        apiService = ApiClient.getClient().create(ApiInterface.class);
+        dialog = new ProgressDialog(mContext);
+        dialog.setMessage("Please Wait..");
+        dialog.show();
+
+        final String TotalCost = String.valueOf(costEstimation.getTotalCost(AppConstant.DISTANCE,AppConstant.DURATION)+AppConstant.BASE_TAKA);
+        String authHeader = "Bearer "+pref.getString("access_token",null);
+        Call<RideFinishResponse> call = apiService.createRideFinishHistory(authHeader,(int)notificationModel.clientId,(int)notificationModel.riderId,currentDateandTime,
+                TotalDuration,
+                String.valueOf(notificationModel.sourceLatitude), String.valueOf(notificationModel.destinationLongitude),
+                String.valueOf(notificationModel.destinationLatitude), String.valueOf(notificationModel.destinationLongitude),
+                notificationModel.sourceName,notificationModel.destinationName,
+                TotalCost);
+
+        call.enqueue(new Callback<RideHistoryResponse>() {
+            @Override
+            public void onResponse(Call<RideHistoryResponse> call, Response<RideHistoryResponse> response) {
+
+                int statusCode = response.code();
+                dialog.dismiss();
+                switch(statusCode){
+                    case 200:
+
+                        if(response.body().isSuccess()){
+                            RideHistory history = response.body().getHistory();
+                            LatLng Source = new LatLng(notificationModel.sourceLatitude, notificationModel.sourceLongitude);
+                            LatLng Destination = new LatLng(notificationModel.destinationLatitude, notificationModel.destinationLongitude);
+                            riderHistory.ClientID = notificationModel.clientId;
+                            riderHistory.CostSoFar = (long)(costEstimation.getTotalCost(AppConstant.DISTANCE, AppConstant.DURATION));
+                            riderHistory.HistoryID = history.getHistoryId();
+                            riderHistory.RiderID = notificationModel.riderId;
+                            riderHistory.StartLocation = Source;
+                            riderHistory.EndLocation = Destination;
+                            riderHistory.Client_History = Long.toString(notificationModel.clientId) + FirebaseConstant.UNDER_SCORE + Long.toString(riderHistory.HistoryID);
+                            riderHistory.Rider_History = Long.toString(notificationModel.riderId) + FirebaseConstant.UNDER_SCORE + Long.toString(riderHistory.HistoryID);
+                            riderHistory.IsRideFinished = FirebaseConstant.RIDE_NOT_FINISHED;
+                            riderHistory.IsRideStart = FirebaseConstant.RIDE_NOT_START;
+                            main.CreateNewHistoryModelFirebase(riderHistory);
+                        }
+                        break;
+                    case 500:
+
+                        Log.d("Onride",response.errorBody().toString());
+                        break;
+
+                    default:
+
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RideHistoryResponse> call, Throwable t) {
+                Log.e(TAG, t.toString());
+            }
+        });
+    }
+*/
 
 
 }
