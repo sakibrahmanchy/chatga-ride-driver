@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
     private LoginData loginData;
     private UserInformation userInformation;
     private boolean check = false;
-    private FusedLocationProviderClient mFusedLocationClient;
     private LocationCallback mLocationCallback;
     private LocationRequest mLocationRequest;
 
@@ -116,9 +115,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getCurrentLocation = new GetCurrentLocation(this);
         connectionCheck = new ConnectionCheck(this);
-        createLocationRequest();
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
         if (!connectionCheck.isNetworkConnected()) {
 
             Intent intent = new Intent(MainActivity.this, InternetCheckActivity.class);
@@ -156,49 +152,6 @@ public class MainActivity extends AppCompatActivity {
 
         //mTextMessage = (TextView) findViewById(R.id.message);
 
-
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        mFusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        // Got last known location. In some rare situations this can be null.
-                        if (location != null) {
-                            // Logic to handle location object
-
-                            AppConstant.GlobalLocation = location;
-                        }
-                    }
-                });
-
-        mLocationCallback = new LocationCallback() {
-            @Override
-            public void onLocationResult(LocationResult locationResult) {
-                for (Location location : locationResult.getLocations()) {
-                    // Update UI with location data
-                    // ...
-                    if(location !=null){
-                        final Pair newLocation = Pair.create(location.getLatitude(), location.getLongitude());
-                        if (FirebaseWrapper.getInstance().getRiderModelInstance().RiderID > 0) {
-                            main.UpdateRiderLocation(
-                                    FirebaseWrapper.getInstance().getRiderModelInstance(),
-                                    newLocation
-                            );
-                            Log.d(FirebaseConstant.UPDATE_LOCATION_TIMER, FirebaseConstant.UPDATE_LOCATION_TIMER);
-                        }
-                    }
-                }
-            };
-        };
 
 
     }
@@ -277,7 +230,7 @@ public class MainActivity extends AppCompatActivity {
             main.CreateNewRiderFirebase(loginData, userInformation.getRiderPhoneNumber());
         }
 
-        /*
+
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -293,49 +246,8 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         handler.postDelayed(runnable, 5000);
-        */
+
     }
 
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (AppConstant.mRequestingLocationUpdates) {
-            startLocationUpdates();
-        }
-    }
-
-
-    private void createLocationRequest() {
-        mLocationRequest = new LocationRequest();
-
-        // Sets the desired interval for active location updates. This interval is
-        // inexact. You may not receive updates at all if no location sources are available, or
-        // you may receive them slower than requested. You may also receive updates faster than
-        // requested if other applications are requesting location at a faster interval.
-        mLocationRequest.setInterval(AppConstant.UPDATE_INTERVAL_IN_MILLISECONDS);
-
-        // Sets the fastest rate for active location updates. This interval is exact, and your
-        // application will never receive updates faster than this value.
-        mLocationRequest.setFastestInterval(AppConstant.FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
-
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-    }
-
-    private void startLocationUpdates() {
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-
-        mFusedLocationClient.requestLocationUpdates(mLocationRequest,
-                mLocationCallback,
-                Looper.myLooper() /* Looper */);
-    }
 }

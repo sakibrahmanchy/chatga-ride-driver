@@ -77,9 +77,6 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     private SetNotificationWhenRideStart setNotificationWhenRideStart;
     private long CurrentTimeInSecond = 0;
     private Main main = null;
-    private UserInformation userInformation;
-    private SharedPreferences pref;
-    private SharedPreferences.Editor editor;
     private CostEstimation costEstimation;
     private Date startTime,endTime;
 
@@ -92,8 +89,6 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         setContentView(R.layout.activity_onride_mode);
         notificationModel = FirebaseWrapper.getInstance().getNotificationModelInstance();
         main = new Main(this);
-
-        userInformation = new UserInformation(this);
         connectionCheck  = new ConnectionCheck(this);
         initialCostEstimation = new InitialCostEstimation(this);
         getCurrentLocation = new GetCurrentLocation(this);
@@ -101,8 +96,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         setNotificationWhenRideStart = new SetNotificationWhenRideStart(this);
         notification = new NotificationCompat.Builder(this);
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        pref = getSharedPreferences("MyPref", 0);
-        editor = pref.edit();
+
         costEstimation = new CostEstimation();
 
 
@@ -115,7 +109,11 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
 
         startRide.setVisibility(View.VISIBLE);
         finishRide.setVisibility(View.INVISIBLE);
+        if( AppConstant.RIDING_FLAG ==2){
+            startRide.setVisibility(View.INVISIBLE);
+            finishRide.setVisibility(View.VISIBLE);
 
+        }
 
         if(!connectionCheck.isNetworkConnected()){
             Intent intent = new Intent(OnRideModeActivity.this, InternetCheckActivity.class);
@@ -127,12 +125,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         else {
 
             try{
-                if(userInformation.getuserNotification() !=null){
-                    notificationModel = userInformation.getuserNotification();
-                    startRide.setVisibility(View.INVISIBLE);
-                    finishRide.setVisibility(View.VISIBLE);
 
-                }
 
                 getDistanceAndDuration = new GetDistanceAndDuration(this,new LatLng(notificationModel.sourceLatitude,notificationModel.sourceLongitude),
                         new LatLng(notificationModel.destinationLatitude,notificationModel.destinationLongitude));
@@ -175,8 +168,6 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
 
                     startTime = new Date();
                     //noinspection deprecation
-                    Gson gson = new Gson();
-                    String json = gson.toJson(notificationModel);
                     AppConstant.RIDING_FLAG = 2;
                     initialCostEstimation.CreateInitialHistory();
                     startRide.setVisibility(View.INVISIBLE);
@@ -220,7 +211,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
 
                                     try {
                                         main.ForcedFinishedRide(costEstimation.TotalCost((int)AppConstant.TOTAL_DURATION,AppConstant.TOTAL_DISTANCE)/*Final cost*/, Pair.create(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude())/*Final Destination*/);
-                                        userInformation.RemoveNotification();
+
                                         notification.setAutoCancel(true);
                                         notificationManager.cancel(AppConstant.NOTIFICATION_ID);
                                         AppConstant.RIDING_FLAG = 1;
@@ -231,7 +222,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                                     }catch (Exception e){
                                         notification.setAutoCancel(true);
                                         notificationManager.cancel(AppConstant.NOTIFICATION_ID);
-                                        userInformation.RemoveNotification();
+
                                         notification.setAutoCancel(true);
                                         finish();
                                         Intent intent = new Intent(OnRideModeActivity.this, MainActivity.class);
