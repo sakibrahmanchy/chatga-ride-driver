@@ -7,8 +7,11 @@ import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
@@ -29,13 +32,17 @@ import com.chaatgadrive.arif.chaatgadrive.Dailog.BottomSheetDailogRide;
 import com.chaatgadrive.arif.chaatgadrive.InternetConnection.InternetCheckActivity;
 import com.chaatgadrive.arif.chaatgadrive.MainActivity;
 import com.chaatgadrive.arif.chaatgadrive.R;
+import com.chaatgadrive.arif.chaatgadrive.SharedPreferences.UserInformation;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.ConstentUtilityModel;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.GetCurrentLocation;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginData;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.Gson;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -48,7 +55,7 @@ import __Firebase.FirebaseResponse.NotificationModel;
 import __Firebase.FirebaseUtility.FirebaseConstant;
 import __Firebase.FirebaseWrapper;
 
-public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationChangeListener {
 
 
     private GoogleMap mMap;
@@ -70,6 +77,8 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     private SetNotificationWhenRideStart setNotificationWhenRideStart;
     private long CurrentTimeInSecond = 0;
     private Main main = null;
+    private CostEstimation costEstimation;
+    private Date startTime,endTime;
 
     Calendar rightNow = Calendar.getInstance();
 
@@ -80,7 +89,6 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         setContentView(R.layout.activity_onride_mode);
         notificationModel = FirebaseWrapper.getInstance().getNotificationModelInstance();
         main = new Main(this);
-
         connectionCheck  = new ConnectionCheck(this);
         initialCostEstimation = new InitialCostEstimation(this);
         getCurrentLocation = new GetCurrentLocation(this);
@@ -88,6 +96,9 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         setNotificationWhenRideStart = new SetNotificationWhenRideStart(this);
         notification = new NotificationCompat.Builder(this);
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        costEstimation = new CostEstimation();
+
 
 
         ic_info = (ImageView) findViewById(R.id.ic_info);
@@ -98,10 +109,10 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
 
         startRide.setVisibility(View.VISIBLE);
         finishRide.setVisibility(View.INVISIBLE);
-
-        if(AppConstant.RIDING_FLAG==2){
+        if( AppConstant.RIDING_FLAG ==2){
             startRide.setVisibility(View.INVISIBLE);
             finishRide.setVisibility(View.VISIBLE);
+
         }
 
         if(!connectionCheck.isNetworkConnected()){
@@ -114,6 +125,8 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         else {
 
             try{
+
+
                 getDistanceAndDuration = new GetDistanceAndDuration(this,new LatLng(notificationModel.sourceLatitude,notificationModel.sourceLongitude),
                         new LatLng(notificationModel.destinationLatitude,notificationModel.destinationLongitude));
             }catch (Exception e){
@@ -124,6 +137,9 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
             AllActionClick();
 
         }
+
+
+
 
 //        dialog.show();
     }
@@ -149,13 +165,16 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                     connectionCheck.showGPSDisabledAlertToUser();
                 }
                 else {
+
+                    startTime = new Date();
+                    //noinspection deprecation
                     AppConstant.RIDING_FLAG = 2;
                     initialCostEstimation.CreateInitialHistory();
                     startRide.setVisibility(View.INVISIBLE);
                     finishRide.setVisibility(View.VISIBLE);
                     setTitle("You are in Ride");
                     setNotificationWhenRideStart.Notification();
-                    AppConstant.PREVIOUS_LATLONG = new LatLng(notificationModel.sourceLatitude,notificationModel.sourceLongitude);
+                    AppConstant.PREVIOUS_LATLONG = new LatLng(mMap.getMyLocation().getLatitude(),mMap.getMyLocation().getLongitude());
                     MandatoryCall();
                 }
             }
@@ -181,13 +200,36 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                             .setNegativeButton(android.R.string.no, null)
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface arg0, int arg1) {
-                                    main.ForcedFinishedRide(000 /*Final cost*/, Pair.create(0d, 0d)/*Final Destination*/);
-                                    notification.setAutoCancel(true);
-                                    notificationManager.cancel(AppConstant.NOTIFICATION_ID);
-                                    AppConstant.RIDING_FLAG = 1;
-                                    finish();
-                                    Intent intent = new Intent(OnRideModeActivity.this, MainActivity.class);
-                                    startActivity(intent);
+
+                                    endTime = new Date();
+
+                                    try{
+                                        AppConstant.TOTAL_DURATION = ((endTime.getTime() - startTime.getTime())/(1000*60));
+                                    }catch ( Exception e){
+                                        AppConstant.TOTAL_DURATION=30;
+                                    }
+
+                                    try {
+                                        main.ForcedFinishedRide(costEstimation.TotalCost((int)AppConstant.TOTAL_DURATION,AppConstant.TOTAL_DISTANCE)/*Final cost*/, Pair.create(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude())/*Final Destination*/);
+
+                                        notification.setAutoCancel(true);
+                                        notificationManager.cancel(AppConstant.NOTIFICATION_ID);
+                                        AppConstant.RIDING_FLAG = 1;
+                                        finish();
+                                        Intent intent = new Intent(OnRideModeActivity.this, MainActivity.class);
+                                        startActivity(intent);
+
+                                    }catch (Exception e){
+                                        notification.setAutoCancel(true);
+                                        notificationManager.cancel(AppConstant.NOTIFICATION_ID);
+
+                                        notification.setAutoCancel(true);
+                                        finish();
+                                        Intent intent = new Intent(OnRideModeActivity.this, MainActivity.class);
+                                        startActivity(intent);
+                                        e.printStackTrace();
+                                    }
+
                                 }
                             }).create().show();
                 }
@@ -244,6 +286,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         mapFragment.getMapAsync(OnRideModeActivity.this);
     }
 
+
     private String getDirectionsUrl(LatLng origin, LatLng dest) {
 
         // Origin of route
@@ -287,10 +330,11 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     }
 
 
-
     private void MandatoryCall() {
 
-
+        //noinspection deprecation
+        mMap.setOnMyLocationChangeListener(this);
+        /*
         final Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -299,15 +343,12 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                 try {
 
                     double Currentdistance=0;
-                    double CurrentDuration =0;
-
                     AppConstant.TOTAL_DURATION +=5;
 
-                    currentLatlong = new LatLng(getCurrentLocation.getLatitude(),getCurrentLocation.getLongitude());
+                    currentLatlong = new LatLng(mMap.getMyLocation().getLongitude(),mMap.getMyLocation().getLongitude());
                     Currentdistance= getDistanceFromMap.getDistance(AppConstant.PREVIOUS_LATLONG,currentLatlong);
                     AppConstant.PREVIOUS_LATLONG = currentLatlong;
                     AppConstant.TOTAL_DISTANCE += (Currentdistance/1000.0);
-
 
 
                     Log.d("Total_Distance  ",AppConstant.TOTAL_DISTANCE+" ");
@@ -327,6 +368,31 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
             }
         };
         handler.postDelayed(runnable, 5000);
+        */
+    }
+
+
+    @Override
+    public void onMyLocationChange(Location location) {
+               if(location !=null){
+                   currentLatlong = new LatLng(mMap.getMyLocation().getLatitude(),mMap.getMyLocation().getLongitude());
+                   double Currentdistance= getDistanceFromMap.getDistance(AppConstant.PREVIOUS_LATLONG,currentLatlong);
+
+                   Log.d("TOTAL_DISTANCE: ",AppConstant.TOTAL_DISTANCE+" ");
+                   AppConstant.PREVIOUS_LATLONG = currentLatlong;
+                   AppConstant.TOTAL_DISTANCE += (Currentdistance/1000.0);
+               }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode ==0) {
+            if (resultCode == RESULT_OK) {
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
+            }
+        }
     }
 
 

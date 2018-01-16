@@ -8,6 +8,7 @@ import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.AccessTokenModels.Aut
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.DeviceTokenModels.UpdateDeviceTokenData;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginModel;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RegistrationModels.RegistrationModel;
+import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideFinishModel.RideFinishResponse;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideHistory.RideHistoryResponse;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.User;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.UserCheckResponse;
@@ -76,6 +77,19 @@ public interface ApiInterface {
                                                 @Field("pick_point_address") String pickPointAddress,
                                                 @Field("destination_address") String destinationAddress,
                                                 @Field("initial_approx_cost") String initialApproxCost);
+
+
+    @POST("api/v1/ride/finish")
+    @FormUrlEncoded
+    Call<RideFinishResponse> createRideFinishHistory(@Header("Authorization") String authHeader,
+                                                     @Field("price_per_km") int clientId,
+                                                     @Field("price_per_min") int riderId,
+                                                     @Field("history_id") String startTime,
+                                                     @Field("base_fare") String endTime,
+                                                     @Field("duration_in_minutes") String pickPointLat,
+                                                     @Field("distance") String pickPointLon,
+                                                     @Field("discount_id") String destinationPointLat);
+
 
 
 }

@@ -1,5 +1,7 @@
 package com.chaatgadrive.arif.chaatgadrive.AppConstant;
 
+import android.location.Location;
+
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Date;
@@ -21,4 +23,9 @@ public class AppConstant {
     public static double TOTAL_DISTANCE = 0.0;
     public static boolean IS_RIDE_FINISH = false;
     public static double TOTAL_DURATION = 0;
+    public static Location GlobalLocation = null;
+    public static boolean mRequestingLocationUpdates =true;
+    public  static final int UPDATE_INTERVAL_IN_MILLISECONDS =3000;
+    public static final int FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =2000;
+
 }

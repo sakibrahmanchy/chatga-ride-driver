@@ -60,4 +60,9 @@ public class CostEstimation {
 
         return duration;
     }
+
+    public int TotalCost(int minutes, double distance){
+
+           return (int) (AppConstant.BASE_TAKA +(distance*10) +minutes*.5);
+    }
 }

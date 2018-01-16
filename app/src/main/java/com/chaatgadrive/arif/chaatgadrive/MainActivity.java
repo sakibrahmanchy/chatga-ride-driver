@@ -2,12 +2,16 @@ package com.chaatgadrive.arif.chaatgadrive;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -26,11 +30,18 @@ import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
 import com.chaatgadrive.arif.chaatgadrive.Dailog.RiderDailog;
 import com.chaatgadrive.arif.chaatgadrive.InternetConnection.ConnectionCheck;
 import com.chaatgadrive.arif.chaatgadrive.InternetConnection.InternetCheckActivity;
+import com.chaatgadrive.arif.chaatgadrive.SharedPreferences.UserInformation;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.GetCurrentLocation;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.Mapfragment;
 import com.chaatgadrive.arif.chaatgadrive.dashboard.DashboardFragment;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginData;
 import com.chaatgadrive.arif.chaatgadrive.profile.ProfileViewFragment;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import ContactWithFirebase.Main;
 import __Firebase.FirebaseUtility.FirebaseConstant;
@@ -50,7 +61,9 @@ public class MainActivity extends AppCompatActivity {
     private ConnectionCheck connectionCheck;
     private LoginData loginData;
     private UserInformation userInformation;
-    private boolean check = true;
+    private boolean check = false;
+    private LocationCallback mLocationCallback;
+    private LocationRequest mLocationRequest;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -60,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
                 case R.id.navigation_home:
                     if (!connectionCheck.isNetworkConnected()) {
-                        Intent intent  = new Intent(MainActivity.this,InternetCheckActivity.class);
+                        Intent intent = new Intent(MainActivity.this, InternetCheckActivity.class);
                         startActivity(intent);
 
                     } else if (!connectionCheck.isGpsEnable()) {
@@ -81,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_profile:
                     if (!connectionCheck.isNetworkConnected()) {
-                        Intent intent  = new Intent(MainActivity.this,InternetCheckActivity.class);
+                        Intent intent = new Intent(MainActivity.this, InternetCheckActivity.class);
                         startActivityForResult(intent, AppConstant.INTERNET_CHECK);
 
                     } else if (!connectionCheck.isGpsEnable()) {
@@ -102,10 +115,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getCurrentLocation = new GetCurrentLocation(this);
         connectionCheck = new ConnectionCheck(this);
-
         if (!connectionCheck.isNetworkConnected()) {
 
-            Intent intent  = new Intent(MainActivity.this,InternetCheckActivity.class);
+            Intent intent = new Intent(MainActivity.this, InternetCheckActivity.class);
             startActivity(intent);
 
         } else if (!connectionCheck.isGpsEnable()) {
@@ -140,7 +152,10 @@ public class MainActivity extends AppCompatActivity {
 
         //mTextMessage = (TextView) findViewById(R.id.message);
 
+
+
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -155,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_settings:
                 Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT).show();
                 break;
-            case  R.id.refreshView:
+            case R.id.refreshView:
                 Toast.makeText(this, "Refresh selected", Toast.LENGTH_SHORT).show();
                 main.ForcedRefreshRider();
                 break;
@@ -215,6 +230,7 @@ public class MainActivity extends AppCompatActivity {
             main.CreateNewRiderFirebase(loginData, userInformation.getRiderPhoneNumber());
         }
 
+
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -230,5 +246,8 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         handler.postDelayed(runnable, 5000);
+
     }
+
+
 }

@@ -23,6 +23,7 @@ public class GetDistanceFromMap {
     }
 
     public double getDistance(LatLng startPoint, LatLng endPoint){
+
         Startlocation.setLatitude(startPoint.latitude);
         Startlocation.setLongitude(startPoint.longitude);
         Endlocation.setLatitude(endPoint.latitude);

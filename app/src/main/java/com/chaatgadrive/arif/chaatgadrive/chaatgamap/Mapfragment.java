@@ -2,12 +2,14 @@ package com.chaatgadrive.arif.chaatgadrive.chaatgamap;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,15 +22,20 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import ContactWithFirebase.Main;
+import __Firebase.FirebaseUtility.FirebaseConstant;
+import __Firebase.FirebaseWrapper;
 
 /**
  * Created by Arif on 11/27/2017.
  */
 
-public class Mapfragment extends Fragment implements OnMapReadyCallback {
+public class Mapfragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMyLocationChangeListener {
 
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private Marker mMarcadorActual;
@@ -41,7 +48,8 @@ public class Mapfragment extends Fragment implements OnMapReadyCallback {
     public Boolean mLocationPermissionsGranted;
     private GetCurrentLocation getCurrentLocation;
     private ConnectionCheck connectionCheck;
-
+    private UiSettings uiSettings;
+    private Main main;
     public Mapfragment() {
         // Required empty public constructor
     }
@@ -57,6 +65,7 @@ public class Mapfragment extends Fragment implements OnMapReadyCallback {
         Tag = ConstentUtilityModel.MapFragment;
         getCurrentLocation = new GetCurrentLocation(getContext());
         connectionCheck  = new ConnectionCheck(getContext());
+        main = new Main(getContext());
 
         if (getCurrentLocation.isGPSEnabled && getCurrentLocation.isGPSEnabled) {
             getLocationPermission();
@@ -91,7 +100,12 @@ public class Mapfragment extends Fragment implements OnMapReadyCallback {
             }
             mMap.setMyLocationEnabled(true);
           //  mMap.getUiSettings().setMyLocationButtonEnabled(false);
+            uiSettings = googleMap.getUiSettings();
+            uiSettings.setMapToolbarEnabled(false);
 
+            googleMap.setTrafficEnabled(true);
+            //noinspection deprecation
+            mMap.setOnMyLocationChangeListener(this);
          //   init();
             Toast.makeText(getContext(), "Map is Ready", Toast.LENGTH_SHORT).show();
         }
@@ -163,6 +177,23 @@ public class Mapfragment extends Fragment implements OnMapReadyCallback {
             mMap.addMarker(options);
         }
 
+
+    }
+
+    @Override
+    public void onMyLocationChange(Location location) {
+        /*
+        if(location !=null){
+            final Pair newLocation = Pair.create(location.getLatitude(), location.getLongitude());
+            if (FirebaseWrapper.getInstance().getRiderModelInstance().RiderID > 0) {
+                main.UpdateRiderLocation(
+                        FirebaseWrapper.getInstance().getRiderModelInstance(),
+                        newLocation
+                );
+                Log.d(FirebaseConstant.UPDATE_LOCATION_TIMER, FirebaseConstant.UPDATE_LOCATION_TIMER);
+            }
+        }
+        */
 
     }
 }
