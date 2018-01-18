@@ -140,7 +140,7 @@ public class InitialAndFinalCostEstimation {
     }
 
 
-    public void UpdateFinalHistory(int HistoryId,double durationInMinutes, double distance, int discountId){
+    public void UpdateFinalHistory(int HistoryId,double durationInMinutes, double distance, int discountId, String pickPointAddress, String destinationAddress){
 
         apiService = ApiClient.getClient().create(ApiInterface.class);
         dialog = new ProgressDialog(mContext);
@@ -148,7 +148,7 @@ public class InitialAndFinalCostEstimation {
         dialog.show();
         String authHeader = "Bearer "+pref.getString("access_token",null);
         Call<RideFinishResponse> call = apiService.createRideFinishHistory(authHeader,HistoryId,durationInMinutes,distance,
-                discountId);
+                discountId,pickPointAddress, destinationAddress);
 
         call.enqueue(new Callback<RideFinishResponse>() {
             @Override

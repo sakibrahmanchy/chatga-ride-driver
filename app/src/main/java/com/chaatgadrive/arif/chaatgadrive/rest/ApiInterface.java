@@ -85,7 +85,9 @@ public interface ApiInterface {
                                                      @Field("history_id") int historyId,
                                                      @Field("duration_in_minutes") double durationInMinutes,
                                                      @Field("distance") double distance,
-                                                     @Field("discount_id") int discountId);
+                                                     @Field("discount_id") int discountId,
+                                                     @Field("pick_point_address") String pickPointAddress,
+                                                     @Field("destination_address") String destinationAddress);
 
 
 
