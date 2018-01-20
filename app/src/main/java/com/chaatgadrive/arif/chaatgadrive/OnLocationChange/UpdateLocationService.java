@@ -11,11 +11,14 @@ import android.util.Log;
 import android.util.Pair;
 import android.widget.Toast;
 
+import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
+import com.chaatgadrive.arif.chaatgadrive.OnrideMode.GetDistanceFromMap;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
 
 import ContactWithFirebase.Main;
 import __Firebase.FirebaseUtility.FirebaseConstant;
@@ -24,9 +27,10 @@ import __Firebase.FirebaseWrapper;
 public class UpdateLocationService extends Service implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
-    private final static int UPDATE_INTERVAL = 3000;//whatever you want
+    private final static int UPDATE_INTERVAL = 10000;//whatever you want
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
+    private GetDistanceFromMap getDistanceFromMap =new GetDistanceFromMap();
     private Main  main = new Main(this);
     public UpdateLocationService() {
     }
@@ -88,6 +92,15 @@ public class UpdateLocationService extends Service implements GoogleApiClient.Co
                 );
                 Log.d(FirebaseConstant.UPDATE_LOCATION_TIMER, FirebaseConstant.UPDATE_LOCATION_TIMER);
             }
+
+            if(AppConstant.ON_RIDE_MODE==1){
+               LatLng currentLatlong = new LatLng(location.getLatitude(),location.getLongitude());
+                double Currentdistance= getDistanceFromMap.getDistance(AppConstant.PREVIOUS_LATLONG,currentLatlong);
+
+                Log.d("TOTAL_DISTANCE: ",AppConstant.TOTAL_DISTANCE+" ");
+                AppConstant.PREVIOUS_LATLONG = currentLatlong;
+                AppConstant.TOTAL_DISTANCE += (Currentdistance/1000.0);
+            }
         }
       // Toast.makeText(UpdateLocationService.this, "onLocationChanged "+location, Toast.LENGTH_SHORT).show();
 
@@ -116,4 +129,6 @@ public class UpdateLocationService extends Service implements GoogleApiClient.Co
         super.onTaskRemoved(rootIntent);
         LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, UpdateLocationService.this);
     }
+
+
 }

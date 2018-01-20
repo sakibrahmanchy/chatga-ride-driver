@@ -43,7 +43,7 @@ import ContactWithFirebase.Main;
 import __Firebase.FirebaseResponse.NotificationModel;
 import __Firebase.FirebaseWrapper;
 
-public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationChangeListener {
+public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyCallback {
 
 
     private GoogleMap mMap;
@@ -161,6 +161,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                     startRide.setVisibility(View.INVISIBLE);
                     finishRide.setVisibility(View.VISIBLE);
                     setTitle("You are in Ride");
+                    AppConstant.ON_RIDE_MODE=1;
                     setNotificationWhenRideStart.Notification();
                     AppConstant.PREVIOUS_LATLONG = new LatLng(mMap.getMyLocation().getLatitude(),mMap.getMyLocation().getLongitude());
                     MandatoryCall();
@@ -204,6 +205,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                                         notification.setAutoCancel(true);
                                         notificationManager.cancel(AppConstant.NOTIFICATION_ID);
                                         AppConstant.RIDING_FLAG = 1;
+                                        AppConstant.ON_RIDE_MODE=0;
 
 
                                     }catch (Exception e){
@@ -319,8 +321,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
 
     private void MandatoryCall() {
 
-        //noinspection deprecation
-        mMap.setOnMyLocationChangeListener(this);
+
         /*
         final Runnable runnable = new Runnable() {
             @Override
@@ -358,18 +359,6 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         */
     }
 
-
-    @Override
-    public void onMyLocationChange(Location location) {
-               if(location !=null){
-                   currentLatlong = new LatLng(mMap.getMyLocation().getLatitude(),mMap.getMyLocation().getLongitude());
-                   double Currentdistance= getDistanceFromMap.getDistance(AppConstant.PREVIOUS_LATLONG,currentLatlong);
-
-                   Log.d("TOTAL_DISTANCE: ",AppConstant.TOTAL_DISTANCE+" ");
-                   AppConstant.PREVIOUS_LATLONG = currentLatlong;
-                   AppConstant.TOTAL_DISTANCE += (Currentdistance/1000.0);
-               }
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

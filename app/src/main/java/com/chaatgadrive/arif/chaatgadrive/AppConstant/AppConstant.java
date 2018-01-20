@@ -30,5 +30,7 @@ public class AppConstant {
     public static int CURRENT_HISTORY_ID=0;
     public static int CURRENT_CLIENT_DISCOUNT_ID=0;
     public static int TOTAL_RIDING_COST=0;
+    public static int ON_RIDE_MODE=0;
+
 
 }
