@@ -41,7 +41,7 @@ public class FirebaseResponse {
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 if (dataSnapshot.exists()) {
                                     int data = Integer.parseInt(dataSnapshot.getValue().toString());
-                                    if (data != 1) {
+                                    if (data != -1) {
                                         new RiderCanceledByClient();
                                     }
                                 }
