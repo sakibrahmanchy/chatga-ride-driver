@@ -7,6 +7,9 @@ import android.util.Pair;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.GetCurrentLocation;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginData;
 import com.chaatgadrive.arif.chaatgadrive.models.HistoryModel.RiderHistory;
+import com.google.firebase.database.ServerValue;
+
+import java.io.IOException;
 
 import __Firebase.FirebaseModel.ClientModel;
 import __Firebase.FirebaseModel.CurrentRidingHistoryModel;
@@ -16,13 +19,14 @@ import __Firebase.FirebaseResponse.FirebaseResponse;
 import __Firebase.FirebaseUtility.FirebaseConstant;
 import __Firebase.FirebaseUtility.FirebaseUtilMethod;
 import __Firebase.FirebaseWrapper;
+import __Firebase.ICallbacklisteners.ICallBackCurrentServerTime;
 import __Firebase.ICallbacklisteners.ICallbackMain;
 
 /**
  * Created by User on 12/8/2017.
  */
 
-public class Main implements ICallbackMain {
+public class Main implements ICallbackMain, ICallBackCurrentServerTime {
 
     private GetCurrentLocation getCurrentLocation = null;
     private FirebaseWrapper firebaseWrapper = null;
@@ -39,7 +43,11 @@ public class Main implements ICallbackMain {
 
         firebaseWrapper = FirebaseWrapper.getInstance();
         FirebaseRequestInstance = firebaseWrapper.getFirebaseRequestInstance();
-
+        try {
+            FirebaseUtilMethod.getNetworkTime(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         FirebaseRequestInstance.IsRiderAlreadyCreated(RiderModel, Main.this);
         return true;
     }
@@ -247,6 +255,20 @@ public class Main implements ICallbackMain {
 
         firebaseWrapper = FirebaseWrapper.getInstance();
         firebaseWrapper.getFirebaseRequestInstance().GetCurrentClient(ClientId, Main.this);
+        return true;
+    }
+
+    public boolean CancelRideByRider(/* Firebase HistoryModel, RiderModel */ CurrentRidingHistoryModel HistoryModel, RiderModel Rider) {
+
+        if(HistoryModel == null || HistoryModel.HistoryID < 1 || Rider == null || Rider.RiderID < 1)    return false;
+
+        firebaseWrapper = FirebaseWrapper.getInstance();
+        this.riderModel = Rider;
+        this.currentRidingHistoryModel = HistoryModel;
+
+        this.currentRidingHistoryModel.RideCanceledByRider = FirebaseConstant.RIDE_CANCELED_BY_RIDER;
+
+        firebaseWrapper.getFirebaseRequestInstance().CancelRideByRider(currentRidingHistoryModel, riderModel, Main.this);
         return true;
     }
 
@@ -484,6 +506,7 @@ public class Main implements ICallbackMain {
 
     @Override
     public void OnOnIsRiderAlreadyCreated(boolean value) {
+
         if (value == true) {
             this.SetDeviceTokenToRiderTable(
                     FirebaseWrapper.getInstance().getRiderModelInstance(),
@@ -527,5 +550,12 @@ public class Main implements ICallbackMain {
             ForcedClearFirebaseData(FirebaseConstant.RIDE_FINISHED);
         }
         Log.d(FirebaseConstant.FINISHED_RIDE, Boolean.toString(value));
+    }
+
+    @Override
+    public void OnResponseServerTime(long value) {
+        if(value > 0) {
+            Log.d(FirebaseConstant.CURRENT_SERVER_TIME, Long.toString(value));
+        }
     }
 }

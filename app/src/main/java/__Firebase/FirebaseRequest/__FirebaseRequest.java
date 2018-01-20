@@ -244,4 +244,15 @@ public class __FirebaseRequest extends AppCompatActivity {
         };
         thread.start();
     }
+
+    public void CancelRideByRider(/* Firebase HistoryModel, RiderModel */ final CurrentRidingHistoryModel HistoryModel, final RiderModel Rider, final ICallbackMain callBackListener){
+
+        Thread thread = new Thread(){
+            @Override
+            public void run(){
+                new CancelRideByRider(HistoryModel, Rider, callBackListener);
+            }
+        };
+        thread.start();
+    }
 }
