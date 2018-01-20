@@ -5,6 +5,7 @@ package com.chaatgadrive.arif.chaatgadrive.rest;
  */
 
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.AccessTokenModels.AuthToken;
+import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.DateTimeModel.DateTimeResponse;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.DeviceTokenModels.UpdateDeviceTokenData;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginModel;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RegistrationModels.RegistrationModel;
@@ -88,6 +89,9 @@ public interface ApiInterface {
                                                      @Field("discount_id") int discountId,
                                                      @Field("pick_point_address") String pickPointAddress,
                                                      @Field("destination_address") String destinationAddress);
+
+    @GET("chaatga_rider/api/v1/date_time")
+    Call<DateTimeResponse> getDateTime();
 
 
 
