@@ -22,6 +22,7 @@ public class FirebaseConstant {
     public static String RIDE_CANCEL_BY_RIDER = "RideCanceledByRider";
     public static String HISTORY = "History";
     public static String HISTORY_ID = "HistoryID";
+    public static String RIDER_HISTORY = "Rider_History";
     public static String ONLINE_BUSY_RIDE = "OnlineBusyOnRide";
     public static String RIDER_ID = "RiderID";
     public static String IS_RIDER_BUSY_OR_FREE = "IsRiderBusy";
@@ -38,6 +39,8 @@ public class FirebaseConstant {
     public static String EQUAL = "=";
     public static String AMPERSAND = "&";
     public static String DEVICE_TOKEN = "DeviceToken";
+    public static String JOIN = "_";
+    public static String CANCEL_RIDE_BY_RIDER = "RideCanceledByRider";
 
     public static int ONLINE_NOT_BUSY_NO_RIDE = 100;
     public static int ONLINE_BUSY_NO_RIDE = 110;
@@ -99,9 +102,14 @@ public class FirebaseConstant {
     public static String RIDE_STARTED = "RIDE_STARTED";
     public static String FINISHED_RIDE = "FINISHED_RIDE";
     public static String RIDE_CANCELED = "RIDE_CANCELED";
+    public static String CURRENT_SERVER_TIME = "CURRENT_SERVER_TIME";
+    public static String CANCELED_RIDE_BY_RIDER = "CANCELED_RIDE_BY_RIDER";
 
     /*Notification Action Type*/
     public static String RIDER_TO_CLIENT = "3012";
+
+    /*Third Party API Address*/
+    public static final String TIME_SERVER = "time-a.nist.gov";
 
     public FirebaseConstant(){
     }

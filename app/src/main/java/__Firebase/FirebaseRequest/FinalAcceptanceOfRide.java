@@ -88,4 +88,5 @@ public class FinalAcceptanceOfRide {
         if(IS_REQUEST_COMPLETE == 2)    callBackListener.OnFinalAcceptanceOfRide(true);
         else    callBackListener.OnFinalAcceptanceOfRide(false);
     }
+
 }

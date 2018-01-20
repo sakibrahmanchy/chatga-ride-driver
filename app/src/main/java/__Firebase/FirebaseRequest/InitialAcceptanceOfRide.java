@@ -36,6 +36,11 @@ public class InitialAcceptanceOfRide {
 
     public void Request(){
 
+        /*
+         SetHistoryIDToClient will Notify Client about Initial acceptance of ride
+         This history ID wil be set while history create in main server, so don't worry
+        */
+
         FirebaseWrapper firebaseWrapper = FirebaseWrapper.getInstance();
         Query pendingTask = firebaseWrapper.FirebaseRootReference.child(FirebaseConstant.RIDER).orderByChild(FirebaseConstant.RIDER_ID).equalTo(Rider.RiderID);
 
