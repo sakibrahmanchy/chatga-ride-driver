@@ -82,13 +82,12 @@ public interface ApiInterface {
     @POST("api/v1/ride/finish")
     @FormUrlEncoded
     Call<RideFinishResponse> createRideFinishHistory(@Header("Authorization") String authHeader,
-                                                     @Field("price_per_km") int clientId,
-                                                     @Field("price_per_min") int riderId,
-                                                     @Field("history_id") String startTime,
-                                                     @Field("base_fare") String endTime,
-                                                     @Field("duration_in_minutes") String pickPointLat,
-                                                     @Field("distance") String pickPointLon,
-                                                     @Field("discount_id") String destinationPointLat);
+                                                     @Field("history_id") int historyId,
+                                                     @Field("duration_in_minutes") double durationInMinutes,
+                                                     @Field("distance") double distance,
+                                                     @Field("discount_id") int discountId,
+                                                     @Field("pick_point_address") String pickPointAddress,
+                                                     @Field("destination_address") String destinationAddress);
 
 
 
