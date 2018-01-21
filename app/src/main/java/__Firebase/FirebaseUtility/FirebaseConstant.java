@@ -41,6 +41,9 @@ public class FirebaseConstant {
     public static String DEVICE_TOKEN = "DeviceToken";
     public static String JOIN = "_";
     public static String CANCEL_RIDE_BY_RIDER = "RideCanceledByRider";
+    public static String TIME = "time";
+    public static String DATE = "date";
+    public static String TIME_DATE_PATTERN = "yyyy-M-dd hh:mm:ss";
 
     public static int ONLINE_NOT_BUSY_NO_RIDE = 100;
     public static int ONLINE_BUSY_NO_RIDE = 110;
@@ -107,9 +110,16 @@ public class FirebaseConstant {
 
     /*Notification Action Type*/
     public static String RIDER_TO_CLIENT = "3012";
+    public static String GET_CURRENT_TIME = "4001";
 
     /*Third Party API Address*/
     public static final String TIME_SERVER = "time-a.nist.gov";
+
+    /*Request Type*/
+    public static final int INITIAL_AC_OF_RIDE_NOTIFY_CLIENT = 1;
+    public static final int FINAL_AC_OF_RIDE_NOTIFY_CLIENT = 2;
+    public static final int FINISHED_RIDE_NOTIFY_CLIENT = 3;
+    public static final int CANCELED_RIDE_BY_RIDER_NOTIFY_CLIENT = 4;
 
     public FirebaseConstant(){
     }

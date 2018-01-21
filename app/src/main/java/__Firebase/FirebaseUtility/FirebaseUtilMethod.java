@@ -1,17 +1,25 @@
 package __Firebase.FirebaseUtility;
 
+import android.content.Context;
 import android.util.Log;
-import android.util.Pair;
 
-import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
-import org.apache.commons.net.ntp.NTPUDPClient;
 import org.apache.commons.net.ntp.TimeInfo;
+import org.apache.commons.net.time.TimeTCPClient;
 
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
+import __Firebase.FirebaseRequest.GetCurrentTimeAndDate;
 import __Firebase.ICallbacklisteners.ICallBackCurrentServerTime;
 
 /**
@@ -20,7 +28,7 @@ import __Firebase.ICallbacklisteners.ICallBackCurrentServerTime;
 
 public class FirebaseUtilMethod {
 
-    public FirebaseUtilMethod(){
+    public FirebaseUtilMethod() {
     }
 
     public static boolean IsEmptyOrNull(String data) {
@@ -28,29 +36,9 @@ public class FirebaseUtilMethod {
         return false;
     }
 
-    public static boolean getNetworkTime(final ICallBackCurrentServerTime iCallBackCurrentServerTime) throws IOException {
-
-        final TimeInfo[] timeInfo = {null};
-        Thread thread = new Thread(){
-            @Override
-            public void run(){
-                NTPUDPClient timeClient = new NTPUDPClient();
-                InetAddress inetAddress = null;
-                try {
-                    inetAddress = InetAddress.getByName(FirebaseConstant.TIME_SERVER);
-                    timeInfo[0] = timeClient.getTime(inetAddress);
-                    long value = timeInfo[0].getMessage().getReceiveTimeStamp().getTime();
-                    iCallBackCurrentServerTime.OnResponseServerTime(value);
-
-                    Log.d("CURRENT_TIME", String.valueOf(timeInfo[0].getMessage().getReceiveTimeStamp().getTime()));
-                } catch (UnknownHostException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        thread.start();
+    public static boolean getNetworkTime(final int type, final Context context, final ICallBackCurrentServerTime iCallBackCurrentServerTime) {
+        GetCurrentTimeAndDate pendingTask = new GetCurrentTimeAndDate(type, context, iCallBackCurrentServerTime);
+        pendingTask.execute();
         return true;
     }
 }
