@@ -230,7 +230,7 @@ public class MainActivity extends AppCompatActivity {
             loginData = new LoginData();
             loginData.userId = "1010";
             loginData.firstName = "Jobayer";
-            main.CreateNewRiderFirebase(loginData, userInformation.getRiderPhoneNumber());
+           // main.CreateNewRiderFirebase(loginData, userInformation.getRiderPhoneNumber());
         }
 
 /*
