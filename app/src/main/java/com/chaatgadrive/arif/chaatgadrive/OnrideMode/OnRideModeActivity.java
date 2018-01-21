@@ -157,7 +157,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                     startTime = new Date();
                     //noinspection deprecation
                     AppConstant.RIDING_FLAG = 2;
-                    initialAndFinalCostEstimation.CreateInitialHistory();
+                  //  initialAndFinalCostEstimation.CreateInitialHistory();
                     startRide.setVisibility(View.INVISIBLE);
                     finishRide.setVisibility(View.VISIBLE);
                     setTitle("You are in Ride");

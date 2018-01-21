@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private ConnectionCheck connectionCheck;
     private LoginData loginData;
     private UserInformation userInformation;
-    private boolean check = true;
+    private boolean check = false;
     private LocationCallback mLocationCallback;
     private LocationRequest mLocationRequest;
 

@@ -86,7 +86,7 @@ public class InitialAndFinalCostEstimation {
         dialog.setMessage("Please Wait..");
         dialog.show();
 
-        final String TotalCost = String.valueOf(costEstimation.getTotalCost(AppConstant.DISTANCE,AppConstant.DURATION)+AppConstant.BASE_TAKA);
+        final String TotalCost = String.valueOf(costEstimation.getTotalCost(notificationModel.shortestDistance,notificationModel.shortestTime)+AppConstant.BASE_TAKA);
         String authHeader = "Bearer "+pref.getString("access_token",null);
         Call<RideHistoryResponse> call = apiService.createRideHistory(authHeader,(int)notificationModel.clientId,(int)notificationModel.riderId,currentDateandTime,
                 TotalDuration,
@@ -109,7 +109,7 @@ public class InitialAndFinalCostEstimation {
                             LatLng Source = new LatLng(notificationModel.sourceLatitude, notificationModel.sourceLongitude);
                             LatLng Destination = new LatLng(notificationModel.destinationLatitude, notificationModel.destinationLongitude);
                             riderHistory.ClientID = notificationModel.clientId;
-                            riderHistory.CostSoFar = (long)(costEstimation.getTotalCost(AppConstant.DISTANCE, AppConstant.DURATION));
+                            riderHistory.CostSoFar = (long)Double.parseDouble(TotalCost);
                             AppConstant.CURRENT_HISTORY_ID= (int) (riderHistory.HistoryID = history.getHistoryId());
                             riderHistory.RiderID = notificationModel.riderId;
                             riderHistory.StartLocation = Source;
