@@ -90,7 +90,7 @@ public interface ApiInterface {
                                                      @Field("pick_point_address") String pickPointAddress,
                                                      @Field("destination_address") String destinationAddress);
 
-    @GET("chaatga_rider/api/v1/date_time")
+    @GET("api/v1/date_time")
     Call<DateTimeResponse> getDateTime();
 
 
