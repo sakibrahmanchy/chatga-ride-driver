@@ -20,6 +20,7 @@ import com.chaatgadrive.arif.chaatgadrive.LoginHelper;
 import com.chaatgadrive.arif.chaatgadrive.MainActivity;
 import com.chaatgadrive.arif.chaatgadrive.PhoneVerificationActivity;
 import com.chaatgadrive.arif.chaatgadrive.UserCheckActivity;
+import com.chaatgadrive.arif.chaatgadrive.chaatgamap.GetCurrentLocation;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideFinishModel.RideFinishData;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideFinishModel.RideFinishResponse;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideHistory.RideHistory;
@@ -60,6 +61,7 @@ public class InitialAndFinalCostEstimation {
     private SharedPreferences pref;
     private CostEstimation costEstimation;
     private RiderHistory riderHistory;
+    private GetDistanceFromMap getDistanceFromMap;
     private Main main;
 
     public InitialAndFinalCostEstimation(Context context) {
@@ -72,6 +74,7 @@ public class InitialAndFinalCostEstimation {
         pref = this.mContext.getSharedPreferences("MyPref", 0);
         costEstimation = new CostEstimation();
         riderHistory = new RiderHistory();
+        getDistanceFromMap = new GetDistanceFromMap();
         main = new Main(context);
 
     }
@@ -85,8 +88,11 @@ public class InitialAndFinalCostEstimation {
         dialog = new ProgressDialog(mContext);
         dialog.setMessage("Please Wait..");
         dialog.show();
+        double Currentdistance= getDistanceFromMap.getDistance(new LatLng(notificationModel.sourceLatitude,notificationModel.sourceLongitude),
+                new LatLng(notificationModel.destinationLatitude,notificationModel.destinationLongitude));
 
-        final String TotalCost = String.valueOf(costEstimation.getTotalCost(notificationModel.shortestDistance,notificationModel.shortestTime)+AppConstant.BASE_TAKA);
+        Currentdistance = Currentdistance/1000.0;
+        final String TotalCost = String.valueOf(costEstimation.TotalCost((int)Currentdistance,20));
         String authHeader = "Bearer "+pref.getString("access_token",null);
         Call<RideHistoryResponse> call = apiService.createRideHistory(authHeader,(int)notificationModel.clientId,(int)notificationModel.riderId,currentDateandTime,
                 TotalDuration,
