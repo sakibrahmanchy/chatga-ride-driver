@@ -14,6 +14,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.chaatgadrive.arif.chaatgadrive.OnrideMode.InitialAndFinalCostEstimation;
 import com.chaatgadrive.arif.chaatgadrive.OnrideMode.OnRideModeActivity;
 import com.chaatgadrive.arif.chaatgadrive.R;
 import com.google.gson.Gson;
@@ -35,6 +36,7 @@ public class RiderDailog extends Dialog implements android.view.View.OnClickList
     private Main main;
     private ClientModel clientModel;
     private TextView From_road_location,To_road_location;
+    private InitialAndFinalCostEstimation initialAndFinalCostEstimation;
 
     private   NotificationModel notificationModel;
 
@@ -61,6 +63,7 @@ public class RiderDailog extends Dialog implements android.view.View.OnClickList
         btnYes.setOnClickListener(this);
         btnNo.setOnClickListener(this);
         main = new Main(getContext());
+        initialAndFinalCostEstimation = new InitialAndFinalCostEstimation(myContext);
       notificationModel= FirebaseWrapper.getInstance().getNotificationModelInstance();
       //  clientModel = FirebaseWrapper.getInstance().getClientModelInstance();
         From_road_location.setText(notificationModel.sourceName);
@@ -74,6 +77,8 @@ public class RiderDailog extends Dialog implements android.view.View.OnClickList
         switch (v.getId()) {
             case R.id.btn_yes:
 
+
+                initialAndFinalCostEstimation.CreateInitialHistory();
                 Intent intent = new Intent(getContext(),OnRideModeActivity.class);
                 getContext().startActivity(intent);
                 SendPushNotification();
