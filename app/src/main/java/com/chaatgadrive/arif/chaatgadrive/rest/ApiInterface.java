@@ -39,7 +39,7 @@ public interface ApiInterface {
                                    @Query("client_id") String clientId,
                                    @Query("client_secret") String clientSecret);
 
-    @POST("api/v1/login")
+    @POST("api/v1/driver/login")
     @FormUrlEncoded
     Call<LoginModel> loginUser(@Header("Authorization") String authHeader,
                                @Field("phone_number") String phoneNumber,
