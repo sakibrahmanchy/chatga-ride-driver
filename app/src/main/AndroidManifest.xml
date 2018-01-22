@@ -66,7 +66,9 @@
         <service
             android:name=".OnLocationChange.UpdateLocationService"
             android:enabled="true"
-            android:exported="false"></service>
+            android:exported="false" />
+
+        <activity android:name=".SharedPreferences.SplashScreenActivity"></activity>
     </application>
 
 </manifest>

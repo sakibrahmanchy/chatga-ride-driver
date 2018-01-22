@@ -92,7 +92,7 @@ public class InitialAndFinalCostEstimation {
                 new LatLng(notificationModel.destinationLatitude,notificationModel.destinationLongitude));
 
         Currentdistance = Currentdistance/1000.0;
-        final String TotalCost = String.valueOf(costEstimation.TotalCost((int)Currentdistance,20));
+        final String TotalCost = String.valueOf(costEstimation.TotalCost(20,(int)Currentdistance));
         String authHeader = "Bearer "+pref.getString("access_token",null);
         Call<RideHistoryResponse> call = apiService.createRideHistory(authHeader,(int)notificationModel.clientId,(int)notificationModel.riderId,currentDateandTime,
                 TotalDuration,
