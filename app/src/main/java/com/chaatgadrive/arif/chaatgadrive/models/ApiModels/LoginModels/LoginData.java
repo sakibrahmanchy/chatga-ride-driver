@@ -26,13 +26,17 @@ public class LoginData {
     @SerializedName("user_id")
     public String userId;
 
-    public LoginData(String firstName, String lastName, String deviceToken, String birthDate, String gender, String userId) {
+    @SerializedName("id")
+    public String riderId;
+
+    public LoginData(String firstName, String lastName, String deviceToken, String birthDate, String gender, String userId, String riderId) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.deviceToken = deviceToken;
         this.birthDate = birthDate;
         this.gender = gender;
         this.userId = userId;
+        this.riderId = riderId;
     }
 
     public LoginData(){}
@@ -83,5 +87,13 @@ public class LoginData {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getRiderId() {
+        return riderId;
+    }
+
+    public void setRiderId(String riderId) {
+        this.riderId = riderId;
     }
 }

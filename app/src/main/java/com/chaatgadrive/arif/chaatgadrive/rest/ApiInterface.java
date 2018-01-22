@@ -39,13 +39,13 @@ public interface ApiInterface {
                                    @Query("client_id") String clientId,
                                    @Query("client_secret") String clientSecret);
 
-    @POST("api/v1/login")
+    @POST("api/v1/driver/login")
     @FormUrlEncoded
     Call<LoginModel> loginUser(@Header("Authorization") String authHeader,
                                @Field("phone_number") String phoneNumber,
                                @Field("device_token") String deviceToken);
 
-    @POST("api/v1/user/device_token")
+    @POST("api/v1/driver/device_token")
     @FormUrlEncoded
     Call<UpdateDeviceTokenData> updateDeviceToken(@Header("Authorization") String authHeader,
                                                   @Field("phone_number") String phoneNumber,
@@ -90,7 +90,7 @@ public interface ApiInterface {
                                                      @Field("pick_point_address") String pickPointAddress,
                                                      @Field("destination_address") String destinationAddress);
 
-    @GET("chaatga_rider/api/v1/date_time")
+    @GET("api/v1/date_time")
     Call<DateTimeResponse> getDateTime();
 
 

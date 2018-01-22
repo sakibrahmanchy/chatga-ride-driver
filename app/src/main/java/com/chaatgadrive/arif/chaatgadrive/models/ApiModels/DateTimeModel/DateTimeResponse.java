@@ -14,4 +14,34 @@ public class DateTimeResponse {
     private String message;
     @SerializedName("data")
     private long data;
+
+    public DateTimeResponse(boolean success, String message, long data) {
+        this.success = success;
+        this.message = message;
+        this.data = data;
+    }
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public long getData() {
+        return data;
+    }
+
+    public void setData(long data) {
+        this.data = data;
+    }
 }
