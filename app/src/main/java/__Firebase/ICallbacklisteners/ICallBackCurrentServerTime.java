@@ -5,5 +5,5 @@ package __Firebase.ICallbacklisteners;
  */
 
 public interface ICallBackCurrentServerTime {
-    void OnResponseServerTime(long value);
+    void OnResponseServerTime(long value, int type);
 }

@@ -53,7 +53,7 @@ public class CancelRideByRider {
                     if (dataSnapshot.getChildren().iterator().hasNext()) {
 
                         HashMap<String, Object> CancelRideByRider = new HashMap<>();
-                        CancelRideByRider.put(FirebaseConstant.CANCEL_RIDE_BY_RIDER, HistoryModel.RideCanceledByClient);
+                        CancelRideByRider.put(FirebaseConstant.CANCEL_RIDE_BY_RIDER, HistoryModel.RideCanceledByRider);
                         dataSnapshot.getChildren().iterator().next().getRef().updateChildren(CancelRideByRider);
 
                         Log.d(FirebaseConstant.CANCELED_RIDE_BY_RIDER, FirebaseConstant.CANCELED_RIDE_BY_RIDER);

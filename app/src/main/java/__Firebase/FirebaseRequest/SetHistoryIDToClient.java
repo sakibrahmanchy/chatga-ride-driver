@@ -23,12 +23,13 @@ public class SetHistoryIDToClient {
     private CurrentRidingHistoryModel HistoryModel = null;
     private ClientModel Client = null;
     private ICallbackMain callBackListener = null;
+    private long Time;
 
-    public SetHistoryIDToClient(CurrentRidingHistoryModel HistoryModel, ClientModel Client, ICallbackMain callBackListener){
+    public SetHistoryIDToClient(CurrentRidingHistoryModel HistoryModel, ClientModel Client, long Time, ICallbackMain callBackListener){
         this.HistoryModel = HistoryModel;
         this.Client = Client;
         this.callBackListener = callBackListener;
-
+        this.Time = Time;
         Request();
     }
 
@@ -43,7 +44,7 @@ public class SetHistoryIDToClient {
 
                 if(dataSnapshot.exists()) {
                     HashMap<String, Object> UpdatedCost = new HashMap<>();
-                    UpdatedCost.put(FirebaseConstant.CURRENT_RIDING_HISTORY_ID, HistoryModel.HistoryID);
+                    UpdatedCost.put(FirebaseConstant.CURRENT_RIDING_HISTORY_ID, HistoryModel.HistoryID + (" ") + String.valueOf(Time));
 
                     if (dataSnapshot.getChildren().iterator().hasNext()) {
                         DataSnapshot snp = dataSnapshot.getChildren().iterator().next();

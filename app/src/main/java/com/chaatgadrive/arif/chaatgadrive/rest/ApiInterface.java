@@ -45,7 +45,7 @@ public interface ApiInterface {
                                @Field("phone_number") String phoneNumber,
                                @Field("device_token") String deviceToken);
 
-    @POST("api/v1/user/device_token")
+    @POST("api/v1/driver/device_token")
     @FormUrlEncoded
     Call<UpdateDeviceTokenData> updateDeviceToken(@Header("Authorization") String authHeader,
                                                   @Field("phone_number") String phoneNumber,

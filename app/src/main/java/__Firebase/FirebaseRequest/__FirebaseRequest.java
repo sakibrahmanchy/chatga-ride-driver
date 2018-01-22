@@ -234,12 +234,12 @@ public class __FirebaseRequest extends AppCompatActivity {
         thread.start();
     }
 
-    public void SetHistoryIDToClient(final CurrentRidingHistoryModel HistoryModel, final ClientModel Client, final ICallbackMain callBackListener){
+    public void SetHistoryIDToClient(final CurrentRidingHistoryModel HistoryModel, final ClientModel Client, final long Time, final ICallbackMain callBackListener){
 
         Thread thread = new Thread(){
             @Override
             public void run(){
-                new SetHistoryIDToClient(HistoryModel, Client, callBackListener);
+                new SetHistoryIDToClient(HistoryModel, Client, Time, callBackListener);
             }
         };
         thread.start();
