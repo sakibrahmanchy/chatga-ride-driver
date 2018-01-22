@@ -227,9 +227,9 @@ public class MainActivity extends AppCompatActivity {
         if (loginData != null) {
             main.CreateNewRiderFirebase(loginData, userInformation.getRiderPhoneNumber());
         } else {
-            loginData = new LoginData();
-            loginData.userId = "1010";
-            loginData.firstName = "Jobayer";
+//            loginData = new LoginData();
+//            loginData.userId = "1010";
+//            loginData.firstName = "Jobayer";
            // main.CreateNewRiderFirebase(loginData, userInformation.getRiderPhoneNumber());
         }
 
