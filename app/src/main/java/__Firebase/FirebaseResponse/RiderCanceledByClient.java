@@ -6,7 +6,7 @@ package __Firebase.FirebaseResponse;
 
 public class RiderCanceledByClient {
 
-    public RiderCanceledByClient(){
+    public RiderCanceledByClient(long Time){
 
         Response();
     }

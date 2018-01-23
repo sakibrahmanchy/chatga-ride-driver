@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private ConnectionCheck connectionCheck;
     private LoginData loginData;
     private UserInformation userInformation;
-    private boolean check = false;
+    private boolean check = true;
     private LocationCallback mLocationCallback;
     private LocationRequest mLocationRequest;
 
@@ -233,7 +233,6 @@ public class MainActivity extends AppCompatActivity {
             main.CreateNewRiderFirebase(loginData, userInformation.getRiderPhoneNumber());
         }
 
-/*
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -249,9 +248,5 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         handler.postDelayed(runnable, 5000);
-        */
-
     }
-
-
 }

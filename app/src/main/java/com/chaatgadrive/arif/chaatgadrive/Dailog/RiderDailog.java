@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 import ContactWithFirebase.Main;
 import __Firebase.FirebaseModel.ClientModel;
 import __Firebase.FirebaseResponse.NotificationModel;
+import __Firebase.FirebaseUtility.FirebaseConstant;
 import __Firebase.FirebaseWrapper;
 
 /**
@@ -38,13 +39,12 @@ public class RiderDailog extends Dialog implements android.view.View.OnClickList
     private TextView From_road_location,To_road_location;
     private InitialAndFinalCostEstimation initialAndFinalCostEstimation;
 
-    private   NotificationModel notificationModel;
+    private NotificationModel notificationModel;
 
     public RiderDailog(Activity activity) {
         super(activity);
         this.activity = activity;
         myContext = (FragmentActivity) activity;
-
     }
 
     @Override
@@ -64,7 +64,7 @@ public class RiderDailog extends Dialog implements android.view.View.OnClickList
         btnNo.setOnClickListener(this);
         main = new Main(getContext());
         initialAndFinalCostEstimation = new InitialAndFinalCostEstimation(myContext);
-      notificationModel= FirebaseWrapper.getInstance().getNotificationModelInstance();
+        notificationModel= FirebaseWrapper.getInstance().getNotificationModelInstance();
       //  clientModel = FirebaseWrapper.getInstance().getClientModelInstance();
         From_road_location.setText(notificationModel.sourceName);
         To_road_location.setText(notificationModel.destinationName);
@@ -76,8 +76,6 @@ public class RiderDailog extends Dialog implements android.view.View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_yes:
-
-
                 initialAndFinalCostEstimation.CreateInitialHistory();
                 Intent intent = new Intent(getContext(),OnRideModeActivity.class);
                 getContext().startActivity(intent);
@@ -93,9 +91,10 @@ public class RiderDailog extends Dialog implements android.view.View.OnClickList
     }
 
     private void SendPushNotification(){
-        new Main(getContext()).SentNotificationToClient(
-                FirebaseWrapper.getInstance().getRiderModelInstance(),
-                FirebaseWrapper.getInstance().getNotificationModelInstance().clientDeviceToken
-        );
+        new Main(getContext()).ForcedAcceptanceOfRide(FirebaseConstant.INITIAL_ACCEPTANCE);
+//        new Main(getContext()).SentNotificationToClient(
+//                FirebaseWrapper.getInstance().getRiderModelInstance(),
+//                FirebaseWrapper.getInstance().getNotificationModelInstance().clientDeviceToken
+//        );
     }
 }

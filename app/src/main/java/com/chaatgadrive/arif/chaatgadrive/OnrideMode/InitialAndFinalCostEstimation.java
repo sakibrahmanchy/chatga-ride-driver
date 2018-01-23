@@ -11,6 +11,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.util.Pair;
 
 import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
 import com.chaatgadrive.arif.chaatgadrive.CostEstimation.CostEstimation;
@@ -129,7 +130,20 @@ public class InitialAndFinalCostEstimation {
                         break;
                     case 500:
 
-                        Log.d("Onride",response.errorBody().toString());
+//                        LatLng Source = new LatLng(notificationModel.sourceLatitude, notificationModel.sourceLongitude);
+//                        LatLng Destination = new LatLng(notificationModel.destinationLatitude, notificationModel.destinationLongitude);
+//                        riderHistory.ClientID = notificationModel.clientId;
+//                        riderHistory.CostSoFar = (long)Double.parseDouble(TotalCost);
+//                        riderHistory.HistoryID = 1234l;
+//                        riderHistory.RiderID = notificationModel.riderId;
+//                        riderHistory.StartLocation = Source;
+//                        riderHistory.EndLocation = Destination;
+//                        riderHistory.Client_History = Long.toString(notificationModel.clientId) + FirebaseConstant.UNDER_SCORE + Long.toString(riderHistory.HistoryID);
+//                        riderHistory.Rider_History = Long.toString(notificationModel.riderId) + FirebaseConstant.UNDER_SCORE + Long.toString(riderHistory.HistoryID);
+//                        riderHistory.IsRideFinished = FirebaseConstant.RIDE_NOT_FINISHED;
+//                        riderHistory.IsRideStart = FirebaseConstant.RIDE_NOT_START;
+//                        main.CreateNewHistoryModelFirebase(riderHistory);
+//                        Log.d("Onride",response.errorBody().toString());
                         break;
 
                     default:
@@ -179,8 +193,10 @@ public class InitialAndFinalCostEstimation {
                         }
                         break;
                     case 500:
-
-                        Log.d("Onride",response.errorBody().toString());
+//                        Pair<Double, Double> finalDestination = Pair.create(00d, 00d);
+//                        long finalCost = 10101;
+//                        main.ForcedFinishedRide(finalCost, finalDestination);
+//                        Log.d("Onride",response.errorBody().toString());
                         break;
 
                     default:
