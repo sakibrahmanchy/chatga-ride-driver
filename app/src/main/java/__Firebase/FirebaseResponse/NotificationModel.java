@@ -14,11 +14,12 @@ public class NotificationModel {
     public double sourceLatitude, sourceLongitude, destinationLatitude, destinationLongitude;
     public String shortestTime;
     public String shortestDistance;
+    public long totalCost;
 
     public NotificationModel() {
     }
 
-    public NotificationModel(String title, String body, String clientName, String clientPhone, String sourceName, String destinationName, long clientId, long riderId, double sourceLatitude, double sourceLongitude, double destinationLatitude, double destinationLongitude, String clientDeviceToken, String shortestTime, String shortestDistance) {
+    public NotificationModel(String title, String body, String clientName, String clientPhone, String sourceName, String destinationName, long clientId, long riderId, double sourceLatitude, double sourceLongitude, double destinationLatitude, double destinationLongitude, String clientDeviceToken, String shortestTime, String shortestDistance, long totalCost) {
         this.title = title;
         this.body = body;
         this.clientId = clientId;
@@ -34,6 +35,7 @@ public class NotificationModel {
         this.clientDeviceToken = clientDeviceToken;
         this.shortestTime = shortestTime;
         this.shortestDistance = shortestDistance;
+        this.totalCost = totalCost;
     }
 
     public void ClearData(){
@@ -52,5 +54,6 @@ public class NotificationModel {
         this.clientDeviceToken = FirebaseConstant.Empty;
         this.shortestTime = FirebaseConstant.Empty;
         this.shortestDistance = FirebaseConstant.Empty;
+        this.totalCost = FirebaseConstant.UNKNOWN;
     }
 }
