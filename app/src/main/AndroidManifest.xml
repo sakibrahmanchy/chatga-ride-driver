@@ -68,7 +68,9 @@
             android:enabled="true"
             android:exported="false" />
 
-        <activity android:name=".SharedPreferences.SplashScreenActivity"></activity>
+        <activity android:name=".SplashScreenActivity">
+
+        </activity>
     </application>
 
 </manifest>
