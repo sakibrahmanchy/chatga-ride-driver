@@ -183,7 +183,7 @@ public class __FirebaseRequest extends AppCompatActivity {
         thread.start();
     }
 
-    public void InitialAcceptanceOfRide(final CurrentRidingHistoryModel HistoryModel, final RiderModel Rider, final ICallbackMain callBackListener){
+    public void InitialAcceptanceOfRide(final RiderModel Rider, final ICallbackMain callBackListener){
 
         /*
         * Get Client Model
@@ -195,7 +195,7 @@ public class __FirebaseRequest extends AppCompatActivity {
         Thread thread = new Thread(){
             @Override
             public void run(){
-                new InitialAcceptanceOfRide(HistoryModel, Rider, callBackListener);
+                new InitialAcceptanceOfRide(Rider, callBackListener);
             }
         };
         thread.start();

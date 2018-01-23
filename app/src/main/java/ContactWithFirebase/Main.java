@@ -101,8 +101,8 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime {
         );
         this.currentRidingHistoryModel.CostSoFar = riderHistory.CostSoFar;
 
-        this.currentRidingHistoryModel.IsRideStart = FirebaseConstant.RIDE_NOT_START;
-        this.currentRidingHistoryModel.IsRideFinished = FirebaseConstant.RIDE_NOT_FINISHED;
+        this.currentRidingHistoryModel.IsRideStart = FirebaseConstant.UNKNOWN;
+        this.currentRidingHistoryModel.IsRideFinished = FirebaseConstant.UNKNOWN;
         this.currentRidingHistoryModel.RideCanceledByClient = FirebaseConstant.UNKNOWN;
         this.currentRidingHistoryModel.RideCanceledByRider = FirebaseConstant.UNKNOWN;
 
@@ -294,19 +294,19 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime {
         return true;
     }
 
-    public boolean InitialAcceptanceOfRide(/* Firebase HistoryModel, RiderModel */ CurrentRidingHistoryModel HistoryModel, RiderModel Rider) {
+    public boolean InitialAcceptanceOfRide(/* Firebase HistoryModel, RiderModel */ RiderModel Rider) {
 
-        if (HistoryModel == null || HistoryModel.HistoryID < 1 || Rider == null || Rider.RiderID < 1)
+        if (Rider == null || Rider.RiderID < 1)
             return false;
 
         firebaseWrapper = FirebaseWrapper.getInstance();
         this.riderModel = Rider;
-        this.currentRidingHistoryModel = HistoryModel;
 
         this.riderModel.IsRiderBusy = FirebaseConstant.SET_RIDER_BUSY;
         this.riderModel.OnlineBusyOnRide = FirebaseConstant.ONLINE_BUSY_NO_RIDE;
+        this.riderModel.CurrentRidingHistoryID = FirebaseConstant.UNKNOWN;
 
-        firebaseWrapper.getFirebaseRequestInstance().InitialAcceptanceOfRide(currentRidingHistoryModel, riderModel, Main.this);
+        firebaseWrapper.getFirebaseRequestInstance().InitialAcceptanceOfRide(riderModel, Main.this);
         return true;
     }
 
@@ -352,7 +352,6 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime {
             );
         } else if (value == FirebaseConstant.INITIAL_ACCEPTANCE) {
             this.InitialAcceptanceOfRide(
-                    FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance(),
                     FirebaseWrapper.getInstance().getRiderModelInstance()
             );
         }
@@ -448,7 +447,6 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime {
                 FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance(),
                 FirebaseWrapper.getInstance().getClientModelInstance()
         );
-        this.ForcedAcceptanceOfRide(FirebaseConstant.FINAL_ACCEPTANCE);
         FirebaseResponse.RiderCanceledByRiderResponse(FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance().HistoryID);
         Log.d(FirebaseConstant.NEW_HISTORY_CREATE, Boolean.toString(value));
     }

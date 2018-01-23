@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Pair;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -56,7 +57,7 @@ public class RideFinishDailog extends Dialog implements android.view.View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnOk:
-
+                ForceFinishedRide();
                 Intent intent = new Intent(getContext(),MainActivity.class);
                 getContext().startActivity(intent);
                 myContext.finish();
@@ -67,5 +68,10 @@ public class RideFinishDailog extends Dialog implements android.view.View.OnClic
         dismiss();
     }
 
+    private void ForceFinishedRide(){
+        Pair<Double, Double> finalDestination = Pair.create(00d, 00d);
+        long finalCost = 10101;
+        main.ForcedFinishedRide(finalCost, finalDestination);
+    }
 
 }

@@ -41,6 +41,7 @@ import java.util.Date;
 
 import ContactWithFirebase.Main;
 import __Firebase.FirebaseResponse.NotificationModel;
+import __Firebase.FirebaseUtility.FirebaseConstant;
 import __Firebase.FirebaseWrapper;
 
 public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -165,10 +166,10 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                     setNotificationWhenRideStart.Notification();
                     AppConstant.PREVIOUS_LATLONG = new LatLng(mMap.getMyLocation().getLatitude(),mMap.getMyLocation().getLongitude());
                     MandatoryCall();
+                    main.ForcedAcceptanceOfRide(FirebaseConstant.FINAL_ACCEPTANCE);
                 }
             }
         });
-
 
         finishRide.setOnClickListener(new View.OnClickListener() {
             @Override
