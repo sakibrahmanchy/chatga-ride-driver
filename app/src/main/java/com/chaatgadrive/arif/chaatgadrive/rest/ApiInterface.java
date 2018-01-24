@@ -94,7 +94,9 @@ public interface ApiInterface {
                                                      @Field("distance") double distance,
                                                      @Field("discount_id") int discountId,
                                                      @Field("pick_point_address") String pickPointAddress,
-                                                     @Field("destination_address") String destinationAddress);
+                                                     @Field("destination_address") String destinationAddress,
+                                                     @Field("destination_lat") String destinationLat,
+                                                     @Field("destination_lon") String destinationLon);
 
     @GET("api/v1/date_time")
     Call<DateTimeResponse> getDateTime();
