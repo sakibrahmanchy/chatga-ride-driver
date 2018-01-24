@@ -33,15 +33,15 @@ public class CurrentRidingHistoryModel {
     public Location StartingLocation;
     public Location EndingLocation;
     public long CostSoFar;
-    public int IsRideStart;
-    public int IsRideFinished;
-    public int RideCanceledByClient;
-    public int RideCanceledByRider;
+    public long IsRideStart;
+    public long IsRideFinished;
+    public long RideCanceledByClient;
+    public long RideCanceledByRider;
 
     public CurrentRidingHistoryModel(){
     }
 
-    public CurrentRidingHistoryModel(long _HistoryID, long _ClientID, long  _RiderID, String _Client_History, String _Rider_History, Pair<Double, Double> _StartingLocation, Pair<Double, Double> _EndingLocation, long _CostSoFar, int _IsRideStart, int _IsRideFinished, int _RideCanceledByClient, int _RideCanceledByRider){
+    public CurrentRidingHistoryModel(long _HistoryID, long _ClientID, long  _RiderID, String _Client_History, String _Rider_History, Pair<Double, Double> _StartingLocation, Pair<Double, Double> _EndingLocation, long _CostSoFar, long _IsRideStart, long _IsRideFinished, long _RideCanceledByClient, long _RideCanceledByRider){
 
         this.HistoryID = _HistoryID;
         this.ClientID = _ClientID;

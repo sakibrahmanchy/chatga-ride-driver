@@ -31,11 +31,11 @@ public class RiderModel {
     public long PhoneNumber;
     public String DeviceToken;
     public String FullName;
-    public int IsRiderOnline;
-    public int IsRiderBusy;
-    public int IsRiderOnRide;
+    public long IsRiderOnline;
+    public long IsRiderBusy;
+    public long IsRiderOnRide;
     public long CurrentRidingHistoryID;
-    public int OnlineBusyOnRide;
+    public long OnlineBusyOnRide;
     public RiderLocation CurrentRiderLocation;
     public long DistanceFromClient;
 
@@ -43,7 +43,7 @@ public class RiderModel {
         CurrentRiderLocation = new RiderLocation();
     }
 
-    public RiderModel(long _RiderID, long _PhoneNumber, String _DeviceToken, String _FullName, int _IsRiderOnline, int _IsRiderBusy, int _IsRiderOnRide, long _CurrentRidingHistoryID, int _OnlineBusyOnRide, RiderLocation _RiderLocation){
+    public RiderModel(long _RiderID, long _PhoneNumber, String _DeviceToken, String _FullName, long _IsRiderOnline, long _IsRiderBusy, long _IsRiderOnRide, long _CurrentRidingHistoryID, long _OnlineBusyOnRide, RiderLocation _RiderLocation){
         this.RiderID = _RiderID;
         this.PhoneNumber = _PhoneNumber;
         this.DeviceToken = _DeviceToken;

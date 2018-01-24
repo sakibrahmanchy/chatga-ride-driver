@@ -23,12 +23,10 @@ import __Firebase.FirebaseWrapper;
 public class InitialAcceptanceOfRide {
 
     private ICallbackMain callBackListener = null;
-    private CurrentRidingHistoryModel HistoryModel = null;
     private RiderModel Rider = null;
 
-    public InitialAcceptanceOfRide(CurrentRidingHistoryModel HistoryModel, RiderModel Rider, ICallbackMain callBackListener){
+    public InitialAcceptanceOfRide(RiderModel Rider, ICallbackMain callBackListener){
         this.Rider = Rider;
-        this.HistoryModel = HistoryModel;
         this.callBackListener = callBackListener;
 
         Request();
@@ -63,7 +61,7 @@ public class InitialAcceptanceOfRide {
                         dsp.getRef().updateChildren(OnlineBusyOnRide);
 
                         Map<String, Object> SetHistoryID = new HashMap<>();
-                        SetHistoryID.put(FirebaseConstant.CURRENT_RIDING_HISTORY_ID, HistoryModel.HistoryID);
+                        SetHistoryID.put(FirebaseConstant.CURRENT_RIDING_HISTORY_ID, Rider.CurrentRidingHistoryID);
                         dsp.getRef().updateChildren(SetHistoryID);
 
                         Log.d(FirebaseConstant.SET_RIDER_110, FirebaseConstant.SET_RIDER_110);

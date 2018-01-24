@@ -35,24 +35,26 @@ public class FirebaseResponse {
                     if (dataSnapshot.getChildren().iterator().hasNext()) {
 
                         DataSnapshot dsp = dataSnapshot.getChildren().iterator().next();
-                        dsp.getRef().child(FirebaseConstant.RIDE_CANCEL_BY_CLIENT).addValueEventListener(new ValueEventListener() {
+                        if(dsp.exists()) {
+                            dsp.getRef().child(FirebaseConstant.RIDE_CANCEL_BY_CLIENT).addValueEventListener(new ValueEventListener() {
 
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                if (dataSnapshot.exists()) {
-                                    int data = Integer.parseInt(dataSnapshot.getValue().toString());
-                                    if (data != -1) {
-                                        new RiderCanceledByClient();
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    if (dataSnapshot != null && dataSnapshot.exists()) {
+                                        long Time = Long.parseLong(dataSnapshot.getValue().toString());
+                                        if (Time != -1) {
+                                            new RiderCanceledByClient(Time);
+                                        }
+                                        Log.d(FirebaseConstant.RIDE_CANCELED, ":: " + dataSnapshot.getValue().toString());
                                     }
                                 }
-                                Log.d(FirebaseConstant.RIDE_CANCELED, ":: " + dataSnapshot.getValue().toString());
-                            }
 
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
 
-                            }
-                        });
+                                }
+                            });
+                        }
                     }
                 }
             }
