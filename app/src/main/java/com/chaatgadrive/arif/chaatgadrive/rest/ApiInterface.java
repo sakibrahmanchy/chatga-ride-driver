@@ -11,6 +11,7 @@ import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginMode
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RegistrationModels.RegistrationModel;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideFinishModel.RideFinishResponse;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideHistory.RideHistoryResponse;
+import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideHistory.RideStartResponse;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.User;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.UserCheckResponse;
 
@@ -77,8 +78,13 @@ public interface ApiInterface {
                                                 @Field("destination_point_longitude") String destinationPointLon,
                                                 @Field("pick_point_address") String pickPointAddress,
                                                 @Field("destination_address") String destinationAddress,
-                                                @Field("initial_approx_cost") String initialApproxCost);
+                                                @Field("ride_cost") String initialApproxCost,
+                                                @Field("ride_distance") String initialApproxDistance);
 
+    @POST("api/v1/ride/start")
+    @FormUrlEncoded
+    Call<RideStartResponse> StartRide(@Header("Authorization") String authHeader,
+                                      @Field("history_id") int historyId);
 
     @POST("api/v1/ride/finish")
     @FormUrlEncoded
