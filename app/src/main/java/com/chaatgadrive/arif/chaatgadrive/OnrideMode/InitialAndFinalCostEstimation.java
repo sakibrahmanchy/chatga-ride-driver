@@ -65,6 +65,7 @@ public class InitialAndFinalCostEstimation {
     private RiderHistory riderHistory;
     private GetDistanceFromMap getDistanceFromMap;
     private Main main;
+    private RideFinishData rideFinishData;
 
     public InitialAndFinalCostEstimation(Context context) {
 
@@ -76,6 +77,8 @@ public class InitialAndFinalCostEstimation {
         pref = this.mContext.getSharedPreferences("MyPref", 0);
         costEstimation = new CostEstimation();
         riderHistory = new RiderHistory();
+
+
         getDistanceFromMap = new GetDistanceFromMap();
         main = new Main(context);
 
@@ -204,7 +207,8 @@ public class InitialAndFinalCostEstimation {
                     case 200:
                         if(response.body().isSuccess()){
 
-                            RideFinishData rideFinishData = response.body().getData();
+                             rideFinishData = response.body().getData();
+                            ForceFinishedRide();
                             AppConstant.TOTAL_RIDING_COST = (int)rideFinishData.getCostAfterDiscount();
                             RideFinishDailog rideFinishDailog = new RideFinishDailog((Activity) mContext);
                             rideFinishDailog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -237,5 +241,9 @@ public class InitialAndFinalCostEstimation {
     }
 
 
-
+    private void ForceFinishedRide(){
+        Pair<Double, Double> finalDestination = Pair.create(AppConstant.PREVIOUS_LATLONG.latitude, AppConstant.PREVIOUS_LATLONG.longitude);
+        long finalCost = (long)rideFinishData.getCostAfterDiscount();
+        main.ForcedFinishedRide(finalCost, finalDestination);
+    }
 }

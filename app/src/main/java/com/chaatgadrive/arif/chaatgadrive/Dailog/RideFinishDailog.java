@@ -57,9 +57,6 @@ public class RideFinishDailog extends Dialog implements android.view.View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnOk:
-                ForceFinishedRide();
-                Intent intent = new Intent(getContext(),MainActivity.class);
-                getContext().startActivity(intent);
                 myContext.finish();
                 break;
             default:
@@ -68,10 +65,6 @@ public class RideFinishDailog extends Dialog implements android.view.View.OnClic
         dismiss();
     }
 
-    private void ForceFinishedRide(){
-        Pair<Double, Double> finalDestination = Pair.create(00d, 00d);
-        long finalCost = 10101;
-        main.ForcedFinishedRide(finalCost, finalDestination);
-    }
+
 
 }
