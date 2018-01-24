@@ -58,7 +58,7 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime {
         riderModel = firebaseWrapper.getRiderModelInstance();
         FirebaseRequestInstance = firebaseWrapper.getFirebaseRequestInstance();
 
-        riderModel.RiderID = Long.parseLong(loginData.getUserId());
+        riderModel.RiderID = Long.parseLong(loginData.getRiderId());
         riderModel.FullName = loginData.getFirstName();
         riderModel.PhoneNumber = Long.parseLong(phoneNumber);
         riderModel.CurrentRiderLocation = new RiderModel.RiderLocation(
