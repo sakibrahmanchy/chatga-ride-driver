@@ -195,7 +195,8 @@ public class InitialAndFinalCostEstimation {
         dialog.show();
         String authHeader = "Bearer "+pref.getString("access_token",null);
         Call<RideFinishResponse> call = apiService.createRideFinishHistory(authHeader,HistoryId,durationInMinutes,distance,
-                discountId,pickPointAddress, destinationAddress);
+                discountId,pickPointAddress, destinationAddress,
+                String.valueOf(AppConstant.PREVIOUS_LATLONG.latitude), String.valueOf(AppConstant.PREVIOUS_LATLONG.longitude));
 
         call.enqueue(new Callback<RideFinishResponse>() {
             @Override
