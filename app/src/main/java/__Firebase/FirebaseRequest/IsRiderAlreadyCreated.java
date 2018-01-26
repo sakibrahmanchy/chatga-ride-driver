@@ -21,7 +21,6 @@ public class IsRiderAlreadyCreated {
     public IsRiderAlreadyCreated(RiderModel Rider, ICallbackMain callBackListener){
         this.Rider = Rider;
         this.callBackListener = callBackListener;
-
         Request();
     }
 
