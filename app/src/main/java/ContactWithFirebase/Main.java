@@ -50,11 +50,11 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime {
     }
 
     public boolean CreateNewRiderFirebase(/*Main Rider Mode*/LoginData loginData, String phoneNumber) {
+
         getCurrentLocation = new GetCurrentLocation(context);
         firebaseWrapper = FirebaseWrapper.getInstance();
         riderModel = firebaseWrapper.getRiderModelInstance();
         FirebaseRequestInstance = firebaseWrapper.getFirebaseRequestInstance();
-
         riderModel.RiderID = Long.parseLong(loginData.getUserId());
         riderModel.FullName = loginData.getFirstName();
         riderModel.PhoneNumber = Long.parseLong(phoneNumber);
