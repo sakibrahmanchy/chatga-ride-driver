@@ -27,7 +27,7 @@ import __Firebase.FirebaseWrapper;
 public class UpdateLocationService extends Service implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
-    private final static int UPDATE_INTERVAL = 10000;//whatever you want
+    private final static int UPDATE_INTERVAL = 50000;//whatever you want
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private GetDistanceFromMap getDistanceFromMap =new GetDistanceFromMap();

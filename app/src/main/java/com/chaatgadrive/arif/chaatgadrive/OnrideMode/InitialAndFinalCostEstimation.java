@@ -21,10 +21,12 @@ import com.chaatgadrive.arif.chaatgadrive.LoginHelper;
 import com.chaatgadrive.arif.chaatgadrive.MainActivity;
 import com.chaatgadrive.arif.chaatgadrive.PhoneVerificationActivity;
 import com.chaatgadrive.arif.chaatgadrive.UserCheckActivity;
+import com.chaatgadrive.arif.chaatgadrive.chaatgamap.GetCurrentLocation;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideFinishModel.RideFinishData;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideFinishModel.RideFinishResponse;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideHistory.RideHistory;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideHistory.RideHistoryResponse;
+import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideHistory.RideStartResponse;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.UserCheckResponse;
 import com.chaatgadrive.arif.chaatgadrive.models.HistoryModel.RiderHistory;
 import com.chaatgadrive.arif.chaatgadrive.rest.ApiClient;
@@ -61,7 +63,9 @@ public class InitialAndFinalCostEstimation {
     private SharedPreferences pref;
     private CostEstimation costEstimation;
     private RiderHistory riderHistory;
+    private GetDistanceFromMap getDistanceFromMap;
     private Main main;
+    private RideFinishData rideFinishData;
 
     public InitialAndFinalCostEstimation(Context context) {
 
@@ -73,6 +77,9 @@ public class InitialAndFinalCostEstimation {
         pref = this.mContext.getSharedPreferences("MyPref", 0);
         costEstimation = new CostEstimation();
         riderHistory = new RiderHistory();
+
+
+        getDistanceFromMap = new GetDistanceFromMap();
         main = new Main(context);
 
     }
@@ -86,15 +93,18 @@ public class InitialAndFinalCostEstimation {
         dialog = new ProgressDialog(mContext);
         dialog.setMessage("Please Wait..");
         dialog.show();
+        double Currentdistance= getDistanceFromMap.getDistance(new LatLng(notificationModel.sourceLatitude,notificationModel.sourceLongitude),
+                new LatLng(notificationModel.destinationLatitude,notificationModel.destinationLongitude));
 
-        final String TotalCost = String.valueOf(costEstimation.getTotalCost(notificationModel.shortestDistance,notificationModel.shortestTime)+AppConstant.BASE_TAKA);
+        Currentdistance = Currentdistance/1000.0;
+        final String TotalCost = String.valueOf(costEstimation.TotalCost(20,(int)Currentdistance));
         String authHeader = "Bearer "+pref.getString("access_token",null);
         Call<RideHistoryResponse> call = apiService.createRideHistory(authHeader,(int)notificationModel.clientId,(int)notificationModel.riderId,currentDateandTime,
                 TotalDuration,
                 String.valueOf(notificationModel.sourceLatitude), String.valueOf(notificationModel.destinationLongitude),
                 String.valueOf(notificationModel.destinationLatitude), String.valueOf(notificationModel.destinationLongitude),
                 notificationModel.sourceName,notificationModel.destinationName,
-                TotalCost);
+                String.valueOf(notificationModel.totalCost),"0");
 
         call.enqueue(new Callback<RideHistoryResponse>() {
             @Override
@@ -124,20 +134,6 @@ public class InitialAndFinalCostEstimation {
                         break;
                     case 500:
 
-//                        LatLng Source = new LatLng(notificationModel.sourceLatitude, notificationModel.sourceLongitude);
-//                        LatLng Destination = new LatLng(notificationModel.destinationLatitude, notificationModel.destinationLongitude);
-//                        riderHistory.ClientID = notificationModel.clientId;
-//                        riderHistory.CostSoFar = (long)Double.parseDouble(TotalCost);
-//                        riderHistory.HistoryID = 1234l;
-//                        riderHistory.RiderID = notificationModel.riderId;
-//                        riderHistory.StartLocation = Source;
-//                        riderHistory.EndLocation = Destination;
-//                        riderHistory.Client_History = Long.toString(notificationModel.clientId) + FirebaseConstant.UNDER_SCORE + Long.toString(riderHistory.HistoryID);
-//                        riderHistory.Rider_History = Long.toString(notificationModel.riderId) + FirebaseConstant.UNDER_SCORE + Long.toString(riderHistory.HistoryID);
-//                        riderHistory.IsRideFinished = FirebaseConstant.RIDE_NOT_FINISHED;
-//                        riderHistory.IsRideStart = FirebaseConstant.RIDE_NOT_START;
-//                        main.CreateNewHistoryModelFirebase(riderHistory);
-//                        Log.d("Onride",response.errorBody().toString());
                         break;
 
                     default:
@@ -153,7 +149,44 @@ public class InitialAndFinalCostEstimation {
         });
     }
 
+    public void UpdateStartRide(int HistoryId){
 
+        apiService = ApiClient.getClient().create(ApiInterface.class);
+        dialog = new ProgressDialog(mContext);
+        dialog.setMessage("Please Wait..");
+        dialog.show();
+        String authHeader = "Bearer "+pref.getString("access_token",null);
+        Call<RideStartResponse> call = apiService.StartRide(authHeader, HistoryId);
+
+        call.enqueue(new Callback<RideStartResponse>() {
+            @Override
+            public void onResponse(Call<RideStartResponse> call, Response<RideStartResponse> response) {
+
+                int statusCode = response.code();
+                dialog.dismiss();
+                switch(statusCode){
+                    case 200:
+
+                        if(response.body().isSuccess()){
+
+                        }
+                        break;
+                    case 500:
+
+                        break;
+
+                    default:
+
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RideStartResponse> call, Throwable t) {
+                Log.e(TAG, t.toString());
+            }
+        });
+    }
     public void UpdateFinalHistory(int HistoryId,double durationInMinutes, double distance, int discountId, String pickPointAddress, String destinationAddress){
 
         apiService = ApiClient.getClient().create(ApiInterface.class);
@@ -162,7 +195,8 @@ public class InitialAndFinalCostEstimation {
         dialog.show();
         String authHeader = "Bearer "+pref.getString("access_token",null);
         Call<RideFinishResponse> call = apiService.createRideFinishHistory(authHeader,HistoryId,durationInMinutes,distance,
-                discountId,pickPointAddress, destinationAddress);
+                discountId,pickPointAddress, destinationAddress,
+                String.valueOf(AppConstant.PREVIOUS_LATLONG.latitude), String.valueOf(AppConstant.PREVIOUS_LATLONG.longitude));
 
         call.enqueue(new Callback<RideFinishResponse>() {
             @Override
@@ -174,7 +208,8 @@ public class InitialAndFinalCostEstimation {
                     case 200:
                         if(response.body().isSuccess()){
 
-                            RideFinishData rideFinishData = response.body().getData();
+                             rideFinishData = response.body().getData();
+                            ForceFinishedRide();
                             AppConstant.TOTAL_RIDING_COST = (int)rideFinishData.getCostAfterDiscount();
                             RideFinishDailog rideFinishDailog = new RideFinishDailog((Activity) mContext);
                             rideFinishDailog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -207,5 +242,9 @@ public class InitialAndFinalCostEstimation {
     }
 
 
-
+    private void ForceFinishedRide(){
+        Pair<Double, Double> finalDestination = Pair.create(AppConstant.PREVIOUS_LATLONG.latitude, AppConstant.PREVIOUS_LATLONG.longitude);
+        long finalCost = (long)rideFinishData.getCostAfterDiscount();
+        main.ForcedFinishedRide(finalCost, finalDestination);
+    }
 }

@@ -147,4 +147,8 @@
     <string name="final_finish_ride">Finish Ride</string>
     <string name="title_activity_internet_check">InternetCheckActivity</string>
     <string name="final_finish_ride_dailog">OK</string>
+
+    <string name="title_activity_splash_screen">SplashScreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

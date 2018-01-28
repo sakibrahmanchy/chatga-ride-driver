@@ -23,6 +23,7 @@ public class ShowDerectionInGoogleMap {
         this.polylineOptions=lineOptions;
         this.source=src;
         this.destination=dest;
+        placeDirection();
     }
 
     public  void placeDirection(){
@@ -35,8 +36,13 @@ public class ShowDerectionInGoogleMap {
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
         builder.include(source).include(destination);
 
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(builder.build(), 400);
-        mMap.animateCamera(cameraUpdate);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(builder.build(), 20);
+        try {
+            mMap.animateCamera(cameraUpdate);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
 }

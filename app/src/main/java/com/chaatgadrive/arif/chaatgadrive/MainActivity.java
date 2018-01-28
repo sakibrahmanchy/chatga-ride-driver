@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private ConnectionCheck connectionCheck;
     private LoginData loginData;
     private UserInformation userInformation;
-    private boolean check = true;
+    private boolean check = false;
     private LocationCallback mLocationCallback;
     private LocationRequest mLocationRequest;
 
@@ -221,18 +221,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void MandatoryCall() {
-
+        new Main(this);
         Intent intent = new Intent(MainActivity.this, UpdateLocationService.class);
         startService(intent);
         if (loginData != null) {
             main.CreateNewRiderFirebase(loginData, userInformation.getRiderPhoneNumber());
         } else {
-            loginData = new LoginData();
-            loginData.userId = "1010";
-            loginData.firstName = "Jobayer";
-            main.CreateNewRiderFirebase(loginData, userInformation.getRiderPhoneNumber());
+        //    loginData = new LoginData();
+        //    loginData.userId = "1010";
+        //    loginData.firstName = "Jobayer";
+         //   main.CreateNewRiderFirebase(loginData, userInformation.getRiderPhoneNumber());
         }
 
+        /*
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -248,5 +249,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         handler.postDelayed(runnable, 5000);
+        */
     }
+
 }

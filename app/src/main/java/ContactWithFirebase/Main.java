@@ -25,7 +25,7 @@ import __Firebase.ICallbacklisteners.ICallbackMain;
 
 public class Main implements ICallbackMain, ICallBackCurrentServerTime {
 
-    private GetCurrentLocation getCurrentLocation = null;
+    private GetCurrentLocation getCurrentLocation;
     private FirebaseWrapper firebaseWrapper = null;
     private RiderModel riderModel = null;
     private ClientModel clientModel = null;
@@ -38,7 +38,7 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime {
 
     public Main(Context context) {
         this.context = context;
-        getCurrentLocation = new GetCurrentLocation(context);
+
     }
 
     public boolean IsRiderAlreadyCreated(RiderModel RiderModel) {
@@ -51,10 +51,10 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime {
 
     public boolean CreateNewRiderFirebase(/*Main Rider Mode*/LoginData loginData, String phoneNumber) {
 
+        getCurrentLocation = new GetCurrentLocation(context);
         firebaseWrapper = FirebaseWrapper.getInstance();
         riderModel = firebaseWrapper.getRiderModelInstance();
         FirebaseRequestInstance = firebaseWrapper.getFirebaseRequestInstance();
-
         riderModel.RiderID = Long.parseLong(loginData.getUserId());
         riderModel.FullName = loginData.getFirstName();
         riderModel.PhoneNumber = Long.parseLong(phoneNumber);

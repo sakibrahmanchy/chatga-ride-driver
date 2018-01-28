@@ -164,6 +164,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                     setTitle("You are in Ride");
                     AppConstant.ON_RIDE_MODE=1;
                     setNotificationWhenRideStart.Notification();
+                    initialAndFinalCostEstimation.UpdateStartRide(AppConstant.CURRENT_HISTORY_ID);
                     AppConstant.PREVIOUS_LATLONG = new LatLng(mMap.getMyLocation().getLatitude(),mMap.getMyLocation().getLongitude());
                     MandatoryCall();
                     main.ForcedAcceptanceOfRide(FirebaseConstant.FINAL_ACCEPTANCE);
