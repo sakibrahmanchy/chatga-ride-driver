@@ -8,6 +8,8 @@ import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.AccessTokenModels.Aut
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.DateTimeModel.DateTimeResponse;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.DeviceTokenModels.UpdateDeviceTokenData;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginModel;
+import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.Rating.RateClient;
+import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.Rating.Rating;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RegistrationModels.RegistrationModel;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideFinishModel.RideFinishResponse;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideHistory.RideHistoryResponse;
@@ -81,6 +83,7 @@ public interface ApiInterface {
                                                 @Field("ride_cost") String initialApproxCost,
                                                 @Field("ride_distance") String initialApproxDistance);
 
+
     @POST("api/v1/ride/start")
     @FormUrlEncoded
     Call<RideStartResponse> StartRide(@Header("Authorization") String authHeader,
@@ -101,6 +104,21 @@ public interface ApiInterface {
     @GET("api/v1/date_time")
     Call<DateTimeResponse> getDateTime();
 
+    @POST("api/v1/rate/client")
+    @FormUrlEncoded
+    Call<RateClient>rateClient(@Header("Authorization") String authHeader,
+                              @Field("history_id") int historyId,
+                              @Field("rating") double ratingPoint);
+
+    @POST("api/v1/rider/rating")
+    @FormUrlEncoded
+    Call<Rating>getRiderRating(@Header("Authorization") String authHeader,
+                               @Field("rider_id") int riderId);
+
+    @POST("api/v1/client/rating")
+    @FormUrlEncoded
+    Call<Rating>getClientRating(@Header("Authorization") String authHeader,
+                                @Field("client_id") int clientId);
 
 
 }

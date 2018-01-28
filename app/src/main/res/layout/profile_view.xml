@@ -109,11 +109,13 @@
                          android:text="100%"/>
 
                  </LinearLayout>
+
                 <LinearLayout
-                    android:background="@drawable/profile_border"
+                    android:layout_width="207dp"
                     android:layout_height="100dp"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:background="@drawable/profile_border"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -121,13 +123,14 @@
                         android:layout_gravity="center"
                         android:text="TOTAL EARNING"
                         android:textSize="15dp" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
-                        android:textSize="30dp"
+                        android:text="1000TK"
                         android:textColor="@color/colorPrimary"
-                        android:text="1000TK" />
+                        android:textSize="30dp" />
 
                 </LinearLayout>
 
