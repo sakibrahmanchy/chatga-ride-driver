@@ -203,12 +203,11 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                                     try {
 
                                         initialAndFinalCostEstimation.UpdateFinalHistory(AppConstant.CURRENT_HISTORY_ID,AppConstant.TOTAL_DURATION,AppConstant.TOTAL_DISTANCE,
-                                                                AppConstant.CURRENT_CLIENT_DISCOUNT_ID, notificationModel.sourceName, notificationModel.destinationName);
+                                                (int)notificationModel.discountID, notificationModel.sourceName, notificationModel.destinationName);
                                         notification.setAutoCancel(true);
                                         notificationManager.cancel(AppConstant.NOTIFICATION_ID);
                                         AppConstant.RIDING_FLAG = 1;
                                         AppConstant.ON_RIDE_MODE=0;
-
 
                                     }catch (Exception e){
                                         notification.setAutoCancel(true);
