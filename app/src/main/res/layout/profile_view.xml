@@ -276,15 +276,5 @@
 
         </TableLayout>
 
-
-        <ImageView
-            android:id="@+id/edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/profile_layout"
-
-            android:layout_alignEnd="@+id/profile"
-            android:clickable="true"
-            android:src="@android:drawable/ic_menu_edit" />
     </RelativeLayout>
 </ScrollView>
