@@ -245,8 +245,6 @@
                         android:textColor="@color/colorPrimary"
                         android:text="History"/>
                 </LinearLayout>
-
-
             </TableRow>
 
             <TableRow
