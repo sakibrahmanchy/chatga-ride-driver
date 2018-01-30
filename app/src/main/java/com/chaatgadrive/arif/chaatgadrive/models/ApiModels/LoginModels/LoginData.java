@@ -26,10 +26,30 @@ public class LoginData {
     @SerializedName("user_id")
     public String userId;
 
-    @SerializedName("id")
+    @SerializedName("rider_id")
     public String riderId;
 
-    public LoginData(String firstName, String lastName, String deviceToken, String birthDate, String gender, String userId, String riderId) {
+    @SerializedName("email")
+    public String email;
+
+    @SerializedName("phone")
+    public String phone;
+
+    @SerializedName("avatar")
+    public String avatar;
+
+    @SerializedName("nid")
+    public String nid;
+
+    @SerializedName("driving_license")
+    public String drivingLicense;
+
+    @SerializedName("motorbike_registration")
+    public String motorbikeRegistration;
+
+    public LoginData(String firstName, String lastName, String deviceToken,
+                     String birthDate, String gender, String userId, String riderId,
+                     String email, String phone, String avatar, String nid, String drivingLicense, String motorbikeRegistration) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.deviceToken = deviceToken;
@@ -37,6 +57,12 @@ public class LoginData {
         this.gender = gender;
         this.userId = userId;
         this.riderId = riderId;
+        this.email = email;
+        this.phone = phone;
+        this.avatar = avatar;
+        this.nid = nid;
+        this.drivingLicense = drivingLicense;
+        this.motorbikeRegistration = motorbikeRegistration;
     }
 
     public LoginData(){}
@@ -95,5 +121,53 @@ public class LoginData {
 
     public void setRiderId(String riderId) {
         this.riderId = riderId;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getNid() {
+        return nid;
+    }
+
+    public void setNid(String nid) {
+        this.nid = nid;
+    }
+
+    public String getDrivingLicense() {
+        return drivingLicense;
+    }
+
+    public void setDrivingLicense(String drivingLicense) {
+        this.drivingLicense = drivingLicense;
+    }
+
+    public String getMotorbikeRegistration() {
+        return motorbikeRegistration;
+    }
+
+    public void setMotorbikeRegistration(String motorbikeRegistration) {
+        this.motorbikeRegistration = motorbikeRegistration;
     }
 }
