@@ -55,7 +55,7 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime {
         firebaseWrapper = FirebaseWrapper.getInstance();
         riderModel = firebaseWrapper.getRiderModelInstance();
         FirebaseRequestInstance = firebaseWrapper.getFirebaseRequestInstance();
-        riderModel.RiderID = Long.parseLong(loginData.getUserId());
+        riderModel.RiderID = Long.parseLong(loginData.getRiderId());
         riderModel.FullName = loginData.getFirstName();
         riderModel.PhoneNumber = Long.parseLong(phoneNumber);
         riderModel.CurrentRiderLocation = new RiderModel.RiderLocation(
@@ -95,10 +95,12 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime {
                 riderHistory.StartLocation.latitude,
                 riderHistory.StartLocation.longitude
         );
+
         this.currentRidingHistoryModel.EndingLocation = new CurrentRidingHistoryModel.Location(
                 riderHistory.EndLocation.latitude,
                 riderHistory.EndLocation.longitude
         );
+
         this.currentRidingHistoryModel.CostSoFar = riderHistory.CostSoFar;
 
         this.currentRidingHistoryModel.IsRideStart = FirebaseConstant.UNKNOWN;
