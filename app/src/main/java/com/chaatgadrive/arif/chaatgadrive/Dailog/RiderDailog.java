@@ -2,13 +2,9 @@ package com.chaatgadrive.arif.chaatgadrive.Dailog;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -17,7 +13,6 @@ import android.widget.TextView;
 import com.chaatgadrive.arif.chaatgadrive.OnrideMode.InitialAndFinalCostEstimation;
 import com.chaatgadrive.arif.chaatgadrive.OnrideMode.OnRideModeActivity;
 import com.chaatgadrive.arif.chaatgadrive.R;
-import com.google.gson.Gson;
 
 import ContactWithFirebase.Main;
 import __Firebase.FirebaseModel.ClientModel;
@@ -36,7 +31,7 @@ public class RiderDailog extends Dialog implements android.view.View.OnClickList
     private FragmentActivity myContext;
     private Main main;
     private ClientModel clientModel;
-    private TextView From_road_location,To_road_location;
+    private TextView From_road_location, To_road_location;
     private InitialAndFinalCostEstimation initialAndFinalCostEstimation;
 
     private NotificationModel notificationModel;
@@ -52,20 +47,19 @@ public class RiderDailog extends Dialog implements android.view.View.OnClickList
         super.onCreate(savedInstanceState);
 
 
-
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.custom_dialog_ride);
         btnYes = (Button) findViewById(R.id.btn_yes);
         btnNo = (Button) findViewById(R.id.btn_no);
-        From_road_location =(TextView) findViewById(R.id.from_road_location);
-        To_road_location =(TextView) findViewById(R.id.to_road_location);
+        From_road_location = (TextView) findViewById(R.id.from_road_location);
+        To_road_location = (TextView) findViewById(R.id.to_road_location);
 
         btnYes.setOnClickListener(this);
         btnNo.setOnClickListener(this);
         main = new Main(getContext());
         initialAndFinalCostEstimation = new InitialAndFinalCostEstimation(myContext);
-        notificationModel= FirebaseWrapper.getInstance().getNotificationModelInstance();
-      //  clientModel = FirebaseWrapper.getInstance().getClientModelInstance();
+        notificationModel = FirebaseWrapper.getInstance().getNotificationModelInstance();
+        //  clientModel = FirebaseWrapper.getInstance().getClientModelInstance();
         From_road_location.setText(notificationModel.sourceName);
         To_road_location.setText(notificationModel.destinationName);
 
@@ -77,11 +71,12 @@ public class RiderDailog extends Dialog implements android.view.View.OnClickList
         switch (v.getId()) {
             case R.id.btn_yes:
                 initialAndFinalCostEstimation.CreateInitialHistory();
-                Intent intent = new Intent(getContext(),OnRideModeActivity.class);
+                Intent intent = new Intent(getContext(), OnRideModeActivity.class);
                 getContext().startActivity(intent);
                 SendPushNotification();
                 break;
             case R.id.btn_no:
+                RejectRide();
                 dismiss();
                 break;
             default:
@@ -90,11 +85,17 @@ public class RiderDailog extends Dialog implements android.view.View.OnClickList
         dismiss();
     }
 
-    private void SendPushNotification(){
+    private void SendPushNotification() {
         new Main(getContext()).ForcedAcceptanceOfRide(FirebaseConstant.INITIAL_ACCEPTANCE);
-//        new Main(getContext()).SentNotificationToClient(
-//                FirebaseWrapper.getInstance().getRiderModelInstance(),
-//                FirebaseWrapper.getInstance().getNotificationModelInstance().clientDeviceToken
-//        );
+        /*
+          new Main(getContext()).SentNotificationToClient(
+              FirebaseWrapper.getInstance().getRiderModelInstance(),
+              FirebaseWrapper.getInstance().getNotificationModelInstance().clientDeviceToken
+          );
+         */
+    }
+
+    private void RejectRide(){
+        new Main(getContext()).ForcedRejectedRide(notificationModel.clientId);
     }
 }

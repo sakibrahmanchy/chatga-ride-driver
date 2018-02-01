@@ -21,4 +21,5 @@ public interface ICallbackMain {
     void OnSentNotificationToClient(boolean value);
     void OnFinalAcceptanceOfRide(boolean value);
     void OnFinishedRide(boolean value);
+    void OnGetRiderStatus(boolean value);
 }

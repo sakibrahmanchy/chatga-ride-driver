@@ -110,7 +110,24 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime {
         return true;
     }
 
+    public boolean GetRiderStatus(long RiderId){
+
+        firebaseWrapper = FirebaseWrapper.getInstance();
+        firebaseWrapper.getFirebaseRequestInstance().GetRiderStatus(RiderId, Main.this);
+        return true;
+    }
+
+    public boolean RideRejectedByRider(long ClientId, long RiderId, long Time){
+
+        if(ClientId == 0 || Time == 0 || RiderId == 0)   return false;
+
+        firebaseWrapper = FirebaseWrapper.getInstance();
+        firebaseWrapper.getFirebaseRequestInstance().RideRejectedByRider(ClientId, RiderId, Time, Main.this);
+        return true;
+    }
+
     public boolean GetCurrentRider(long RiderId) {
+        if(RiderId < 0) return false;
 
         firebaseWrapper = FirebaseWrapper.getInstance();
         firebaseWrapper.getFirebaseRequestInstance().GetCurrentRider(RiderId, Main.this);
@@ -419,6 +436,11 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime {
         return true;
     }
 
+    public boolean ForcedRejectedRide(long ClientID){
+        FirebaseUtilMethod.getNetworkTime(FirebaseConstant.INITIAL_AC_OF_RIDE_NOTIFY_CLIENT, this.context, this);
+        return true;
+    }
+
     public static boolean ForcedClearFirebaseData(int value) {
 
         if (value == FirebaseConstant.RIDE_FINISHED) {
@@ -504,7 +526,9 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime {
                     FirebaseWrapper.getInstance().getRiderModelInstance(),
                     FirebaseWrapper.getDeviceToken()
             );
-            this.ResetRiderStatus(FirebaseWrapper.getInstance().getRiderModelInstance());
+            /*
+             *this.ResetRiderStatus(FirebaseWrapper.getInstance().getRiderModelInstance());
+             */
             return;
         }
         FirebaseRequestInstance.CreateRiderFirstTime(riderModel, Main.this);
@@ -545,6 +569,14 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime {
     }
 
     @Override
+    public void OnGetRiderStatus(boolean value) {
+        if(value == true){
+            riderModel = FirebaseWrapper.getInstance().getRiderModelInstance();
+            long onlineOffline = riderModel.IsRiderOnline;
+        }
+    }
+
+    @Override
     public void OnResponseServerTime(long value, int type) {
         if (value > 0) {
             switch (type) {
@@ -580,6 +612,14 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime {
                     this.CancelRideByRider(
                             FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance(),
                             FirebaseWrapper.getInstance().getRiderModelInstance(),
+                            value
+                    );
+                    break;
+                }
+                case FirebaseConstant.REJECTION_OF_RIDE_NOTIFY_CLIENT: {
+                    this.RideRejectedByRider(
+                            FirebaseWrapper.getInstance().getNotificationModelInstance().clientId,
+                            FirebaseWrapper.getInstance().getRiderModelInstance().RiderID,
                             value
                     );
                     break;

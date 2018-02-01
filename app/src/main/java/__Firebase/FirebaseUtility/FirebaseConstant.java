@@ -41,6 +41,7 @@ public class FirebaseConstant {
     public static String DEVICE_TOKEN = "DeviceToken";
     public static String JOIN = "_";
     public static String CANCEL_RIDE_BY_RIDER = "RideCanceledByRider";
+    public static String RIDE_REJECTED_BY_RIDER = "RideRejectedByRider";
     public static String TIME = "time";
     public static String DATE = "date";
     public static String TIME_DATE_PATTERN = "yyyy-M-dd hh:mm:ss";
@@ -107,6 +108,7 @@ public class FirebaseConstant {
     public static String RIDE_CANCELED = "RIDE_CANCELED";
     public static String CURRENT_SERVER_TIME = "CURRENT_SERVER_TIME";
     public static String CANCELED_RIDE_BY_RIDER = "CANCELED_RIDE_BY_RIDER";
+    public static String REJECT_RIDE_BY_RIDER = "REJECT_RIDE_BY_RIDER";
 
     /*Notification Action Type*/
     public static String RIDER_TO_CLIENT = "3012";
@@ -120,6 +122,11 @@ public class FirebaseConstant {
     public static final int FINAL_AC_OF_RIDE_NOTIFY_CLIENT = 2;
     public static final int FINISHED_RIDE_NOTIFY_CLIENT = 3;
     public static final int CANCELED_RIDE_BY_RIDER_NOTIFY_CLIENT = 4;
+    public static final int GET_NOTIFICATION_TO_NOTIFY_RIDER = 5;
+    public static final int REJECTION_OF_RIDE_NOTIFY_CLIENT = 6;
+
+    /*Constant Value*/
+    public static long ONE_MINUTE_IN_MILLISECOND = 60000;
 
     public FirebaseConstant(){
     }
