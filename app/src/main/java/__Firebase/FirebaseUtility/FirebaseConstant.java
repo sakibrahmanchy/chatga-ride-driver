@@ -124,6 +124,8 @@ public class FirebaseConstant {
     public static final int CANCELED_RIDE_BY_RIDER_NOTIFY_CLIENT = 4;
     public static final int GET_NOTIFICATION_TO_NOTIFY_RIDER = 5;
     public static final int REJECTION_OF_RIDE_NOTIFY_CLIENT = 6;
+    public static final int ACCEPT_RIDE = 7;
+    public static final int REJECT_RIDE = 8;
 
     /*Constant Value*/
     public static long ONE_MINUTE_IN_MILLISECOND = 60000;

@@ -131,7 +131,10 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
 
         String notification = getIntent().getStringExtra(FirebaseConstant.RIDE_NOTIFICATION);
         if (notification != null) {
-            FirebaseUtilMethod.getNetworkTime(FirebaseConstant.GET_NOTIFICATION_TO_NOTIFY_RIDER, this, this);
+            SwitchingActivity();
+            /*
+            *FirebaseUtilMethod.getNetworkTime(FirebaseConstant.GET_NOTIFICATION_TO_NOTIFY_RIDER, this, this);
+            */
         }
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);

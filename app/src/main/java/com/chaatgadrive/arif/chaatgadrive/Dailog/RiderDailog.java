@@ -18,13 +18,15 @@ import ContactWithFirebase.Main;
 import __Firebase.FirebaseModel.ClientModel;
 import __Firebase.FirebaseResponse.NotificationModel;
 import __Firebase.FirebaseUtility.FirebaseConstant;
+import __Firebase.FirebaseUtility.FirebaseUtilMethod;
 import __Firebase.FirebaseWrapper;
+import __Firebase.ICallbacklisteners.ICallBackCurrentServerTime;
 
 /**
  * Created by Arif on 12/30/2017.
  */
 
-public class RiderDailog extends Dialog implements android.view.View.OnClickListener {
+public class RiderDailog extends Dialog implements android.view.View.OnClickListener, ICallBackCurrentServerTime {
 
     public Activity activity;
     public Button btnYes, btnNo;
@@ -96,7 +98,29 @@ public class RiderDailog extends Dialog implements android.view.View.OnClickList
          */
     }
 
-    private void RejectRide(){
-9        new Main(getContext()).ForcedRejectedRide(notificationModel.clientId);
+    private void RejectRide() {
+        GetTime(FirebaseConstant.REJECT_RIDE);
+    }
+
+    private void GetTime(int type) {
+        FirebaseUtilMethod.getNetworkTime(type, getContext(), this);
+    }
+
+    @Override
+    public void OnResponseServerTime(long Time, int type) {
+        if (Time > 0) {
+            if (Math.abs(FirebaseWrapper.getInstance().getNotificationModelInstance().time - Time) <= FirebaseConstant.ONE_MINUTE_IN_MILLISECOND) {
+                switch (type) {
+                    case FirebaseConstant.REJECT_RIDE: {
+                        new Main(getContext()).ForcedRejectedRide(notificationModel.clientId);
+                        break;
+                    }
+                    case FirebaseConstant.ACCEPT_RIDE: {
+                        new Main(getContext()).ForcedAcceptanceOfRide(FirebaseConstant.INITIAL_ACCEPTANCE);
+                        break;
+                    }
+                }
+            }
+        }
     }
 }
