@@ -49,6 +49,7 @@ public class RiderDailog extends Dialog implements android.view.View.OnClickList
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.custom_dialog_ride);
+        setCanceledOnTouchOutside(false);
         btnYes = (Button) findViewById(R.id.btn_yes);
         btnNo = (Button) findViewById(R.id.btn_no);
         From_road_location = (TextView) findViewById(R.id.from_road_location);
@@ -96,6 +97,6 @@ public class RiderDailog extends Dialog implements android.view.View.OnClickList
     }
 
     private void RejectRide(){
-        new Main(getContext()).ForcedRejectedRide(notificationModel.clientId);
+9        new Main(getContext()).ForcedRejectedRide(notificationModel.clientId);
     }
 }

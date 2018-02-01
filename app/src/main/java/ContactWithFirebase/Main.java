@@ -439,7 +439,7 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime {
     }
 
     public boolean ForcedRejectedRide(long ClientID){
-        FirebaseUtilMethod.getNetworkTime(FirebaseConstant.INITIAL_AC_OF_RIDE_NOTIFY_CLIENT, this.context, this);
+        FirebaseUtilMethod.getNetworkTime(FirebaseConstant.REJECTION_OF_RIDE_NOTIFY_CLIENT, this.context, this);
         return true;
     }
 
