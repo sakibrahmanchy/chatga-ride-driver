@@ -55,7 +55,7 @@ public class FinishedRide {
                             for (DataSnapshot ds : (dataSnapshot.getChildren().iterator().next()).getChildren()) {
                                 if (ds.getKey().equals(FirebaseConstant.ENDING_LOCATION)) {
 
-                                    Map<String, Object> Longitude = new HashMap<>();
+                                     Map<String, Object> Longitude = new HashMap<>();
                                     Longitude.put(FirebaseConstant.LATITUDE, HistoryModel.EndingLocation.Latitude);
                                     ds.getRef().updateChildren(Longitude);
 

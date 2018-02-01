@@ -209,11 +209,12 @@ public class InitialAndFinalCostEstimation {
                         if(response.body().isSuccess()){
 
                              rideFinishData = response.body().getData();
-                            ForceFinishedRide();
+                           // ForceFinishedRide();
                             AppConstant.TOTAL_RIDING_COST = (int)rideFinishData.getCostAfterDiscount();
                             RideFinishDailog rideFinishDailog = new RideFinishDailog((Activity) mContext);
                             rideFinishDailog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                             rideFinishDailog.show();
+                            ForceFinishedRide();
                             /*
                             Intent intent = new Intent(mContext, MainActivity.class);
                             mContext.startActivity(intent);
