@@ -46,9 +46,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 import ContactWithFirebase.Main;
 import __Firebase.FirebaseUtility.FirebaseConstant;
+import __Firebase.FirebaseUtility.FirebaseUtilMethod;
 import __Firebase.FirebaseWrapper;
+import __Firebase.ICallbacklisteners.ICallBackCurrentServerTime;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ICallBackCurrentServerTime {
 
     private TextView mTextMessage;
     private Mapfragment mapfragment = new Mapfragment();
@@ -124,16 +126,12 @@ public class MainActivity extends AppCompatActivity {
         } else if (!connectionCheck.isGpsEnable()) {
             connectionCheck.showGPSDisabledAlertToUser();
         } else {
-
             manager.beginTransaction().replace(R.id.content, mapfragment, mapfragment.getTag()).commit();
         }
 
         String notification = getIntent().getStringExtra(FirebaseConstant.RIDE_NOTIFICATION);
         if (notification != null) {
-
-            RiderDailog riderDailog = new RiderDailog(MainActivity.this);
-            riderDailog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            riderDailog.show();
+            FirebaseUtilMethod.getNetworkTime(FirebaseConstant.GET_NOTIFICATION_TO_NOTIFY_RIDER, this, this);
         }
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
@@ -150,11 +148,7 @@ public class MainActivity extends AppCompatActivity {
             connectionCheck = new ConnectionCheck(this);
             this.MandatoryCall();
         }
-
         //mTextMessage = (TextView) findViewById(R.id.message);
-
-
-
     }
 
 
@@ -227,10 +221,10 @@ public class MainActivity extends AppCompatActivity {
         if (loginData != null) {
             main.CreateNewRiderFirebase(loginData, userInformation.getRiderPhoneNumber());
         } else {
-        //    loginData = new LoginData();
-        //    loginData.userId = "1010";
-        //    loginData.firstName = "Jobayer";
-         //   main.CreateNewRiderFirebase(loginData, userInformation.getRiderPhoneNumber());
+            loginData = new LoginData();
+            loginData.userId = "1010";
+            loginData.firstName = "Jobayer";
+            main.CreateNewRiderFirebase(loginData, userInformation.getRiderPhoneNumber());
         }
 
         /*
@@ -252,4 +246,18 @@ public class MainActivity extends AppCompatActivity {
         */
     }
 
+    private void SwitchingActivity(){
+        RiderDailog riderDailog = new RiderDailog(MainActivity.this);
+        riderDailog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        riderDailog.show();
+    }
+
+    @Override
+    public void OnResponseServerTime(long Time, int type) {
+        if(Time > 0 && type == FirebaseConstant.GET_NOTIFICATION_TO_NOTIFY_RIDER){
+            if(Math.abs(FirebaseWrapper.getInstance().getNotificationModelInstance().time - Time) <= FirebaseConstant.ONE_MINUTE_IN_MILLISECOND){
+                SwitchingActivity();
+            }
+        }
+    }
 }

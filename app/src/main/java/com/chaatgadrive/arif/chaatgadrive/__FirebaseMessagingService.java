@@ -48,6 +48,7 @@ public class __FirebaseMessagingService extends FirebaseMessagingService {
             notificationModel.destinationLongitude = Double.parseDouble(remoteMessage.getData().containsKey("destinationLongitude") ? remoteMessage.getData().get("destinationLongitude") : "0");
             notificationModel.totalCost = Long.parseLong(remoteMessage.getData().containsKey("totalCost") ? remoteMessage.getData().get("totalCost") : "0");
             notificationModel.discountID = Long.parseLong(remoteMessage.getData().containsKey("discountID") ? remoteMessage.getData().get("discountID") : "0");
+            notificationModel.time = Long.parseLong(remoteMessage.getData().containsKey("time") ? remoteMessage.getData().get("time") : "0");
 
             clientModel.ClientID = notificationModel.clientId;
             clientModel.FullName = notificationModel.clientName;

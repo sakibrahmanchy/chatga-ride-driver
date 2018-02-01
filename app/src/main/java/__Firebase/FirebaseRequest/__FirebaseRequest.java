@@ -212,6 +212,28 @@ public class __FirebaseRequest extends AppCompatActivity {
         thread.start();
     }
 
+    public void GetRiderStatus(final long RiderID, final ICallbackMain callBackListener){
+
+        Thread thread = new Thread(){
+            @Override
+            public void run(){
+                new GetRiderStatus(RiderID, callBackListener);
+            }
+        };
+        thread.start();
+    }
+
+    public void RideRejectedByRider(final long ClientID, final long RiderId, final long Time, final ICallbackMain callBackListener){
+
+        Thread thread = new Thread(){
+            @Override
+            public void run(){
+                new RideRejectedByRider(ClientID, RiderId, Time, callBackListener);
+            }
+        };
+        thread.start();
+    }
+
     public void GetCurrentRider(final long RiderID, final ICallbackMain callBackListener){
 
         Thread thread = new Thread(){
