@@ -114,9 +114,6 @@ public class FirebaseConstant {
     public static String RIDER_TO_CLIENT = "3012";
     public static String GET_CURRENT_TIME = "4001";
 
-    /*Third Party API Address*/
-    public static final String TIME_SERVER = "time-a.nist.gov";
-
     /*Request Type*/
     public static final int INITIAL_AC_OF_RIDE_NOTIFY_CLIENT = 1;
     public static final int FINAL_AC_OF_RIDE_NOTIFY_CLIENT = 2;
@@ -129,6 +126,7 @@ public class FirebaseConstant {
 
     /*Constant Value*/
     public static long ONE_MINUTE_IN_MILLISECOND = 60000;
+    public static int ZERO = 0;
 
     public FirebaseConstant(){
     }
