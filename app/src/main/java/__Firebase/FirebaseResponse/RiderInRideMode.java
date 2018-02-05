@@ -14,9 +14,11 @@ import __Firebase.ICallbacklisteners.CallBackListener;
 public class RiderInRideMode implements CallBackListener {
 
     private long HistoryID = FirebaseConstant.UNKNOWN;
+    private Main main;
     public RiderInRideMode(boolean hasRide, long HistoryID){
         if(hasRide){
             this.HistoryID = HistoryID;
+            this.main = new Main(MainActivity.getContextOfApplication());
             GetCurrentHistory();
         }else {
             NoRide();
@@ -26,6 +28,8 @@ public class RiderInRideMode implements CallBackListener {
     private void HasRide(){
         /* Riding History Model*/
         FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance();
+        /*Client Model*/
+        FirebaseWrapper.getInstance().getClientModelInstance();
     }
 
     private void NoRide(){
@@ -33,11 +37,20 @@ public class RiderInRideMode implements CallBackListener {
     }
 
     private void GetCurrentHistory(){
-        new Main(MainActivity.getContextOfApplication()).GetRecentHistory(this.HistoryID, this);
+        this.main.GetRecentHistory(this.HistoryID, this);
     }
 
     @Override
     public void OnGetHistoryModel(boolean value) {
-        HasRide();
+        if(value == true) {
+            this.main.GetCurrentClient(FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance().ClientID, this);
+        }
+    }
+
+    @Override
+    public void OnGetCurrentClient(boolean value) {
+        if(value == true){
+            HasRide();
+        }
     }
 }

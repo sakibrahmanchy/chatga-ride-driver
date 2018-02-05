@@ -201,7 +201,7 @@ public class __FirebaseRequest extends AppCompatActivity {
         thread.start();
     }
 
-    public void GetCurrentClient(final long ClientID, final ICallbackMain callBackListener){
+    public void GetCurrentClient(final long ClientID, final CallBackListener callBackListener){
 
         Thread thread = new Thread(){
             @Override

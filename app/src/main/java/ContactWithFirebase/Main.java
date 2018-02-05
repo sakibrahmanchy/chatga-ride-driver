@@ -152,7 +152,7 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
         if(HistoryId < 1)   return false;
 
         firebaseWrapper = FirebaseWrapper.getInstance();
-        firebaseWrapper.getFirebaseRequestInstance().GetRecentHistory(HistoryId, Main.this);
+        firebaseWrapper.getFirebaseRequestInstance().GetRecentHistory(HistoryId, callBackListener);
         return true;
     }
 
@@ -280,10 +280,12 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
         return true;
     }
 
-    public boolean GetCurrentClient(long ClientId) {
+    public boolean GetCurrentClient(long ClientId, CallBackListener callBackListener) {
+
+        if(ClientId < 1 || callBackListener == null)    return false;
 
         firebaseWrapper = FirebaseWrapper.getInstance();
-        firebaseWrapper.getFirebaseRequestInstance().GetCurrentClient(ClientId, Main.this);
+        firebaseWrapper.getFirebaseRequestInstance().GetCurrentClient(ClientId, callBackListener);
         return true;
     }
 
