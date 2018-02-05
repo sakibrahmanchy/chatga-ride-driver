@@ -18,6 +18,7 @@ import __Firebase.FirebaseResponse.RiderInRideMode;
 import __Firebase.FirebaseUtility.FirebaseConstant;
 import __Firebase.FirebaseUtility.FirebaseUtilMethod;
 import __Firebase.FirebaseWrapper;
+import __Firebase.ICallbacklisteners.CallBackListener;
 import __Firebase.ICallbacklisteners.ICallBackCurrentServerTime;
 import __Firebase.ICallbacklisteners.ICallbackMain;
 
@@ -146,7 +147,9 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime {
         return true;
     }
 
-    public boolean GetRecentHistory(long HistoryId) {
+    public boolean GetRecentHistory(long HistoryId, CallBackListener callBackListener) {
+
+        if(HistoryId < 1)   return false;
 
         firebaseWrapper = FirebaseWrapper.getInstance();
         firebaseWrapper.getFirebaseRequestInstance().GetRecentHistory(HistoryId, Main.this);
@@ -598,13 +601,13 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime {
     @Override
     public void OnHasAnyRide(boolean value) {
         if (value == true) {
-            CurrentRidingHistoryModel History = FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance();
-            if (History.HistoryID > 0) {
+            RiderModel Rider = FirebaseWrapper.getInstance().getRiderModelInstance();
+            if (Rider.CurrentRidingHistoryID > 0) {
                 /*Rider has a ride*/
-                new RiderInRideMode(true);
+                new RiderInRideMode(true, Rider.CurrentRidingHistoryID);
             } else {
                 /*Rider has no ride*/
-                new RiderInRideMode(false);
+                new RiderInRideMode(false, Rider.CurrentRidingHistoryID);
             }
         }
     }

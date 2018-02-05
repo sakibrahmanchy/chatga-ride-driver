@@ -7,14 +7,5 @@ import __Firebase.FirebaseResponse.NotificationModel;
  */
 
 public interface CallBackListener {
-    void onRequestCompletion(boolean value);
-    void onRiderCreatedFirstTime(boolean value);
-    void onSetRiderBusyOrFree(boolean value);
-    void onSetRiderOnRideOrFree(boolean value);
-    void onSetRiderOnLineOrOffLine(boolean value);
-    void onSetRiderOnlineBusyOnRider(boolean value);
-    void onSetHistoryIDonRiderTable(boolean value);
-    void onCreateNewRideHistory(boolean value);
-    void onGetCurrentClient(boolean value);
-    void onGetNotificationModel(NotificationModel notificationModel);
+    void OnGetHistoryModel(boolean value);
 }

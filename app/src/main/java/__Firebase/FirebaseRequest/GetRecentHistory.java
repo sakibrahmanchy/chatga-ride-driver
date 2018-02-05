@@ -6,6 +6,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+import __Firebase.ICallbacklisteners.CallBackListener;
 import __Firebase.ICallbacklisteners.ICallbackMain;
 import __Firebase.FirebaseUtility.FirebaseConstant;
 import __Firebase.FirebaseWrapper;
@@ -17,9 +18,9 @@ import __Firebase.FirebaseWrapper;
 public class GetRecentHistory {
 
     private long HistoryID = 0;
-    private ICallbackMain callBackListener = null;
+    private CallBackListener callBackListener = null;
 
-    public GetRecentHistory(long RiderID, ICallbackMain callBackListener){
+    public GetRecentHistory(long RiderID, CallBackListener callBackListener){
         this.HistoryID = RiderID;
         this.callBackListener = callBackListener;
 
@@ -43,22 +44,22 @@ public class GetRecentHistory {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                callBackListener.OnResponseGetHistoryModel(false);
+                callBackListener.OnGetHistoryModel(false);
             }
         });
-        firebaseWrapper.FirebaseRootReference.child(FirebaseConstant.RIDER).orderByChild(FirebaseConstant.RIDER_ID).equalTo(this.HistoryID).addListenerForSingleValueEvent(new ValueEventListener() {
+        firebaseWrapper.FirebaseRootReference.child(FirebaseConstant.HISTORY).orderByChild(FirebaseConstant.HISTORY_ID).equalTo(this.HistoryID).addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()) {
-                    callBackListener.OnResponseGetHistoryModel(true);
+                    callBackListener.OnGetHistoryModel(true);
                 }else {
-                    callBackListener.OnResponseGetHistoryModel(false);
+                    callBackListener.OnGetHistoryModel(false);
                 }
             }
 
             public void onCancelled(DatabaseError databaseError) {
-                callBackListener.OnResponseGetHistoryModel(false);
+                callBackListener.OnGetHistoryModel(false);
                 Log.d(FirebaseConstant.HISTORY_LOADED_ERROR, databaseError.toString());
             }
         });
