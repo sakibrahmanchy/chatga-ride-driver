@@ -64,7 +64,8 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".OnrideMode.OnRideModeActivity" />
+        <activity android:name=".OnrideMode.OnRideModeActivity"
+            android:noHistory="true"/>
         <activity android:name=".InternetConnection.InternetCheckActivity" />
 
         <service

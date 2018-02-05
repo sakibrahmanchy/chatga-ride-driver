@@ -68,6 +68,8 @@ public class RideFinishDailog extends Dialog implements android.view.View.OnClic
         switch (v.getId()) {
             case R.id.btnOk:
                 new UserRating(getContext()).RatingClient();
+                Intent intent = new Intent(getContext(),MainActivity.class);
+                myContext.startActivity(intent);
                 myContext.finish();
                 break;
             default:
