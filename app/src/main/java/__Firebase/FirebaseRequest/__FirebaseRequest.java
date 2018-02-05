@@ -245,6 +245,17 @@ public class __FirebaseRequest extends AppCompatActivity {
         thread.start();
     }
 
+    public void HasAnyRide(final long RiderID, final ICallbackMain callBackListener){
+
+        Thread thread = new Thread(){
+            @Override
+            public void run(){
+                new HasAnyRide(RiderID, callBackListener);
+            }
+        };
+        thread.start();
+    }
+
     public void GetRecentHistory(final long HistoryID, final ICallbackMain callBackListener){
 
         Thread thread = new Thread(){

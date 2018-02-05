@@ -22,4 +22,5 @@ public interface ICallbackMain {
     void OnFinalAcceptanceOfRide(boolean value);
     void OnFinishedRide(boolean value);
     void OnGetRiderStatus(boolean value);
+    void OnHasAnyRide(boolean value);
 }
