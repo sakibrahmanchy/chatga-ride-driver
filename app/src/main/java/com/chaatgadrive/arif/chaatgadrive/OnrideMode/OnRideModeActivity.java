@@ -69,6 +69,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     private CostEstimation costEstimation;
     private Date startTime,endTime;
 
+
     Calendar rightNow = Calendar.getInstance();
 
 
@@ -114,7 +115,6 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         else {
 
             try{
-
 
                 getDistanceAndDuration = new GetDistanceAndDuration(this,new LatLng(notificationModel.sourceLatitude,notificationModel.sourceLongitude),
                         new LatLng(notificationModel.destinationLatitude,notificationModel.destinationLongitude));

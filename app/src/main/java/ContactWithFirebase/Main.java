@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.util.Pair;
 
+import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.GetCurrentLocation;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginData;
 import com.chaatgadrive.arif.chaatgadrive.models.HistoryModel.RiderHistory;
@@ -575,6 +576,7 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime {
         if(value == true){
             riderModel = FirebaseWrapper.getInstance().getRiderModelInstance();
             long onlineOffline = riderModel.IsRiderOnline;
+            AppConstant.OnOffSwith =(int)onlineOffline;
         }
     }
 

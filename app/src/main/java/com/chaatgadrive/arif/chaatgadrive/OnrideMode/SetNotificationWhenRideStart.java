@@ -54,7 +54,5 @@ public class SetNotificationWhenRideStart {
         note.flags = Notification.FLAG_ONGOING_EVENT;
         notificationManager.notify(AppConstant.NOTIFICATION_ID,note);
 
-
-
     }
 }

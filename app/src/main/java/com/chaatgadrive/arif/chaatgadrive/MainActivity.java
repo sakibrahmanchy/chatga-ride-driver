@@ -67,6 +67,8 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
     private boolean check = false;
     private LocationCallback mLocationCallback;
     private LocationRequest mLocationRequest;
+    MenuItem actionViewItem;
+    View v;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -147,6 +149,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
 
             userInformation = new UserInformation(this);
             loginData = userInformation.getuserInformation();
+            main.GetRiderStatus(Long.parseLong(loginData.getRiderId()));
             getCurrentLocation = new GetCurrentLocation(this);
             connectionCheck = new ConnectionCheck(this);
             this.MandatoryCall();
@@ -180,15 +183,24 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem actionViewItem = menu.findItem(R.id.switchView);
-        View v = MenuItemCompat.getActionView(actionViewItem);
+         actionViewItem = menu.findItem(R.id.switchView);
+         v = MenuItemCompat.getActionView(actionViewItem);
         OffOnSwitch = (Switch) v.findViewById(R.id.switch1);
         OffOnSwitch.setChecked(true);
+        if(AppConstant.OnOffSwith==1){
+            OffOnSwitch.setChecked(true);
+            OffOnSwitch.setText("ON");
+        }
+        else if(AppConstant.OnOffSwith==0){
+            OffOnSwitch.setChecked(false);
+            OffOnSwitch.setText("OFF");
+        }
         OffOnSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Toast.makeText(getApplicationContext(), "Refresh selected= " + isChecked, Toast.LENGTH_SHORT).show();
                 if (isChecked) {
                     OffOnSwitch.setText("ON");
+                    AppConstant.OnOffSwith=1;
                     if (FirebaseWrapper.getInstance().getRiderModelInstance().RiderID > 0) {
                         main.SetRiderOnLineOrOffLine(
                                 FirebaseWrapper.getInstance().getRiderModelInstance(),
@@ -201,6 +213,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
                     }
                 } else {
                     OffOnSwitch.setText("OFF");
+                    AppConstant.OnOffSwith=0;
                     if (FirebaseWrapper.getInstance().getRiderModelInstance().RiderID > 0) {
                         main.SetRiderOnLineOrOffLine(
                                 FirebaseWrapper.getInstance().getRiderModelInstance(),
@@ -221,7 +234,10 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
         new Main(this);
         Intent intent = new Intent(MainActivity.this, UpdateLocationService.class);
         startService(intent);
-        if (loginData != null) {
+
+      
+        if (loginData != null)
+        {
             main.CreateNewRiderFirebase(loginData, userInformation.getRiderPhoneNumber());
         } else {
             loginData = new LoginData();
