@@ -256,7 +256,7 @@ public class __FirebaseRequest extends AppCompatActivity {
         thread.start();
     }
 
-    public void GetRecentHistory(final long HistoryID, final ICallbackMain callBackListener){
+    public void GetRecentHistory(final long HistoryID, final CallBackListener callBackListener){
 
         Thread thread = new Thread(){
             @Override

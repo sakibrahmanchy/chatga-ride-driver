@@ -1,16 +1,23 @@
 package __Firebase.FirebaseResponse;
 
+import com.chaatgadrive.arif.chaatgadrive.MainActivity;
+
+import ContactWithFirebase.Main;
+import __Firebase.FirebaseUtility.FirebaseConstant;
 import __Firebase.FirebaseWrapper;
+import __Firebase.ICallbacklisteners.CallBackListener;
 
 /**
  * Created by User on 2/5/2018.
  */
 
-public class RiderInRideMode {
+public class RiderInRideMode implements CallBackListener {
 
-    public RiderInRideMode(boolean hasRide){
+    private long HistoryID = FirebaseConstant.UNKNOWN;
+    public RiderInRideMode(boolean hasRide, long HistoryID){
         if(hasRide){
-            HasRide();
+            this.HistoryID = HistoryID;
+            GetCurrentHistory();
         }else {
             NoRide();
         }
@@ -22,6 +29,15 @@ public class RiderInRideMode {
     }
 
     private void NoRide(){
-        FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance().ClearData();
+
+    }
+
+    private void GetCurrentHistory(){
+        new Main(MainActivity.getContextOfApplication()).GetRecentHistory(this.HistoryID, this);
+    }
+
+    @Override
+    public void OnGetHistoryModel(boolean value) {
+        HasRide();
     }
 }

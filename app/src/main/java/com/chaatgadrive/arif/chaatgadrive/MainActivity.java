@@ -1,5 +1,6 @@
 package com.chaatgadrive.arif.chaatgadrive;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
     private boolean check = false;
     private LocationCallback mLocationCallback;
     private LocationRequest mLocationRequest;
+    public static Context contextOfApplication;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -115,6 +117,8 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        contextOfApplication = getApplicationContext();
         setContentView(R.layout.activity_main);
         getCurrentLocation = new GetCurrentLocation(this);
         connectionCheck = new ConnectionCheck(this);
@@ -262,5 +266,9 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
                 SwitchingActivity();
             }
         }
+    }
+
+    public static Context getContextOfApplication(){
+        return contextOfApplication;
     }
 }
