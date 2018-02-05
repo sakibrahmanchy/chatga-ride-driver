@@ -8,4 +8,5 @@ import __Firebase.FirebaseResponse.NotificationModel;
 
 public interface CallBackListener {
     void OnGetHistoryModel(boolean value);
+    void OnGetCurrentClient(boolean value);
 }
