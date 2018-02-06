@@ -8,6 +8,7 @@ import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.AccessTokenModels.Aut
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.DateTimeModel.DateTimeResponse;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.DeviceTokenModels.UpdateDeviceTokenData;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginModel;
+import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.NotificationModels.NotificationResponse;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.Rating.RateClient;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.Rating.Rating;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RegistrationModels.RegistrationModel;
@@ -120,5 +121,6 @@ public interface ApiInterface {
     Call<Rating>getClientRating(@Header("Authorization") String authHeader,
                                 @Field("client_id") int clientId);
 
-
+    @GET("api/v1/rider/notifications")
+    Call<NotificationResponse> getRiderNotifications(@Header("Authorization") String authHeader);
 }
