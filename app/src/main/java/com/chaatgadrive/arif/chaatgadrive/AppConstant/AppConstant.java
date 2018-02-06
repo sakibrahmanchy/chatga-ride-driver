@@ -6,6 +6,9 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Date;
 
+import __Firebase.FirebaseModel.ClientModel;
+import __Firebase.FirebaseModel.CurrentRidingHistoryModel;
+
 /**
  * Created by Arif on 1/4/2018.
  */
@@ -32,6 +35,16 @@ public class AppConstant {
     public static int TOTAL_RIDING_COST=0;
     public static int ON_RIDE_MODE=0;
     public static double RATING=0;
+    public static  int OnOffSwith =2;
+    public static CurrentRidingHistoryModel currentRidingHistoryModel = null;
+    public static ClientModel ClientModel = null;
+    public static int IS_RIDE=2;
+    public static String SOURCE_NAME="";
+    public static String DESTINATION_NAME="";
+    public static double SOURCE_LATITUTE=0;
+    public static double SOURCE_LOGITUTE=0;
+    public static double DESTINATION_LATITUTE=0;
+    public static double DESTINATION_LOGITUTE=0;
 
 
 }

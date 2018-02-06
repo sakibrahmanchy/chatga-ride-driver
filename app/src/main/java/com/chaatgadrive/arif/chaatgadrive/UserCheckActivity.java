@@ -49,6 +49,7 @@ public class UserCheckActivity extends Activity {
     private SharedPreferences.Editor editor;
     LoginHelper loginHelper;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

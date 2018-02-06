@@ -188,6 +188,16 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
         View v = MenuItemCompat.getActionView(actionViewItem);
         OffOnSwitch = (Switch) v.findViewById(R.id.switch1);
         OffOnSwitch.setChecked(true);
+
+        if(AppConstant.OnOffSwith==1){
+            OffOnSwitch.setChecked(true);
+            OffOnSwitch.setText("ON");
+        }
+
+        if(AppConstant.OnOffSwith==0){
+            OffOnSwitch.setChecked(false);
+            OffOnSwitch.setText("OFF");
+        }
         OffOnSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Toast.makeText(getApplicationContext(), "Refresh selected= " + isChecked, Toast.LENGTH_SHORT).show();

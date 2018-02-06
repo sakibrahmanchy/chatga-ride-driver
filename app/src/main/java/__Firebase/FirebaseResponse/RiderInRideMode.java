@@ -1,5 +1,6 @@
 package __Firebase.FirebaseResponse;
 
+import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
 import com.chaatgadrive.arif.chaatgadrive.MainActivity;
 
 import ContactWithFirebase.Main;
@@ -27,13 +28,14 @@ public class RiderInRideMode implements CallBackListener {
 
     private void HasRide(){
         /* Riding History Model*/
-        FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance();
+        AppConstant.currentRidingHistoryModel = FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance();
         /*Client Model*/
-        FirebaseWrapper.getInstance().getClientModelInstance();
+        AppConstant.ClientModel=FirebaseWrapper.getInstance().getClientModelInstance();
+        AppConstant.IS_RIDE=1;
     }
 
     private void NoRide(){
-
+        AppConstant.IS_RIDE=0;
     }
 
     private void GetCurrentHistory(){

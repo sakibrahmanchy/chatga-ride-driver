@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 
 import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
+import com.chaatgadrive.arif.chaatgadrive.FirstAppLoadingActivity.FirstAppLoadingActivity;
+import com.chaatgadrive.arif.chaatgadrive.MainActivity;
 import com.chaatgadrive.arif.chaatgadrive.R;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -45,16 +47,14 @@ public class SetNotificationWhenRideStart {
         notification.setTicker("this Chaadga Ride");
         notification.setContentTitle("You are in Ride");
         notification.setOnlyAlertOnce(true);
-        notification.setContentText(notificationModel.sourceName + "  To "+notificationModel.destinationName);
+        notification.setContentText(AppConstant.SOURCE_NAME + "  To "+AppConstant.DESTINATION_NAME);
         notification.setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND);
-        Intent intent = new Intent(mContext,OnRideModeActivity.class);
+        notification.setAutoCancel(true);
+        Intent intent = new Intent(mContext,FirstAppLoadingActivity.class);
         PendingIntent pendingIntent =PendingIntent.getActivity(mContext,0,intent,0);
         notification.setContentIntent(pendingIntent);
         note = notification.build();
-        note.flags = Notification.FLAG_ONGOING_EVENT;
         notificationManager.notify(AppConstant.NOTIFICATION_ID,note);
-
-
 
     }
 }

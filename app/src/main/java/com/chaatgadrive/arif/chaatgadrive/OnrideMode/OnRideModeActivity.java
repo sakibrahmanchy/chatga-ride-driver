@@ -57,17 +57,15 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     private ProgressDialog dialog;
     private NotificationCompat.Builder notification;
     private Button finishRide;
-    private Notification note;
-    private NotificationManager notificationManager;
     private InitialAndFinalCostEstimation initialAndFinalCostEstimation;
     private GetDistanceAndDuration getDistanceAndDuration;
     private Handler handler = new Handler();
     private GetDistanceFromMap  getDistanceFromMap;
-    private SetNotificationWhenRideStart setNotificationWhenRideStart;
     private long CurrentTimeInSecond = 0;
     private Main main = null;
     private CostEstimation costEstimation;
     private Date startTime,endTime;
+
 
     Calendar rightNow = Calendar.getInstance();
 
@@ -76,15 +74,15 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_onride_mode);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(OnRideModeActivity.this);
         notificationModel = FirebaseWrapper.getInstance().getNotificationModelInstance();
         main = new Main(this);
         connectionCheck  = new ConnectionCheck(this);
         initialAndFinalCostEstimation = new InitialAndFinalCostEstimation(this);
         getCurrentLocation = new GetCurrentLocation(this);
         getDistanceFromMap = new GetDistanceFromMap();
-        setNotificationWhenRideStart = new SetNotificationWhenRideStart(this);
-        notification = new NotificationCompat.Builder(this);
-        notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
 
         costEstimation = new CostEstimation();
 
@@ -98,12 +96,36 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
 
         startRide.setVisibility(View.VISIBLE);
         finishRide.setVisibility(View.INVISIBLE);
-        if( AppConstant.RIDING_FLAG ==2){
-            startRide.setVisibility(View.INVISIBLE);
-            finishRide.setVisibility(View.VISIBLE);
+        if(AppConstant.currentRidingHistoryModel !=null){
 
+            AppConstant.CURRENT_HISTORY_ID = (int)AppConstant.currentRidingHistoryModel.HistoryID;
+            AppConstant.SOURCE_NAME = AppConstant.currentRidingHistoryModel.Client_History;
+            AppConstant.DESTINATION_NAME =AppConstant.currentRidingHistoryModel.Rider_History;
+            AppConstant.SOURCE_LATITUTE = AppConstant.currentRidingHistoryModel.StartingLocation.Latitude;
+            AppConstant.SOURCE_LOGITUTE = AppConstant.currentRidingHistoryModel.StartingLocation.Longitude;
+            AppConstant.DESTINATION_LATITUTE = AppConstant.currentRidingHistoryModel.EndingLocation.Latitude;
+            AppConstant.DESTINATION_LOGITUTE =AppConstant.currentRidingHistoryModel.EndingLocation.Longitude;
+            AppConstant.ON_RIDE_MODE=1;
+
+
+            if(AppConstant.currentRidingHistoryModel.IsRideStart==0){
+                startRide.setVisibility(View.VISIBLE);
+                finishRide.setVisibility(View.INVISIBLE);
+            }
+            if(AppConstant.currentRidingHistoryModel.IsRideStart !=-1){
+                startRide.setVisibility(View.INVISIBLE);
+                finishRide.setVisibility(View.VISIBLE);
+            }
         }
 
+        if(notificationModel.clientId !=0){
+            AppConstant.DESTINATION_NAME = notificationModel.destinationName;
+            AppConstant.SOURCE_NAME = notificationModel.sourceName;
+            AppConstant.SOURCE_LATITUTE =notificationModel.sourceLatitude;
+            AppConstant.SOURCE_LOGITUTE = notificationModel.sourceLongitude;
+            AppConstant.DESTINATION_LATITUTE = notificationModel.destinationLatitude;
+            AppConstant.DESTINATION_LOGITUTE = notificationModel.destinationLongitude;
+        }
         if(!connectionCheck.isNetworkConnected()){
             Intent intent = new Intent(OnRideModeActivity.this, InternetCheckActivity.class);
             startActivityForResult(intent,AppConstant.INTERNET_CHECK);
@@ -115,14 +137,14 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
 
             try{
 
+                    getDistanceAndDuration = new GetDistanceAndDuration(this,new LatLng(AppConstant.SOURCE_LATITUTE, AppConstant.SOURCE_LOGITUTE),
+                            new LatLng( AppConstant.DESTINATION_LATITUTE ,AppConstant.DESTINATION_LOGITUTE));
 
-                getDistanceAndDuration = new GetDistanceAndDuration(this,new LatLng(notificationModel.sourceLatitude,notificationModel.sourceLongitude),
-                        new LatLng(notificationModel.destinationLatitude,notificationModel.destinationLongitude));
+
             }catch (Exception e){
 
             }
 
-            initMap();
             AllActionClick();
 
         }
@@ -163,7 +185,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                     finishRide.setVisibility(View.VISIBLE);
                     setTitle("You are in Ride");
                     AppConstant.ON_RIDE_MODE=1;
-                    setNotificationWhenRideStart.Notification();
+
                     initialAndFinalCostEstimation.UpdateStartRide(AppConstant.CURRENT_HISTORY_ID);
                     AppConstant.PREVIOUS_LATLONG = new LatLng(mMap.getMyLocation().getLatitude(),mMap.getMyLocation().getLongitude());
                     MandatoryCall();
@@ -203,20 +225,14 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                                     try {
 
                                         initialAndFinalCostEstimation.UpdateFinalHistory(AppConstant.CURRENT_HISTORY_ID,AppConstant.TOTAL_DURATION,AppConstant.TOTAL_DISTANCE,
-                                                (int)notificationModel.discountID, notificationModel.sourceName, notificationModel.destinationName);
-                                        notification.setAutoCancel(true);
-                                        notificationManager.cancel(AppConstant.NOTIFICATION_ID);
-                                        AppConstant.RIDING_FLAG = 1;
+                                                (int)AppConstant.CURRENT_CLIENT_DISCOUNT_ID, AppConstant.SOURCE_NAME, AppConstant.DESTINATION_NAME);
                                         AppConstant.ON_RIDE_MODE=0;
 
                                     }catch (Exception e){
-                                        notification.setAutoCancel(true);
-                                        notificationManager.cancel(AppConstant.NOTIFICATION_ID);
 
-                                        notification.setAutoCancel(true);
-                                        finish();
                                         Intent intent = new Intent(OnRideModeActivity.this, MainActivity.class);
                                         startActivity(intent);
+                                        finish();
                                         e.printStackTrace();
                                     }
 
@@ -228,8 +244,8 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     }
 
     void setUpMap(){
-        source = new LatLng(notificationModel.sourceLatitude,notificationModel.sourceLongitude);
-        destination = new LatLng(notificationModel.destinationLatitude,notificationModel.destinationLongitude);
+        source = new LatLng(AppConstant.SOURCE_LATITUTE,AppConstant.SOURCE_LOGITUTE);
+        destination = new LatLng(AppConstant.DESTINATION_LATITUTE,AppConstant.DESTINATION_LOGITUTE);
         if(connectionCheck.isGpsEnable() && connectionCheck.isNetworkConnected()){
             // Getting URL to the Google Directions API
 
@@ -252,8 +268,6 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        if (ConstentUtilityModel.mLocationPermissionsGranted && connectionCheck.isGpsEnable() && connectionCheck.isNetworkConnected()) {
-
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling
                 //    ActivityCompat#requestPermissions
@@ -267,13 +281,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
             mMap.setMyLocationEnabled(true);
             setUpMap();
             Toast.makeText(this, "Map is Ready", Toast.LENGTH_SHORT).show();
-        }
-    }
 
-    private void initMap(){
-
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(OnRideModeActivity.this);
     }
 
 

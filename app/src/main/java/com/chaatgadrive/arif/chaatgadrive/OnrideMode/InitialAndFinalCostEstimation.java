@@ -66,6 +66,7 @@ public class InitialAndFinalCostEstimation {
     private GetDistanceFromMap getDistanceFromMap;
     private Main main;
     private RideFinishData rideFinishData;
+    private SetNotificationWhenRideStart setNotificationWhenRideStart;
 
     public InitialAndFinalCostEstimation(Context context) {
 
@@ -77,6 +78,7 @@ public class InitialAndFinalCostEstimation {
         pref = this.mContext.getSharedPreferences("MyPref", 0);
         costEstimation = new CostEstimation();
         riderHistory = new RiderHistory();
+        setNotificationWhenRideStart = new SetNotificationWhenRideStart(mContext);
 
 
         getDistanceFromMap = new GetDistanceFromMap();
@@ -169,6 +171,7 @@ public class InitialAndFinalCostEstimation {
                 dialog.dismiss();
                 switch(statusCode){
                     case 200:
+                        setNotificationWhenRideStart.Notification();
 
                         if(response.body().isSuccess()){
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.util.Pair;
 
+import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.GetCurrentLocation;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginData;
 import com.chaatgadrive.arif.chaatgadrive.models.HistoryModel.RiderHistory;
@@ -25,7 +26,7 @@ import __Firebase.ICallbacklisteners.ICallbackMain;
  * Created by User on 12/8/2017.
  */
 
-public class Main implements ICallbackMain, ICallBackCurrentServerTime {
+public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBackListener {
 
     private GetCurrentLocation getCurrentLocation;
     private FirebaseWrapper firebaseWrapper = null;
@@ -598,6 +599,7 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime {
         if (value == true) {
             riderModel = FirebaseWrapper.getInstance().getRiderModelInstance();
             long onlineOffline = riderModel.IsRiderOnline;
+            AppConstant.OnOffSwith =(int)onlineOffline;
         }
     }
 
@@ -666,5 +668,10 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime {
             }
             Log.d(FirebaseConstant.CURRENT_SERVER_TIME, Long.toString(value));
         }
+    }
+
+    @Override
+    public void OnGetHistoryModel(boolean value) {
+
     }
 }
