@@ -21,13 +21,13 @@ public class ClientModel {
     public String DeviceToken;
     public String FullName;
     public int IsSearchingOrOnRide;
-    public long CurrentRidingHistoryID;
+    public String CurrentRidingHistoryID;
 
     public ClientModel(){
 
     }
 
-    public ClientModel(long _ClientID, long _PhoneNumber, String _DeviceToken, String _FullName, long _CostOfCurrentRide, int _IsSearchingOrOnRide, int _CurrentRidingHistoryID){
+    public ClientModel(long _ClientID, long _PhoneNumber, String _DeviceToken, String _FullName, long _CostOfCurrentRide, int _IsSearchingOrOnRide, String _CurrentRidingHistoryID){
         this.ClientID = _ClientID;
         this.PhoneNumber = _PhoneNumber;
         this.DeviceToken = _DeviceToken;
@@ -60,6 +60,6 @@ public class ClientModel {
         this.FullName = FirebaseConstant.Empty;
         this.CostOfCurrentRide = FirebaseConstant.UNKNOWN;
         this.IsSearchingOrOnRide = FirebaseConstant.UNKNOWN;
-        this.CurrentRidingHistoryID = FirebaseConstant.UNKNOWN;
+        this.CurrentRidingHistoryID = FirebaseConstant.Empty;
     }
 }

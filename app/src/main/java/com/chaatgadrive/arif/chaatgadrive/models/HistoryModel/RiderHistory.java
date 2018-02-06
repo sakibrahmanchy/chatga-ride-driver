@@ -12,6 +12,7 @@ public class RiderHistory {
     public long HistoryID;
     public long  ClientID;
     public long  RiderID;
+    public long DiscountID;
     public String Client_History;
     public String Rider_History;
     public long CostSoFar;
@@ -21,5 +22,6 @@ public class RiderHistory {
     public int RideCanceledByRider;
     public LatLng StartLocation;
     public LatLng EndLocation;
-
+    public String StartingLocationName;
+    public String EndingLocationName;
 }
