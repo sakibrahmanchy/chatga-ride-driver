@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
     private Mapfragment mapfragment = new Mapfragment();
     private DashboardFragment dashboardFragment = new DashboardFragment();
     private ProfileViewFragment profileViewFragment = new ProfileViewFragment();
+    private NotificationActivity notificationFragment = new NotificationActivity();
     private FragmentManager manager = getSupportFragmentManager();
     private Main main = new Main(this);
     private GetCurrentLocation getCurrentLocation = null;
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
     private LocationCallback mLocationCallback;
     private LocationRequest mLocationRequest;
     public static Context contextOfApplication;
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -92,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
                     manager.beginTransaction().replace(R.id.content, dashboardFragment, dashboardFragment.getTag()).commit();
                     return true;
                 case R.id.navigation_notifications:
-                    manager.beginTransaction().replace(R.id.content, dashboardFragment, dashboardFragment.getTag()).commit();
+                    manager.beginTransaction().replace(R.id.content, notificationFragment, notificationFragment.getTag()).commit();
                     return true;
                 case R.id.navigation_earning:
                     manager.beginTransaction().replace(R.id.content, dashboardFragment, dashboardFragment.getTag()).commit();

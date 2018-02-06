@@ -27,7 +27,7 @@ public class __FirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
         if(remoteMessage.getData().containsKey("typeId")){
-            if(remoteMessage.getData().get("typeId").equals("2")){
+            if(remoteMessage.getData().get("typeId").equals("1")){
                 Intent intent = new Intent(this, MainActivity.class);
                 PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
