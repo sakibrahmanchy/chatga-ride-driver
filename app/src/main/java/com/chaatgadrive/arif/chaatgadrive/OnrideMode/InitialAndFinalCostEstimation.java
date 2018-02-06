@@ -121,14 +121,17 @@ public class InitialAndFinalCostEstimation {
                             LatLng Destination = new LatLng(notificationModel.destinationLatitude, notificationModel.destinationLongitude);
                             riderHistory.ClientID = notificationModel.clientId;
                             riderHistory.CostSoFar = (long)Double.parseDouble(TotalCost);
-                            AppConstant.CURRENT_HISTORY_ID= (int) (riderHistory.HistoryID = history.getHistoryId());
+                            AppConstant.CURRENT_HISTORY_ID = (int) (riderHistory.HistoryID = history.getHistoryId());
                             riderHistory.RiderID = notificationModel.riderId;
+                            riderHistory.DiscountID = notificationModel.discountID;
                             riderHistory.StartLocation = Source;
                             riderHistory.EndLocation = Destination;
                             riderHistory.Client_History = Long.toString(notificationModel.clientId) + FirebaseConstant.UNDER_SCORE + Long.toString(riderHistory.HistoryID);
                             riderHistory.Rider_History = Long.toString(notificationModel.riderId) + FirebaseConstant.UNDER_SCORE + Long.toString(riderHistory.HistoryID);
                             riderHistory.IsRideFinished = FirebaseConstant.RIDE_NOT_FINISHED;
                             riderHistory.IsRideStart = FirebaseConstant.RIDE_NOT_START;
+                            riderHistory.StartingLocationName = notificationModel.sourceName;
+                            riderHistory.EndingLocationName = notificationModel.destinationName;
                             main.CreateNewHistoryModelFirebase(riderHistory);
                         }
                         break;

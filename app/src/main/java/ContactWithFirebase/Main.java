@@ -91,16 +91,19 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime {
         this.currentRidingHistoryModel.HistoryID = riderHistory.HistoryID;
         this.currentRidingHistoryModel.ClientID = riderHistory.ClientID;
         this.currentRidingHistoryModel.RiderID = riderHistory.RiderID;
+        this.currentRidingHistoryModel.DiscountID = riderHistory.DiscountID;
         this.currentRidingHistoryModel.Client_History = riderHistory.Client_History;
         this.currentRidingHistoryModel.Rider_History = riderHistory.Rider_History;
         this.currentRidingHistoryModel.StartingLocation = new CurrentRidingHistoryModel.Location(
                 riderHistory.StartLocation.latitude,
-                riderHistory.StartLocation.longitude
+                riderHistory.StartLocation.longitude,
+                riderHistory.StartingLocationName
         );
 
         this.currentRidingHistoryModel.EndingLocation = new CurrentRidingHistoryModel.Location(
                 riderHistory.EndLocation.latitude,
-                riderHistory.EndLocation.longitude
+                riderHistory.EndLocation.longitude,
+                riderHistory.EndingLocationName
         );
 
         this.currentRidingHistoryModel.CostSoFar = riderHistory.CostSoFar;
