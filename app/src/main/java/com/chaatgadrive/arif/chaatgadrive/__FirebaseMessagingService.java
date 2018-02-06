@@ -26,22 +26,24 @@ public class __FirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
-        if(remoteMessage.getData().get("typeId").equals("2")){
-            Intent intent = new Intent(this, MainActivity.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        if(remoteMessage.getData().containsKey("typeId")){
+            if(remoteMessage.getData().get("typeId").equals("2")){
+                Intent intent = new Intent(this, MainActivity.class);
+                PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 
-            Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            builder.setSound(sound);
-            builder.setContentTitle(remoteMessage.getData().get("title"));
-            builder.setContentText(remoteMessage.getData().get("body"));
-            builder.setAutoCancel(true);
-            builder.setSmallIcon(R.mipmap.ic_launcher);
-            builder.setContentIntent(pendingIntent);
+                Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                builder.setSound(sound);
+                builder.setContentTitle(remoteMessage.getData().get("title"));
+                builder.setContentText(remoteMessage.getData().get("body"));
+                builder.setAutoCancel(true);
+                builder.setSmallIcon(R.mipmap.ic_launcher);
+                builder.setContentIntent(pendingIntent);
 
-            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.notify(0, builder.build());
+                NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                notificationManager.notify(0, builder.build());
+            }
         }
         else{
             NotificationModel notificationModel = FirebaseWrapper.getInstance().getNotificationModelInstance();
