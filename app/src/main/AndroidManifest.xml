@@ -35,7 +35,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:noHistory="true">
 
         </activity>
         <activity
@@ -47,6 +48,7 @@
         <activity
             android:name=".UserCheckActivity"
             android:label="@string/title_activity_user_check"
+            android:noHistory="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".RegistrationActivity"
@@ -64,8 +66,7 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".OnrideMode.OnRideModeActivity"
-            android:noHistory="true"/>
+        <activity android:name=".OnrideMode.OnRideModeActivity" />
         <activity android:name=".InternetConnection.InternetCheckActivity" />
 
         <service
