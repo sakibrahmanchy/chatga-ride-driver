@@ -619,6 +619,8 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
                 /*Rider has no ride*/
                 new RiderInRideMode(false, Rider.CurrentRidingHistoryID);
             }
+        } else {
+            new RiderInRideMode(false, FirebaseConstant.UNKNOWN);
         }
     }
 

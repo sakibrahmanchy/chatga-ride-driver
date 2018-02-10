@@ -16,43 +16,48 @@ public class RiderInRideMode implements CallBackListener {
 
     private long HistoryID = FirebaseConstant.UNKNOWN;
     private Main main;
-    public RiderInRideMode(boolean hasRide, long HistoryID){
-        if(hasRide){
+
+    public RiderInRideMode(boolean hasRide, long HistoryID) {
+        if (hasRide) {
             this.HistoryID = HistoryID;
             this.main = new Main(MainActivity.getContextOfApplication());
             GetCurrentHistory();
-        }else {
+        } else {
             NoRide();
         }
     }
 
-    private void HasRide(){
+    private void HasRide() {
         /* Riding History Model*/
         AppConstant.currentRidingHistoryModel = FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance();
         /*Client Model*/
-        AppConstant.ClientModel=FirebaseWrapper.getInstance().getClientModelInstance();
-        AppConstant.IS_RIDE=1;
+        AppConstant.ClientModel = FirebaseWrapper.getInstance().getClientModelInstance();
+        AppConstant.IS_RIDE = 1;
     }
 
-    private void NoRide(){
-        AppConstant.IS_RIDE=0;
+    private void NoRide() {
+        AppConstant.IS_RIDE = 0;
     }
 
-    private void GetCurrentHistory(){
+    private void GetCurrentHistory() {
         this.main.GetRecentHistory(this.HistoryID, this);
     }
 
     @Override
     public void OnGetHistoryModel(boolean value) {
-        if(value == true) {
+        if (value == true) {
             this.main.GetCurrentClient(FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance().ClientID, this);
+        } else {
+            NoRide();
         }
     }
 
     @Override
     public void OnGetCurrentClient(boolean value) {
-        if(value == true){
+        if (value == true) {
             HasRide();
+        } else {
+            NoRide();
         }
     }
 }

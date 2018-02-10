@@ -33,7 +33,12 @@ public class FirstAppLoadingActivity extends AppCompatActivity {
         loginData = userInformation.getuserInformation();
         main = new Main(this);
 
-        if(loginData !=null){
+        if(MainActivity.check && loginData == null){
+            loginData = new LoginData();
+            loginData.riderId = "1010";
+        }
+
+        if(loginData != null){
             main.GetRiderStatus(Long.parseLong(loginData.getRiderId()));
             main.HasAnyRide(Long.parseLong(loginData.getRiderId()));
             InitializeApp();

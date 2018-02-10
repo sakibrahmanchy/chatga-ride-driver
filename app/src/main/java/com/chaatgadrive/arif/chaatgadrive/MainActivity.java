@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
     private ConnectionCheck connectionCheck;
     private LoginData loginData;
     private UserInformation userInformation;
-    private boolean check = false;
+    public static boolean check = true;
     private LocationCallback mLocationCallback;
     private LocationRequest mLocationRequest;
     public static Context contextOfApplication;
@@ -242,8 +242,9 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
         } else {
             loginData = new LoginData();
             loginData.userId = "1010";
+            loginData.riderId = "1010";
             loginData.firstName = "Jobayer";
-            main.CreateNewRiderFirebase(loginData, userInformation.getRiderPhoneNumber());
+            main.CreateNewRiderFirebase(loginData, "01752062838");
         }
 
         /*
