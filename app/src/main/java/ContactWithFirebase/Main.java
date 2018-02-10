@@ -372,7 +372,7 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
 
         this.currentRidingHistoryModel.IsRideFinished = Time;
         this.currentRidingHistoryModel.CostSoFar = FinalCost;
-        this.currentRidingHistoryModel.HistoryID = FirebaseConstant.UNKNOWN;
+        /*this.currentRidingHistoryModel.HistoryID = FirebaseConstant.UNKNOWN;*/
         this.currentRidingHistoryModel.EndingLocation.Latitude = FinalLocation.first;
         this.currentRidingHistoryModel.EndingLocation.Longitude = FinalLocation.second;
 
@@ -623,6 +623,11 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
     }
 
     @Override
+    public void OnGetHistoryModel(boolean value) {
+
+    }
+
+    @Override
     public void OnResponseServerTime(long value, int type) {
         if (value > 0) {
             switch (type) {
@@ -673,10 +678,5 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
             }
             Log.d(FirebaseConstant.CURRENT_SERVER_TIME, Long.toString(value));
         }
-    }
-
-    @Override
-    public void OnGetHistoryModel(boolean value) {
-
     }
 }
