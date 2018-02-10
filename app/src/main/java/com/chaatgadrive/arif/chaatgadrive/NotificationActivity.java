@@ -63,7 +63,12 @@ public class NotificationActivity extends Fragment {
 
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        getClientNotifications();
+        try{
+            getClientNotifications();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -75,7 +80,13 @@ public class NotificationActivity extends Fragment {
                         // cancle the Visual indication of a refresh
                         swipeRefreshLayout.setRefreshing(false);
                         // Generate a random integer number
-                        getClientNotifications();
+                        try {
+                            getClientNotifications();
+                        }
+                        catch (Exception e){
+                            e.printStackTrace();
+                        }
+
                     }
                 }, 3000);
             }
@@ -86,7 +97,8 @@ public class NotificationActivity extends Fragment {
 
 
     public void getClientNotifications(){
-        dialog = new ProgressDialog(getActivity());
+        dialog = new ProgressDialog(getContext());
+        dialog.dismiss();
         dialog.setMessage("Please wait...");
         dialog.show();
 

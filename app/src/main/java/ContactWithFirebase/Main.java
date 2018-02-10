@@ -588,6 +588,11 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
 
     @Override
     public void OnFinishedRide(boolean value) {
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         if (value == true) {
             ForcedClearFirebaseData(FirebaseConstant.RIDE_FINISHED);
         }

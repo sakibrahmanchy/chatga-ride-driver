@@ -99,8 +99,8 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         if(AppConstant.currentRidingHistoryModel !=null){
 
             AppConstant.CURRENT_HISTORY_ID = (int)AppConstant.currentRidingHistoryModel.HistoryID;
-            AppConstant.SOURCE_NAME = AppConstant.currentRidingHistoryModel.Client_History;
-            AppConstant.DESTINATION_NAME =AppConstant.currentRidingHistoryModel.Rider_History;
+            AppConstant.SOURCE_NAME = AppConstant.currentRidingHistoryModel.StartingLocation.LocationName;
+            AppConstant.DESTINATION_NAME =AppConstant.currentRidingHistoryModel.EndingLocation.LocationName;
             AppConstant.SOURCE_LATITUTE = AppConstant.currentRidingHistoryModel.StartingLocation.Latitude;
             AppConstant.SOURCE_LOGITUTE = AppConstant.currentRidingHistoryModel.StartingLocation.Longitude;
             AppConstant.DESTINATION_LATITUTE = AppConstant.currentRidingHistoryModel.EndingLocation.Latitude;
@@ -112,7 +112,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                 startRide.setVisibility(View.VISIBLE);
                 finishRide.setVisibility(View.INVISIBLE);
             }
-            if(AppConstant.currentRidingHistoryModel.IsRideStart !=-1){
+           else if(AppConstant.currentRidingHistoryModel.IsRideStart !=-1){
                 startRide.setVisibility(View.INVISIBLE);
                 finishRide.setVisibility(View.VISIBLE);
             }
