@@ -42,6 +42,7 @@ public class FirstAppLoadingActivity extends AppCompatActivity {
         else{
             Intent intent = new Intent(FirstAppLoadingActivity.this, MainActivity.class);
             startActivity(intent);
+            finish();
         }
 
     }
