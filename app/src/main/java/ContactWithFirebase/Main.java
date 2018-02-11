@@ -152,7 +152,7 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
 
     public boolean GetRecentHistory(long HistoryId, CallBackListener callBackListener) {
 
-        if(HistoryId < 1)   return false;
+        if (HistoryId < 1) return false;
 
         firebaseWrapper = FirebaseWrapper.getInstance();
         firebaseWrapper.getFirebaseRequestInstance().GetRecentHistory(HistoryId, callBackListener);
@@ -285,7 +285,7 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
 
     public boolean GetCurrentClient(long ClientId, CallBackListener callBackListener) {
 
-        if(ClientId < 1 || callBackListener == null)    return false;
+        if (ClientId < 1 || callBackListener == null) return false;
 
         firebaseWrapper = FirebaseWrapper.getInstance();
         firebaseWrapper.getFirebaseRequestInstance().GetCurrentClient(ClientId, callBackListener);
@@ -409,6 +409,24 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
                     FirebaseConstant.ONLINE_NOT_BUSY_NO_RIDE
             );
             FirebaseUtilMethod.getNetworkTime(FirebaseConstant.CANCELED_RIDE_BY_RIDER_NOTIFY_CLIENT, this.context, this);
+
+            FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance().HistoryID = FirebaseConstant.ZERO;
+            FirebaseWrapper.getInstance().getFirebaseRequestInstance().SetHistoryIDToClient(
+                    FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance(),
+                    FirebaseWrapper.getInstance().getClientModelInstance(),
+                    -1,
+                    Main.this
+            );
+            this.SetHistoryIDonRiderTable(
+                    FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance(),
+                    FirebaseWrapper.getInstance().getRiderModelInstance()
+            );
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            ForcedClearFirebaseData(FirebaseConstant.RIDE_CANCELED_BY_RIDER);
         }
 
         return true;
@@ -430,9 +448,16 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
                 FirebaseConstant.ONLINE_NOT_BUSY_NO_RIDE
         );
         FirebaseWrapper.getInstance().getRiderModelInstance().CurrentRidingHistoryID = FirebaseConstant.ZERO;
+        FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance().HistoryID = FirebaseConstant.ZERO;
         this.SetHistoryIDonRiderTable(
                 FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance(),
                 FirebaseWrapper.getInstance().getRiderModelInstance()
+        );
+        FirebaseWrapper.getInstance().getFirebaseRequestInstance().SetHistoryIDToClient(
+                FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance(),
+                FirebaseWrapper.getInstance().getClientModelInstance(),
+                -1,
+                Main.this
         );
         FinalCost = finalCost;
         FinalLocation = finalLocation;
@@ -473,8 +498,11 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
             FirebaseWrapper.getInstance().getClientModelInstance().ClearData();
             FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance().ClearData();
             FirebaseWrapper.getInstance().getNotificationModelInstance().ClearData();
+        } else if (value == FirebaseConstant.RIDE_CANCELED_BY_RIDER) {
+            FirebaseWrapper.getInstance().getClientModelInstance().ClearData();
+            FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance().ClearData();
+            FirebaseWrapper.getInstance().getNotificationModelInstance().ClearData();
         }
-
         return true;
     }
 
@@ -487,6 +515,8 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
 
     @Override
     public void OnResponseCreateNewHistory(boolean value) {
+
+        FirebaseWrapper.getInstance().getRiderModelInstance().CurrentRidingHistoryID = FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance().HistoryID;
         this.SetHistoryIDonRiderTable(
                 FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance(),
                 FirebaseWrapper.getInstance().getRiderModelInstance()
@@ -495,7 +525,9 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
                 FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance(),
                 FirebaseWrapper.getInstance().getClientModelInstance()
         );
-        FirebaseResponse.RiderCanceledByRiderResponse(FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance().HistoryID);
+        /*
+        * FirebaseResponse.RiderCanceledByRiderResponse(FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance().HistoryID);
+        */
         Log.d(FirebaseConstant.NEW_HISTORY_CREATE, Boolean.toString(value));
     }
 
@@ -604,7 +636,7 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
         if (value == true) {
             riderModel = FirebaseWrapper.getInstance().getRiderModelInstance();
             long onlineOffline = riderModel.IsRiderOnline;
-            AppConstant.OnOffSwith =(int)onlineOffline;
+            AppConstant.OnOffSwith = (int) onlineOffline;
         }
     }
 

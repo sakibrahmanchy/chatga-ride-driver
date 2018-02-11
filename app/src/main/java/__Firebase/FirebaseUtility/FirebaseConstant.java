@@ -66,7 +66,7 @@ public class FirebaseConstant {
     public static int RIDE_NOT_FINISHED = 0;
     public static int RIDE_FINISHED = 1;
     public static int RIDE_CANCELED_BY_RIDER = 1;
-    public static int RIDE_CANCELED_BY_CLIENT = 1;
+    public static int RIDE_CANCELED_BY_CLIENT = 2;
     public static int UNKNOWN = -1;
     public static int UPDATE_LOCATION = 0;
     public static int INITIAL_ACCEPTANCE = 1;

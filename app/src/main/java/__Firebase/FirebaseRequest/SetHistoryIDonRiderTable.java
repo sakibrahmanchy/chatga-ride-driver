@@ -5,6 +5,7 @@ import android.util.Log;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.google.maps.model.SnappedPoint;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,7 +26,7 @@ public class SetHistoryIDonRiderTable {
     private CurrentRidingHistoryModel HistoryModel;
     private ICallbackMain callBackListener = null;
 
-    public SetHistoryIDonRiderTable(CurrentRidingHistoryModel HistoryModel, RiderModel Rider, ICallbackMain callBackListener){
+    public SetHistoryIDonRiderTable(CurrentRidingHistoryModel HistoryModel, RiderModel Rider, ICallbackMain callBackListener) {
         this.Rider = Rider;
         this.HistoryModel = HistoryModel;
         this.callBackListener = callBackListener;
@@ -33,7 +34,7 @@ public class SetHistoryIDonRiderTable {
         Request();
     }
 
-    public void Request(){
+    public void Request() {
 
         FirebaseWrapper firebaseWrapper = FirebaseWrapper.getInstance();
         firebaseWrapper.FirebaseRootReference.child(FirebaseConstant.RIDER).orderByChild(FirebaseConstant.RIDER_ID).equalTo(Rider.RiderID).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -41,12 +42,16 @@ public class SetHistoryIDonRiderTable {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                if(dataSnapshot.exists() && dataSnapshot.hasChildren()) {
+                if (dataSnapshot.exists() && dataSnapshot.hasChildren()) {
                     if (dataSnapshot.getChildren().iterator().hasNext()) {
 
                         Map<String, Object> update = new HashMap<>();
-                        update.put(FirebaseConstant.CURRENT_RIDING_HISTORY, HistoryModel.HistoryID);
-                        dataSnapshot.getChildren().iterator().next().getRef().updateChildren(update);
+                        update.put(FirebaseConstant.CURRENT_RIDING_HISTORY, Rider.CurrentRidingHistoryID);
+                        DataSnapshot snp = dataSnapshot.getChildren().iterator().next();
+
+                        if (snp.exists()) {
+                            snp.getRef().updateChildren(update);
+                        }
 
                         Log.d(FirebaseConstant.CURRENT_RIDING_HISTORY, FirebaseConstant.CURRENT_RIDING_HISTORY);
                         callBackListener.OnSetHistoryIDonRiderTable(true);
@@ -56,7 +61,7 @@ public class SetHistoryIDonRiderTable {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                callBackListener.OnSetHistoryIDonRiderTable(true);
+                callBackListener.OnSetHistoryIDonRiderTable(false);
             }
         });
     }
