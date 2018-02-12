@@ -220,7 +220,7 @@ public class PhoneVerificationActivity extends AppCompatActivity implements
     private void startPhoneNumberVerification(String phoneNumber) {
         // [START start_phone_auth]
 
-        phoneNumber = "88"+phoneNumber;
+        phoneNumber = "+88"+phoneNumber;
 
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
                 phoneNumber,        // Phone number to verify
