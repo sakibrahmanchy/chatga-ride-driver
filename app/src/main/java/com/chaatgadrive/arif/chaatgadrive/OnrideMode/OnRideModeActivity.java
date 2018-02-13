@@ -17,12 +17,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
+import com.chaatgadrive.arif.chaatgadrive.FirstAppLoadingActivity.FirstAppLoadingActivity;
 import com.chaatgadrive.arif.chaatgadrive.InternetConnection.ConnectionCheck;
 import com.chaatgadrive.arif.chaatgadrive.CostEstimation.CostEstimation;
 import com.chaatgadrive.arif.chaatgadrive.Dailog.BottomSheetDailogRide;
@@ -40,6 +44,9 @@ import java.util.Calendar;
 import java.util.Date;
 
 import ContactWithFirebase.Main;
+import __Firebase.FirebaseModel.ClientModel;
+import __Firebase.FirebaseModel.CurrentRidingHistoryModel;
+import __Firebase.FirebaseModel.RiderModel;
 import __Firebase.FirebaseResponse.NotificationModel;
 import __Firebase.FirebaseUtility.FirebaseConstant;
 import __Firebase.FirebaseWrapper;
@@ -379,6 +386,39 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                 finish();
                 startActivity(intent);
             }
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.onridemode_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.cancel_ride:
+
+                RiderModel riderModel = FirebaseWrapper.getInstance().getRiderModelInstance();
+                CurrentRidingHistoryModel currentRidingHistoryModel = FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance();
+               if(currentRidingHistoryModel.IsRideStart ==-1){
+                   main.CancelRideByRider(currentRidingHistoryModel,riderModel,0);
+                   Intent intent = new Intent(OnRideModeActivity.this, FirstAppLoadingActivity.class);
+                   startActivity(intent);
+                   finish();
+               }
+               else{
+                   Toast.makeText(getApplicationContext(),"You Can not Cancel the Ride",Toast.LENGTH_LONG).show();
+               }
+
+                return true;
+            case R.id.help:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 
