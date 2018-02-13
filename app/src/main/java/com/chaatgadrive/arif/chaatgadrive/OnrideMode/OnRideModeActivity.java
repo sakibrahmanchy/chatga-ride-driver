@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
+import com.chaatgadrive.arif.chaatgadrive.FirstAppLoadingActivity.FirstAppLoadingActivity;
 import com.chaatgadrive.arif.chaatgadrive.InternetConnection.ConnectionCheck;
 import com.chaatgadrive.arif.chaatgadrive.CostEstimation.CostEstimation;
 import com.chaatgadrive.arif.chaatgadrive.Dailog.BottomSheetDailogRide;
@@ -398,9 +399,19 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.cancel_ride:
+
                 RiderModel riderModel = FirebaseWrapper.getInstance().getRiderModelInstance();
                 CurrentRidingHistoryModel currentRidingHistoryModel = FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance();
-                main.CancelRideByRider(currentRidingHistoryModel,riderModel,0);
+               if(currentRidingHistoryModel.IsRideStart ==-1){
+                   main.CancelRideByRider(currentRidingHistoryModel,riderModel,0);
+                   Intent intent = new Intent(OnRideModeActivity.this, FirstAppLoadingActivity.class);
+                   startActivity(intent);
+                   finish();
+               }
+               else{
+                   Toast.makeText(getApplicationContext(),"You Can not Cancel the Ride",Toast.LENGTH_LONG).show();
+               }
+
                 return true;
             case R.id.help:
                 return true;
