@@ -35,8 +35,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".MainActivity"
-            android:noHistory="true">
+        <activity android:name=".MainActivity">
 
         </activity>
         <activity
@@ -54,6 +53,15 @@
             android:name=".RegistrationActivity"
             android:label="@string/title_activity_registration"
             android:noHistory="true" />
+
+        <activity
+            android:name=".Setting.SettingActivity"
+            android:label="Settings"
+            android:noHistory="true" />
+        <activity
+            android:name=".Setting.EditProfile"
+            android:label="Edit Profile"/>
+
 
         <service android:name=".__FirebaseInstanceIDService">
             <intent-filter>

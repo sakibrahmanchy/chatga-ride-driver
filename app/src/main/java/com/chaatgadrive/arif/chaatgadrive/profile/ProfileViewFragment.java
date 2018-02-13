@@ -12,10 +12,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chaatgadrive.arif.chaatgadrive.R;
+import com.chaatgadrive.arif.chaatgadrive.Setting.EditProfile;
+import com.chaatgadrive.arif.chaatgadrive.Setting.SettingActivity;
 import com.chaatgadrive.arif.chaatgadrive.SharedPreferences.UserInformation;
+import com.squareup.picasso.Picasso;
 
 import java.io.FileNotFoundException;
 
@@ -29,6 +33,8 @@ public class ProfileViewFragment extends Fragment{
     private TextView mail;
     private ImageView uploadProfile;
     private UserInformation userInformation;
+    private LinearLayout profileView;
+
 
     public ProfileViewFragment() {
     }
@@ -48,10 +54,21 @@ public class ProfileViewFragment extends Fragment{
         phone_number =(TextView) view.findViewById(R.id.field_phone_number);
         mail = (TextView) view.findViewById(R.id.email);
         uploadProfile = (ImageView) view.findViewById(R.id.profile);
+        profileView = (LinearLayout) view.findViewById(R.id.viewProfile);
+
         userInformation = new UserInformation(getContext());
 
-        user_Name.setText(userInformation.getuserInformation().firstName);
+        user_Name.setText(userInformation.getuserInformation().firstName+" "+userInformation.getuserInformation().lastName);
         phone_number.setText(userInformation.getRiderPhoneNumber());
+
+        String url = userInformation.getuserInformation().getAvatar();
+        Picasso.with(getActivity()).invalidate(url);
+        Picasso.with(getActivity())
+                .load(url)
+                .placeholder(R.drawable.profile_image)
+                .error(R.drawable.profile_image)
+                .into(uploadProfile);
+
 
         AllBuutonClick();
 
@@ -68,6 +85,15 @@ public class ProfileViewFragment extends Fragment{
                 startActivityForResult(photoPickerIntent, 1);
             }
         });
+
+        profileView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent profileViewIntent = new Intent(getActivity(), EditProfile.class);
+                startActivity(profileViewIntent);
+            }
+        });
+
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

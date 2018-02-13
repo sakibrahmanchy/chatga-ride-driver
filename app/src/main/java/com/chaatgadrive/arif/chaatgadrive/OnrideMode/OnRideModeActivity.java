@@ -105,6 +105,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
             AppConstant.SOURCE_LOGITUTE = AppConstant.currentRidingHistoryModel.StartingLocation.Longitude;
             AppConstant.DESTINATION_LATITUTE = AppConstant.currentRidingHistoryModel.EndingLocation.Latitude;
             AppConstant.DESTINATION_LOGITUTE =AppConstant.currentRidingHistoryModel.EndingLocation.Longitude;
+            AppConstant.CURRENT_CLIENT_DISCOUNT_ID = (int) AppConstant.currentRidingHistoryModel.DiscountID;
             AppConstant.ON_RIDE_MODE=1;
 
 
@@ -125,6 +126,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
             AppConstant.SOURCE_LOGITUTE = notificationModel.sourceLongitude;
             AppConstant.DESTINATION_LATITUTE = notificationModel.destinationLatitude;
             AppConstant.DESTINATION_LOGITUTE = notificationModel.destinationLongitude;
+            AppConstant.CURRENT_CLIENT_DISCOUNT_ID = (int) notificationModel.discountID;
         }
         if(!connectionCheck.isNetworkConnected()){
             Intent intent = new Intent(OnRideModeActivity.this, InternetCheckActivity.class);
