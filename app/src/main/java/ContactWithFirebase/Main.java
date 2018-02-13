@@ -294,7 +294,7 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
 
     public boolean CancelRideByRider(/* Firebase HistoryModel, RiderModel */ CurrentRidingHistoryModel HistoryModel, RiderModel Rider, long Time) {
 
-        if (HistoryModel == null || HistoryModel.HistoryID < 1 || Rider == null || Rider.RiderID < 1 || Time <= 0)
+        if (HistoryModel == null || HistoryModel.HistoryID < 1 || Rider == null || Rider.RiderID < 1 || Time < 0)
             return false;
 
         firebaseWrapper = FirebaseWrapper.getInstance();
