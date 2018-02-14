@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.util.Pair;
+
 import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
 import com.chaatgadrive.arif.chaatgadrive.CostEstimation.CostEstimation;
 import com.chaatgadrive.arif.chaatgadrive.Dailog.RideFinishDailog;
@@ -16,11 +17,11 @@ import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideFinishModel.RideF
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideHistory.RideHistory;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideHistory.RideHistoryResponse;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideHistory.RideStartResponse;
-import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.UserCheckResponse;
 import com.chaatgadrive.arif.chaatgadrive.models.HistoryModel.RiderHistory;
 import com.chaatgadrive.arif.chaatgadrive.rest.ApiClient;
 import com.chaatgadrive.arif.chaatgadrive.rest.ApiInterface;
 import com.google.android.gms.maps.model.LatLng;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;

@@ -72,6 +72,9 @@ public class FirebaseConstant {
     public static int INITIAL_ACCEPTANCE = 1;
     public static int FINAL_ACCEPTANCE = 2;
     public static int HISTORY_CREATED_FOR_THIS_RIDE = 1;
+    public static String STRING_ZERO = ("0");
+    public static String STRING_ONE = ("1");
+    public static String STRING_UNKNOWN = ("-1");
 
 
     /*Log Key*/

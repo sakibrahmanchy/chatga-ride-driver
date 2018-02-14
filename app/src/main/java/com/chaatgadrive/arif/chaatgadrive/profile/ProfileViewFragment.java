@@ -2,12 +2,9 @@ package com.chaatgadrive.arif.chaatgadrive.profile;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
-import android.icu.util.ValueIterator;
 import android.net.Uri;
-import android.provider.MediaStore;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +14,8 @@ import android.widget.TextView;
 
 import com.chaatgadrive.arif.chaatgadrive.R;
 import com.chaatgadrive.arif.chaatgadrive.Setting.EditProfile;
-import com.chaatgadrive.arif.chaatgadrive.Setting.SettingActivity;
 import com.chaatgadrive.arif.chaatgadrive.SharedPreferences.UserInformation;
 import com.squareup.picasso.Picasso;
-
-import java.io.FileNotFoundException;
 
 /**
  * Created by Arif on 12/23/2017.
@@ -107,6 +101,4 @@ public class ProfileViewFragment extends Fragment{
 
             }
     }
-
-
 }
