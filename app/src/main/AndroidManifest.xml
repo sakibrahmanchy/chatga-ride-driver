@@ -83,6 +83,7 @@
             android:exported="false" />
 
         <activity android:name=".SplashScreenActivity"></activity>
+        <activity android:name=".Adapters.History.RiderHistoryActivity" android:noHistory="true"></activity>
 
     </application>
 
