@@ -1,7 +1,10 @@
 package com.chaatgadrive.arif.chaatgadrive.Dailog;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.Dialog;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -10,6 +13,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
 import com.chaatgadrive.arif.chaatgadrive.OnrideMode.InitialAndFinalCostEstimation;
 import com.chaatgadrive.arif.chaatgadrive.OnrideMode.OnRideModeActivity;
 import com.chaatgadrive.arif.chaatgadrive.R;
@@ -35,7 +39,9 @@ public class RiderDailog extends Dialog implements android.view.View.OnClickList
     private ClientModel clientModel;
     private TextView From_road_location, To_road_location;
     private InitialAndFinalCostEstimation initialAndFinalCostEstimation;
-
+    AlarmManager alarmManager;
+    private PendingIntent pendingIntent;
+    private Context wrapperContext;
     private NotificationModel notificationModel;
 
     public RiderDailog(Activity activity) {
@@ -78,10 +84,12 @@ public class RiderDailog extends Dialog implements android.view.View.OnClickList
                 getContext().startActivity(intent);
                 SendPushNotification();
                 myContext.finish();
+                cancelAlarm();
                 break;
             case R.id.btn_no:
                 RejectRide();
                 dismiss();
+                cancelAlarm();
                 myContext.finish();
                 break;
             default:
@@ -124,5 +132,10 @@ public class RiderDailog extends Dialog implements android.view.View.OnClickList
                 }
             }
         }
+    }
+
+    public void cancelAlarm() {
+        AppConstant.IS_ALARM=false;
+
     }
 }
