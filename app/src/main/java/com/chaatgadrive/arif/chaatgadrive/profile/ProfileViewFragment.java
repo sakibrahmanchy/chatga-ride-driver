@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.chaatgadrive.arif.chaatgadrive.Adapters.History.RiderHistoryActivity;
 import com.chaatgadrive.arif.chaatgadrive.R;
 import com.chaatgadrive.arif.chaatgadrive.Setting.EditProfile;
 import com.chaatgadrive.arif.chaatgadrive.SharedPreferences.UserInformation;
@@ -27,7 +28,7 @@ public class ProfileViewFragment extends Fragment{
     private TextView mail;
     private ImageView uploadProfile;
     private UserInformation userInformation;
-    private LinearLayout profileView;
+    private LinearLayout profileView,historyView;
 
 
     public ProfileViewFragment() {
@@ -49,6 +50,7 @@ public class ProfileViewFragment extends Fragment{
         mail = (TextView) view.findViewById(R.id.email);
         uploadProfile = (ImageView) view.findViewById(R.id.profile);
         profileView = (LinearLayout) view.findViewById(R.id.viewProfile);
+        historyView = (LinearLayout) view.findViewById(R.id.viewRiderHistory);
 
         userInformation = new UserInformation(getContext());
 
@@ -85,6 +87,14 @@ public class ProfileViewFragment extends Fragment{
             public void onClick(View v) {
                 Intent profileViewIntent = new Intent(getActivity(), EditProfile.class);
                 startActivity(profileViewIntent);
+            }
+        });
+
+        historyView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent historyViewIntent = new Intent(getActivity(), RiderHistoryActivity.class);
+                startActivity(historyViewIntent);
             }
         });
 

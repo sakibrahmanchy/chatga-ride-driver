@@ -228,7 +228,8 @@
                     android:layout_weight="1"
                     android:orientation="horizontal"
                     android:background="@drawable/profile_border"
-                    android:layout_height="50dp">
+                    android:layout_height="50dp"
+                    android:id="@+id/viewRiderHistory">
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
