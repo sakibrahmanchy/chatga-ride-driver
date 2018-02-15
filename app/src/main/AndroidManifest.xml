@@ -34,10 +34,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".MainActivity">
-
-        </activity>
+        <activity android:name=".MainActivity"></activity>
         <activity
             android:name=".PhoneVerificationActivity"
             android:label="@string/title_activity_login"
@@ -53,15 +50,13 @@
             android:name=".RegistrationActivity"
             android:label="@string/title_activity_registration"
             android:noHistory="true" />
-
         <activity
             android:name=".Setting.SettingActivity"
             android:label="Settings"
             android:noHistory="true" />
         <activity
             android:name=".Setting.EditProfile"
-            android:label="Edit Profile"/>
-
+            android:label="Edit Profile" />
 
         <service android:name=".__FirebaseInstanceIDService">
             <intent-filter>
@@ -82,9 +77,11 @@
             android:enabled="true"
             android:exported="false" />
 
-        <activity android:name=".SplashScreenActivity"></activity>
-        <activity android:name=".Adapters.History.RiderHistoryActivity" android:noHistory="true"></activity>
-
+        <activity android:name=".SplashScreenActivity" />
+        <activity
+            android:name=".Adapters.History.RiderHistoryActivity"
+            android:noHistory="true" />
+        <activity android:name=".Adapters.History.DocumentsActivity"></activity>
     </application>
 
 </manifest>
