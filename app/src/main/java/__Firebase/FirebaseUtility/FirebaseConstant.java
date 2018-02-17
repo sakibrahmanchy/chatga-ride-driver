@@ -72,6 +72,8 @@ public class FirebaseConstant {
     public static int INITIAL_ACCEPTANCE = 1;
     public static int FINAL_ACCEPTANCE = 2;
     public static int HISTORY_CREATED_FOR_THIS_RIDE = 1;
+    public static int SET = 1;
+    public static int UNSET = 0;
 
 
     /*Log Key*/

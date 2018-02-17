@@ -300,8 +300,8 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
         firebaseWrapper = FirebaseWrapper.getInstance();
         this.riderModel = Rider;
         this.currentRidingHistoryModel = HistoryModel;
-
         this.currentRidingHistoryModel.RideCanceledByRider = Time;
+        this.currentRidingHistoryModel.RideCanceledByRider = FirebaseConstant.SET;
 
         firebaseWrapper.getFirebaseRequestInstance().CancelRideByRider(currentRidingHistoryModel, riderModel, Main.this);
         return true;
