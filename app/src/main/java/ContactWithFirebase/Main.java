@@ -21,6 +21,7 @@ import __Firebase.FirebaseWrapper;
 import __Firebase.ICallbacklisteners.CallBackListener;
 import __Firebase.ICallbacklisteners.ICallBackCurrentServerTime;
 import __Firebase.ICallbacklisteners.ICallbackMain;
+import __Firebase.Notification.NotificationWrapper;
 
 /**
  * Created by User on 12/8/2017.
@@ -378,6 +379,14 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
         this.currentRidingHistoryModel.EndingLocation.Longitude = FinalLocation.second;
 
         firebaseWrapper.getFirebaseRequestInstance().FinishedRide(currentRidingHistoryModel, Main.this);
+
+        /* Send Notification to Rider */
+        new NotificationWrapper().SendFinishedRide(
+                FirebaseWrapper.getInstance().getRiderModelInstance(),
+                FirebaseWrapper.getInstance().getClientModelInstance(),
+                FinalCost,
+                null
+        );
         return true;
     }
 
@@ -389,10 +398,20 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
                     FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance(),
                     FirebaseWrapper.getInstance().getRiderModelInstance()
             );
+            /* Send Notification to Client */
+            new NotificationWrapper().SendFinalAcceptanceOfRide(
+                    FirebaseWrapper.getInstance().getRiderModelInstance(),
+                    FirebaseWrapper.getInstance().getClientModelInstance(),
+                    null
+            );
         } else if (value == FirebaseConstant.INITIAL_ACCEPTANCE) {
             this.InitialAcceptanceOfRide(
                     FirebaseWrapper.getInstance().getRiderModelInstance()
             );
+            /* Set rider 110
+             * When new History is created then set HistoryID to Rider, Client table
+             * Send notification to Client
+             */
         }
         return true;
     }
@@ -426,6 +445,12 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
                     FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance(),
                     FirebaseWrapper.getInstance().getRiderModelInstance()
             );
+            new NotificationWrapper().SendCancelRide(
+                    FirebaseWrapper.getInstance().getRiderModelInstance(),
+                    FirebaseWrapper.getInstance().getClientModelInstance(),
+                    null
+            );
+
             try {
                 Thread.sleep(10000);
             } catch (InterruptedException e) {
@@ -527,6 +552,7 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
 
         FirebaseResponse.RiderCanceledByRiderResponse(FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance().HistoryID);
         FirebaseWrapper.getInstance().getRiderModelInstance().CurrentRidingHistoryID = FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance().HistoryID;
+
         this.SetHistoryIDonRiderTable(
                 FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance(),
                 FirebaseWrapper.getInstance().getRiderModelInstance()
@@ -538,6 +564,11 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
         /*
         * FirebaseResponse.RiderCanceledByRiderResponse(FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance().HistoryID);
         */
+        new NotificationWrapper().SendInitialAcceptanceOfRide(
+                FirebaseWrapper.getInstance().getRiderModelInstance(),
+                FirebaseWrapper.getInstance().getClientModelInstance(),
+                null
+        );
         Log.d(FirebaseConstant.NEW_HISTORY_CREATE, Boolean.toString(value));
     }
 
