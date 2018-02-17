@@ -74,6 +74,9 @@ public class FirebaseConstant {
     public static int HISTORY_CREATED_FOR_THIS_RIDE = 1;
     public static int SET = 1;
     public static int UNSET = 0;
+    public static String STRING_ZERO = ("0");
+    public static String STRING_ONE = ("1");
+    public static String STRING_UNKNOWN = ("-1");
 
 
     /*Log Key*/
