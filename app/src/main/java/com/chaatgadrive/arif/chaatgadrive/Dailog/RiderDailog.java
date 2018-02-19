@@ -118,6 +118,7 @@ public class RiderDailog extends Dialog implements android.view.View.OnClickList
                         break;
                     }
                     case FirebaseConstant.ACCEPT_RIDE: {
+                        /* Not use yet */
                         new Main(getContext()).ForcedAcceptanceOfRide(FirebaseConstant.INITIAL_ACCEPTANCE);
                         break;
                     }

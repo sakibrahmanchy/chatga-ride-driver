@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
     private ConnectionCheck connectionCheck;
     private LoginData loginData;
     private UserInformation userInformation;
-    public static boolean check = false;
+    public static boolean check = true;
     private LocationCallback mLocationCallback;
     private LocationRequest mLocationRequest;
     public static Context contextOfApplication;

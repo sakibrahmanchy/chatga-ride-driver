@@ -397,7 +397,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
 
                 RiderModel riderModel = FirebaseWrapper.getInstance().getRiderModelInstance();
                 CurrentRidingHistoryModel currentRidingHistoryModel = FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance();
-               if(currentRidingHistoryModel.IsRideStart ==-1){
+               if(currentRidingHistoryModel.IsRideStart == -1){
                    main.ForcedCancelRide(FirebaseConstant.HISTORY_CREATED_FOR_THIS_RIDE);
                    Intent intent = new Intent(OnRideModeActivity.this, FirstAppLoadingActivity.class);
                    startActivity(intent);
