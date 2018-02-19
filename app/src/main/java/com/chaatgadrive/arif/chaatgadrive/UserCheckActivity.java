@@ -116,7 +116,7 @@ public class UserCheckActivity extends Activity {
 
                         }else{
 
-                            Intent intent = new Intent(UserCheckActivity.this, PhoneVerificationActivity.class);
+                            Intent intent = new Intent(UserCheckActivity.this, FacebookAccountVerificationActivity.class);
                             intent.putExtra("phoneNumber",phoneNumber);
                             intent.putExtra("loginStatus","REGISTRATION_REQUIRED");
                             startActivity(intent);
@@ -129,7 +129,7 @@ public class UserCheckActivity extends Activity {
 
                             if(errorCode.equals("auth/user-not-found")){
 
-                                Intent intent = new Intent(UserCheckActivity.this, PhoneVerificationActivity.class);
+                                Intent intent = new Intent(UserCheckActivity.this, FacebookAccountVerificationActivity.class);
                                 intent.putExtra("phoneNumber",phoneNumber);
                                 intent.putExtra("loginStatus","REGISTRATION_REQUIRED");
                                 startActivity(intent);

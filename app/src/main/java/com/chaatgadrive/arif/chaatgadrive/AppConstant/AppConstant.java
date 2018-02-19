@@ -53,4 +53,5 @@ public class AppConstant {
     /*Notification Title and Body*/
     public static final String CANCEL_RIDE_BODY = ("Client has canceled the ride");
     public static final String CANCEL_RIDE_TITLE = ("Ride Canceled");
+    public static final int GET_SMS_PERMISSION = 1;
 }

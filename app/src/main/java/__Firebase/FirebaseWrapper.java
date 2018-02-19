@@ -19,8 +19,6 @@ import __Firebase.FirebaseResponse.NotificationModel;
 import __Firebase.FirebaseUtility.FirebaseConstant;
 import __Firebase.ViewModel.RiderViewModel;
 
-import static com.google.android.gms.internal.zzagz.runOnUiThread;
-
 /**
  * Created by User on 11/16/2017.
  */
