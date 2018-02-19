@@ -43,8 +43,9 @@ public class CancelRideByRider {
 
         FirebaseWrapper firebaseWrapper = FirebaseWrapper.getInstance();
         firebaseWrapper.FirebaseRootReference.child(FirebaseConstant.HISTORY)
-                .orderByChild(FirebaseConstant.RIDER_HISTORY).
-                equalTo(Rider.RiderID + FirebaseConstant.JOIN + HistoryModel.HistoryID).addListenerForSingleValueEvent(new ValueEventListener() {
+                .orderByChild(FirebaseConstant.RIDER_HISTORY)
+                .equalTo(Rider.RiderID + FirebaseConstant.JOIN + HistoryModel.HistoryID)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

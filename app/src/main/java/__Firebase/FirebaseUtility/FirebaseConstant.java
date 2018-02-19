@@ -72,6 +72,8 @@ public class FirebaseConstant {
     public static int INITIAL_ACCEPTANCE = 1;
     public static int FINAL_ACCEPTANCE = 2;
     public static int HISTORY_CREATED_FOR_THIS_RIDE = 1;
+    public static int SET = 1;
+    public static int UNSET = 0;
     public static String STRING_ZERO = ("0");
     public static String STRING_ONE = ("1");
     public static String STRING_UNKNOWN = ("-1");
@@ -113,14 +115,20 @@ public class FirebaseConstant {
     public static String CANCELED_RIDE_BY_RIDER = "CANCELED_RIDE_BY_RIDER";
     public static String REJECT_RIDE_BY_RIDER = "REJECT_RIDE_BY_RIDER";
     public static String RESPONSE_INITIAL_AC_NOTF = "RESPONSE_INITIAL_AC_NOTF";
+    public static String NOTIFICATION_RESPONSE = "NOTIFICATION_RESPONSE";
 
     /*Notification Action Type*/
-    public static String RIDER_TO_CLIENT = "3012";
-    public static String GET_CURRENT_TIME = "4001";
-    public static String INITIAL_ACCEPTANCE_NOTIFY_CLIENT = "5012";
-    public static String FINAL_ACCEPTANCE_NOTIFY_CLIENT = "6012";
-    public static String FINISH_RIDE_NOTIFY_CLIENT = "7012";
-    public static String CANCEL_RIDE_NOTIFY_CLIENT = "8012";
+    public static final String RIDER_TO_CLIENT = "3012";
+    public static final String GET_CURRENT_TIME = "4001";
+    public static final String INITIAL_ACCEPTANCE_NOTIFY_CLIENT = "5012";
+    public static final String FINAL_ACCEPTANCE_NOTIFY_CLIENT = "6012";
+    public static final String FINISH_RIDE_NOTIFY_CLIENT = "7012";
+    public static final String CANCEL_RIDE_NOTIFY_CLIENT = "8012";
+
+    public static final int INT_INITIAL_ACCEPTANCE_NOTIFY_CLIENT = 5012;
+    public static final int INT_FINAL_ACCEPTANCE_NOTIFY_CLIENT = 6012;
+    public static final int INT_FINISH_RIDE_NOTIFY_CLIENT = 7012;
+    public static final int INT_CANCEL_RIDE_NOTIFY_CLIENT = 8012;
 
     /*Request Type*/
     public static final int INITIAL_AC_OF_RIDE_NOTIFY_CLIENT = 1;
