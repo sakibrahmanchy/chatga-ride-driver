@@ -3,6 +3,7 @@ package com.chaatgadrive.arif.chaatgadrive.OnrideMode;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -153,6 +154,8 @@ public class InitialAndFinalCostEstimation {
                 dialog.dismiss();
                 switch(statusCode){
                     case 200:
+                        Intent intent = new Intent(mContext, DistanceCalculationService.class);
+                        mContext.startService(intent);
                         setNotificationWhenRideStart.Notification();
 
                         if(response.body().isSuccess()){
@@ -196,6 +199,8 @@ public class InitialAndFinalCostEstimation {
                     case 200:
                         if(response.body().isSuccess()){
 
+                            Intent intent = new Intent(mContext, DistanceCalculationService.class);
+                            mContext.stopService(intent);
                              rideFinishData = response.body().getData();
                             ForceFinishedRide();
                             AppConstant.TOTAL_RIDING_COST = (int)rideFinishData.getCostAfterDiscount();

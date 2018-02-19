@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,11 +29,14 @@ import com.chaatgadrive.arif.chaatgadrive.InternetConnection.ConnectionCheck;
 import com.chaatgadrive.arif.chaatgadrive.InternetConnection.InternetCheckActivity;
 import com.chaatgadrive.arif.chaatgadrive.MainActivity;
 import com.chaatgadrive.arif.chaatgadrive.R;
+import com.chaatgadrive.arif.chaatgadrive.SharedPreferences.UserInformation;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.GetCurrentLocation;
+import com.chaatgadrive.arif.chaatgadrive.models.DistanceModel;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.Gson;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -43,7 +47,6 @@ import __Firebase.FirebaseModel.RiderModel;
 import __Firebase.FirebaseResponse.NotificationModel;
 import __Firebase.FirebaseUtility.FirebaseConstant;
 import __Firebase.FirebaseWrapper;
-
 public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyCallback {
 
 
@@ -65,11 +68,11 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     private Main main = null;
     private CostEstimation costEstimation;
     private Date startTime,endTime;
-
-
+    SharedPreferences pref;
+    private SharedPreferences.Editor editor;
     Calendar rightNow = Calendar.getInstance();
-
-
+    private DistanceModel distanceModel = new DistanceModel();
+    private UserInformation userInformation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,9 +85,10 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         initialAndFinalCostEstimation = new InitialAndFinalCostEstimation(this);
         getCurrentLocation = new GetCurrentLocation(this);
         getDistanceFromMap = new GetDistanceFromMap();
-
-
-        costEstimation = new CostEstimation();
+        userInformation = new UserInformation(this);
+         pref = getApplicationContext().getSharedPreferences("MyPref",0);
+         editor =pref.edit();
+         costEstimation = new CostEstimation();
 
 
 
@@ -187,6 +191,13 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                     finishRide.setVisibility(View.VISIBLE);
                     setTitle("You are in Ride");
                     AppConstant.ON_RIDE_MODE=1;
+                    distanceModel.setSourceLat(getCurrentLocation.getLatitude());
+                    distanceModel.setDestinationLat(getCurrentLocation.getLongitude());
+                    Gson gson = new Gson();
+
+                    String json = gson.toJson(distanceModel);
+                    editor.putString("DistanceModel",json);
+                    editor.commit();
 
                     initialAndFinalCostEstimation.UpdateStartRide(AppConstant.CURRENT_HISTORY_ID);
                     AppConstant.PREVIOUS_LATLONG = new LatLng(mMap.getMyLocation().getLatitude(),mMap.getMyLocation().getLongitude());
@@ -227,7 +238,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                                     try {
 
                                         initialAndFinalCostEstimation.UpdateFinalHistory(AppConstant.CURRENT_HISTORY_ID,AppConstant.TOTAL_DURATION,AppConstant.TOTAL_DISTANCE,
-                                                (int)AppConstant.CURRENT_CLIENT_DISCOUNT_ID, AppConstant.SOURCE_NAME, AppConstant.DESTINATION_NAME);
+                                                (int)AppConstant.CURRENT_CLIENT_DISCOUNT_ID, AppConstant.SOURCE_NAME,userInformation.GetRidingDistance().getTotaldistance()+"");
                                         AppConstant.ON_RIDE_MODE=0;
 
                                     }catch (Exception e){

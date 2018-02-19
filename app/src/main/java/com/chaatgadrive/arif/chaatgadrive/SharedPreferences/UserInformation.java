@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginData;
+import com.chaatgadrive.arif.chaatgadrive.models.DistanceModel;
 import com.google.gson.Gson;
 
 import __Firebase.FirebaseResponse.NotificationModel;
@@ -18,6 +19,7 @@ public class UserInformation {
     private Gson gson;
     private SharedPreferences sharedpreferences;
     private LoginData loginData;
+    private DistanceModel distanceModel;
     private NotificationModel notificationModel;
     public static final String MyPREFERENCES = "MyPrefs";
     private SharedPreferences.Editor editor;
@@ -51,6 +53,12 @@ public class UserInformation {
 
         return sharedpreferences.getString("Driver", "");
 
+    }
+
+    public DistanceModel GetRidingDistance(){
+        String jsonString = sharedpreferences.getString("DistanceModel", null);
+        distanceModel = gson.fromJson(jsonString, DistanceModel.class);
+        return distanceModel;
     }
 
     public void RemoveNotification(){
