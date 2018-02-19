@@ -1,12 +1,9 @@
 package com.chaatgadrive.arif.chaatgadrive.FirstAppLoadingActivity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Handler;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 
 import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
 import com.chaatgadrive.arif.chaatgadrive.MainActivity;
@@ -34,6 +31,8 @@ public class FirstAppLoadingActivity extends AppCompatActivity {
         main = new Main(this);
 
         if(MainActivity.check && loginData == null){
+
+
             loginData = new LoginData();
             loginData.riderId = "1010";
         }

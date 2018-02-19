@@ -39,7 +39,12 @@ public class GetRiderStatus {
                         Log.d(FirebaseConstant.RIDER_LOADED, FirebaseConstant.RIDER_LOADED);
                     }
                 }
+                else{
+                    callBackListener.OnGetRiderStatus(false);
+                }
             }
+
+
 
             @Override
             public void onCancelled(DatabaseError databaseError) {

@@ -679,6 +679,9 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
             long onlineOffline = riderModel.IsRiderOnline;
             AppConstant.OnOffSwith = (int) onlineOffline;
         }
+        else{
+            AppConstant.OnOffSwith = 0;
+        }
     }
 
     @Override

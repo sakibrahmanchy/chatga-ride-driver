@@ -38,11 +38,18 @@ public class HasAnyRide {
                         firebaseWrapper.getRiderModelInstance().LoadData(snp);
                         Log.d(FirebaseConstant.RIDER_LOADED, FirebaseConstant.RIDER_LOADED);
                     }
+
                 }
+                else{
+                    callBackListener.OnHasAnyRide(false);
+                }
+
             }
+
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                callBackListener.OnResponseGetHistoryModel(false);
+                callBackListener.OnHasAnyRide(false);
             }
         });
         firebaseWrapper.FirebaseRootReference.child(FirebaseConstant.RIDER).orderByChild(FirebaseConstant.RIDER_ID).equalTo(this.RiderID).addListenerForSingleValueEvent(new ValueEventListener() {
