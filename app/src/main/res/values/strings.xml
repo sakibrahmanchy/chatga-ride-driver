@@ -153,4 +153,6 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="cancel_ride">Cancel Ride</string>
     <string name="nav_help">Help</string>
+    <string name="FACEBOOK_APP_ID">186542548773569</string>
+    <string name="ACCOUNT_KIT_CLIENT_TOKEN">5e8405c3ad93a84cb26eb790c267c59c</string>
 </resources>

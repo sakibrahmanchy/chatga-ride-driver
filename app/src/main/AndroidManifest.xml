@@ -7,6 +7,8 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
 
     <application
         android:allowBackup="true"
@@ -24,44 +26,72 @@
         <meta-data
             android:name="android.support.UI_OPTIONS"
             android:value="splitActionBarWhenNarrow" />
+        <meta-data android:name="com.facebook.accountkit.ApplicationName"
+            android:value="@string/app_name" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/FACEBOOK_APP_ID" />
+        <meta-data
+            android:name="com.facebook.accountkit.ClientToken"
+            android:value="@string/ACCOUNT_KIT_CLIENT_TOKEN" />
+
 
         <activity
             android:name=".FirstAppLoadingActivity.FirstAppLoadingActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".MainActivity">
-
-        </activity>
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".PhoneVerificationActivity"
             android:label="@string/title_activity_login"
             android:noHistory="true"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
-            android:windowSoftInputMode="adjustNothing" />
+            android:windowSoftInputMode="adjustNothing"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".UserCheckActivity"
             android:label="@string/title_activity_user_check"
             android:noHistory="true"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".RegistrationActivity"
             android:label="@string/title_activity_registration"
-            android:noHistory="true" />
-
+            android:noHistory="true"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Setting.SettingActivity"
             android:label="Settings"
-            android:noHistory="true" />
+            android:noHistory="true"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Setting.EditProfile"
-            android:label="Edit Profile"/>
+            android:label="Edit Profile"
+            android:screenOrientation="portrait"/>
 
+        <activity android:name=".OnrideMode.OnRideModeActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".InternetConnection.InternetCheckActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".SplashScreenActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Adapters.History.RiderHistoryActivity"
+            android:screenOrientation="portrait"
+            android:noHistory="true" />
+        <activity android:name=".Adapters.History.DocumentsActivity"
+            android:screenOrientation="portrait"></activity>
+
+        <activity android:name=".FacebookAccountVerificationActivity"
+            android:screenOrientation="portrait"></activity>
 
         <service android:name=".__FirebaseInstanceIDService">
             <intent-filter>
@@ -73,18 +103,10 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
-        <activity android:name=".OnrideMode.OnRideModeActivity" />
-        <activity android:name=".InternetConnection.InternetCheckActivity" />
-
         <service
             android:name=".OnLocationChange.UpdateLocationService"
             android:enabled="true"
             android:exported="false" />
-
-        <activity android:name=".SplashScreenActivity"></activity>
-        <activity android:name=".Adapters.History.RiderHistoryActivity" android:noHistory="true"></activity>
-
     </application>
 
 </manifest>
