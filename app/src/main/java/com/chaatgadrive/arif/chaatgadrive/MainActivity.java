@@ -78,10 +78,10 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
                         manager.beginTransaction().replace(R.id.content, mapfragment, mapfragment.getTag()).commit();
                     }
                     return true;
-                case R.id.navigation_dashboard:
-                    //mTextMessage.setText(R.string.title_dashboard);
-                    manager.beginTransaction().replace(R.id.content, dashboardFragment, dashboardFragment.getTag()).commit();
-                    return true;
+//                case R.id.navigation_dashboard:
+//                    //mTextMessage.setText(R.string.title_dashboard);
+//                    manager.beginTransaction().replace(R.id.content, dashboardFragment, dashboardFragment.getTag()).commit();
+//                    return true;
                 case R.id.navigation_notifications:
                     manager.beginTransaction().replace(R.id.content, notificationFragment, notificationFragment.getTag()).commit();
                     return true;

@@ -16,6 +16,7 @@ import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideFinishModel.RideF
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideHistory.RideHistoryResponse;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideHistory.RideStartResponse;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideHistory.RiderHistoryResponse;
+import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RiderProfileStats.RiderProfileStatsResponse;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.User;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.UserCheckResponse;
 
@@ -120,10 +121,16 @@ public interface ApiInterface {
     Call<RiderHistoryResponse>getRiderHistory(@Header("Authorization") String authHeader,
                                                @Query("rider_id") String rider_id);
 
+    @GET("api/v1/rider/profile_stats")
+    Call<RiderProfileStatsResponse>getRiderProfileStats(@Header("Authorization") String authHeader,
+                                                        @Query("rider_id") int riderId);
+
     @POST("api/v1/rider/rating")
     @FormUrlEncoded
     Call<Rating>getRiderRating(@Header("Authorization") String authHeader,
                                @Field("rider_id") int riderId);
+
+
 
     @POST("api/v1/client/rating")
     @FormUrlEncoded
