@@ -68,6 +68,8 @@ public class FirstAppLoadingActivity extends AppCompatActivity {
 
                            AppConstant.PREVIOUS_LATLONG = new LatLng(AppConstant.currentRidingHistoryModel.StartingLocation.Latitude
                                    ,AppConstant.currentRidingHistoryModel.StartingLocation.Longitude);
+                           AppConstant.CLIENT_NAME = AppConstant.ClientModel.FullName;
+                           AppConstant.PHONE_NUMBER = AppConstant.ClientModel.PhoneNumber;
                            Intent intent1 = new Intent(FirstAppLoadingActivity.this, UpdateLocationService.class);
                            startService(intent1);
                            Intent intent = new Intent(FirstAppLoadingActivity.this, OnRideModeActivity.class);

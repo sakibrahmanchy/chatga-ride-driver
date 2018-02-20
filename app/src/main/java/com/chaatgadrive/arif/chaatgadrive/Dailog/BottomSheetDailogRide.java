@@ -1,7 +1,6 @@
 package com.chaatgadrive.arif.chaatgadrive.Dailog;
 
 import android.Manifest;
-import android.app.Notification;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -19,6 +18,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
 import com.chaatgadrive.arif.chaatgadrive.R;
 
 import __Firebase.FirebaseResponse.NotificationModel;
@@ -50,6 +50,10 @@ public class BottomSheetDailogRide extends BottomSheetDialogFragment {
         super.onCreate(savedInstanceState);
         mString = getArguments().getString("string");
         notificationModel  = FirebaseWrapper.getInstance().getNotificationModelInstance();
+        if(notificationModel.riderId >0){
+            AppConstant.CLIENT_NAME = notificationModel.clientName;
+            AppConstant.PHONE_NUMBER = Long.parseLong(notificationModel.clientPhone);
+        }
     }
 
     @Override
@@ -57,11 +61,11 @@ public class BottomSheetDailogRide extends BottomSheetDialogFragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.bottom_sheet_dailog_ride, container, false);
 
-        userProfileName =(TextView) v.findViewById(R.id.name);
+        userProfileName =(TextView) v.findViewById(R.id.profile_name);
         userProfilePic =(ImageView) v.findViewById(R.id.profile);
         call = (ImageButton) v.findViewById(R.id.calling_request);
         userRidingPath =(TextView) v.findViewById(R.id.location);
-
+       userProfileName.setText(AppConstant.CLIENT_NAME);
         init();
         return v;
     }
@@ -84,7 +88,7 @@ public class BottomSheetDailogRide extends BottomSheetDialogFragment {
                     new String[]{Manifest.permission.CALL_PHONE},
                     123);
         } else {
-            startActivity(new Intent(Intent.ACTION_CALL).setData(Uri.parse("tel:0"+notificationModel.clientPhone)));
+            startActivity(new Intent(Intent.ACTION_CALL).setData(Uri.parse("tel:0"+ AppConstant.PHONE_NUMBER)));
         }
     }
 

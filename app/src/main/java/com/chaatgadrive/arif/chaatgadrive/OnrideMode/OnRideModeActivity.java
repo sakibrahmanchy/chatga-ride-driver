@@ -246,10 +246,6 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
 
 
                                     }catch (Exception e){
-
-                                        Intent intent = new Intent(OnRideModeActivity.this, MainActivity.class);
-                                        startActivity(intent);
-                                        finish();
                                         e.printStackTrace();
                                     }
 
