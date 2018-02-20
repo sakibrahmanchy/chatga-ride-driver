@@ -55,4 +55,6 @@ public class AppConstant {
     public static final String CANCEL_RIDE_BODY = ("Client has canceled the ride");
     public static final String CANCEL_RIDE_TITLE = ("Ride Canceled");
     public static final int GET_SMS_PERMISSION = 1;
+    public static String CLIENT_NAME=null;
+    public  static long PHONE_NUMBER=0;
 }
