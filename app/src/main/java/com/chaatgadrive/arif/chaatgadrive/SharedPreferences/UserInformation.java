@@ -65,4 +65,8 @@ public class UserInformation {
             editor.remove("notificationModel");
             editor.commit();
     }
+    public void RemoveRidingDistance(){
+        editor.remove("DistanceModel");
+        editor.commit();
+    }
 }

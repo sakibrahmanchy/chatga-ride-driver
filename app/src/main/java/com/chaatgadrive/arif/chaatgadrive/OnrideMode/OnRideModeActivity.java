@@ -1,6 +1,7 @@
 package com.chaatgadrive.arif.chaatgadrive.OnrideMode;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -73,6 +74,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     Calendar rightNow = Calendar.getInstance();
     private DistanceModel distanceModel = new DistanceModel();
     private UserInformation userInformation;
+    public  static Activity Onridecontext  ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +91,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
          pref = getApplicationContext().getSharedPreferences("MyPref",0);
          editor =pref.edit();
          costEstimation = new CostEstimation();
+        Onridecontext = this;
 
 
 
@@ -240,6 +243,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                                         initialAndFinalCostEstimation.UpdateFinalHistory(AppConstant.CURRENT_HISTORY_ID,AppConstant.TOTAL_DURATION,AppConstant.TOTAL_DISTANCE,
                                                 (int)AppConstant.CURRENT_CLIENT_DISCOUNT_ID, AppConstant.SOURCE_NAME,userInformation.GetRidingDistance().getTotaldistance()+"");
                                         AppConstant.ON_RIDE_MODE=0;
+
 
                                     }catch (Exception e){
 

@@ -1,18 +1,16 @@
 package com.chaatgadrive.arif.chaatgadrive.OnrideMode;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.util.Pair;
 
 import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
 import com.chaatgadrive.arif.chaatgadrive.CostEstimation.CostEstimation;
-import com.chaatgadrive.arif.chaatgadrive.Dailog.RideFinishDailog;
+import com.chaatgadrive.arif.chaatgadrive.FinishRideActivity.FinishRideActivity;
+import com.chaatgadrive.arif.chaatgadrive.SharedPreferences.UserInformation;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideFinishModel.RideFinishData;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideFinishModel.RideFinishResponse;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideHistory.RideHistory;
@@ -36,6 +34,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.content.ContentValues.TAG;
+import static com.chaatgadrive.arif.chaatgadrive.OnrideMode.OnRideModeActivity.Onridecontext;
+
 /**
  * Created by Arif on 1/10/2018.
  */
@@ -53,12 +53,14 @@ public class InitialAndFinalCostEstimation {
     private Main main;
     private RideFinishData rideFinishData;
     private SetNotificationWhenRideStart setNotificationWhenRideStart;
+    private UserInformation userInformation;
 
     public InitialAndFinalCostEstimation(Context context) {
 
         apiService =   ApiClient.getClient().create(ApiInterface.class);
         this.mContext=context;
         dialog = new ProgressDialog(mContext);
+        userInformation = new UserInformation(mContext);
         notificationModel = FirebaseWrapper.getInstance().getNotificationModelInstance();
         dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         pref = this.mContext.getSharedPreferences("MyPref", 0);
@@ -201,13 +203,13 @@ public class InitialAndFinalCostEstimation {
 
                             Intent intent = new Intent(mContext, DistanceCalculationService.class);
                             mContext.stopService(intent);
+                            userInformation.RemoveRidingDistance();
                              rideFinishData = response.body().getData();
                             ForceFinishedRide();
                             AppConstant.TOTAL_RIDING_COST = (int)rideFinishData.getCostAfterDiscount();
-                            RideFinishDailog rideFinishDailog = new RideFinishDailog((Activity) mContext);
-                            rideFinishDailog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                            rideFinishDailog.show();
-
+                            Intent Finishintent = new Intent(mContext, FinishRideActivity.class);
+                            mContext.startActivity(Finishintent);
+                            Onridecontext.finish();
                             /*
                             Intent intent = new Intent(mContext, MainActivity.class);
                             mContext.startActivity(intent);
