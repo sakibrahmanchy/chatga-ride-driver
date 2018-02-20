@@ -37,6 +37,7 @@ import com.google.android.gms.location.LocationRequest;
 
 import ContactWithFirebase.Main;
 import __Firebase.FirebaseUtility.FirebaseConstant;
+import __Firebase.FirebaseUtility.FirebaseUtilMethod;
 import __Firebase.FirebaseWrapper;
 import __Firebase.ICallbacklisteners.ICallBackCurrentServerTime;
 
@@ -126,10 +127,10 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
 
         String notification = getIntent().getStringExtra(FirebaseConstant.RIDE_NOTIFICATION);
         if (notification != null) {
-            SwitchingActivity();
-            /*
-            *FirebaseUtilMethod.getNetworkTime(FirebaseConstant.GET_NOTIFICATION_TO_NOTIFY_RIDER, this, this);
-            */
+           // SwitchingActivity();
+
+            FirebaseUtilMethod.getNetworkTime(FirebaseConstant.GET_NOTIFICATION_TO_NOTIFY_RIDER, this, this);
+
         }
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
@@ -193,6 +194,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Toast.makeText(getApplicationContext(), "Refresh selected= " + isChecked, Toast.LENGTH_SHORT).show();
                 if (isChecked) {
+                    AppConstant.OnOffSwith=1;
                     OffOnSwitch.setText("ON");
                     if (FirebaseWrapper.getInstance().getRiderModelInstance().RiderID > 0) {
                         main.SetRiderOnLineOrOffLine(
@@ -206,6 +208,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
                     }
                 } else {
                     OffOnSwitch.setText("OFF");
+                    AppConstant.OnOffSwith=0;
                     if (FirebaseWrapper.getInstance().getRiderModelInstance().RiderID > 0) {
                         main.SetRiderOnLineOrOffLine(
                                 FirebaseWrapper.getInstance().getRiderModelInstance(),
@@ -265,7 +268,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
     public void OnResponseServerTime(long Time, int type) {
         if(Time > 0 && type == FirebaseConstant.GET_NOTIFICATION_TO_NOTIFY_RIDER){
             if(Math.abs(FirebaseWrapper.getInstance().getNotificationModelInstance().time - Time) <= FirebaseConstant.ONE_MINUTE_IN_MILLISECOND){
-                //SwitchingActivity();
+                SwitchingActivity();
             }
         }
     }

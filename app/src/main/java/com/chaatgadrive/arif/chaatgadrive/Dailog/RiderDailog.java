@@ -90,7 +90,6 @@ public class RiderDailog extends Dialog implements android.view.View.OnClickList
                 RejectRide();
                 dismiss();
                 cancelAlarm();
-                myContext.finish();
                 break;
             default:
                 break;
