@@ -1,5 +1,6 @@
 package com.chaatgadrive.arif.chaatgadrive;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
     private LocationCallback mLocationCallback;
     private LocationRequest mLocationRequest;
     public static Context contextOfApplication;
+    public static Activity MainActivityContext ;
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -114,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
         setContentView(R.layout.activity_main);
         getCurrentLocation = new GetCurrentLocation(this);
         connectionCheck = new ConnectionCheck(this);
+        MainActivityContext =this;
         if (!connectionCheck.isNetworkConnected()) {
 
             Intent intent = new Intent(MainActivity.this, InternetCheckActivity.class);
@@ -122,7 +125,21 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
         } else if (!connectionCheck.isGpsEnable()) {
             connectionCheck.showGPSDisabledAlertToUser();
         } else {
-            manager.beginTransaction().replace(R.id.content, mapfragment, mapfragment.getTag()).commit();
+            SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
+            if (pref.getString("userData", null) == null) {
+                Intent intent = new Intent(MainActivity.this, UserCheckActivity.class);
+                startActivity(intent);
+            } else {
+                manager.beginTransaction().replace(R.id.content, mapfragment, mapfragment.getTag()).commit();
+                BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+                navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+                userInformation = new UserInformation(this);
+                loginData = userInformation.getuserInformation();
+                getCurrentLocation = new GetCurrentLocation(this);
+                this.MandatoryCall();
+            }
+
         }
 
         String notification = getIntent().getStringExtra(FirebaseConstant.RIDE_NOTIFICATION);
@@ -133,20 +150,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
 
         }
 
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
-        if (pref.getString("userData", null) == null && !check) {
-            Intent intent = new Intent(MainActivity.this, UserCheckActivity.class);
-            startActivity(intent);
-        } else {
-            BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-            navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-            userInformation = new UserInformation(this);
-            loginData = userInformation.getuserInformation();
-            getCurrentLocation = new GetCurrentLocation(this);
-            connectionCheck = new ConnectionCheck(this);
-            this.MandatoryCall();
-        }
         //mTextMessage = (TextView) findViewById(R.id.message);
     }
 
@@ -239,23 +243,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
             main.CreateNewRiderFirebase(loginData, "01752062838");
         }
 
-        /*
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                final Pair newLocation = Pair.create(getCurrentLocation.getLatitude(), getCurrentLocation.getLongitude());
-                if (FirebaseWrapper.getInstance().getRiderModelInstance().RiderID > 0) {
-                    main.UpdateRiderLocation(
-                            FirebaseWrapper.getInstance().getRiderModelInstance(),
-                            newLocation
-                    );
-                    Log.d(FirebaseConstant.UPDATE_LOCATION_TIMER, FirebaseConstant.UPDATE_LOCATION_TIMER);
-                }
-                handler.postDelayed(this, 5000);
-            }
-        };
-        handler.postDelayed(runnable, 5000);
-        */
+
     }
 
     private void SwitchingActivity(){
@@ -266,8 +254,9 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
 
     @Override
     public void OnResponseServerTime(long Time, int type) {
+        long  x  = Math.abs(FirebaseWrapper.getInstance().getNotificationModelInstance().time -Time);
         if(Time > 0 && type == FirebaseConstant.GET_NOTIFICATION_TO_NOTIFY_RIDER){
-            if(Math.abs(FirebaseWrapper.getInstance().getNotificationModelInstance().time - Time) <= FirebaseConstant.ONE_MINUTE_IN_MILLISECOND){
+            if(Math.abs(FirebaseWrapper.getInstance().getNotificationModelInstance().time - Time) >= FirebaseConstant.ONE_MINUTE_IN_MILLISECOND){
                 SwitchingActivity();
             }
         }
@@ -275,5 +264,17 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
 
     public static Context getContextOfApplication(){
         return contextOfApplication;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        AppConstant.MAIN_ACTIVITY = true;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        AppConstant.MAIN_ACTIVITY = false;
     }
 }

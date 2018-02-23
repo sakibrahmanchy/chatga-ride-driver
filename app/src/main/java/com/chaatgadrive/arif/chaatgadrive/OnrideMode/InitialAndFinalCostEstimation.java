@@ -156,12 +156,13 @@ public class InitialAndFinalCostEstimation {
                 dialog.dismiss();
                 switch(statusCode){
                     case 200:
-                        Intent intent = new Intent(mContext, DistanceCalculationService.class);
-                        mContext.startService(intent);
-                        setNotificationWhenRideStart.Notification();
+
 
                         if(response.body().isSuccess()){
-
+                            setNotificationWhenRideStart.Notification();
+                            main.ForcedAcceptanceOfRide(FirebaseConstant.FINAL_ACCEPTANCE);
+                            Intent intent = new Intent(Onridecontext, DistanceCalculationService.class);
+                            Onridecontext.startService(intent);
                         }
                         break;
                     case 500:
@@ -194,34 +195,24 @@ public class InitialAndFinalCostEstimation {
         call.enqueue(new Callback<RideFinishResponse>() {
             @Override
             public void onResponse(Call<RideFinishResponse> call, Response<RideFinishResponse> response) {
-
                 int statusCode = response.code();
                 dialog.dismiss();
                 switch(statusCode){
                     case 200:
                         if(response.body().isSuccess()){
-
                             Intent intent = new Intent(mContext, DistanceCalculationService.class);
                             mContext.stopService(intent);
                             userInformation.RemoveRidingDistance();
-                             rideFinishData = response.body().getData();
+                            rideFinishData = response.body().getData();
                             ForceFinishedRide();
                             AppConstant.TOTAL_RIDING_COST = (int)rideFinishData.getCostAfterDiscount();
                             Intent Finishintent = new Intent(mContext, FinishRideActivity.class);
                             mContext.startActivity(Finishintent);
                             Onridecontext.finish();
-                            /*
-                            Intent intent = new Intent(mContext, MainActivity.class);
-                            mContext.startActivity(intent);
-                            ((Activity)mContext).finish();
-                            */
                         }
                         break;
                     case 500:
-//                        Pair<Double, Double> finalDestination = Pair.create(00d, 00d);
-//                        long finalCost = 10101;
-//                        main.ForcedFinishedRide(finalCost, finalDestination);
-//                        Log.d("Onride",response.errorBody().toString());
+
                         break;
 
                     default:

@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -21,11 +20,11 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 
+import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RegistrationModels.RegistrationModel;
 import com.chaatgadrive.arif.chaatgadrive.rest.ApiClient;
 import com.chaatgadrive.arif.chaatgadrive.rest.ApiInterface;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
@@ -69,6 +68,7 @@ public class RegistrationActivity extends Activity {
 
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
+    public static Activity registrationActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +83,7 @@ public class RegistrationActivity extends Activity {
         dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         phoneNumber = getIntent().getStringExtra("phoneNumber");
 
-
+        registrationActivity = this;
 
         birthDayText = (EditText) findViewById(R.id.birthday_edittext);
         birthDayText.setInputType(InputType.TYPE_NULL);
@@ -268,6 +268,17 @@ public class RegistrationActivity extends Activity {
                 Log.e(TAG, t.toString());
             }
         });
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        AppConstant.REGISTRATION_ACTIVITY = true;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        AppConstant.REGISTRATION_ACTIVITY = false;
     }
 
 

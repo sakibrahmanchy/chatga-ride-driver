@@ -11,21 +11,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.AccessTokenModels.AuthToken;
-import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginData;
-import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginModel;
+import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.UserCheckResponse;
 import com.chaatgadrive.arif.chaatgadrive.rest.ApiClient;
 import com.chaatgadrive.arif.chaatgadrive.rest.ApiInterface;
-import com.google.gson.Gson;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.UUID;
 
-import __Firebase.FirebaseWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -48,6 +42,7 @@ public class UserCheckActivity extends Activity {
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
     LoginHelper loginHelper;
+    public static Activity UserCheckActivityContext;
 
 
     @Override
@@ -60,7 +55,7 @@ public class UserCheckActivity extends Activity {
 
         mPhoneNumberField = (EditText) findViewById(R.id.field_phone_number);
         mStartButton = (Button) findViewById(R.id.button_start_verification);
-
+        UserCheckActivityContext=this;
         clientId = getString(R.string.APP_CLIENT);
         clientSecret = getString(R.string.APP_CLIENT_SECRET);
         loginHelper = new LoginHelper(this);
@@ -120,6 +115,7 @@ public class UserCheckActivity extends Activity {
                             intent.putExtra("phoneNumber",phoneNumber);
                             intent.putExtra("loginStatus","REGISTRATION_REQUIRED");
                             startActivity(intent);
+                            finish();
                         }
                         break;
                     case 500:
@@ -133,6 +129,7 @@ public class UserCheckActivity extends Activity {
                                 intent.putExtra("phoneNumber",phoneNumber);
                                 intent.putExtra("loginStatus","REGISTRATION_REQUIRED");
                                 startActivity(intent);
+                                finish();
                             }
 
                         } catch (Exception e) {
@@ -154,6 +151,17 @@ public class UserCheckActivity extends Activity {
                 Log.e(TAG, t.toString());
             }
         });
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        AppConstant.USERCHECK_ACTIVITY = true;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        AppConstant.USERCHECK_ACTIVITY = false;
     }
 }
 

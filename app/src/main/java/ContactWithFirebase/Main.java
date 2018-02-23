@@ -5,6 +5,7 @@ import android.util.Log;
 import android.util.Pair;
 
 import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
+import com.chaatgadrive.arif.chaatgadrive.SharedPreferences.UserInformation;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.GetCurrentLocation;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginData;
 import com.chaatgadrive.arif.chaatgadrive.models.HistoryModel.RiderHistory;
@@ -682,6 +683,8 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
         else{
             AppConstant.OnOffSwith = 0;
         }
+        UserInformation userInformation = new UserInformation(context);
+        this.HasAnyRide(Long.parseLong(userInformation.getuserInformation().getRiderId()));
     }
 
     @Override

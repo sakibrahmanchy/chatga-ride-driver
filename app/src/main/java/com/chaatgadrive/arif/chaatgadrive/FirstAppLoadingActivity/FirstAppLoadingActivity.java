@@ -29,19 +29,9 @@ public class FirstAppLoadingActivity extends AppCompatActivity {
         userInformation = new UserInformation(this);
         loginData = userInformation.getuserInformation();
         main = new Main(this);
-
-        if(MainActivity.check && loginData == null){
-
-
-            loginData = new LoginData();
-            loginData.riderId = "1010";
-        }
-
         if(loginData != null){
             main.GetRiderStatus(Long.parseLong(loginData.getRiderId()));
-            main.HasAnyRide(Long.parseLong(loginData.getRiderId()));
             InitializeApp();
-
         }
         else{
             Intent intent = new Intent(FirstAppLoadingActivity.this, MainActivity.class);
@@ -61,6 +51,7 @@ public class FirstAppLoadingActivity extends AppCompatActivity {
 
                        if(AppConstant.IS_RIDE == 0){
                            Intent intent = new Intent(FirstAppLoadingActivity.this, MainActivity.class);
+                           intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                            startActivity(intent);
                            finish();
                        }

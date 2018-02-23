@@ -8,6 +8,8 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
+import com.chaatgadrive.arif.chaatgadrive.FirstAppLoadingActivity.FirstAppLoadingActivity;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.AccessTokenModels.AuthToken;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginData;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginModel;
@@ -26,6 +28,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.content.ContentValues.TAG;
+import static com.chaatgadrive.arif.chaatgadrive.MainActivity.MainActivityContext;
+import static com.chaatgadrive.arif.chaatgadrive.RegistrationActivity.registrationActivity;
+import static com.chaatgadrive.arif.chaatgadrive.UserCheckActivity.UserCheckActivityContext;
 
 /**
  * Created by Sakib Rahman on 12/13/2017.
@@ -84,6 +89,15 @@ public class LoginHelper {
                             intent.putExtra("phoneNumber",phoneNumber);
                             intent.putExtra("loginStatus","REGISTRATION_REQUIRED");
                             context.startActivity(intent);
+                            if(AppConstant.MAIN_ACTIVITY){
+                                MainActivityContext.finish();
+                            }
+                            if(AppConstant.REGISTRATION_ACTIVITY){
+                                registrationActivity.finish();
+                            }
+                            if(AppConstant.USERCHECK_ACTIVITY){
+                                UserCheckActivityContext.finish();
+                            }
                         }
                         break;
                     default:
@@ -91,6 +105,15 @@ public class LoginHelper {
                         intent.putExtra("phoneNumber",phoneNumber);
                         intent.putExtra("loginStatus","REGISTRATION_REQUIRED");
                         context.startActivity(intent);
+                        if(AppConstant.MAIN_ACTIVITY){
+                            MainActivityContext.finish();
+                        }
+                        if(AppConstant.REGISTRATION_ACTIVITY){
+                            registrationActivity.finish();
+                        }
+                        if(AppConstant.USERCHECK_ACTIVITY){
+                            UserCheckActivityContext.finish();
+                        }
                         break;
                 }
 
@@ -135,14 +158,33 @@ public class LoginHelper {
                             editor.putString("phoneNumber",phoneNumber);
                             editor.commit();
 
-                            Intent intent = new Intent(context, MainActivity.class);
+                            Intent intent = new Intent(context, FirstAppLoadingActivity.class);
                             context.startActivity(intent);
+                            if(AppConstant.MAIN_ACTIVITY){
+                                MainActivityContext.finish();
+                            }
+                            if(AppConstant.REGISTRATION_ACTIVITY){
+                                registrationActivity.finish();
+                            }
+                            if(AppConstant.USERCHECK_ACTIVITY){
+                                UserCheckActivityContext.finish();
+                            }
+
 
                         }else{
                             Intent intent = new Intent(context, FacebookAccountVerificationActivity.class);
                             intent.putExtra("phoneNumber",phoneNumber);
                             intent.putExtra("loginStatus","PHONE_VERIFICATION_REQUIRED");
                             context.startActivity(intent);
+                            if(AppConstant.MAIN_ACTIVITY){
+                                MainActivityContext.finish();
+                            }
+                            if(AppConstant.REGISTRATION_ACTIVITY){
+                                registrationActivity.finish();
+                            }
+                            if(AppConstant.USERCHECK_ACTIVITY){
+                                UserCheckActivityContext.finish();
+                            }
                         }
                         break;
                     default:
@@ -156,6 +198,16 @@ public class LoginHelper {
                                     intent.putExtra("phoneNumber",phoneNumber);
                                     intent.putExtra("loginStatus","PHONE_VERIFICATION_REQUIRED");
                                     context.startActivity(intent);
+                                    if(AppConstant.MAIN_ACTIVITY){
+                                        MainActivityContext.finish();
+                                    }
+                                    if(AppConstant.REGISTRATION_ACTIVITY){
+                                        registrationActivity.finish();
+                                    }
+                                    if(AppConstant.USERCHECK_ACTIVITY){
+                                        UserCheckActivityContext.finish();
+                                    }
+
                                     break;
                                 default:
 
