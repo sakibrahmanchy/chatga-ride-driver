@@ -15,6 +15,7 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -24,6 +25,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,8 +52,11 @@ import __Firebase.FirebaseModel.CurrentRidingHistoryModel;
 import __Firebase.FirebaseModel.RiderModel;
 import __Firebase.FirebaseResponse.NotificationModel;
 import __Firebase.FirebaseUtility.FirebaseConstant;
+import __Firebase.FirebaseUtility.FirebaseUtilMethod;
 import __Firebase.FirebaseWrapper;
-public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyCallback {
+import __Firebase.ICallbacklisteners.ICallBackCurrentServerTime;
+
+public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyCallback, ICallBackCurrentServerTime {
 
 
     private GoogleMap mMap;
@@ -82,6 +87,10 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     private View bottomSheet;
     private TextView client_phone,client_phone_call_number,clientName,clientRating;
     private  ImageView clientProfileImage;
+    private LinearLayout AccepAndReject,StartAndFinish;
+    private NestedScrollView bootmsheet;
+    private TextView accepRide,rejectRide,sourceAdress,destinationAdress,totalCost,dateTime,Currentclient_Name;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +117,13 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         clientName = (TextView) findViewById(R.id.client_name);
         clientProfileImage =(ImageView) findViewById(R.id.Client_profile_pic);
         clientRating =(TextView) findViewById(R.id.client_rating);
+        accepRide = findViewById(R.id.accept_ride);
+        rejectRide =findViewById(R.id.reject_ride);
+        sourceAdress =findViewById(R.id.source_address);
+        destinationAdress =findViewById(R.id.destination_address);
+        totalCost = findViewById(R.id.total_fare);
+        dateTime =findViewById(R.id.date_time);
+        Currentclient_Name = findViewById(R.id.current_client_name);
 
 
         bottomSheet = findViewById( R.id.bottom_sheet );
@@ -115,36 +131,9 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         mBottomSheetBehavior.setPeekHeight(150);
         mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         mBottomSheetBehavior.setHideable(false);
-
-
-        dialog.setMessage("Please Wait..");
-
-        startRide.setVisibility(View.VISIBLE);
-        finishRide.setVisibility(View.INVISIBLE);
-        if(AppConstant.currentRidingHistoryModel !=null){
-
-            AppConstant.CURRENT_HISTORY_ID = (int)AppConstant.currentRidingHistoryModel.HistoryID;
-            AppConstant.SOURCE_NAME = AppConstant.currentRidingHistoryModel.StartingLocation.LocationName;
-            AppConstant.DESTINATION_NAME =AppConstant.currentRidingHistoryModel.EndingLocation.LocationName;
-            AppConstant.SOURCE_LATITUTE = AppConstant.currentRidingHistoryModel.StartingLocation.Latitude;
-            AppConstant.SOURCE_LOGITUTE = AppConstant.currentRidingHistoryModel.StartingLocation.Longitude;
-            AppConstant.DESTINATION_LATITUTE = AppConstant.currentRidingHistoryModel.EndingLocation.Latitude;
-            AppConstant.DESTINATION_LOGITUTE =AppConstant.currentRidingHistoryModel.EndingLocation.Longitude;
-            AppConstant.CURRENT_CLIENT_DISCOUNT_ID = (int) AppConstant.currentRidingHistoryModel.DiscountID;
-            AppConstant.ON_RIDE_MODE=1;
-            AppConstant.CLIENT_NAME = AppConstant.ClientModel.FullName;
-            AppConstant.PHONE_NUMBER = AppConstant.ClientModel.PhoneNumber;
-
-
-            if(AppConstant.currentRidingHistoryModel.IsRideStart==0){
-                startRide.setVisibility(View.VISIBLE);
-                finishRide.setVisibility(View.GONE);
-            }
-           else if(AppConstant.currentRidingHistoryModel.IsRideStart !=-1){
-                startRide.setVisibility(View.GONE);
-                finishRide.setVisibility(View.VISIBLE);
-            }
-        }
+        AccepAndReject = findViewById(R.id.accep_reject_card_layout);
+        StartAndFinish = findViewById(R.id.start_and_finish_layout);
+        bootmsheet = findViewById(R.id.bottom_sheet);
 
         if(notificationModel.clientId !=0){
             AppConstant.DESTINATION_NAME = notificationModel.destinationName;
@@ -157,29 +146,69 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
             AppConstant.CLIENT_NAME = notificationModel.clientName;
             AppConstant.PHONE_NUMBER = Long.parseLong(notificationModel.clientPhone);
         }
-        if(!connectionCheck.isNetworkConnected()){
-            Intent intent = new Intent(OnRideModeActivity.this, InternetCheckActivity.class);
-            startActivityForResult(intent,AppConstant.INTERNET_CHECK);
+
+        if(AppConstant.SHOW_ACTIVITY_FOR_ACCEPT_AND_REJECT){
+            StartAndFinish.setVisibility(View.GONE);
+            bootmsheet.setVisibility(View.GONE);
+            sourceAdress.setText(notificationModel.sourceName);
+            Currentclient_Name.setText(notificationModel.clientName);
+            totalCost.setText("Etimated: "+notificationModel.totalCost);
+            destinationAdress.setText(notificationModel.destinationName);
+            accepRide.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    initialAndFinalCostEstimation.CreateInitialHistory();
+                    AppConstant.SHOW_ACTIVITY_FOR_ACCEPT_AND_REJECT=false;
+                    AccepAndReject.setVisibility(View.GONE);
+                    StartAndFinish.setVisibility(View.VISIBLE);
+                    bootmsheet.setVisibility(View.VISIBLE);
+                    finishRide.setVisibility(View.INVISIBLE);
+                }
+            });
+
+
+            rejectRide.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    RejectRide();
+                    finish();
+                }
+            });
         }
-        else if (!connectionCheck.isGpsEnable()){
-            connectionCheck.showGPSDisabledAlertToUser();
-        }
-        else {
+        else{
 
-            try{
+            AccepAndReject.setVisibility(View.GONE);
+            startRide.setVisibility(View.VISIBLE);
+            finishRide.setVisibility(View.INVISIBLE);
+            if(AppConstant.currentRidingHistoryModel !=null){
 
-                    getDistanceAndDuration = new GetDistanceAndDuration(this,new LatLng(AppConstant.SOURCE_LATITUTE, AppConstant.SOURCE_LOGITUTE),
-                            new LatLng( AppConstant.DESTINATION_LATITUTE ,AppConstant.DESTINATION_LOGITUTE));
+                AppConstant.CURRENT_HISTORY_ID = (int)AppConstant.currentRidingHistoryModel.HistoryID;
+                AppConstant.SOURCE_NAME = AppConstant.currentRidingHistoryModel.StartingLocation.LocationName;
+                AppConstant.DESTINATION_NAME =AppConstant.currentRidingHistoryModel.EndingLocation.LocationName;
+                AppConstant.SOURCE_LATITUTE = AppConstant.currentRidingHistoryModel.StartingLocation.Latitude;
+                AppConstant.SOURCE_LOGITUTE = AppConstant.currentRidingHistoryModel.StartingLocation.Longitude;
+                AppConstant.DESTINATION_LATITUTE = AppConstant.currentRidingHistoryModel.EndingLocation.Latitude;
+                AppConstant.DESTINATION_LOGITUTE =AppConstant.currentRidingHistoryModel.EndingLocation.Longitude;
+                AppConstant.CURRENT_CLIENT_DISCOUNT_ID = (int) AppConstant.currentRidingHistoryModel.DiscountID;
+                AppConstant.ON_RIDE_MODE=1;
+                AppConstant.CLIENT_NAME = AppConstant.ClientModel.FullName;
+                AppConstant.PHONE_NUMBER = AppConstant.ClientModel.PhoneNumber;
 
 
-            }catch (Exception e){
-
+                if(AppConstant.currentRidingHistoryModel.IsRideStart==0){
+                    startRide.setVisibility(View.VISIBLE);
+                    finishRide.setVisibility(View.GONE);
+                }
+                else if(AppConstant.currentRidingHistoryModel.IsRideStart !=-1){
+                    startRide.setVisibility(View.GONE);
+                    finishRide.setVisibility(View.VISIBLE);
+                }
             }
 
-            AllActionClick();
-
         }
-//        dialog.show();
+        AllActionClick();
+
+
     }
 
     void AllActionClick(){
@@ -279,25 +308,32 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     }
 
     void setUpMap(){
-        source = new LatLng(AppConstant.SOURCE_LATITUTE,AppConstant.SOURCE_LOGITUTE);
-        destination = new LatLng(AppConstant.DESTINATION_LATITUTE,AppConstant.DESTINATION_LOGITUTE);
-        if(connectionCheck.isGpsEnable() && connectionCheck.isNetworkConnected()){
-            // Getting URL to the Google Directions API
 
-            try {
-                String url = getDirectionsUrl(source, destination);
-                DownloadTask downloadTask = new DownloadTask(mMap,source,destination);
-                downloadTask.execute(url);
+        mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+            public void onMapLoaded() {
+                //do stuff here
+                source = new LatLng(AppConstant.SOURCE_LATITUTE,AppConstant.SOURCE_LOGITUTE);
+                destination = new LatLng(AppConstant.DESTINATION_LATITUTE,AppConstant.DESTINATION_LOGITUTE);
+                if(connectionCheck.isGpsEnable() && connectionCheck.isNetworkConnected()){
+                    // Getting URL to the Google Directions API
 
-            } catch (Exception e){
-                e.printStackTrace();
+                    try {
+                        String url = getDirectionsUrl(source, destination);
+                        DownloadTask downloadTask = new DownloadTask(mMap,source,destination);
+                        downloadTask.execute(url);
+
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+
+
+                }
+                else{
+                    Toast.makeText(OnRideModeActivity.this, "Connection Lost", Toast.LENGTH_SHORT).show();
+                }
             }
+        });
 
-
-        }
-        else{
-            Toast.makeText(OnRideModeActivity.this, "Connection Lost", Toast.LENGTH_SHORT).show();
-        }
     }
 
     @Override
@@ -447,6 +483,34 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     }
 
 
+
+    private void RejectRide() {
+        GetTime(FirebaseConstant.REJECT_RIDE);
+    }
+
+    private void GetTime(int type) {
+        FirebaseUtilMethod.getNetworkTime(type, this, this);
+    }
+
+    @Override
+    public void OnResponseServerTime(long Time, int type) {
+        if (Time > 0) {
+            if (Math.abs(FirebaseWrapper.getInstance().getNotificationModelInstance().time - Time) <= FirebaseConstant.ONE_MINUTE_IN_MILLISECOND) {
+                switch (type) {
+                    case FirebaseConstant.REJECT_RIDE: {
+                        new Main(this).ForcedRejectedRide(notificationModel.clientId);
+                        Onridecontext.finish();
+                        break;
+                    }
+                    case FirebaseConstant.ACCEPT_RIDE: {
+                        /* Not use yet */
+                        new Main(this).ForcedAcceptanceOfRide(FirebaseConstant.INITIAL_ACCEPTANCE);
+                        break;
+                    }
+                }
+            }
+        }
+    }
     @Override
     public void onStart() {
         super.onStart();
@@ -458,7 +522,6 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         super.onStop();
         AppConstant.ONRIDEMODE_ACTIVITY = false;
     }
-
 
 
 }

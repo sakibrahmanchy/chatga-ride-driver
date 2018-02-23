@@ -61,4 +61,5 @@ public class AppConstant {
     public static boolean USERCHECK_ACTIVITY = false;
     public static boolean MAIN_ACTIVITY = false;
     public static boolean ONRIDEMODE_ACTIVITY=false;
+    public static boolean SHOW_ACTIVITY_FOR_ACCEPT_AND_REJECT=false;
 }
