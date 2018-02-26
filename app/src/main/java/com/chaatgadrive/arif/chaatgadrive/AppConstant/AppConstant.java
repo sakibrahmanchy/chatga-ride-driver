@@ -55,6 +55,11 @@ public class AppConstant {
     public static final String CANCEL_RIDE_BODY = ("Client has canceled the ride");
     public static final String CANCEL_RIDE_TITLE = ("Ride Canceled");
     public static final int GET_SMS_PERMISSION = 1;
-    public static String CLIENT_NAME=null;
+    public static String CLIENT_NAME="UNKNOWN";
     public  static long PHONE_NUMBER=0;
+    public static boolean REGISTRATION_ACTIVITY = false;
+    public static boolean USERCHECK_ACTIVITY = false;
+    public static boolean MAIN_ACTIVITY = false;
+    public static boolean ONRIDEMODE_ACTIVITY=false;
+    public static boolean SHOW_ACTIVITY_FOR_ACCEPT_AND_REJECT=false;
 }

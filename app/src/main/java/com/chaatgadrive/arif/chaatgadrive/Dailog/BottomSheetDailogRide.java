@@ -65,7 +65,7 @@ public class BottomSheetDailogRide extends BottomSheetDialogFragment {
         userProfilePic =(ImageView) v.findViewById(R.id.profile);
         call = (ImageButton) v.findViewById(R.id.calling_request);
         userRidingPath =(TextView) v.findViewById(R.id.location);
-       userProfileName.setText(AppConstant.CLIENT_NAME);
+        userProfileName.setText(AppConstant.CLIENT_NAME);
         init();
         return v;
     }

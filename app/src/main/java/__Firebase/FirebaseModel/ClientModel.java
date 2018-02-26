@@ -22,12 +22,14 @@ public class ClientModel {
     public String FullName;
     public int IsSearchingOrOnRide;
     public String CurrentRidingHistoryID;
+    public String ImageUrl;
+    public String Ratting;
 
     public ClientModel(){
 
     }
 
-    public ClientModel(long _ClientID, long _PhoneNumber, String _DeviceToken, String _FullName, long _CostOfCurrentRide, int _IsSearchingOrOnRide, String _CurrentRidingHistoryID){
+    public ClientModel(long _ClientID, long _PhoneNumber, String _DeviceToken, String _FullName, long _CostOfCurrentRide, int _IsSearchingOrOnRide, String _CurrentRidingHistoryID, String _ImageUrl, String _Ratting){
         this.ClientID = _ClientID;
         this.PhoneNumber = _PhoneNumber;
         this.DeviceToken = _DeviceToken;
@@ -35,6 +37,8 @@ public class ClientModel {
         this.CostOfCurrentRide = _CostOfCurrentRide;
         this.IsSearchingOrOnRide = _IsSearchingOrOnRide;
         this.CurrentRidingHistoryID = _CurrentRidingHistoryID;
+        this.ImageUrl = _ImageUrl;
+        this.Ratting = _Ratting;
     }
 
     public void LoadData(DataSnapshot snapshot){
@@ -47,6 +51,8 @@ public class ClientModel {
             this.CostOfCurrentRide = clientModel.CostOfCurrentRide;
             this.IsSearchingOrOnRide = clientModel.IsSearchingOrOnRide;
             this.CurrentRidingHistoryID = clientModel.CurrentRidingHistoryID;
+            this.ImageUrl = clientModel.ImageUrl;
+            this.Ratting = clientModel.Ratting;
         }
         catch (Exception e){
             Log.d(FirebaseConstant.CLIENT_LOADED_ERROR, e.getStackTrace().toString());
@@ -61,5 +67,7 @@ public class ClientModel {
         this.CostOfCurrentRide = FirebaseConstant.UNKNOWN;
         this.IsSearchingOrOnRide = FirebaseConstant.UNKNOWN;
         this.CurrentRidingHistoryID = FirebaseConstant.Empty;
+        this.ImageUrl = FirebaseConstant.Empty;
+        this.Ratting = FirebaseConstant.Empty;
     }
 }

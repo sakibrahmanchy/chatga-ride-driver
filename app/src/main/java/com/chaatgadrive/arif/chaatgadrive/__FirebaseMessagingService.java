@@ -85,6 +85,7 @@ public class __FirebaseMessagingService extends FirebaseMessagingService {
                 clientModel.DeviceToken = notificationModel.clientDeviceToken;
             }
 
+            AppConstant.SHOW_ACTIVITY_FOR_ACCEPT_AND_REJECT=true;
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra(FirebaseConstant.RIDE_NOTIFICATION, FirebaseConstant.RIDE_NOTIFICATION);
             intent.setFlags(intent.FLAG_ACTIVITY_CLEAR_TOP);

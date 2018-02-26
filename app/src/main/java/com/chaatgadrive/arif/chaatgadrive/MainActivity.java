@@ -1,10 +1,9 @@
 package com.chaatgadrive.arif.chaatgadrive;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -22,10 +21,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
-import com.chaatgadrive.arif.chaatgadrive.Dailog.RiderDailog;
 import com.chaatgadrive.arif.chaatgadrive.InternetConnection.ConnectionCheck;
 import com.chaatgadrive.arif.chaatgadrive.InternetConnection.InternetCheckActivity;
 import com.chaatgadrive.arif.chaatgadrive.OnLocationChange.UpdateLocationService;
+import com.chaatgadrive.arif.chaatgadrive.OnrideMode.OnRideModeActivity;
 import com.chaatgadrive.arif.chaatgadrive.SharedPreferences.UserInformation;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.GetCurrentLocation;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.Mapfragment;
@@ -37,6 +36,7 @@ import com.google.android.gms.location.LocationRequest;
 
 import ContactWithFirebase.Main;
 import __Firebase.FirebaseUtility.FirebaseConstant;
+import __Firebase.FirebaseUtility.FirebaseUtilMethod;
 import __Firebase.FirebaseWrapper;
 import __Firebase.ICallbacklisteners.ICallBackCurrentServerTime;
 
@@ -55,10 +55,10 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
     private ConnectionCheck connectionCheck;
     private LoginData loginData;
     private UserInformation userInformation;
-    public static boolean check = false;
     private LocationCallback mLocationCallback;
     private LocationRequest mLocationRequest;
     public static Context contextOfApplication;
+    public static Activity MainActivityContext;
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -113,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
         setContentView(R.layout.activity_main);
         getCurrentLocation = new GetCurrentLocation(this);
         connectionCheck = new ConnectionCheck(this);
+        MainActivityContext = this;
         if (!connectionCheck.isNetworkConnected()) {
 
             Intent intent = new Intent(MainActivity.this, InternetCheckActivity.class);
@@ -121,34 +122,28 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
         } else if (!connectionCheck.isGpsEnable()) {
             connectionCheck.showGPSDisabledAlertToUser();
         } else {
-            manager.beginTransaction().replace(R.id.content, mapfragment, mapfragment.getTag()).commit();
+            SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
+            if (pref.getString("userData", null) == null) {
+                Intent intent = new Intent(MainActivity.this, UserCheckActivity.class);
+                startActivity(intent);
+            } else {
+                manager.beginTransaction().replace(R.id.content, mapfragment, mapfragment.getTag()).commit();
+                BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+                navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+                userInformation = new UserInformation(this);
+                loginData = userInformation.getuserInformation();
+                getCurrentLocation = new GetCurrentLocation(this);
+                this.MandatoryCall();
+            }
         }
 
         String notification = getIntent().getStringExtra(FirebaseConstant.RIDE_NOTIFICATION);
         if (notification != null) {
-            SwitchingActivity();
-            /*
-            *FirebaseUtilMethod.getNetworkTime(FirebaseConstant.GET_NOTIFICATION_TO_NOTIFY_RIDER, this, this);
-            */
-        }
-
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
-        if (pref.getString("userData", null) == null && !check) {
-            Intent intent = new Intent(MainActivity.this, UserCheckActivity.class);
-            startActivity(intent);
-        } else {
-            BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-            navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-            userInformation = new UserInformation(this);
-            loginData = userInformation.getuserInformation();
-            getCurrentLocation = new GetCurrentLocation(this);
-            connectionCheck = new ConnectionCheck(this);
-            this.MandatoryCall();
+            FirebaseUtilMethod.getNetworkTime(FirebaseConstant.GET_NOTIFICATION_TO_NOTIFY_RIDER, this, this);
         }
         //mTextMessage = (TextView) findViewById(R.id.message);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -180,12 +175,12 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
         OffOnSwitch = (Switch) v.findViewById(R.id.switch1);
         OffOnSwitch.setChecked(true);
 
-        if(AppConstant.OnOffSwith==1){
+        if (AppConstant.OnOffSwith == 1) {
             OffOnSwitch.setChecked(true);
             OffOnSwitch.setText("ON");
         }
 
-        if(AppConstant.OnOffSwith==0){
+        if (AppConstant.OnOffSwith == 0) {
             OffOnSwitch.setChecked(false);
             OffOnSwitch.setText("OFF");
         }
@@ -193,6 +188,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Toast.makeText(getApplicationContext(), "Refresh selected= " + isChecked, Toast.LENGTH_SHORT).show();
                 if (isChecked) {
+                    AppConstant.OnOffSwith = 1;
                     OffOnSwitch.setText("ON");
                     if (FirebaseWrapper.getInstance().getRiderModelInstance().RiderID > 0) {
                         main.SetRiderOnLineOrOffLine(
@@ -206,6 +202,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
                     }
                 } else {
                     OffOnSwitch.setText("OFF");
+                    AppConstant.OnOffSwith = 0;
                     if (FirebaseWrapper.getInstance().getRiderModelInstance().RiderID > 0) {
                         main.SetRiderOnLineOrOffLine(
                                 FirebaseWrapper.getInstance().getRiderModelInstance(),
@@ -229,48 +226,37 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
         if (loginData != null) {
             main.CreateNewRiderFirebase(loginData, userInformation.getRiderPhoneNumber());
         } else {
-            loginData = new LoginData();
-            loginData.userId = "1010";
-            loginData.riderId = "1010";
-            loginData.firstName = "Jobayer";
-            main.CreateNewRiderFirebase(loginData, "01752062838");
+            /*main.GetRiderStatus(Long.parseLong(loginData.getRiderId()));*/
         }
-
-        /*
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                final Pair newLocation = Pair.create(getCurrentLocation.getLatitude(), getCurrentLocation.getLongitude());
-                if (FirebaseWrapper.getInstance().getRiderModelInstance().RiderID > 0) {
-                    main.UpdateRiderLocation(
-                            FirebaseWrapper.getInstance().getRiderModelInstance(),
-                            newLocation
-                    );
-                    Log.d(FirebaseConstant.UPDATE_LOCATION_TIMER, FirebaseConstant.UPDATE_LOCATION_TIMER);
-                }
-                handler.postDelayed(this, 5000);
-            }
-        };
-        handler.postDelayed(runnable, 5000);
-        */
     }
 
     private void SwitchingActivity(){
-        RiderDailog riderDailog = new RiderDailog(MainActivity.this);
-        riderDailog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        riderDailog.show();
+       Intent intent = new Intent(MainActivity.this, OnRideModeActivity.class);
+       startActivity(intent);
     }
 
     @Override
     public void OnResponseServerTime(long Time, int type) {
-        if(Time > 0 && type == FirebaseConstant.GET_NOTIFICATION_TO_NOTIFY_RIDER){
-            if(Math.abs(FirebaseWrapper.getInstance().getNotificationModelInstance().time - Time) <= FirebaseConstant.ONE_MINUTE_IN_MILLISECOND){
-                //SwitchingActivity();
+        if (Time > 0 && type == FirebaseConstant.GET_NOTIFICATION_TO_NOTIFY_RIDER) {
+            if (Math.abs(FirebaseWrapper.getInstance().getNotificationModelInstance().time - Time) <= FirebaseConstant.ONE_MINUTE_IN_MILLISECOND) {
+                SwitchingActivity();
             }
         }
     }
 
-    public static Context getContextOfApplication(){
+    public static Context getContextOfApplication() {
         return contextOfApplication;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        AppConstant.MAIN_ACTIVITY = true;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        AppConstant.MAIN_ACTIVITY = false;
     }
 }

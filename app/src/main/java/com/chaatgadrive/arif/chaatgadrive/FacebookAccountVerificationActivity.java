@@ -152,6 +152,7 @@ public class FacebookAccountVerificationActivity extends AppCompatActivity {
             Intent intent = new Intent(FacebookAccountVerificationActivity.this, RegistrationActivity.class);
             intent.putExtra("phoneNumber",phoneNumber);
             startActivity(intent);
+            finish();
         }else if(getIntent().getStringExtra("loginStatus").equals("PHONE_VERIFICATION_REQUIRED")){
             Log.e(TAG, pref.getString("access_token",null));
             dialog = new ProgressDialog(FacebookAccountVerificationActivity.this);

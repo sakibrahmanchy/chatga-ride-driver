@@ -23,7 +23,7 @@ import com.google.gson.Gson;
 public class DistanceCalculationService extends Service {
     private static final String TAG = "BOOMBOOMTESTGPS";
     private LocationManager mLocationManager = null;
-    private static final int LOCATION_INTERVAL = 1000;
+    private static final int LOCATION_INTERVAL = 10000;
     private static final float LOCATION_DISTANCE = 10f;
     SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref",0);
     private SharedPreferences.Editor editor = pref.edit();
@@ -43,19 +43,22 @@ public class DistanceCalculationService extends Service {
         @Override
         public void onLocationChanged(Location location)
         {
-            LatLng SharePrefLatLon = new LatLng(userInformation.GetRidingDistance().getDestinationLat(),userInformation.GetRidingDistance().getDestinationLong());
-            LatLng currentLatlong = new LatLng(location.getLatitude(),location.getLongitude());
-            double Currentdistance= getDistanceFromMap.getDistance(currentLatlong,SharePrefLatLon);
+            if(location !=null){
+                LatLng SharePrefLatLon = new LatLng(userInformation.GetRidingDistance().getDestinationLat(),userInformation.GetRidingDistance().getDestinationLong());
+                LatLng currentLatlong = new LatLng(location.getLatitude(),location.getLongitude());
+                double Currentdistance= getDistanceFromMap.getDistance(currentLatlong,SharePrefLatLon);
 
-            distanceModel = userInformation.GetRidingDistance();
-            AppConstant.TOTAL_DISTANCE = distanceModel.getTotaldistance();
-            AppConstant.TOTAL_DISTANCE += (Currentdistance/1000.0);
-            distanceModel.setTotaldistance(AppConstant.TOTAL_DISTANCE);
-            Gson gson = new Gson();
-            String json = gson.toJson(distanceModel);
-            editor.putString("DistanceModel",json);
-            editor.commit();
-            Log.e(TAG, "onLocationChanged: " + location);
+                distanceModel = userInformation.GetRidingDistance();
+                AppConstant.TOTAL_DISTANCE = distanceModel.getTotaldistance();
+                AppConstant.TOTAL_DISTANCE += (Currentdistance/1000.0);
+                distanceModel.setTotaldistance(AppConstant.TOTAL_DISTANCE);
+                Gson gson = new Gson();
+                String json = gson.toJson(distanceModel);
+                editor.putString("DistanceModel",json);
+                editor.commit();
+                Log.e(TAG, "onLocationChanged: " + location);
+            }
+
         }
 
         @Override
