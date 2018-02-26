@@ -43,12 +43,12 @@ public class SetHistoryIDToClient {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 if(dataSnapshot.exists()) {
-                    HashMap<String, Object> UpdatedCost = new HashMap<>();
-                    UpdatedCost.put(FirebaseConstant.CURRENT_RIDING_HISTORY_ID, HistoryModel.HistoryID + (" ") + String.valueOf(Time));
+                    HashMap<String, Object> UpdateHistory = new HashMap<>();
+                    UpdateHistory.put(FirebaseConstant.CURRENT_RIDING_HISTORY_ID, HistoryModel.HistoryID + (" ") + String.valueOf(Time));
 
                     if (dataSnapshot.getChildren().iterator().hasNext()) {
                         DataSnapshot snp = dataSnapshot.getChildren().iterator().next();
-                        snp.getRef().updateChildren(UpdatedCost);
+                        snp.getRef().updateChildren(UpdateHistory);
                     }
                 }
             }

@@ -19,32 +19,31 @@ public class GetRiderStatus {
     long RiderID;
     ICallbackMain callBackListener;
 
-    public GetRiderStatus(long RiderID, ICallbackMain callBackListener){
+    public GetRiderStatus(long RiderID, ICallbackMain callBackListener) {
         this.RiderID = RiderID;
         this.callBackListener = callBackListener;
 
         Request();
     }
 
-    public void Request(){
+    public void Request() {
 
         final FirebaseWrapper firebaseWrapper = FirebaseWrapper.getInstance();
         firebaseWrapper.FirebaseRootReference.child(FirebaseConstant.RIDER).orderByChild(FirebaseConstant.RIDER_ID).equalTo(this.RiderID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists() && dataSnapshot.hasChildren()) {
+                if (dataSnapshot.exists() && dataSnapshot.hasChildren()) {
                     DataSnapshot snp = dataSnapshot.getChildren().iterator().next();
-                    if(snp.exists()) {
+                    if (snp.exists()) {
                         firebaseWrapper.getRiderModelInstance().LoadData(snp);
                         Log.d(FirebaseConstant.RIDER_LOADED, FirebaseConstant.RIDER_LOADED);
+                    } else {
+                        callBackListener.OnGetRiderStatus(false);
                     }
-                }
-                else{
+                } else {
                     callBackListener.OnGetRiderStatus(false);
                 }
             }
-
-
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -55,9 +54,9 @@ public class GetRiderStatus {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()) {
+                if (dataSnapshot.exists()) {
                     callBackListener.OnGetRiderStatus(true);
-                }else {
+                } else {
                     callBackListener.OnGetRiderStatus(false);
                 }
             }
