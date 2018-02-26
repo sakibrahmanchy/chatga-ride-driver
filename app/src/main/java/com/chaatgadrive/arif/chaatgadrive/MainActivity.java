@@ -253,7 +253,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
     public void OnResponseServerTime(long Time, int type) {
         long  x  = Math.abs(FirebaseWrapper.getInstance().getNotificationModelInstance().time -Time);
         if(Time > 0 && type == FirebaseConstant.GET_NOTIFICATION_TO_NOTIFY_RIDER){
-            if(Math.abs(FirebaseWrapper.getInstance().getNotificationModelInstance().time - Time) >= FirebaseConstant.ONE_MINUTE_IN_MILLISECOND){
+            if(Math.abs(FirebaseWrapper.getInstance().getNotificationModelInstance().time - Time) <= FirebaseConstant.ONE_MINUTE_IN_MILLISECOND){
                 SwitchingActivity();
             }
         }
