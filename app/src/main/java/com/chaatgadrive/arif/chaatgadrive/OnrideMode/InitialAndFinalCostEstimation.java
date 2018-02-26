@@ -121,6 +121,7 @@ public class InitialAndFinalCostEstimation {
                             riderHistory.StartingLocationName = notificationModel.sourceName;
                             riderHistory.EndingLocationName = notificationModel.destinationName;
                             main.CreateNewHistoryModelFirebase(riderHistory);
+                            SendPushNotification();
                         }
                         break;
                     case 500:
@@ -231,5 +232,9 @@ public class InitialAndFinalCostEstimation {
         Pair<Double, Double> finalDestination = Pair.create(AppConstant.PREVIOUS_LATLONG.latitude, AppConstant.PREVIOUS_LATLONG.longitude);
         long finalCost = (long)rideFinishData.getCostAfterDiscount();
         main.ForcedFinishedRide(finalCost, finalDestination);
+    }
+
+    private void SendPushNotification() {
+        new Main(Onridecontext).ForcedAcceptanceOfRide(FirebaseConstant.INITIAL_ACCEPTANCE);
     }
 }

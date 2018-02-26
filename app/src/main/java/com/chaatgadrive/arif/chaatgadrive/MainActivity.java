@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -23,10 +21,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
-import com.chaatgadrive.arif.chaatgadrive.Dailog.RiderDailog;
 import com.chaatgadrive.arif.chaatgadrive.InternetConnection.ConnectionCheck;
 import com.chaatgadrive.arif.chaatgadrive.InternetConnection.InternetCheckActivity;
 import com.chaatgadrive.arif.chaatgadrive.OnLocationChange.UpdateLocationService;
+import com.chaatgadrive.arif.chaatgadrive.OnrideMode.OnRideModeActivity;
 import com.chaatgadrive.arif.chaatgadrive.SharedPreferences.UserInformation;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.GetCurrentLocation;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.Mapfragment;
@@ -222,6 +220,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
     }
 
     private void MandatoryCall() {
+        new Main(this);
         Intent intent = new Intent(MainActivity.this, UpdateLocationService.class);
         startService(intent);
         if (loginData != null) {
@@ -231,10 +230,9 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
         }
     }
 
-    private void SwitchingActivity() {
-        RiderDailog riderDailog = new RiderDailog(MainActivity.this);
-        riderDailog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        riderDailog.show();
+    private void SwitchingActivity(){
+       Intent intent = new Intent(MainActivity.this, OnRideModeActivity.class);
+       startActivity(intent);
     }
 
     @Override

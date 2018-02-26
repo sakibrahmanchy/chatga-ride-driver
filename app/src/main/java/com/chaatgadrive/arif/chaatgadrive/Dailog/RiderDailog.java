@@ -83,7 +83,6 @@ public class RiderDailog extends Dialog implements android.view.View.OnClickList
                 Intent intent = new Intent(getContext(), OnRideModeActivity.class);
                 getContext().startActivity(intent);
                 SendPushNotification();
-                myContext.finish();
                 cancelAlarm();
                 break;
             case R.id.btn_no:
