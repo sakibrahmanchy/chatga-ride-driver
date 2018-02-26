@@ -113,7 +113,8 @@
             android:exported="false" />
 
         <activity android:name=".FinishRideActivity.FinishRideActivity"
-           >
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
     </application>

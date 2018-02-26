@@ -205,8 +205,8 @@ public class RegistrationActivity extends Activity {
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 Calendar newDate = Calendar.getInstance();
                 Log.d(TAG, dayOfMonth+"");
-                newDate.set(year, monthOfYear, dayOfMonth);
-                birthDayText.setText(year+"-"+monthOfYear+"-"+dayOfMonth);
+                newDate.set(year, (monthOfYear+1), dayOfMonth);
+                birthDayText.setText(year+"-"+(monthOfYear+1)+"-"+dayOfMonth);
             }
 
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
