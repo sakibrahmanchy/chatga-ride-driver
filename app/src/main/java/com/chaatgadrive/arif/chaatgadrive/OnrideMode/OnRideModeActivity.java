@@ -43,6 +43,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -152,7 +153,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
             bootmsheet.setVisibility(View.GONE);
             sourceAdress.setText(notificationModel.sourceName);
             Currentclient_Name.setText(notificationModel.clientName);
-            totalCost.setText("Etimated: "+notificationModel.totalCost);
+                   totalCost.setText("Etimated: "+notificationModel.totalCost);
             destinationAdress.setText(notificationModel.destinationName);
             accepRide.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -193,6 +194,12 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                 AppConstant.ON_RIDE_MODE=1;
                 AppConstant.CLIENT_NAME = AppConstant.ClientModel.FullName;
                 AppConstant.PHONE_NUMBER = AppConstant.ClientModel.PhoneNumber;
+                Picasso.with(this).invalidate(AppConstant.ClientModel.ImageUrl);
+                Picasso.with(this)
+                        .load(AppConstant.ClientModel.ImageUrl)
+                        .placeholder(R.drawable.profile_image)
+                        .error(R.drawable.profile_image)
+                        .into(clientProfileImage);
 
 
                 if(AppConstant.currentRidingHistoryModel.IsRideStart==0){
