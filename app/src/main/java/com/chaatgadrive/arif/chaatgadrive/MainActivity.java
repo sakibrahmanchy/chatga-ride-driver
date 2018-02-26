@@ -55,11 +55,10 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
     private ConnectionCheck connectionCheck;
     private LoginData loginData;
     private UserInformation userInformation;
-    public static boolean check = false;
     private LocationCallback mLocationCallback;
     private LocationRequest mLocationRequest;
     public static Context contextOfApplication;
-    public static Activity MainActivityContext ;
+    public static Activity MainActivityContext;
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -114,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
         setContentView(R.layout.activity_main);
         getCurrentLocation = new GetCurrentLocation(this);
         connectionCheck = new ConnectionCheck(this);
-        MainActivityContext =this;
+        MainActivityContext = this;
         if (!connectionCheck.isNetworkConnected()) {
 
             Intent intent = new Intent(MainActivity.this, InternetCheckActivity.class);
@@ -137,21 +136,14 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
                 getCurrentLocation = new GetCurrentLocation(this);
                 this.MandatoryCall();
             }
-
         }
 
         String notification = getIntent().getStringExtra(FirebaseConstant.RIDE_NOTIFICATION);
         if (notification != null) {
-           // SwitchingActivity();
-
             FirebaseUtilMethod.getNetworkTime(FirebaseConstant.GET_NOTIFICATION_TO_NOTIFY_RIDER, this, this);
-
         }
-
-
         //mTextMessage = (TextView) findViewById(R.id.message);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -183,12 +175,12 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
         OffOnSwitch = (Switch) v.findViewById(R.id.switch1);
         OffOnSwitch.setChecked(true);
 
-        if(AppConstant.OnOffSwith==1){
+        if (AppConstant.OnOffSwith == 1) {
             OffOnSwitch.setChecked(true);
             OffOnSwitch.setText("ON");
         }
 
-        if(AppConstant.OnOffSwith==0){
+        if (AppConstant.OnOffSwith == 0) {
             OffOnSwitch.setChecked(false);
             OffOnSwitch.setText("OFF");
         }
@@ -196,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Toast.makeText(getApplicationContext(), "Refresh selected= " + isChecked, Toast.LENGTH_SHORT).show();
                 if (isChecked) {
-                    AppConstant.OnOffSwith=1;
+                    AppConstant.OnOffSwith = 1;
                     OffOnSwitch.setText("ON");
                     if (FirebaseWrapper.getInstance().getRiderModelInstance().RiderID > 0) {
                         main.SetRiderOnLineOrOffLine(
@@ -210,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
                     }
                 } else {
                     OffOnSwitch.setText("OFF");
-                    AppConstant.OnOffSwith=0;
+                    AppConstant.OnOffSwith = 0;
                     if (FirebaseWrapper.getInstance().getRiderModelInstance().RiderID > 0) {
                         main.SetRiderOnLineOrOffLine(
                                 FirebaseWrapper.getInstance().getRiderModelInstance(),
@@ -234,14 +226,8 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
         if (loginData != null) {
             main.CreateNewRiderFirebase(loginData, userInformation.getRiderPhoneNumber());
         } else {
-            loginData = new LoginData();
-            loginData.userId = "1010";
-            loginData.riderId = "1010";
-            loginData.firstName = "Jobayer";
-            main.CreateNewRiderFirebase(loginData, "01752062838");
+            /*main.GetRiderStatus(Long.parseLong(loginData.getRiderId()));*/
         }
-
-
     }
 
     private void SwitchingActivity(){
@@ -251,15 +237,14 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
 
     @Override
     public void OnResponseServerTime(long Time, int type) {
-        long  x  = Math.abs(FirebaseWrapper.getInstance().getNotificationModelInstance().time -Time);
-        if(Time > 0 && type == FirebaseConstant.GET_NOTIFICATION_TO_NOTIFY_RIDER){
-            if(Math.abs(FirebaseWrapper.getInstance().getNotificationModelInstance().time - Time) <= FirebaseConstant.ONE_MINUTE_IN_MILLISECOND){
+        if (Time > 0 && type == FirebaseConstant.GET_NOTIFICATION_TO_NOTIFY_RIDER) {
+            if (Math.abs(FirebaseWrapper.getInstance().getNotificationModelInstance().time - Time) <= FirebaseConstant.ONE_MINUTE_IN_MILLISECOND) {
                 SwitchingActivity();
             }
         }
     }
 
-    public static Context getContextOfApplication(){
+    public static Context getContextOfApplication() {
         return contextOfApplication;
     }
 

@@ -38,12 +38,14 @@ public class RiderModel {
     public long OnlineBusyOnRide;
     public RiderLocation CurrentRiderLocation;
     public long DistanceFromClient;
+    public String ImageUrl;
+    public String Ratting;
 
     public RiderModel(){
         CurrentRiderLocation = new RiderLocation();
     }
 
-    public RiderModel(long _RiderID, long _PhoneNumber, String _DeviceToken, String _FullName, long _IsRiderOnline, long _IsRiderBusy, long _IsRiderOnRide, long _CurrentRidingHistoryID, long _OnlineBusyOnRide, RiderLocation _RiderLocation){
+    public RiderModel(long _RiderID, long _PhoneNumber, String _DeviceToken, String _FullName, long _IsRiderOnline, long _IsRiderBusy, long _IsRiderOnRide, long _CurrentRidingHistoryID, long _OnlineBusyOnRide, RiderLocation _RiderLocation, String _ImageUrl, String _Ratting){
         this.RiderID = _RiderID;
         this.PhoneNumber = _PhoneNumber;
         this.DeviceToken = _DeviceToken;
@@ -54,6 +56,8 @@ public class RiderModel {
         this.CurrentRidingHistoryID = _CurrentRidingHistoryID;
         this.OnlineBusyOnRide = _OnlineBusyOnRide;
         this.CurrentRiderLocation = _RiderLocation;
+        this.ImageUrl = _ImageUrl;
+        this.Ratting = _Ratting;
     }
 
     public void LoadData(DataSnapshot snapshot){
@@ -69,6 +73,8 @@ public class RiderModel {
         this.CurrentRidingHistoryID = riderModel.CurrentRidingHistoryID;
         this.OnlineBusyOnRide = riderModel.OnlineBusyOnRide;
         this.CurrentRiderLocation = riderModel.CurrentRiderLocation;
+        this.ImageUrl = riderModel.ImageUrl;
+        this.Ratting = riderModel.Ratting;
 
         this.DistanceFromClient = this.DistanceBetweenTwoPoint(null, null);
     }

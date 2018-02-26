@@ -116,7 +116,11 @@ public class FirebaseWrapper {
 
     public static String getDeviceToken() {
         Log.d(FirebaseConstant.FIREBASE_TOKEN, FirebaseInstanceId.getInstance().getToken().toString());
-        return FirebaseInstanceId.getInstance().getToken().toString();
+        if(FirebaseInstanceId.getInstance() != null) {
+            return FirebaseInstanceId.getInstance().getToken().toString();
+        }else{
+            return FirebaseConstant.FIREBASE_NOT_INITIALIZE;
+        }
     }
 
     public void ResponseUpdateLocation(RiderModel Rider) {

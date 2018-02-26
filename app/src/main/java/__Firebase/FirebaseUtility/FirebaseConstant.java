@@ -116,6 +116,7 @@ public class FirebaseConstant {
     public static String REJECT_RIDE_BY_RIDER = "REJECT_RIDE_BY_RIDER";
     public static String RESPONSE_INITIAL_AC_NOTF = "RESPONSE_INITIAL_AC_NOTF";
     public static String NOTIFICATION_RESPONSE = "NOTIFICATION_RESPONSE";
+    public static String FIREBASE_NOT_INITIALIZE = "FIREBASE_NOT_INITIALIZE";
 
     /*Notification Action Type*/
     public static final String RIDER_TO_CLIENT = "3012";
@@ -143,6 +144,8 @@ public class FirebaseConstant {
     /*Constant Value*/
     public static long ONE_MINUTE_IN_MILLISECOND = 60000;
     public static int ZERO = 0;
+
+    public static long LONG_HISTORY_ID = -100;
 
     public FirebaseConstant(){
     }
