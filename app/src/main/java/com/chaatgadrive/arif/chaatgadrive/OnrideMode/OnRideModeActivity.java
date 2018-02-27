@@ -91,6 +91,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     private LinearLayout AccepAndReject,StartAndFinish;
     private NestedScrollView bootmsheet;
     private TextView accepRide,rejectRide,sourceAdress,destinationAdress,totalCost,dateTime,Currentclient_Name;
+    public  static Activity onRideModeContext;
 
 
     @Override
@@ -118,13 +119,14 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         clientName = (TextView) findViewById(R.id.client_name);
         clientProfileImage =(ImageView) findViewById(R.id.Client_profile_pic);
         clientRating =(TextView) findViewById(R.id.client_rating);
-        accepRide = findViewById(R.id.accept_ride);
-        rejectRide =findViewById(R.id.reject_ride);
-        sourceAdress =findViewById(R.id.source_address);
-        destinationAdress =findViewById(R.id.destination_address);
-        totalCost = findViewById(R.id.total_fare);
-        dateTime =findViewById(R.id.date_time);
-        Currentclient_Name = findViewById(R.id.current_client_name);
+        accepRide = (TextView) findViewById(R.id.accept_ride);
+        rejectRide =(TextView) findViewById(R.id.reject_ride);
+        sourceAdress =(TextView) findViewById(R.id.source_address);
+        destinationAdress =(TextView) findViewById(R.id.destination_address);
+        totalCost = (TextView) findViewById(R.id.total_fare);
+        dateTime =(TextView) findViewById(R.id.date_time);
+        Currentclient_Name =(TextView) findViewById(R.id.current_client_name);
+        onRideModeContext =this;
 
 
         bottomSheet = findViewById( R.id.bottom_sheet );
@@ -132,9 +134,9 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         mBottomSheetBehavior.setPeekHeight(150);
         mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         mBottomSheetBehavior.setHideable(false);
-        AccepAndReject = findViewById(R.id.accep_reject_card_layout);
-        StartAndFinish = findViewById(R.id.start_and_finish_layout);
-        bootmsheet = findViewById(R.id.bottom_sheet);
+        AccepAndReject =(LinearLayout) findViewById(R.id.accep_reject_card_layout);
+        StartAndFinish = (LinearLayout) findViewById(R.id.start_and_finish_layout);
+        bootmsheet =(NestedScrollView ) findViewById(R.id.bottom_sheet);
 
         if(notificationModel.clientId !=0){
             AppConstant.DESTINATION_NAME = notificationModel.destinationName;
@@ -153,7 +155,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
             bootmsheet.setVisibility(View.GONE);
             sourceAdress.setText(notificationModel.sourceName);
             Currentclient_Name.setText(notificationModel.clientName);
-                   totalCost.setText("Etimated: "+notificationModel.totalCost);
+                   totalCost.setText("Estimated: "+notificationModel.totalCost);
             destinationAdress.setText(notificationModel.destinationName);
             accepRide.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -248,12 +250,11 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                     AppConstant.ON_RIDE_MODE=1;
                     distanceModel.setSourceLat(getCurrentLocation.getLatitude());
                     distanceModel.setDestinationLat(getCurrentLocation.getLongitude());
+                    editor.remove("DistanceModel");
                     Gson gson = new Gson();
-
                     String json = gson.toJson(distanceModel);
                     editor.putString("DistanceModel",json);
                     editor.commit();
-
                     initialAndFinalCostEstimation.UpdateStartRide(AppConstant.CURRENT_HISTORY_ID);
                     AppConstant.PREVIOUS_LATLONG = new LatLng(getCurrentLocation.getLatitude(),getCurrentLocation.getLongitude());
 
@@ -443,7 +444,6 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                                    Intent intent = new Intent(OnRideModeActivity.this, MainActivity.class);
                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                    startActivity(intent);
-                                   finish();
                                }
                            }).create().show();
                }
@@ -525,11 +525,9 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
         AppConstant.ONRIDEMODE_ACTIVITY = false;
     }
-
-
 }
 

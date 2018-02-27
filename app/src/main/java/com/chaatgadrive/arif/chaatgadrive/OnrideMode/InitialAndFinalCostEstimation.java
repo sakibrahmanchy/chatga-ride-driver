@@ -203,7 +203,6 @@ public class InitialAndFinalCostEstimation {
                         if(response.body().isSuccess()){
                             Intent intent = new Intent(mContext, DistanceCalculationService.class);
                             mContext.stopService(intent);
-                            userInformation.RemoveRidingDistance();
                             rideFinishData = response.body().getData();
                             ForceFinishedRide();
                             AppConstant.TOTAL_RIDING_COST = (int)rideFinishData.getCostAfterDiscount();

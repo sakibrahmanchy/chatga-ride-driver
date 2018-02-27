@@ -1,12 +1,19 @@
 package com.chaatgadrive.arif.chaatgadrive.OnrideMode;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.TypedValue;
+
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+
+import static com.chaatgadrive.arif.chaatgadrive.OnrideMode.OnRideModeActivity.onRideModeContext;
 
 /**
  * Created by Arif on 11/12/2017.
@@ -27,22 +34,37 @@ public class ShowDerectionInGoogleMap {
     }
 
     public  void placeDirection(){
+        mMap.addMarker(new MarkerOptions().position(destination).icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("ic_marker_destination",200,200))).anchor(.5f,.5f));//.icon(BitmapDescriptorFactory.fromBitmap(resizedMarker(200,200) )));
         mMap.addMarker(new MarkerOptions()
-                .position(destination));
-        mMap.addMarker(new MarkerOptions()
-                .position(source));
-
+                .position(source).icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("ic_marker_pickup",400,300))).anchor(.5f,.5f));
         mMap.addPolyline(polylineOptions);
+
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
         builder.include(source).include(destination);
 
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(builder.build(), 30);
+        TypedValue tv = new TypedValue();
+        int googleMapPadding=0;
+        if (onRideModeContext.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
+        {
+            googleMapPadding = TypedValue.complexToDimensionPixelSize(tv.data,onRideModeContext.getResources().getDisplayMetrics());
+        }
+
+
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(builder.build(), googleMapPadding+100);
+
+
         try {
             mMap.animateCamera(cameraUpdate);
+            mMap.setLatLngBoundsForCameraTarget(builder.build());
         }catch (Exception e){
             e.printStackTrace();
         }
 
+    }
+
+    public Bitmap resizeMapIcons(String iconName, int width, int height){
+        Bitmap decodeResource = BitmapFactory.decodeResource(onRideModeContext.getResources(),onRideModeContext.getResources().getIdentifier(iconName, "drawable", onRideModeContext.getPackageName()));
+        return Bitmap.createScaledBitmap(decodeResource, (int) (((double) decodeResource.getWidth()) * .25d), (int) (((double) decodeResource.getHeight()) * .25d), false);
     }
 
 }
