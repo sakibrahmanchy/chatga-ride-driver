@@ -160,7 +160,6 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
             accepRide.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AppConstant.mediaPlayer.release();
                     initialAndFinalCostEstimation.CreateInitialHistory();
                     AppConstant.SHOW_ACTIVITY_FOR_ACCEPT_AND_REJECT=false;
                     AccepAndReject.setVisibility(View.GONE);
@@ -174,7 +173,6 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
             rejectRide.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AppConstant.mediaPlayer.release();
                     RejectRide();
                     finish();
                 }

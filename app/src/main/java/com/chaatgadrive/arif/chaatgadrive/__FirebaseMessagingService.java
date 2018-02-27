@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
+import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
@@ -98,23 +99,13 @@ public class __FirebaseMessagingService extends FirebaseMessagingService {
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 
-            Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            Uri sound = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.siren);
             builder.setSound(sound);
             builder.setContentTitle(notificationModel.title);
             builder.setContentText(notificationModel.body);
             builder.setAutoCancel(true);
             builder.setSmallIcon(R.mipmap.ic_launcher);
             builder.setContentIntent(pendingIntent);
-
-            try {
-                AssetFileDescriptor afd = this.getAssets().openFd("rider_alarm.mp3");
-                AppConstant.mediaPlayer.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-                AppConstant.mediaPlayer.prepare();
-                AppConstant.mediaPlayer.start();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
 
             NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.notify(0, builder.build());
