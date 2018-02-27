@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
@@ -12,6 +13,8 @@ import android.util.Log;
 import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+
+import java.io.IOException;
 
 import __Firebase.FirebaseModel.ClientModel;
 import __Firebase.FirebaseResponse.NotificationModel;
@@ -102,6 +105,16 @@ public class __FirebaseMessagingService extends FirebaseMessagingService {
             builder.setAutoCancel(true);
             builder.setSmallIcon(R.mipmap.ic_launcher);
             builder.setContentIntent(pendingIntent);
+
+            try {
+                AssetFileDescriptor afd = this.getAssets().openFd("rider_alarm.mp3");
+                AppConstant.mediaPlayer.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+                AppConstant.mediaPlayer.prepare();
+                AppConstant.mediaPlayer.start();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.notify(0, builder.build());

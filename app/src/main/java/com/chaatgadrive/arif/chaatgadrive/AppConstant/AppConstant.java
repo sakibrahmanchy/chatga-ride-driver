@@ -1,6 +1,7 @@
 package com.chaatgadrive.arif.chaatgadrive.AppConstant;
 
 import android.location.Location;
+import android.media.MediaPlayer;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -62,4 +63,5 @@ public class AppConstant {
     public static boolean MAIN_ACTIVITY = false;
     public static boolean ONRIDEMODE_ACTIVITY=false;
     public static boolean SHOW_ACTIVITY_FOR_ACCEPT_AND_REJECT=false;
+    public static MediaPlayer mediaPlayer = new MediaPlayer();
 }
