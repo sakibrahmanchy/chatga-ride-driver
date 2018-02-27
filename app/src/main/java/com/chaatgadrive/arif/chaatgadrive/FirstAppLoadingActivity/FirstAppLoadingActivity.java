@@ -14,11 +14,14 @@ import com.chaatgadrive.arif.chaatgadrive.SharedPreferences.UserInformation;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginData;
 import com.google.android.gms.maps.model.LatLng;
 
+import ContactWithFirebase.Main;
+
 public class FirstAppLoadingActivity extends AppCompatActivity {
 
     private UserInformation userInformation;
     private LoginData loginData;
     private Handler handler = new Handler();
+    private Main main =new Main(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +30,7 @@ public class FirstAppLoadingActivity extends AppCompatActivity {
         userInformation = new UserInformation(this);
         loginData = userInformation.getuserInformation();
         if (loginData != null) {
+            main.GetRiderStatus(Long.parseLong(userInformation.getuserInformation().getRiderId()));
             InitializeApp();
         } else {
             Intent intent = new Intent(FirstAppLoadingActivity.this, MainActivity.class);
