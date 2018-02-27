@@ -66,6 +66,8 @@ public class __FirebaseMessagingService extends FirebaseMessagingService {
                 notificationModel.clientName = remoteMessage.getData().containsKey("clientName") ? remoteMessage.getData().get("clientName") : FirebaseConstant.Empty;
                 notificationModel.clientPhone = remoteMessage.getData().containsKey("clientPhone") ? remoteMessage.getData().get("clientPhone") : FirebaseConstant.Empty;
                 notificationModel.clientDeviceToken = remoteMessage.getData().containsKey("clientDeviceToken") ? remoteMessage.getData().get("clientDeviceToken") : FirebaseConstant.Empty;
+                notificationModel.clientImageUrl = remoteMessage.getData().containsKey("clientImageUrl") ? remoteMessage.getData().get("clientImageUrl") : FirebaseConstant.Empty;
+                notificationModel.clientRatting = remoteMessage.getData().containsKey("clientRatting") ? remoteMessage.getData().get("clientRatting") : FirebaseConstant.Empty;
                 notificationModel.riderId = Long.parseLong(remoteMessage.getData().containsKey("riderId") ? remoteMessage.getData().get("riderId") : "0");
                 notificationModel.sourceName = remoteMessage.getData().containsKey("sourceName") ? remoteMessage.getData().get("sourceName") : FirebaseConstant.Empty;
                 notificationModel.destinationName = remoteMessage.getData().containsKey("destinationName") ? remoteMessage.getData().get("destinationName") : FirebaseConstant.Empty;
@@ -85,7 +87,7 @@ public class __FirebaseMessagingService extends FirebaseMessagingService {
                 clientModel.DeviceToken = notificationModel.clientDeviceToken;
             }
 
-            AppConstant.SHOW_ACTIVITY_FOR_ACCEPT_AND_REJECT=true;
+            AppConstant.SHOW_ACTIVITY_FOR_ACCEPT_AND_REJECT = true;
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra(FirebaseConstant.RIDE_NOTIFICATION, FirebaseConstant.RIDE_NOTIFICATION);
             intent.setFlags(intent.FLAG_ACTIVITY_CLEAR_TOP);
