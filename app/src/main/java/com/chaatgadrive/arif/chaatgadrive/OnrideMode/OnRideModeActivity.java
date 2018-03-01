@@ -93,7 +93,6 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     private TextView accepRide,rejectRide,sourceAdress,destinationAdress,totalCost,dateTime,Currentclient_Name;
     public  static Activity onRideModeContext;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -169,7 +168,6 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                 }
             });
 
-
             rejectRide.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -184,7 +182,6 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
             startRide.setVisibility(View.VISIBLE);
             finishRide.setVisibility(View.INVISIBLE);
             if(AppConstant.currentRidingHistoryModel !=null){
-
                 AppConstant.CURRENT_HISTORY_ID = (int)AppConstant.currentRidingHistoryModel.HistoryID;
                 AppConstant.SOURCE_NAME = AppConstant.currentRidingHistoryModel.StartingLocation.LocationName;
                 AppConstant.DESTINATION_NAME =AppConstant.currentRidingHistoryModel.EndingLocation.LocationName;
@@ -202,7 +199,6 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                         .placeholder(R.drawable.profile_image)
                         .error(R.drawable.profile_image)
                         .into(clientProfileImage);
-
 
                 if(AppConstant.currentRidingHistoryModel.IsRideStart==0){
                     startRide.setVisibility(View.VISIBLE);

@@ -1,9 +1,14 @@
 package com.chaatgadrive.arif.chaatgadrive.FirstAppLoadingActivity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
 import com.chaatgadrive.arif.chaatgadrive.MainActivity;
@@ -11,6 +16,7 @@ import com.chaatgadrive.arif.chaatgadrive.OnLocationChange.UpdateLocationService
 import com.chaatgadrive.arif.chaatgadrive.OnrideMode.OnRideModeActivity;
 import com.chaatgadrive.arif.chaatgadrive.R;
 import com.chaatgadrive.arif.chaatgadrive.SharedPreferences.UserInformation;
+import com.chaatgadrive.arif.chaatgadrive.UserCheckActivity;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginData;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -22,6 +28,9 @@ public class FirstAppLoadingActivity extends AppCompatActivity {
     private LoginData loginData;
     private Handler handler = new Handler();
     private Main main =new Main(this);
+    private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
+    private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +42,7 @@ public class FirstAppLoadingActivity extends AppCompatActivity {
             main.GetRiderStatus(Long.parseLong(userInformation.getuserInformation().getRiderId()));
             InitializeApp();
         } else {
+            getLocationPermission();
             Intent intent = new Intent(FirstAppLoadingActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
@@ -82,6 +92,33 @@ public class FirstAppLoadingActivity extends AppCompatActivity {
                 finish();
                 startActivity(intent);
             }
+        }
+    }
+
+    private void getLocationPermission() {
+        Log.d("", "getLocationPermission: getting location permissions");
+        String[] permissions = {android.Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION};
+
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                    COURSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+
+            } else {
+                Intent intent = new Intent(this, UserCheckActivity.class);
+                startActivity(intent);
+                ActivityCompat.requestPermissions(this,
+                        permissions,LOCATION_PERMISSION_REQUEST_CODE);
+
+            }
+        } else {
+
+            Intent intent = new Intent(this, UserCheckActivity.class);
+            startActivity(intent);
+            ActivityCompat.requestPermissions(this,
+                    permissions,
+                    LOCATION_PERMISSION_REQUEST_CODE);
         }
     }
 }
