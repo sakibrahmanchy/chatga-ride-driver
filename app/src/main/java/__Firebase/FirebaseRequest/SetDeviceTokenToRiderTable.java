@@ -21,11 +21,13 @@ import __Firebase.ICallbacklisteners.ICallbackMain;
 public class SetDeviceTokenToRiderTable {
 
     private RiderModel Rider;
+    private String DeviceToken;
     private ICallbackMain iCallbackMain = null;
 
-    public SetDeviceTokenToRiderTable(RiderModel riderModel, ICallbackMain iCallbackMain){
+    public SetDeviceTokenToRiderTable(RiderModel riderModel, String deviceToken, ICallbackMain iCallbackMain){
         this.Rider = riderModel;
         this.iCallbackMain = iCallbackMain;
+        this.DeviceToken = deviceToken;
 
         this.Request();
     }
@@ -42,7 +44,7 @@ public class SetDeviceTokenToRiderTable {
                     if (dataSnapshot.getChildren().iterator().hasNext()) {
 
                         Map<String, Object> update = new HashMap<>();
-                        update.put(FirebaseConstant.DEVICE_TOKEN, Rider.DeviceToken);
+                        update.put(FirebaseConstant.DEVICE_TOKEN, DeviceToken);
                         dataSnapshot.getChildren().iterator().next().getRef().updateChildren(update);
 
                         Log.d(FirebaseConstant.DEVICE_TOKEN_UPDATE, FirebaseConstant.DEVICE_TOKEN_UPDATE);

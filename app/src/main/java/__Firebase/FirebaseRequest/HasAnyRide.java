@@ -19,52 +19,36 @@ public class HasAnyRide {
     private long RiderID = 0;
     private ICallbackMain callBackListener = null;
 
-    public HasAnyRide(long RiderID, ICallbackMain callBackListener){
+    public HasAnyRide(long RiderID, ICallbackMain callBackListener) {
         this.RiderID = RiderID;
         this.callBackListener = callBackListener;
 
         Request();
     }
 
-    public void Request(){
+    public void Request() {
 
         final FirebaseWrapper firebaseWrapper = FirebaseWrapper.getInstance();
         firebaseWrapper.FirebaseRootReference.child(FirebaseConstant.RIDER).orderByChild(FirebaseConstant.RIDER_ID).equalTo(this.RiderID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists() && dataSnapshot.hasChildren()) {
+                if (dataSnapshot.exists() && dataSnapshot.hasChildren()) {
                     DataSnapshot snp = dataSnapshot.getChildren().iterator().next();
-                    if(snp.exists()) {
+                    if (snp.exists()) {
                         firebaseWrapper.getRiderModelInstance().LoadData(snp);
+                        callBackListener.OnHasAnyRide(true);
                         Log.d(FirebaseConstant.RIDER_LOADED, FirebaseConstant.RIDER_LOADED);
+                    } else {
+                        callBackListener.OnHasAnyRide(false);
                     }
-
-                }
-                else{
+                } else {
                     callBackListener.OnHasAnyRide(false);
                 }
-
             }
-
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 callBackListener.OnHasAnyRide(false);
-            }
-        });
-        firebaseWrapper.FirebaseRootReference.child(FirebaseConstant.RIDER).orderByChild(FirebaseConstant.RIDER_ID).equalTo(this.RiderID).addListenerForSingleValueEvent(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()) {
-                    callBackListener.OnHasAnyRide(true);
-                }else {
-                    callBackListener.OnHasAnyRide(false);
-                }
-            }
-            public void onCancelled(DatabaseError databaseError) {
-                callBackListener.OnHasAnyRide(false);
-                Log.d(FirebaseConstant.HISTORY_LOADED_ERROR, databaseError.toString());
             }
         });
     }

@@ -147,6 +147,12 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
             AppConstant.CURRENT_CLIENT_DISCOUNT_ID = (int) notificationModel.discountID;
             AppConstant.CLIENT_NAME = notificationModel.clientName;
             AppConstant.PHONE_NUMBER = Long.parseLong(notificationModel.clientPhone);
+            Picasso.with(this).invalidate(notificationModel.clientImageUrl);
+            Picasso.with(this)
+                    .load(notificationModel.clientImageUrl)
+                    .placeholder(R.drawable.profile_image)
+                    .error(R.drawable.profile_image)
+                    .into(clientProfileImage);
         }
 
         if(AppConstant.SHOW_ACTIVITY_FOR_ACCEPT_AND_REJECT){
@@ -323,7 +329,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
 
                     try {
                         String url = getDirectionsUrl(source, destination);
-                        DownloadTask downloadTask = new DownloadTask(mMap,source,destination);
+                        DownloadTask downloadTask = new DownloadTask(OnRideModeActivity.this, mMap,source,destination);
                         downloadTask.execute(url);
 
                     } catch (Exception e){

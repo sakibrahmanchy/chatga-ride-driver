@@ -36,6 +36,7 @@ public class GetRiderStatus {
                     DataSnapshot snp = dataSnapshot.getChildren().iterator().next();
                     if (snp.exists()) {
                         firebaseWrapper.getRiderModelInstance().LoadData(snp);
+                        callBackListener.OnGetRiderStatus(true);
                         Log.d(FirebaseConstant.RIDER_LOADED, FirebaseConstant.RIDER_LOADED);
                     } else {
                         callBackListener.OnGetRiderStatus(false);
@@ -48,22 +49,6 @@ public class GetRiderStatus {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 callBackListener.OnGetRiderStatus(false);
-            }
-        });
-        firebaseWrapper.FirebaseRootReference.child(FirebaseConstant.RIDER).orderByChild(FirebaseConstant.RIDER_ID).equalTo(this.RiderID).addListenerForSingleValueEvent(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    callBackListener.OnGetRiderStatus(true);
-                } else {
-                    callBackListener.OnGetRiderStatus(false);
-                }
-            }
-
-            public void onCancelled(DatabaseError databaseError) {
-                callBackListener.OnGetRiderStatus(false);
-                Log.d(FirebaseConstant.RIDER_LOADED_ERROR, databaseError.toString());
             }
         });
     }

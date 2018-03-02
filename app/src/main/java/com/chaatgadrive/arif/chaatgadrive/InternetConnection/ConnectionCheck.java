@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.support.v7.app.AlertDialog;
-import android.widget.Toast;
 
 import static android.content.Context.LOCATION_SERVICE;
 
@@ -31,7 +30,7 @@ public class ConnectionCheck {
         LocationManager locationManager = (LocationManager)mContext. getSystemService(LOCATION_SERVICE);
 
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-            Toast.makeText(mContext, "GPS is Enabled in your devide", Toast.LENGTH_SHORT).show();
+
             return true;
         }
         return false;

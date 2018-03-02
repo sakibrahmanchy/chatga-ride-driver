@@ -1,5 +1,6 @@
 package com.chaatgadrive.arif.chaatgadrive.OnrideMode;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.TypedValue;
@@ -13,8 +14,6 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
-import static com.chaatgadrive.arif.chaatgadrive.OnrideMode.OnRideModeActivity.onRideModeContext;
-
 /**
  * Created by Arif on 11/12/2017.
  */
@@ -24,12 +23,14 @@ public class ShowDerectionInGoogleMap {
     private  GoogleMap mMap;
     private  PolylineOptions polylineOptions;
     private  MarkerOptions markerOptions;
+    private  Context mContext;
     private LatLng source,destination;
-    ShowDerectionInGoogleMap(GoogleMap mMap, PolylineOptions lineOptions,LatLng src, LatLng dest){
+    ShowDerectionInGoogleMap(Context context,GoogleMap mMap, PolylineOptions lineOptions, LatLng src, LatLng dest){
         this.mMap = mMap;
         this.polylineOptions=lineOptions;
         this.source=src;
         this.destination=dest;
+        this.mContext =context;
         placeDirection();
     }
 
@@ -44,9 +45,9 @@ public class ShowDerectionInGoogleMap {
 
         TypedValue tv = new TypedValue();
         int googleMapPadding=0;
-        if (onRideModeContext.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
+        if (mContext.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
         {
-            googleMapPadding = TypedValue.complexToDimensionPixelSize(tv.data,onRideModeContext.getResources().getDisplayMetrics());
+            googleMapPadding = TypedValue.complexToDimensionPixelSize(tv.data,mContext.getResources().getDisplayMetrics());
         }
 
 
@@ -63,7 +64,7 @@ public class ShowDerectionInGoogleMap {
     }
 
     public Bitmap resizeMapIcons(String iconName, int width, int height){
-        Bitmap decodeResource = BitmapFactory.decodeResource(onRideModeContext.getResources(),onRideModeContext.getResources().getIdentifier(iconName, "drawable", onRideModeContext.getPackageName()));
+        Bitmap decodeResource = BitmapFactory.decodeResource(mContext.getResources(),mContext.getResources().getIdentifier(iconName, "drawable", mContext.getPackageName()));
         return Bitmap.createScaledBitmap(decodeResource, (int) (((double) decodeResource.getWidth()) * .25d), (int) (((double) decodeResource.getHeight()) * .25d), false);
     }
 

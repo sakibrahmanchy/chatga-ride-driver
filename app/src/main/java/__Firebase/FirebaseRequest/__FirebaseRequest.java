@@ -1,13 +1,12 @@
 package __Firebase.FirebaseRequest;
 
 import android.support.v7.app.AppCompatActivity;
-import android.util.Pair;
 
-import __Firebase.ICallbacklisteners.CallBackListener;
-import __Firebase.ICallbacklisteners.ICallbackMain;
 import __Firebase.FirebaseModel.ClientModel;
 import __Firebase.FirebaseModel.CurrentRidingHistoryModel;
 import __Firebase.FirebaseModel.RiderModel;
+import __Firebase.ICallbacklisteners.CallBackListener;
+import __Firebase.ICallbacklisteners.ICallbackMain;
 
 /**
  * Created by User on 11/16/2017.
@@ -99,12 +98,12 @@ public class __FirebaseRequest extends AppCompatActivity {
         thread.start();
     }
 
-    public void SetDeviceTokenToRiderTable(final RiderModel Rider, final ICallbackMain callBackListener){
+    public void SetDeviceTokenToRiderTable(final RiderModel Rider, final String deviceToken, final ICallbackMain callBackListener){
 
         Thread thread = new Thread(){
             @Override
             public void run(){
-                new SetDeviceTokenToRiderTable(Rider, callBackListener);
+                new SetDeviceTokenToRiderTable(Rider, deviceToken, callBackListener);
             }
         };
         thread.start();
