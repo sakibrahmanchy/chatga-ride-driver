@@ -24,6 +24,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -88,7 +89,8 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     private View bottomSheet;
     private TextView client_phone,client_phone_call_number,clientName,clientRating;
     private  ImageView clientProfileImage;
-    private LinearLayout AccepAndReject,StartAndFinish;
+    private LinearLayout AccepAndReject;
+    private FrameLayout StartAndFinish;
     private NestedScrollView bootmsheet;
     private TextView accepRide,rejectRide,sourceAdress,destinationAdress,totalCost,dateTime,Currentclient_Name;
     public  static Activity onRideModeContext;
@@ -134,7 +136,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         mBottomSheetBehavior.setHideable(false);
         AccepAndReject =(LinearLayout) findViewById(R.id.accep_reject_card_layout);
-        StartAndFinish = (LinearLayout) findViewById(R.id.start_and_finish_layout);
+        StartAndFinish = (FrameLayout) findViewById(R.id.start_and_finish_layout);
         bootmsheet =(NestedScrollView ) findViewById(R.id.bottom_sheet);
 
         if(notificationModel.clientId !=0){
