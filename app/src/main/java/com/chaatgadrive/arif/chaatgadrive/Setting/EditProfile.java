@@ -146,21 +146,7 @@ public class EditProfile extends AppCompatActivity  {
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-               // Intent pickImageIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 Intent pickImageIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                /*
-                pickImageIntent.putExtra("crop", "true");
-                pickImageIntent.putExtra("outputX", 200);
-                pickImageIntent.putExtra("outputY", 200);
-                pickImageIntent.putExtra("aspectX", 1);
-                pickImageIntent.putExtra("aspectY", 1);
-                pickImageIntent.putExtra("scale", true);
-                pickImageIntent.putExtra("outputFormat",
-                *
-
-                        Bitmap.CompressFormat.JPEG);
-                        */
                 startActivityForResult(pickImageIntent, RESULT_LOAD_IMAGE);
             }
         });

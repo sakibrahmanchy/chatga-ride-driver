@@ -112,11 +112,11 @@
             android:enabled="true"
             android:exported="false" />
 
-        <activity android:name=".FinishRideActivity.FinishRideActivity"
+        <activity
+            android:name=".FinishRideActivity.FinishRideActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".RiderDocumentsActivity"></activity>
     </application>
 
 </manifest>
