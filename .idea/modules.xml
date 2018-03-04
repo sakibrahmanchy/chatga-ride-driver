@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://G:\Android\devRider\devRider\app\app.iml" filepath="G:\Android\devRider\devRider\app\app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/devDriver.iml" filepath="$PROJECT_DIR$/devDriver.iml" />
       <module fileurl="file://D:\Work\ChatgaRide\Rider\devRider\devDriver.iml" filepath="D:\Work\ChatgaRide\Rider\devRider\devDriver.iml" />
       <module fileurl="file://D:\Android\Projects\devRider\devDriver.iml" filepath="D:\Android\Projects\devRider\devDriver.iml" />
       <module fileurl="file://D:\devDriver\devRider.iml" filepath="D:\devDriver\devRider.iml" />
