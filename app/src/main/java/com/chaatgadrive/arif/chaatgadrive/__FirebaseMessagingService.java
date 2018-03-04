@@ -4,8 +4,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.AssetFileDescriptor;
-import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
@@ -14,8 +12,6 @@ import android.util.Log;
 import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-
-import java.io.IOException;
 
 import __Firebase.FirebaseModel.ClientModel;
 import __Firebase.FirebaseResponse.NotificationModel;
@@ -122,14 +118,12 @@ public class __FirebaseMessagingService extends FirebaseMessagingService {
 
     private void RIDE_CANCEL_BY_CLIENT_NOTF(int action, RemoteMessage remoteMessage) {
         if(remoteMessage.getData().size() > 0){
-
             if(remoteMessage.getData().containsKey(AppConstant.CLIENT_ID)){
                 long clientId = Long.parseLong(remoteMessage.getData().get(AppConstant.CLIENT_ID));
             }
             /*Your Own Pending Intent*/
             Intent intent = new Intent(this, MainActivity.class);
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
             this.Notify(AppConstant.CANCEL_RIDE_TITLE, AppConstant.CANCEL_RIDE_BODY, pendingIntent);
         }
     }

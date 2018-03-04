@@ -155,7 +155,6 @@ public class EditProfile extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
                 if(attemptLogin()){
-                    System.out.println(imageEncodedToBase64);
                     updateProfile(firstName,lastName,gender,email,profilePicture);
                 }
             }
