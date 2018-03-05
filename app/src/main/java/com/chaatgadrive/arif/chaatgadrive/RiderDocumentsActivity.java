@@ -1,17 +1,15 @@
 package com.chaatgadrive.arif.chaatgadrive;
 
 import android.app.ProgressDialog;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -19,15 +17,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.chaatgadrive.arif.chaatgadrive.Setting.EditProfile;
 import com.chaatgadrive.arif.chaatgadrive.SharedPreferences.UserInformation;
-import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginModel;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginData;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginModel;
 import com.chaatgadrive.arif.chaatgadrive.rest.ApiClient;
 import com.chaatgadrive.arif.chaatgadrive.rest.ApiInterface;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
@@ -287,7 +282,7 @@ public class RiderDocumentsActivity extends AppCompatActivity {
     }
 
     public void CheckImageUploadStatus(String uploadedImage, TextView view, String errorText, String successText, ImageView imageViewToSet){
-        if(uploadedImage.equals("null")||uploadedImage.equals("")){
+        if(uploadedImage==null){
             setUploadStatus(view,Color.RED,errorText);
         }
         else{
