@@ -13,6 +13,7 @@ import __Firebase.FirebaseModel.CurrentRidingHistoryModel;
  */
 
 public class AppConstant {
+    public static String apiLocation = "http://139.59.90.128/chaatga_rider/";
     public static final double BASE_TAKA = 20;
     public static final double PER_KILOMITTER = 10;
     public static final double DURATION_PER_KILOMITTER = 1;

@@ -5,6 +5,7 @@ package com.chaatgadrive.arif.chaatgadrive.rest;
  */
 
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.AccessTokenModels.AuthToken;
+import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.BasicEmptyResponse;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.DateTimeModel.DateTimeResponse;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.DeviceTokenModels.UpdateDeviceTokenData;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginModel;
@@ -19,6 +20,8 @@ import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideHistory.RiderHist
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RiderProfileStats.RiderProfileStatsResponse;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.User;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.UserCheckResponse;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -72,7 +75,7 @@ public interface ApiInterface {
                                          @Field("gender") String gender,
                                          @Field("nid") String nid,
                                          @Field("driving_license") String drivingLicense,
-                                         @Field("destination_address") String motorbikeRegistration);
+                                         @Field("motorbike_registration") String motorbikeRegistration);
 
     @POST("api/v1/ride/history")
     @FormUrlEncoded
@@ -150,4 +153,12 @@ public interface ApiInterface {
                                          @Part("email") RequestBody email,
                                          @Part MultipartBody.Part avatar,
                                          @Part("phone") RequestBody phone);
+
+    @POST("api/v1/rider/update_documents")
+    @Multipart
+    Call<LoginModel> updateRiderDocuments(@Header("Authorization") String authHeader,
+                                                  @Part("rider_id") RequestBody rider_id,
+                                                  @Part MultipartBody.Part nid,
+                                                  @Part MultipartBody.Part motorbikeRegistration,
+                                                  @Part MultipartBody.Part drivingLicense);
 }

@@ -47,9 +47,19 @@ public class LoginData {
     @SerializedName("motorbike_registration")
     public String motorbikeRegistration;
 
+    @SerializedName("nid_image")
+    public String nidImage;
+
+    @SerializedName("driving_license_image")
+    public String drivingLicenseImage;
+
+    @SerializedName("motorbike_registration_image")
+    public String motorbikeRegistrationImage;
+
     public LoginData(String firstName, String lastName, String deviceToken,
                      String birthDate, String gender, String userId, String riderId,
-                     String email, String phone, String avatar, String nid, String drivingLicense, String motorbikeRegistration) {
+                     String email, String phone, String avatar, String nid, String drivingLicense, String motorbikeRegistration,
+                     String nidImage, String drivingLicenseImage, String motorbikeRegistrationImage) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.deviceToken = deviceToken;
@@ -63,6 +73,9 @@ public class LoginData {
         this.nid = nid;
         this.drivingLicense = drivingLicense;
         this.motorbikeRegistration = motorbikeRegistration;
+        this.nidImage = nidImage;
+        this.drivingLicenseImage = drivingLicenseImage;
+        this.motorbikeRegistrationImage = motorbikeRegistrationImage;
     }
 
     public LoginData(){}
@@ -169,5 +182,29 @@ public class LoginData {
 
     public void setMotorbikeRegistration(String motorbikeRegistration) {
         this.motorbikeRegistration = motorbikeRegistration;
+    }
+
+    public String getNidImage() {
+        return nidImage;
+    }
+
+    public void setNidImage(String nidImage) {
+        this.nidImage = nidImage;
+    }
+
+    public String getDrivingLicenseImage() {
+        return drivingLicenseImage;
+    }
+
+    public void setDrivingLicenseImage(String drivingLicenseImage) {
+        this.drivingLicenseImage = drivingLicenseImage;
+    }
+
+    public String getMotorbikeRegistrationImage() {
+        return motorbikeRegistrationImage;
+    }
+
+    public void setMotorbikeRegistrationImage(String motorbikeRegistrationImage) {
+        this.motorbikeRegistrationImage = motorbikeRegistrationImage;
     }
 }
