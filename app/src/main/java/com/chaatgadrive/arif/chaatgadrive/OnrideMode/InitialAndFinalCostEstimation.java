@@ -1,15 +1,19 @@
 package com.chaatgadrive.arif.chaatgadrive.OnrideMode;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.util.Pair;
+import android.view.View;
+import android.widget.Button;
 
 import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
 import com.chaatgadrive.arif.chaatgadrive.CostEstimation.CostEstimation;
 import com.chaatgadrive.arif.chaatgadrive.FinishRideActivity.FinishRideActivity;
+import com.chaatgadrive.arif.chaatgadrive.R;
 import com.chaatgadrive.arif.chaatgadrive.SharedPreferences.UserInformation;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideFinishModel.RideFinishData;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideFinishModel.RideFinishResponse;
@@ -54,6 +58,8 @@ public class InitialAndFinalCostEstimation {
     private RideFinishData rideFinishData;
     private SetNotificationWhenRideStart setNotificationWhenRideStart;
     private UserInformation userInformation;
+    private Button finishRide;
+    private Button startRide;
 
     public InitialAndFinalCostEstimation(Context context) {
 
@@ -68,6 +74,8 @@ public class InitialAndFinalCostEstimation {
         riderHistory = new RiderHistory();
         setNotificationWhenRideStart = new SetNotificationWhenRideStart(mContext);
         getDistanceFromMap = new GetDistanceFromMap();
+        finishRide =(Button) ((Activity)context).findViewById(R.id.finishbtn);
+        startRide =(Button) ((Activity)context).findViewById(R.id.startBtn);
         main = new Main(context);
 
     }
@@ -162,6 +170,8 @@ public class InitialAndFinalCostEstimation {
                         if(response.body().isSuccess()){
                             setNotificationWhenRideStart.Notification();
                             main.ForcedAcceptanceOfRide(FirebaseConstant.FINAL_ACCEPTANCE);
+                            startRide.setVisibility(View.GONE);
+                            finishRide.setVisibility(View.VISIBLE);
                             Intent intent = new Intent(Onridecontext, DistanceCalculationService.class);
                             Onridecontext.startService(intent);
                         }

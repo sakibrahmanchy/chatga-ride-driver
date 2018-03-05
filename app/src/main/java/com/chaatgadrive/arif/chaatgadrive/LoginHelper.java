@@ -160,6 +160,7 @@ public class LoginHelper {
 
                             Intent intent = new Intent(context, FirstAppLoadingActivity.class);
                             context.startActivity(intent);
+
                             if(AppConstant.MAIN_ACTIVITY){
                                 MainActivityContext.finish();
                             }

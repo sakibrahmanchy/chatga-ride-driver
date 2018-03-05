@@ -31,6 +31,7 @@ public class FinishRideActivity extends AppCompatActivity implements android.vie
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
         main = new Main(this);
         total_cost.setText("৳"+AppConstant.TOTAL_RIDING_COST);
+
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {

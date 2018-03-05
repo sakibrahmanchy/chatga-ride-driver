@@ -231,25 +231,15 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         clientName.setText(AppConstant.CLIENT_NAME);
         client_phone.setText(AppConstant.PHONE_NUMBER+"");
 
+
         startRide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(!connectionCheck.isNetworkConnected()){
-                    Intent intent = new Intent(OnRideModeActivity.this, InternetCheckActivity.class);
-                    startActivityForResult(intent,AppConstant.INTERNET_CHECK);
-                }
-                else if (!connectionCheck.isGpsEnable()){
-                    connectionCheck.showGPSDisabledAlertToUser();
-                }
-                else {
 
                     startTime = new Date();
                     //noinspection deprecation
                     AppConstant.RIDING_FLAG = 2;
-                  //  initialAndFinalCostEstimation.CreateInitialHistory();
-                    startRide.setVisibility(View.GONE);
-                    finishRide.setVisibility(View.VISIBLE);
                     setTitle("You are in Ride");
                     AppConstant.ON_RIDE_MODE=1;
                     distanceModel.setSourceLat(getCurrentLocation.getLatitude());
@@ -263,7 +253,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                     AppConstant.PREVIOUS_LATLONG = new LatLng(getCurrentLocation.getLatitude(),getCurrentLocation.getLongitude());
 
                 }
-            }
+
         });
 
         finishRide.setOnClickListener(new View.OnClickListener() {
@@ -287,7 +277,6 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                                 public void onClick(DialogInterface arg0, int arg1) {
 
                                     endTime = new Date();
-
                                     try{
                                         AppConstant.TOTAL_DURATION = ((endTime.getTime() - startTime.getTime())/(1000*60));
                                     }catch ( Exception e){
@@ -299,8 +288,6 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                                         initialAndFinalCostEstimation.UpdateFinalHistory(AppConstant.CURRENT_HISTORY_ID,AppConstant.TOTAL_DURATION,AppConstant.TOTAL_DISTANCE,
                                                 (int)AppConstant.CURRENT_CLIENT_DISCOUNT_ID, AppConstant.SOURCE_NAME,userInformation.GetRidingDistance().getTotaldistance()+"");
                                         AppConstant.ON_RIDE_MODE=0;
-
-
                                     }catch (Exception e){
                                         e.printStackTrace();
                                     }
@@ -401,10 +388,8 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
                         Intent intent = new Intent(OnRideModeActivity.this, MainActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
-
-
+                        finish();
                     }
                 }).create().show();
 

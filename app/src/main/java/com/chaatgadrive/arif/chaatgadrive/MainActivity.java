@@ -75,9 +75,12 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
                     if (!connectionCheck.isNetworkConnected()) {
                         Intent intent = new Intent(MainActivity.this, InternetCheckActivity.class);
                         startActivity(intent);
+                        finish();
 
                     } else if (!connectionCheck.isGpsEnable()) {
-                        connectionCheck.showGPSDisabledAlertToUser();
+                        Intent intent = new Intent(MainActivity.this, InternetCheckActivity.class);
+                        startActivity(intent);
+                        finish();
                     } else {
                         manager.beginTransaction().replace(R.id.content, mapfragment, mapfragment.getTag()).commit();
                     }
@@ -93,16 +96,8 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
                     manager.beginTransaction().replace(R.id.content, dashboardFragment, dashboardFragment.getTag()).commit();
                     return true;
                 case R.id.navigation_profile:
-                    if (!connectionCheck.isNetworkConnected()) {
-                        Intent intent = new Intent(MainActivity.this, InternetCheckActivity.class);
-                        startActivityForResult(intent, AppConstant.INTERNET_CHECK);
-
-                    } else if (!connectionCheck.isGpsEnable()) {
-                        connectionCheck.showGPSDisabledAlertToUser();
-                    } else {
-
                         manager.beginTransaction().replace(R.id.content, profileViewFragment, profileViewFragment.getTag()).commit();
-                    }
+
                     return true;
             }
             return false;
@@ -122,9 +117,14 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
 
             Intent intent = new Intent(MainActivity.this, InternetCheckActivity.class);
             startActivity(intent);
+            finish();
 
         } else if (!connectionCheck.isGpsEnable()) {
-            connectionCheck.showGPSDisabledAlertToUser();
+
+            Intent intent = new Intent(MainActivity.this, InternetCheckActivity.class);
+            startActivity(intent);
+            finish();
+
         } else {
             SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
             if (pref.getString("userData", null) == null) {
@@ -174,9 +174,6 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_settings:
-                Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT).show();
-                break;
             case R.id.refreshView:
                 Toast.makeText(this, "Refresh selected", Toast.LENGTH_SHORT).show();
                 main.ForcedRefreshRider();

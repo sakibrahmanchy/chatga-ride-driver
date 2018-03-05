@@ -106,6 +106,10 @@
             </intent-filter>
         </service>
         <service
+            android:name=".InternetConnection.BackgroundConnectionService"
+            android:enabled="true"
+            android:exported="false" />
+        <service
             android:name=".OnLocationChange.UpdateLocationService"
             android:enabled="true"
             android:exported="false" />

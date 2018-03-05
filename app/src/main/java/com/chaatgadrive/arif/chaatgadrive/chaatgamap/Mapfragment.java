@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.chaatgadrive.arif.chaatgadrive.InternetConnection.ConnectionCheck;
@@ -47,6 +48,7 @@ public class Mapfragment extends Fragment implements OnMapReadyCallback, GoogleM
     private ConnectionCheck connectionCheck;
     private UiSettings uiSettings;
     private Main main;
+    private ImageView traffic_mode;
     public Mapfragment() {
         // Required empty public constructor
     }
@@ -70,6 +72,18 @@ public class Mapfragment extends Fragment implements OnMapReadyCallback, GoogleM
             getCurrentLocation.showSettingsAlert();
         }
 
+        traffic_mode = mapview.findViewById(R.id.traffice_mode);
+        traffic_mode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mMap.isTrafficEnabled()){
+                    mMap.setTrafficEnabled(false);
+                }
+                else{
+                    mMap.setTrafficEnabled(true);
+                }
+            }
+        });
         mapFragment.getMapAsync(this);
         return mapview;
 
