@@ -161,4 +161,8 @@ public interface ApiInterface {
                                                   @Part MultipartBody.Part nid,
                                                   @Part MultipartBody.Part motorbikeRegistration,
                                                   @Part MultipartBody.Part drivingLicense);
+
+    @GET("api/v1/rider/all_informations")
+    Call<LoginModel> getRiderAllInformations(@Header("Authorization") String authHeader,
+                                             @Query("rider_id") String riderId);
 }
