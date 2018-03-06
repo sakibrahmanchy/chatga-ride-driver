@@ -11,6 +11,7 @@ import android.widget.EditText;
 import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
 import com.chaatgadrive.arif.chaatgadrive.FirstAppLoadingActivity.FirstAppLoadingActivity;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.AccessTokenModels.AuthToken;
+import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.DeviceTokenModels.UpdateDeviceTokenData;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginData;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginModel;
 import com.chaatgadrive.arif.chaatgadrive.rest.ApiClient;
@@ -58,6 +59,7 @@ public class LoginHelper {
         editor = pref.edit();
     }
 
+
     public void AccessTokenCall(String clientId,String clientSecret,final String phoneNumber){
 
         dialog = new ProgressDialog(context);
@@ -85,35 +87,18 @@ public class LoginHelper {
                             LoginCall(phoneNumber);
 
                         }else{
-                            Intent intent = new Intent(context, FacebookAccountVerificationActivity.class);
+                            Intent intent = new Intent(context, RegistrationActivity.class);
                             intent.putExtra("phoneNumber",phoneNumber);
                             intent.putExtra("loginStatus","REGISTRATION_REQUIRED");
                             context.startActivity(intent);
-                            if(AppConstant.MAIN_ACTIVITY){
-                                MainActivityContext.finish();
-                            }
-                            if(AppConstant.REGISTRATION_ACTIVITY){
-                                registrationActivity.finish();
-                            }
-                            if(AppConstant.USERCHECK_ACTIVITY){
-                                UserCheckActivityContext.finish();
-                            }
+
                         }
                         break;
                     default:
-                        Intent intent = new Intent(context, FacebookAccountVerificationActivity.class);
+                        Intent intent = new Intent(context, RegistrationActivity.class);
                         intent.putExtra("phoneNumber",phoneNumber);
                         intent.putExtra("loginStatus","REGISTRATION_REQUIRED");
                         context.startActivity(intent);
-                        if(AppConstant.MAIN_ACTIVITY){
-                            MainActivityContext.finish();
-                        }
-                        if(AppConstant.REGISTRATION_ACTIVITY){
-                            registrationActivity.finish();
-                        }
-                        if(AppConstant.USERCHECK_ACTIVITY){
-                            UserCheckActivityContext.finish();
-                        }
                         break;
                 }
 
@@ -152,6 +137,7 @@ public class LoginHelper {
                         if(responseCode.equals("auth/logged-in-successfully")){
                             //No phone verification required, redirect to home
                             LoginData data = response.body().getLoginData();
+
                             Gson gson = new Gson();
                             String json = gson.toJson(data);
                             editor.putString("userData",json);
@@ -161,31 +147,11 @@ public class LoginHelper {
                             Intent intent = new Intent(context, FirstAppLoadingActivity.class);
                             context.startActivity(intent);
 
-                            if(AppConstant.MAIN_ACTIVITY){
-                                MainActivityContext.finish();
-                            }
-                            if(AppConstant.REGISTRATION_ACTIVITY){
-                                registrationActivity.finish();
-                            }
-                            if(AppConstant.USERCHECK_ACTIVITY){
-                                UserCheckActivityContext.finish();
-                            }
-
-
                         }else{
                             Intent intent = new Intent(context, FacebookAccountVerificationActivity.class);
                             intent.putExtra("phoneNumber",phoneNumber);
                             intent.putExtra("loginStatus","PHONE_VERIFICATION_REQUIRED");
                             context.startActivity(intent);
-                            if(AppConstant.MAIN_ACTIVITY){
-                                MainActivityContext.finish();
-                            }
-                            if(AppConstant.REGISTRATION_ACTIVITY){
-                                registrationActivity.finish();
-                            }
-                            if(AppConstant.USERCHECK_ACTIVITY){
-                                UserCheckActivityContext.finish();
-                            }
                         }
                         break;
                     default:
@@ -195,20 +161,7 @@ public class LoginHelper {
                             String errorResponseCode = errorBody.getString("response_code");
                             switch(errorResponseCode){
                                 case "auth/phone-verification-required":
-                                    Intent intent = new Intent(context, FacebookAccountVerificationActivity.class);
-                                    intent.putExtra("phoneNumber",phoneNumber);
-                                    intent.putExtra("loginStatus","PHONE_VERIFICATION_REQUIRED");
-                                    context.startActivity(intent);
-                                    if(AppConstant.MAIN_ACTIVITY){
-                                        MainActivityContext.finish();
-                                    }
-                                    if(AppConstant.REGISTRATION_ACTIVITY){
-                                        registrationActivity.finish();
-                                    }
-                                    if(AppConstant.USERCHECK_ACTIVITY){
-                                        UserCheckActivityContext.finish();
-                                    }
-
+                                    deviceTokenCheck(phoneNumber);
                                     break;
                                 default:
 
@@ -231,6 +184,64 @@ public class LoginHelper {
         });
 
     }
+
+    public void deviceTokenCheck(String phone){
+
+        final String phoneNumner = phone;
+        SharedPreferences pref = context.getSharedPreferences("MyPref",0);
+
+
+        dialog = new ProgressDialog(context);
+        dialog.setMessage("Saving your new device..");
+        dialog.show();
+
+        ApiInterface apiService =
+                ApiClient.getClient().create(ApiInterface.class);
+        String authHeader = "Bearer "+pref.getString("access_token",null);
+        String deviceToken = FirebaseWrapper.getDeviceToken();
+        Call<UpdateDeviceTokenData> call = apiService.updateDeviceToken(authHeader,phoneNumner, deviceToken);
+
+        call.enqueue(new Callback<UpdateDeviceTokenData>() {
+            @Override
+            public void onResponse(Call<UpdateDeviceTokenData> call, Response<UpdateDeviceTokenData> response) {
+
+                int statusCode = response.code();
+                dialog.dismiss();
+
+                switch(statusCode){
+                    case 200:
+
+                        boolean responseCode = response.body().getStatus();
+                        if(responseCode){
+                            //No phone verification required, redirect to home
+
+                            String clientId = context.getString(R.string.APP_CLIENT);
+                            String clientSecret = context.getString(R.string.APP_CLIENT_SECRET);
+
+                            LoginHelper loginHelper = new LoginHelper(context);
+                            loginHelper.AccessTokenCall(clientId, clientSecret,phoneNumner);
+                        }
+                        break;
+                    case 500:
+                        Log.d(TAG, response.errorBody().toString());
+                    default:
+                        Log.d(TAG, response.errorBody().toString());
+
+                        break;
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<UpdateDeviceTokenData> call, Throwable t) {
+                // Log error here since request failed
+                Log.e(TAG, "Failure "+t.toString());
+            }
+        });
+
+
+    }
+
 }
 
 
