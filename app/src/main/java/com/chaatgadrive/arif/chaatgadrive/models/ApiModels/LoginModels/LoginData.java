@@ -56,10 +56,16 @@ public class LoginData {
     @SerializedName("motorbike_registration_image")
     public String motorbikeRegistrationImage;
 
+    @SerializedName("is_verified")
+    public int isVerified;
+
+    @SerializedName("rating")
+    public float rating;
+
     public LoginData(String firstName, String lastName, String deviceToken,
                      String birthDate, String gender, String userId, String riderId,
                      String email, String phone, String avatar, String nid, String drivingLicense, String motorbikeRegistration,
-                     String nidImage, String drivingLicenseImage, String motorbikeRegistrationImage) {
+                     String nidImage, String drivingLicenseImage, String motorbikeRegistrationImage, int isVerified, float rating) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.deviceToken = deviceToken;
@@ -76,6 +82,8 @@ public class LoginData {
         this.nidImage = nidImage;
         this.drivingLicenseImage = drivingLicenseImage;
         this.motorbikeRegistrationImage = motorbikeRegistrationImage;
+        this.isVerified = isVerified;
+        this.rating = rating;
     }
 
     public LoginData(){}
@@ -206,5 +214,21 @@ public class LoginData {
 
     public void setMotorbikeRegistrationImage(String motorbikeRegistrationImage) {
         this.motorbikeRegistrationImage = motorbikeRegistrationImage;
+    }
+
+    public int getIsVerified() {
+        return isVerified;
+    }
+
+    public void setIsVerified(int isVerified) {
+        this.isVerified = isVerified;
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
     }
 }
