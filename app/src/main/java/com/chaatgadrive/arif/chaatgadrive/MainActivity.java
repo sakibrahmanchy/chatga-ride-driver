@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
     public static Activity MainActivityContext;
 
 
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
@@ -112,7 +113,10 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
         setContentView(R.layout.activity_main);
         getCurrentLocation = new GetCurrentLocation(this);
         connectionCheck = new ConnectionCheck(this);
+
         MainActivityContext = this;
+
+
         if (!connectionCheck.isNetworkConnected()) {
 
             Intent intent = new Intent(MainActivity.this, InternetCheckActivity.class);
@@ -153,6 +157,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
                 userInformation = new UserInformation(this);
                 loginData = userInformation.getuserInformation();
                 getCurrentLocation = new GetCurrentLocation(this);
+
                 this.MandatoryCall();
             }
         }
@@ -189,7 +194,6 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
         MenuItem actionViewItem = menu.findItem(R.id.switchView);
         View v = MenuItemCompat.getActionView(actionViewItem);
         OffOnSwitch = (Switch) v.findViewById(R.id.switch1);
-        OffOnSwitch.setChecked(true);
 
         if (AppConstant.OnOffSwith == 1) {
             OffOnSwitch.setChecked(true);
@@ -203,7 +207,8 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
         OffOnSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Toast.makeText(getApplicationContext(), "Refresh selected= " + isChecked, Toast.LENGTH_SHORT).show();
-                if (isChecked) {
+
+                if (isChecked && loginData.getIsVerified()==1) {
                     AppConstant.OnOffSwith = 1;
                     OffOnSwitch.setText("ON");
                     if (FirebaseWrapper.getInstance().getRiderModelInstance().RiderID > 0) {
@@ -219,6 +224,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
                 } else {
                     OffOnSwitch.setText("OFF");
                     AppConstant.OnOffSwith = 0;
+                    OffOnSwitch.setChecked(false);
                     if (FirebaseWrapper.getInstance().getRiderModelInstance().RiderID > 0) {
                         main.SetRiderOnLineOrOffLine(
                                 FirebaseWrapper.getInstance().getRiderModelInstance(),
