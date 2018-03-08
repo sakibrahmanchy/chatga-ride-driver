@@ -18,12 +18,12 @@ import __Firebase.ICallbacklisteners.ICallbackMain;
  * Created by User on 3/8/2018.
  */
 
-public class UpdateNameAndImage {
+public class UpdateNameImageAndRatting {
 
     private RiderModel Rider;
     private ICallbackMain iCallbackMain;
 
-    public UpdateNameAndImage(RiderModel Rider, ICallbackMain iCallbackMain) {
+    public UpdateNameImageAndRatting(RiderModel Rider, ICallbackMain iCallbackMain) {
         this.Rider = Rider;
         this.iCallbackMain = iCallbackMain;
         this.Request();
@@ -47,6 +47,10 @@ public class UpdateNameAndImage {
                         Map<String, Object> updateImage = new HashMap<>();
                         updateImage.put(FirebaseConstant.IMAGE_URL, Rider.ImageUrl);
                         dataSnapshot.getChildren().iterator().next().getRef().updateChildren(updateImage);
+
+                        Map<String, Object> updateRatting = new HashMap<>();
+                        updateRatting.put(FirebaseConstant.RATTING, Rider.Ratting);
+                        dataSnapshot.getChildren().iterator().next().getRef().updateChildren(updateRatting);
 
                         Log.d(FirebaseConstant.UPDATE_NAME_IMAGE_URL, FirebaseConstant.UPDATE_NAME_IMAGE_URL);
                         iCallbackMain.OnUpdateNameAndImage(true);

@@ -285,9 +285,9 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
         return true;
     }
 
-    public boolean UpdateNameAndImage(String newName, String newImageUrl, ICallbackMain callBackListener) {
+    public boolean UpdateNameImageAndRatting(String newName, String newImageUrl, String newRatting) {
 
-        if (FirebaseUtilMethod.IsEmptyOrNull(newName) && FirebaseUtilMethod.IsEmptyOrNull(newImageUrl))
+        if (FirebaseUtilMethod.IsEmptyOrNull(newName) && FirebaseUtilMethod.IsEmptyOrNull(newImageUrl) && FirebaseUtilMethod.IsEmptyOrNull(newRatting))
             return false;
 
         firebaseWrapper = FirebaseWrapper.getInstance();
@@ -295,8 +295,9 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
 
         if (!FirebaseUtilMethod.IsEmptyOrNull(newName)) riderModel.FullName = newName;
         if (!FirebaseUtilMethod.IsEmptyOrNull(newImageUrl)) riderModel.ImageUrl = newImageUrl;
+        if (!FirebaseUtilMethod.IsEmptyOrNull(newRatting)) riderModel.Ratting = newRatting;
 
-        firebaseWrapper.getFirebaseRequestInstance().UpdateNameAndImage(riderModel, Main.this);
+        firebaseWrapper.getFirebaseRequestInstance().UpdateNameImageAndRatting(riderModel, Main.this);
         return true;
     }
 
