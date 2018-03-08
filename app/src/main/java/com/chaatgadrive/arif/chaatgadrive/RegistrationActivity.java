@@ -138,6 +138,7 @@ public class RegistrationActivity extends Activity {
 
     private boolean attemptLogin() {
 
+        gender = "Male";
         boolean ok=true;
         mEmailView.setError(null);
         userFirstName.setError(null);
@@ -162,11 +163,47 @@ public class RegistrationActivity extends Activity {
         View focusView = null;
 
         if (TextUtils.isEmpty(firstName)) {
-            mEmailView.setError(getString(R.string.error_field_required));
+            userFirstName.setError(getString(R.string.error_field_required));
             focusView = userFirstName;
             cancel = true;
             ok=false;
         }
+
+        if (TextUtils.isEmpty(lastName)) {
+            userLastName.setError(getString(R.string.error_field_required));
+            focusView = userLastName;
+            cancel = true;
+            ok=false;
+        }
+
+        if (TextUtils.isEmpty(birthDate)) {
+            birthDayText.setError(getString(R.string.error_field_required));
+            focusView = birthDayText;
+            cancel = true;
+            ok=false;
+        }
+
+        if (TextUtils.isEmpty(nid)) {
+            nidText.setError(getString(R.string.error_field_required));
+            focusView = nidText;
+            cancel = true;
+            ok=false;
+        }
+        if (TextUtils.isEmpty(drivingLicense)) {
+            drivingLicenseText.setError(getString(R.string.error_field_required));
+            focusView = drivingLicenseText;
+            cancel = true;
+            ok=false;
+        }
+
+        if (TextUtils.isEmpty(motorbikeRegistration)) {
+            motorbikeRegistrationText.setError(getString(R.string.error_field_required));
+            focusView = motorbikeRegistrationText;
+            cancel = true;
+            ok=false;
+        }
+
+
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
@@ -276,8 +313,8 @@ public class RegistrationActivity extends Activity {
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onDestroy() {
+        super.onDestroy();
         AppConstant.REGISTRATION_ACTIVITY = false;
     }
 

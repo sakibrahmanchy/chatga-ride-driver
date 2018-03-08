@@ -28,6 +28,7 @@ import __Firebase.Notification.NotificationWrapper;
  * Created by User on 12/8/2017.
  */
 
+
 public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBackListener {
 
     private GetCurrentLocation getCurrentLocation;
@@ -43,7 +44,6 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
 
     public Main(Context context) {
         this.context = context;
-
     }
 
     public boolean IsRiderAlreadyCreated(RiderModel RiderModel) {
@@ -76,8 +76,8 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
         riderModel.IsRiderOnline = FirebaseConstant.SET_RIDER_ONLINE;
         riderModel.IsRiderOnRide = FirebaseConstant.SET_RIDER_NO_RIDE;
         riderModel.OnlineBusyOnRide = FirebaseConstant.ONLINE_NOT_BUSY_NO_RIDE;
-        riderModel.ImageUrl = FirebaseConstant.Empty;
-        riderModel.Ratting = FirebaseConstant.Empty;
+        riderModel.ImageUrl = loginData.getAvatar();
+        riderModel.Ratting = "100%";
 
         this.IsRiderAlreadyCreated(riderModel);
         return true;
@@ -217,10 +217,8 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
     public boolean SetRiderOnlineBusyOnRider(/*Firebase Rider Model*/ RiderModel riderModel, int value) {
 
         if (riderModel == null || riderModel.RiderID < 1 || value < 0) return false;
-
         this.firebaseWrapper = FirebaseWrapper.getInstance();
         this.riderModel = riderModel;
-
         if (value == FirebaseConstant.ONLINE_NOT_BUSY_NO_RIDE) {
             this.riderModel.OnlineBusyOnRide = FirebaseConstant.ONLINE_NOT_BUSY_NO_RIDE;
         } else if (value == FirebaseConstant.ONLINE_BUSY_NO_RIDE) {
@@ -269,7 +267,7 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
         this.riderModel = riderModel;
         this.riderModel.DeviceToken = deviceToken;
 
-        firebaseWrapper.getFirebaseRequestInstance().SetDeviceTokenToRiderTable(this.riderModel, Main.this);
+        firebaseWrapper.getFirebaseRequestInstance().SetDeviceTokenToRiderTable(this.riderModel, deviceToken, Main.this);
         return true;
     }
 
@@ -542,7 +540,7 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
     /* All Responses Goes Here */
     @Override
     public void OnResponseCreateNewRider(boolean value) {
-        this.OnGetRiderStatus(true);
+        //this.OnGetRiderStatus(true);
         Log.d(FirebaseConstant.NEW_RIDER_CREATE, Boolean.toString(value));
     }
 
@@ -623,7 +621,7 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
                     FirebaseWrapper.getInstance().getRiderModelInstance(),
                     FirebaseWrapper.getDeviceToken()
             );
-            this.OnGetRiderStatus(true);
+            //this.OnGetRiderStatus(true);
         } else {
             FirebaseRequestInstance = FirebaseWrapper.getInstance().getFirebaseRequestInstance();
             FirebaseRequestInstance.CreateRiderFirstTime(
@@ -635,6 +633,7 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
 
     @Override
     public void OnSetDeviceTokenToRiderTable(boolean value) {
+        FirebaseWrapper.getInstance().getRiderModelInstance().DeviceToken = FirebaseWrapper.getDeviceToken();
         Log.d(FirebaseConstant.DEVICE_TOKEN_UPDATE, Boolean.toString(value));
     }
 

@@ -1,5 +1,6 @@
 package com.chaatgadrive.arif.chaatgadrive.OnrideMode;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -30,11 +31,13 @@ public class DownloadTask extends AsyncTask<String, Void, String> {
     private String duration;
     private LatLng source, dest;
     private GoogleMap mMap;
+    private Context mContext;
 
-    public DownloadTask(GoogleMap mMap, LatLng source, LatLng dest) {
+    public DownloadTask(Context context,GoogleMap mMap, LatLng source, LatLng dest) {
         this.mMap = mMap;
         this.source = source;
         this.dest = dest;
+        this.mContext=context;
 
     }
 
@@ -118,7 +121,8 @@ public class DownloadTask extends AsyncTask<String, Void, String> {
 
 // Constrain the camera target to the Adelaide bounds.
             if(lineOptions !=null){
-                ShowDerectionInGoogleMap showDerectionInGoogleMap = new ShowDerectionInGoogleMap(mMap, lineOptions, source, dest);
+                ShowDerectionInGoogleMap showDerectionInGoogleMap = new ShowDerectionInGoogleMap(mContext
+                        ,mMap, lineOptions, source, dest);
 
             }
 

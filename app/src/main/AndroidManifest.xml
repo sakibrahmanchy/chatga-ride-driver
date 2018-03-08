@@ -60,7 +60,6 @@
         <activity
             android:name=".UserCheckActivity"
             android:label="@string/title_activity_user_check"
-            android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
@@ -88,7 +87,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Adapters.History.RiderHistoryActivity"
-            android:noHistory="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Adapters.History.DocumentsActivity"
@@ -108,15 +106,19 @@
             </intent-filter>
         </service>
         <service
+            android:name=".InternetConnection.BackgroundConnectionService"
+            android:enabled="true"
+            android:exported="false" />
+        <service
             android:name=".OnLocationChange.UpdateLocationService"
             android:enabled="true"
             android:exported="false" />
 
-        <activity android:name=".FinishRideActivity.FinishRideActivity"
+        <activity
+            android:name=".FinishRideActivity.FinishRideActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".RiderDocumentsActivity"></activity>
     </application>
 
 </manifest>

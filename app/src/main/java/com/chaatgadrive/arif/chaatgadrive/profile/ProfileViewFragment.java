@@ -21,6 +21,7 @@ import com.chaatgadrive.arif.chaatgadrive.Adapters.History.RiderHistoryActivity;
 import com.chaatgadrive.arif.chaatgadrive.FacebookAccountVerificationActivity;
 import com.chaatgadrive.arif.chaatgadrive.MainActivity;
 import com.chaatgadrive.arif.chaatgadrive.R;
+import com.chaatgadrive.arif.chaatgadrive.RiderDocumentsActivity;
 import com.chaatgadrive.arif.chaatgadrive.Setting.EditProfile;
 import com.chaatgadrive.arif.chaatgadrive.SharedPreferences.UserInformation;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginData;
@@ -55,7 +56,7 @@ public class ProfileViewFragment extends Fragment{
     private TextView mail, totalTrips, rating, totalEarning;
     private ImageView uploadProfile;
     private UserInformation userInformation;
-    private LinearLayout profileView,historyView;
+    private LinearLayout profileView,historyView,documentationsView;
     private ProgressDialog dialog;
     private ApiInterface apiService;
     private SharedPreferences pref;
@@ -81,6 +82,7 @@ public class ProfileViewFragment extends Fragment{
         uploadProfile = (ImageView) view.findViewById(R.id.profile);
         profileView = (LinearLayout) view.findViewById(R.id.viewProfile);
         historyView = (LinearLayout) view.findViewById(R.id.viewRiderHistory);
+        documentationsView = (LinearLayout) view.findViewById(R.id.documentations);
         totalTrips = (TextView) view.findViewById(R.id.total_trips);
         rating = (TextView) view.findViewById(R.id.rating);
         totalEarning = (TextView) view.findViewById(R.id.total_earning);
@@ -132,6 +134,14 @@ public class ProfileViewFragment extends Fragment{
                 startActivity(historyViewIntent);
             }
         });
+        documentationsView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent docuemntationsViewIntent = new Intent(getActivity(), RiderDocumentsActivity.class);
+                startActivity(docuemntationsViewIntent);
+            }
+        });
+
 
     }
     @Override

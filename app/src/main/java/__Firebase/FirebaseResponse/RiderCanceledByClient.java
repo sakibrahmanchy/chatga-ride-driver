@@ -31,6 +31,7 @@ public class RiderCanceledByClient {
             Intent intent = new Intent(Onridecontext,MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             Onridecontext.startActivity(intent);
+            Onridecontext.finish();
         }
     }
 

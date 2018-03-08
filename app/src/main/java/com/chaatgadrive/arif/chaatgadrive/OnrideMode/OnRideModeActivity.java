@@ -24,6 +24,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -43,6 +44,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -87,10 +89,11 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     private View bottomSheet;
     private TextView client_phone,client_phone_call_number,clientName,clientRating;
     private  ImageView clientProfileImage;
-    private LinearLayout AccepAndReject,StartAndFinish;
+    private LinearLayout AccepAndReject;
+    private FrameLayout StartAndFinish;
     private NestedScrollView bootmsheet;
     private TextView accepRide,rejectRide,sourceAdress,destinationAdress,totalCost,dateTime,Currentclient_Name;
-
+    public  static Activity onRideModeContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,13 +120,14 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         clientName = (TextView) findViewById(R.id.client_name);
         clientProfileImage =(ImageView) findViewById(R.id.Client_profile_pic);
         clientRating =(TextView) findViewById(R.id.client_rating);
-        accepRide = findViewById(R.id.accept_ride);
-        rejectRide =findViewById(R.id.reject_ride);
-        sourceAdress =findViewById(R.id.source_address);
-        destinationAdress =findViewById(R.id.destination_address);
-        totalCost = findViewById(R.id.total_fare);
-        dateTime =findViewById(R.id.date_time);
-        Currentclient_Name = findViewById(R.id.current_client_name);
+        accepRide = (TextView) findViewById(R.id.accept_ride);
+        rejectRide =(TextView) findViewById(R.id.reject_ride);
+        sourceAdress =(TextView) findViewById(R.id.source_address);
+        destinationAdress =(TextView) findViewById(R.id.destination_address);
+        totalCost = (TextView) findViewById(R.id.total_fare);
+        dateTime =(TextView) findViewById(R.id.date_time);
+        Currentclient_Name =(TextView) findViewById(R.id.current_client_name);
+        onRideModeContext =this;
 
 
         bottomSheet = findViewById( R.id.bottom_sheet );
@@ -131,9 +135,9 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         mBottomSheetBehavior.setPeekHeight(150);
         mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         mBottomSheetBehavior.setHideable(false);
-        AccepAndReject = findViewById(R.id.accep_reject_card_layout);
-        StartAndFinish = findViewById(R.id.start_and_finish_layout);
-        bootmsheet = findViewById(R.id.bottom_sheet);
+        AccepAndReject =(LinearLayout) findViewById(R.id.accep_reject_card_layout);
+        StartAndFinish = (FrameLayout) findViewById(R.id.start_and_finish_layout);
+        bootmsheet =(NestedScrollView ) findViewById(R.id.bottom_sheet);
 
         if(notificationModel.clientId !=0){
             AppConstant.DESTINATION_NAME = notificationModel.destinationName;
@@ -145,6 +149,12 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
             AppConstant.CURRENT_CLIENT_DISCOUNT_ID = (int) notificationModel.discountID;
             AppConstant.CLIENT_NAME = notificationModel.clientName;
             AppConstant.PHONE_NUMBER = Long.parseLong(notificationModel.clientPhone);
+            Picasso.with(this).invalidate(notificationModel.clientImageUrl);
+            Picasso.with(this)
+                    .load(notificationModel.clientImageUrl)
+                    .placeholder(R.drawable.profile_image)
+                    .error(R.drawable.profile_image)
+                    .into(clientProfileImage);
         }
 
         if(AppConstant.SHOW_ACTIVITY_FOR_ACCEPT_AND_REJECT){
@@ -152,7 +162,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
             bootmsheet.setVisibility(View.GONE);
             sourceAdress.setText(notificationModel.sourceName);
             Currentclient_Name.setText(notificationModel.clientName);
-            totalCost.setText("Etimated: "+notificationModel.totalCost);
+                   totalCost.setText("Estimated: "+notificationModel.totalCost);
             destinationAdress.setText(notificationModel.destinationName);
             accepRide.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -165,7 +175,6 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                     finishRide.setVisibility(View.INVISIBLE);
                 }
             });
-
 
             rejectRide.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -181,7 +190,6 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
             startRide.setVisibility(View.VISIBLE);
             finishRide.setVisibility(View.INVISIBLE);
             if(AppConstant.currentRidingHistoryModel !=null){
-
                 AppConstant.CURRENT_HISTORY_ID = (int)AppConstant.currentRidingHistoryModel.HistoryID;
                 AppConstant.SOURCE_NAME = AppConstant.currentRidingHistoryModel.StartingLocation.LocationName;
                 AppConstant.DESTINATION_NAME =AppConstant.currentRidingHistoryModel.EndingLocation.LocationName;
@@ -193,7 +201,12 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                 AppConstant.ON_RIDE_MODE=1;
                 AppConstant.CLIENT_NAME = AppConstant.ClientModel.FullName;
                 AppConstant.PHONE_NUMBER = AppConstant.ClientModel.PhoneNumber;
-
+                Picasso.with(this).invalidate(AppConstant.ClientModel.ImageUrl);
+                Picasso.with(this)
+                        .load(AppConstant.ClientModel.ImageUrl)
+                        .placeholder(R.drawable.profile_image)
+                        .error(R.drawable.profile_image)
+                        .into(clientProfileImage);
 
                 if(AppConstant.currentRidingHistoryModel.IsRideStart==0){
                     startRide.setVisibility(View.VISIBLE);
@@ -218,40 +231,29 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         clientName.setText(AppConstant.CLIENT_NAME);
         client_phone.setText(AppConstant.PHONE_NUMBER+"");
 
+
         startRide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(!connectionCheck.isNetworkConnected()){
-                    Intent intent = new Intent(OnRideModeActivity.this, InternetCheckActivity.class);
-                    startActivityForResult(intent,AppConstant.INTERNET_CHECK);
-                }
-                else if (!connectionCheck.isGpsEnable()){
-                    connectionCheck.showGPSDisabledAlertToUser();
-                }
-                else {
 
                     startTime = new Date();
                     //noinspection deprecation
                     AppConstant.RIDING_FLAG = 2;
-                  //  initialAndFinalCostEstimation.CreateInitialHistory();
-                    startRide.setVisibility(View.GONE);
-                    finishRide.setVisibility(View.VISIBLE);
                     setTitle("You are in Ride");
                     AppConstant.ON_RIDE_MODE=1;
                     distanceModel.setSourceLat(getCurrentLocation.getLatitude());
                     distanceModel.setDestinationLat(getCurrentLocation.getLongitude());
+                    editor.remove("DistanceModel");
                     Gson gson = new Gson();
-
                     String json = gson.toJson(distanceModel);
                     editor.putString("DistanceModel",json);
                     editor.commit();
-
                     initialAndFinalCostEstimation.UpdateStartRide(AppConstant.CURRENT_HISTORY_ID);
                     AppConstant.PREVIOUS_LATLONG = new LatLng(getCurrentLocation.getLatitude(),getCurrentLocation.getLongitude());
 
                 }
-            }
+
         });
 
         finishRide.setOnClickListener(new View.OnClickListener() {
@@ -275,7 +277,6 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                                 public void onClick(DialogInterface arg0, int arg1) {
 
                                     endTime = new Date();
-
                                     try{
                                         AppConstant.TOTAL_DURATION = ((endTime.getTime() - startTime.getTime())/(1000*60));
                                     }catch ( Exception e){
@@ -287,8 +288,6 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                                         initialAndFinalCostEstimation.UpdateFinalHistory(AppConstant.CURRENT_HISTORY_ID,AppConstant.TOTAL_DURATION,AppConstant.TOTAL_DISTANCE,
                                                 (int)AppConstant.CURRENT_CLIENT_DISCOUNT_ID, AppConstant.SOURCE_NAME,userInformation.GetRidingDistance().getTotaldistance()+"");
                                         AppConstant.ON_RIDE_MODE=0;
-
-
                                     }catch (Exception e){
                                         e.printStackTrace();
                                     }
@@ -319,7 +318,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
 
                     try {
                         String url = getDirectionsUrl(source, destination);
-                        DownloadTask downloadTask = new DownloadTask(mMap,source,destination);
+                        DownloadTask downloadTask = new DownloadTask(OnRideModeActivity.this, mMap,source,destination);
                         downloadTask.execute(url);
 
                     } catch (Exception e){
@@ -389,10 +388,8 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
                         Intent intent = new Intent(OnRideModeActivity.this, MainActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
-
-
+                        finish();
                     }
                 }).create().show();
 
@@ -436,7 +433,6 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                                    Intent intent = new Intent(OnRideModeActivity.this, MainActivity.class);
                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                    startActivity(intent);
-                                   finish();
                                }
                            }).create().show();
                }
@@ -518,11 +514,9 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
         AppConstant.ONRIDEMODE_ACTIVITY = false;
     }
-
-
 }
 

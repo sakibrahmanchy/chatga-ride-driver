@@ -95,7 +95,7 @@ public class __FirebaseMessagingService extends FirebaseMessagingService {
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 
-            Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            Uri sound = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.siren);
             builder.setSound(sound);
             builder.setContentTitle(notificationModel.title);
             builder.setContentText(notificationModel.body);
@@ -118,14 +118,12 @@ public class __FirebaseMessagingService extends FirebaseMessagingService {
 
     private void RIDE_CANCEL_BY_CLIENT_NOTF(int action, RemoteMessage remoteMessage) {
         if(remoteMessage.getData().size() > 0){
-
             if(remoteMessage.getData().containsKey(AppConstant.CLIENT_ID)){
                 long clientId = Long.parseLong(remoteMessage.getData().get(AppConstant.CLIENT_ID));
             }
             /*Your Own Pending Intent*/
             Intent intent = new Intent(this, MainActivity.class);
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
             this.Notify(AppConstant.CANCEL_RIDE_TITLE, AppConstant.CANCEL_RIDE_BODY, pendingIntent);
         }
     }

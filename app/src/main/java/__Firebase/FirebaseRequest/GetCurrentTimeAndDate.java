@@ -102,7 +102,7 @@ public class GetCurrentTimeAndDate extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        Log.d(FirebaseConstant.RESPONSE_FROM_SERVER, result);
+        Log.d(FirebaseConstant.RESPONSE_FROM_SERVER, result != null ? result : "null");
         if(result == null){
             this.callbackListener.OnResponseServerTime(-1l, this.type);
             return;

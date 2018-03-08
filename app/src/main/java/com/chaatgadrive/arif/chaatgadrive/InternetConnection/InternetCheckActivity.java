@@ -2,12 +2,14 @@ package com.chaatgadrive.arif.chaatgadrive.InternetConnection;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.chaatgadrive.arif.chaatgadrive.FirstAppLoadingActivity.FirstAppLoadingActivity;
 import com.chaatgadrive.arif.chaatgadrive.R;
 
 public class InternetCheckActivity extends AppCompatActivity {
@@ -28,10 +30,12 @@ public class InternetCheckActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dialog = new ProgressDialog(InternetCheckActivity.this);
-                dialog.setMessage("Internet Conection Checking...");
+                dialog.setMessage("Internet And GPS Conection Checking...");
                 dialog.show();
-                  if(connectionCheck.isNetworkConnected()){
+                  if(connectionCheck.isNetworkConnected() &&connectionCheck.isGpsEnable()){
                       dialog.dismiss();
+                      Intent intent = new Intent(InternetCheckActivity.this, FirstAppLoadingActivity.class);
+                      startActivity(intent);
                       finish();
                   }
             }
