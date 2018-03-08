@@ -153,11 +153,9 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
                 manager.beginTransaction().replace(R.id.content, mapfragment, mapfragment.getTag()).commit();
                 BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
                 navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
                 userInformation = new UserInformation(this);
                 loginData = userInformation.getuserInformation();
                 getCurrentLocation = new GetCurrentLocation(this);
-
                 this.MandatoryCall();
             }
         }
