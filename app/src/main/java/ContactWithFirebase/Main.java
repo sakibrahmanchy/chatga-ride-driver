@@ -287,6 +287,21 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
         return true;
     }
 
+    public boolean UpdateNameAndImage(String newName, String newImageUrl, ICallbackMain callBackListener) {
+
+        if (FirebaseUtilMethod.IsEmptyOrNull(newName) && FirebaseUtilMethod.IsEmptyOrNull(newImageUrl))
+            return false;
+
+        firebaseWrapper = FirebaseWrapper.getInstance();
+        riderModel = firebaseWrapper.getRiderModelInstance();
+
+        if (!FirebaseUtilMethod.IsEmptyOrNull(newName)) riderModel.FullName = newName;
+        if (!FirebaseUtilMethod.IsEmptyOrNull(newImageUrl)) riderModel.ImageUrl = newImageUrl;
+
+        firebaseWrapper.getFirebaseRequestInstance().UpdateNameAndImage(riderModel, Main.this);
+        return true;
+    }
+
     public boolean GetCurrentClient(long ClientId, CallBackListener callBackListener) {
 
         if (ClientId < 1 || callBackListener == null) return false;
@@ -684,6 +699,11 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
         } else {
             new RiderInRideMode(false, FirebaseConstant.UNKNOWN);
         }
+    }
+
+    @Override
+    public void OnUpdateNameAndImage(boolean value) {
+        Log.d(FirebaseConstant.UPDATE_NAME_IMAGE_URL, Boolean.toString(value));
     }
 
     @Override
