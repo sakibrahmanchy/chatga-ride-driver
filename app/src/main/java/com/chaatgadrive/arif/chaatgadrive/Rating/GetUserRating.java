@@ -38,7 +38,6 @@ public class GetUserRating {
         apiService = ApiClient.getClient().create(ApiInterface.class);
         String authHeader = "Bearer "+pref.getString("access_token",null);
         Call<Rating> call = apiService.getRiderRating(authHeader,Integer.parseInt(userInformation.getuserInformation().getRiderId()));
-
         call.enqueue(new Callback<Rating>() {
             @Override
             public void onResponse(Call<Rating> call, Response<Rating> response) {
@@ -47,11 +46,8 @@ public class GetUserRating {
 
                 switch(statusCode){
                     case 200:
-
                         if(response.body().isSuccess()){
                             double data = response.body().getData();
-                            main.UpdateNameImageAndRatting(null,null,data+"");
-
                         }
                         break;
                     case 500:
