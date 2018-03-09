@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
+import com.chaatgadrive.arif.chaatgadrive.Earning.EarningFragment;
 import com.chaatgadrive.arif.chaatgadrive.InternetConnection.ConnectionCheck;
 import com.chaatgadrive.arif.chaatgadrive.InternetConnection.InternetCheckActivity;
 import com.chaatgadrive.arif.chaatgadrive.OnLocationChange.UpdateLocationService;
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
     private TextView mTextMessage;
     private Mapfragment mapfragment = new Mapfragment();
     private DashboardFragment dashboardFragment = new DashboardFragment();
+    private EarningFragment earningFragment = new EarningFragment();
     private ProfileViewFragment profileViewFragment = new ProfileViewFragment();
     private NotificationActivity notificationFragment = new NotificationActivity();
     private FragmentManager manager = getSupportFragmentManager();
@@ -94,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
                     manager.beginTransaction().replace(R.id.content, notificationFragment, notificationFragment.getTag()).commit();
                     return true;
                 case R.id.navigation_earning:
-                    manager.beginTransaction().replace(R.id.content, dashboardFragment, dashboardFragment.getTag()).commit();
+                    manager.beginTransaction().replace(R.id.content, earningFragment, earningFragment.getTag()).commit();
                     return true;
                 case R.id.navigation_profile:
                         manager.beginTransaction().replace(R.id.content, profileViewFragment, profileViewFragment.getTag()).commit();

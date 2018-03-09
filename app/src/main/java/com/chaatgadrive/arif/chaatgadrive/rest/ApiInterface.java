@@ -17,6 +17,7 @@ import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideFinishModel.RideF
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideHistory.RideHistoryResponse;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideHistory.RideStartResponse;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideHistory.RiderHistoryResponse;
+import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RiderEarnings.RiderEarnings;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RiderProfileStats.RiderProfileStatsResponse;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.User;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.UserCheckResponse;
@@ -165,4 +166,9 @@ public interface ApiInterface {
     @GET("api/v1/rider/all_informations")
     Call<LoginModel> getRiderAllInformations(@Header("Authorization") String authHeader,
                                              @Query("rider_id") String riderId);
+
+    @GET("api/v1/rider/earnings")
+    Call<RiderEarnings> getRiderEarnings(@Header("Authorization") String authHeader,
+                                         @Query("rider_id") String rider_id);
+
 }
