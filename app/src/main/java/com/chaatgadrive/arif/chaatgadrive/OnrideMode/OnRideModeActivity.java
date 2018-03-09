@@ -239,8 +239,6 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         startRide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                     startTime = new Date();
                     //noinspection deprecation
                     AppConstant.RIDING_FLAG = 2;
@@ -268,9 +266,8 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                     Intent intent = new Intent(OnRideModeActivity.this, InternetCheckActivity.class);
                     startActivityForResult(intent, AppConstant.INTERNET_CHECK);
                 }
-                else if (!connectionCheck.isGpsEnable()){
-                    connectionCheck.showGPSDisabledAlertToUser();
-                }
+
+
                 else {
                     AppConstant.IS_RIDE_FINISH = true;
                     new AlertDialog.Builder(OnRideModeActivity.this)
@@ -317,7 +314,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                 //do stuff here
                 source = new LatLng(AppConstant.SOURCE_LATITUTE,AppConstant.SOURCE_LOGITUTE);
                 destination = new LatLng(AppConstant.DESTINATION_LATITUTE,AppConstant.DESTINATION_LOGITUTE);
-                if(connectionCheck.isGpsEnable() && connectionCheck.isNetworkConnected()){
+                if(connectionCheck.isNetworkConnected()){
                     // Getting URL to the Google Directions API
 
                     try {
@@ -354,7 +351,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
             }
             mMap.setMyLocationEnabled(true);
             setUpMap();
-            Toast.makeText(this, "Map is Ready", Toast.LENGTH_SHORT).show();
+
     }
 
 
