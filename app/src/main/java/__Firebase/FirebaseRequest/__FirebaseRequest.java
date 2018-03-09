@@ -287,14 +287,4 @@ public class __FirebaseRequest extends AppCompatActivity {
         };
         thread.start();
     }
-
-    public void UpdateNameImageAndRatting(final RiderModel Rider, final ICallbackMain callBackListener) {
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                new UpdateNameImageAndRatting(Rider, callBackListener);
-            }
-        };
-        thread.start();
-    }
 }

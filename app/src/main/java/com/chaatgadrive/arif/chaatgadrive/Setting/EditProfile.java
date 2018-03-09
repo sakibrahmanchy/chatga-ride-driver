@@ -41,6 +41,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import ContactWithFirebase.Main;
 import __Firebase.FirebaseWrapper;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -81,7 +82,7 @@ public class EditProfile extends AppCompatActivity  {
     private UserInformation userInformation;
     private File profilePicture;
     String TAG = "EditProfile";
-
+   private  Main main = new Main(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -357,6 +358,8 @@ public class EditProfile extends AppCompatActivity  {
                         String json = gson.toJson(newLoginData);
                         editor.putString("userData",json);
                         editor.commit();
+                        if(newLoginData.getAvatar()!=null){
+                        }
                         break;
                     default:
                         Snackbar.make(findViewById(android.R.id.content), "Sorry, network error.",

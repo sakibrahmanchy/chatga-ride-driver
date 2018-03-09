@@ -1,7 +1,6 @@
 package com.chaatgadrive.arif.chaatgadrive.Earning;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,40 +9,25 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.chaatgadrive.arif.chaatgadrive.FacebookAccountVerificationActivity;
-import com.chaatgadrive.arif.chaatgadrive.FirstAppLoadingActivity.FirstAppLoadingActivity;
 import com.chaatgadrive.arif.chaatgadrive.R;
 import com.chaatgadrive.arif.chaatgadrive.SharedPreferences.UserInformation;
-import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginData;
-import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginModel;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RiderEarnings.EarningByDay;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RiderEarnings.RiderEarnings;
 import com.chaatgadrive.arif.chaatgadrive.rest.ApiClient;
 import com.chaatgadrive.arif.chaatgadrive.rest.ApiInterface;
 import com.google.gson.Gson;
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.ValueDependentColor;
-import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
-import com.squareup.picasso.MemoryPolicy;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Random;
 
-import __Firebase.FirebaseWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -63,6 +47,12 @@ public class EarningFragment extends Fragment {
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
     private UserInformation userInformation;
+    private TextView totalEarning;
+    private TextView totalCompleteTrips;
+    private  TextView totalRideRequest;
+    private TextView totalDue;
+    private  TextView totalPaid;
+    private TextView completionRate;
     DataPoint dataPoints[];
     BarGraphSeries<DataPoint> series;
     GraphView graph;
@@ -82,6 +72,9 @@ public class EarningFragment extends Fragment {
         View view = inflater.inflate(R.layout.activity_earning, container, false);
 
         graph = (GraphView) view.findViewById(R.id.graph);
+        totalRideRequest = view.findViewById(R.id.total_ride_request);
+        totalCompleteTrips = view.findViewById(R.id.total_ride_complete);
+
 
         pref = getContext().getSharedPreferences("MyPref", 0);
         editor = pref.edit();

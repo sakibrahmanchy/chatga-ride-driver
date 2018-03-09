@@ -5,10 +5,13 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v4.widget.NestedScrollView;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
 import com.chaatgadrive.arif.chaatgadrive.CostEstimation.CostEstimation;
@@ -60,6 +63,9 @@ public class InitialAndFinalCostEstimation {
     private UserInformation userInformation;
     private Button finishRide;
     private Button startRide;
+    private LinearLayout AccepAndReject;
+    private FrameLayout StartAndFinish;
+    private NestedScrollView bootmsheet;
 
     public InitialAndFinalCostEstimation(Context context) {
 
@@ -76,6 +82,9 @@ public class InitialAndFinalCostEstimation {
         getDistanceFromMap = new GetDistanceFromMap();
         finishRide =(Button) ((Activity)context).findViewById(R.id.finishbtn);
         startRide =(Button) ((Activity)context).findViewById(R.id.startBtn);
+        AccepAndReject =(LinearLayout)((Activity)context).findViewById(R.id.accep_reject_card_layout);
+        bootmsheet =(NestedScrollView ) ((Activity)context).findViewById(R.id.bottom_sheet);
+        StartAndFinish = (FrameLayout) ((Activity)context).findViewById(R.id.start_and_finish_layout);
         main = new Main(context);
 
     }
@@ -130,6 +139,11 @@ public class InitialAndFinalCostEstimation {
                             riderHistory.EndingLocationName = notificationModel.destinationName;
                             main.CreateNewHistoryModelFirebase(riderHistory);
                             SendPushNotification();
+                            AppConstant.SHOW_ACTIVITY_FOR_ACCEPT_AND_REJECT=false;
+                            AccepAndReject.setVisibility(View.GONE);
+                            StartAndFinish.setVisibility(View.VISIBLE);
+                            bootmsheet.setVisibility(View.VISIBLE);
+                            finishRide.setVisibility(View.INVISIBLE);
                         }
                         break;
                     case 500:

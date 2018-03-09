@@ -8,9 +8,6 @@ public class FirebaseConstant {
 
     public static String CLIENT = "Client";
     public static String CLIENT_ID = "ClientID";
-    public static String FULL_NAME = "FULL_NAME";
-    public static String IMAGE_URL = "IMAGE_URL";
-    public static String RATTING = "Ratting";
     public static String CURRENT_RIDING_HISTORY_ID = "CurrentRidingHistoryID";
     public static String RIDER = "Rider";
     public static String RIDER_LOCATION = "RiderLocation";
@@ -120,7 +117,6 @@ public class FirebaseConstant {
     public static String RESPONSE_INITIAL_AC_NOTF = "RESPONSE_INITIAL_AC_NOTF";
     public static String NOTIFICATION_RESPONSE = "NOTIFICATION_RESPONSE";
     public static String FIREBASE_NOT_INITIALIZE = "FIREBASE_NOT_INITIALIZE";
-    public static String UPDATE_NAME_IMAGE_URL = "UPDATE_NAME_IMAGE_URL";
 
     /*Notification Action Type*/
     public static final String RIDER_TO_CLIENT = "3012";

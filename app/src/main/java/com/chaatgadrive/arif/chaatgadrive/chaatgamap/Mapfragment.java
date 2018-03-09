@@ -13,10 +13,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chaatgadrive.arif.chaatgadrive.InternetConnection.ConnectionCheck;
 import com.chaatgadrive.arif.chaatgadrive.R;
+import com.chaatgadrive.arif.chaatgadrive.SharedPreferences.UserInformation;
+import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginData;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -49,6 +52,9 @@ public class Mapfragment extends Fragment implements OnMapReadyCallback, GoogleM
     private UiSettings uiSettings;
     private Main main;
     private ImageView traffic_mode;
+    private LoginData loginData;
+    private UserInformation userInformation;
+    private TextView DriverVerifiedStatus;
     public Mapfragment() {
         // Required empty public constructor
     }
@@ -63,6 +69,15 @@ public class Mapfragment extends Fragment implements OnMapReadyCallback, GoogleM
                 .findFragmentById(R.id.map);
         Tag = ConstentUtilityModel.MapFragment;
         getCurrentLocation = new GetCurrentLocation(getContext());
+        userInformation = new UserInformation(getContext());
+        loginData = userInformation.getuserInformation();
+        DriverVerifiedStatus = mapview.findViewById(R.id.service_not_available);
+        if(loginData.getIsVerified()==1){
+            DriverVerifiedStatus.setVisibility(View.INVISIBLE);
+        }
+        else {
+            DriverVerifiedStatus.setVisibility(View.VISIBLE);
+        }
         connectionCheck  = new ConnectionCheck(getContext());
         main = new Main(getContext());
 

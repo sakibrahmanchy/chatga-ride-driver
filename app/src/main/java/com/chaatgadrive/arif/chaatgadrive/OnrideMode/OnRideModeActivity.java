@@ -92,6 +92,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     private LinearLayout AccepAndReject;
     private FrameLayout StartAndFinish;
     private NestedScrollView bootmsheet;
+    private ImageView clientImage;
     private TextView accepRide,rejectRide,sourceAdress,destinationAdress,totalCost,dateTime,Currentclient_Name;
     public  static Activity onRideModeContext;
 
@@ -127,6 +128,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         totalCost = (TextView) findViewById(R.id.total_fare);
         dateTime =(TextView) findViewById(R.id.date_time);
         Currentclient_Name =(TextView) findViewById(R.id.current_client_name);
+        clientImage = (ImageView) findViewById(R.id.client_image);
         onRideModeContext =this;
 
 
@@ -163,16 +165,18 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
             sourceAdress.setText(notificationModel.sourceName);
             Currentclient_Name.setText(notificationModel.clientName);
                    totalCost.setText("Estimated: "+notificationModel.totalCost);
+            Picasso.with(this).invalidate(notificationModel.clientImageUrl);
+            Picasso.with(this)
+                    .load(notificationModel.clientImageUrl)
+                    .placeholder(R.drawable.profile_image)
+                    .error(R.drawable.profile_image)
+                    .into(clientImage);
             destinationAdress.setText(notificationModel.destinationName);
             accepRide.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     initialAndFinalCostEstimation.CreateInitialHistory();
-                    AppConstant.SHOW_ACTIVITY_FOR_ACCEPT_AND_REJECT=false;
-                    AccepAndReject.setVisibility(View.GONE);
-                    StartAndFinish.setVisibility(View.VISIBLE);
-                    bootmsheet.setVisibility(View.VISIBLE);
-                    finishRide.setVisibility(View.INVISIBLE);
+
                 }
             });
 
