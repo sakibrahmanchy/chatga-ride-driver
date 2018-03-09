@@ -23,4 +23,5 @@ public interface ICallbackMain {
     void OnFinishedRide(boolean value);
     void OnGetRiderStatus(boolean value);
     void OnHasAnyRide(boolean value);
+    void OnUpdateNameAndImage(boolean value);
 }
