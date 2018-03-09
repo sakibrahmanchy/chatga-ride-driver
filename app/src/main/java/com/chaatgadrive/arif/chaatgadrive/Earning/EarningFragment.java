@@ -20,6 +20,7 @@ import com.chaatgadrive.arif.chaatgadrive.R;
 import com.chaatgadrive.arif.chaatgadrive.SharedPreferences.UserInformation;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginData;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginModel;
+import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RiderEarnings.EarningByDay;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RiderEarnings.RiderEarnings;
 import com.chaatgadrive.arif.chaatgadrive.rest.ApiClient;
 import com.chaatgadrive.arif.chaatgadrive.rest.ApiInterface;
@@ -37,6 +38,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 import __Firebase.FirebaseWrapper;
@@ -44,20 +48,24 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.content.ContentValues.TAG;
+
 
 /**
  * Created by SakibRahman on 3/9/2018.
  */
 
+
+
 public class EarningFragment extends Fragment {
     public int defaultValue = Color.GRAY;
-
+    public String TAG = "TEST";
     private ProgressDialog dialog;
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
     private UserInformation userInformation;
-
+    DataPoint dataPoints[];
+    BarGraphSeries<DataPoint> series;
+    GraphView graph;
     public EarningFragment(){
 
     }
@@ -73,7 +81,7 @@ public class EarningFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.activity_earning, container, false);
 
-        GraphView graph = (GraphView) view.findViewById(R.id.graph);
+        graph = (GraphView) view.findViewById(R.id.graph);
 
         pref = getContext().getSharedPreferences("MyPref", 0);
         editor = pref.edit();
@@ -106,6 +114,39 @@ public class EarningFragment extends Fragment {
                 switch(statusCode){
                     case 200:
 
+                        EarningByDay earningByDay = response.body().getData().getEarningByDay();
+                        Gson gson = new Gson();
+                        String json = gson.toJson(earningByDay);
+
+                        JSONObject json_array = null;
+                        try {
+                            json_array = new JSONObject(json);
+                            Iterator<?> keys = json_array.keys();
+                            int i = 0;
+                            ArrayList<DataPoint> list = new ArrayList<DataPoint>();
+                            ArrayList<String> dayNames = new ArrayList<String>();
+                            dayNames.add("");
+                            while( keys.hasNext() ) {
+                                String key = (String) keys.next();
+                                dayNames.add(key);
+                                String value = "" +json_array.get(key);
+                                list.add(new DataPoint(i, Integer.parseInt(value)));
+                                i++;
+                            }
+                            dayNames.add("");
+
+                            series = new BarGraphSeries<>(new DataPoint[]{
+                                    list.get(0),list.get(1),list.get(2),list.get(3),
+                                    list.get(4),list.get(5),list.get(6)
+                            });
+
+                            setGraphValue(graph,dayNames);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
                         break;
                     default:
 
@@ -121,30 +162,25 @@ public class EarningFragment extends Fragment {
     }
 
 
-    public void setGraphValue(GraphView graph){
-        BarGraphSeries<DataPoint> series = new BarGraphSeries<>(new DataPoint[] {
-                new DataPoint(0, 0),
-                new DataPoint(1, 100),
-                new DataPoint(2, 220),
-                new DataPoint(3, 320),
-                new DataPoint(4, 200),
-                new DataPoint(5, 300),
-                new DataPoint(6, 200),
-                new DataPoint(7, 300),
-                new DataPoint(8, 0)
-        });
+    public void setGraphValue(GraphView graph, ArrayList<String> dayNames){
+
+//        StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
+//        staticLabelsFormatter.setHorizontalLabels(new String[]{
+//                dayNames.get(0),dayNames.get(1),dayNames.get(2),dayNames.get(3),
+//                dayNames.get(4),dayNames.get(5),dayNames.get(6),dayNames.get(7),
+//                dayNames.get(8)});
+//        graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
+//
+//        series.setValueDependentColor(new ValueDependentColor<DataPoint>() {
+//            @Override
+//            public int get(DataPoint data) {
+//                return R.color.colorPrimary;
+//            }
+//        });
+
         graph.addSeries(series);
 
-        StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
-        staticLabelsFormatter.setHorizontalLabels(new String[] {"","SAT", "SUN", "MON", "TUE","WED", "THU", "FRI","" });
-        graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
 
-        series.setValueDependentColor(new ValueDependentColor<DataPoint>() {
-            @Override
-            public int get(DataPoint data) {
-                return R.color.colorPrimary;
-            }
-        });
 
 
 // draw values on top
