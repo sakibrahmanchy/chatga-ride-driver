@@ -14,11 +14,14 @@ import android.widget.TextView;
 import com.chaatgadrive.arif.chaatgadrive.R;
 import com.chaatgadrive.arif.chaatgadrive.SharedPreferences.UserInformation;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RiderEarnings.EarningByDay;
+import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RiderEarnings.EarningData;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RiderEarnings.RiderEarnings;
 import com.chaatgadrive.arif.chaatgadrive.rest.ApiClient;
 import com.chaatgadrive.arif.chaatgadrive.rest.ApiInterface;
 import com.google.gson.Gson;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.ValueDependentColor;
+import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 
@@ -74,6 +77,10 @@ public class EarningFragment extends Fragment {
         graph = (GraphView) view.findViewById(R.id.graph);
         totalRideRequest = view.findViewById(R.id.total_ride_request);
         totalCompleteTrips = view.findViewById(R.id.total_ride_complete);
+        totalEarning =view.findViewById(R.id.total_earning_for_ride);
+        totalDue = view.findViewById(R.id.total_trips_due);
+        totalPaid = view.findViewById(R.id.total_paid);
+        completionRate = view.findViewById(R.id.total_complete_rate);
 
 
         pref = getContext().getSharedPreferences("MyPref", 0);
@@ -108,9 +115,16 @@ public class EarningFragment extends Fragment {
                     case 200:
 
                         EarningByDay earningByDay = response.body().getData().getEarningByDay();
+                        EarningData earningData = response.body().getData();
                         Gson gson = new Gson();
                         String json = gson.toJson(earningByDay);
 
+                        totalRideRequest.setText(earningData.getRideRequests());
+                        totalEarning.setText(earningData.getEarnings());
+                        totalCompleteTrips.setText(earningData.getTripsCompleted());
+                        totalDue.setText(earningData.getTotalDue());
+                        totalPaid.setText(earningData.getTotalPaid());
+                        completionRate.setText(earningData.getCompletionRate());
                         JSONObject json_array = null;
                         try {
                             json_array = new JSONObject(json);
@@ -157,19 +171,19 @@ public class EarningFragment extends Fragment {
 
     public void setGraphValue(GraphView graph, ArrayList<String> dayNames){
 
-//        StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
-//        staticLabelsFormatter.setHorizontalLabels(new String[]{
-//                dayNames.get(0),dayNames.get(1),dayNames.get(2),dayNames.get(3),
-//                dayNames.get(4),dayNames.get(5),dayNames.get(6),dayNames.get(7),
-//                dayNames.get(8)});
-//        graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
-//
-//        series.setValueDependentColor(new ValueDependentColor<DataPoint>() {
-//            @Override
-//            public int get(DataPoint data) {
-//                return R.color.colorPrimary;
-//            }
-//        });
+        StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
+        staticLabelsFormatter.setHorizontalLabels(new String[]{
+                dayNames.get(0),dayNames.get(1),dayNames.get(2),dayNames.get(3),
+                dayNames.get(4),dayNames.get(5),dayNames.get(6),dayNames.get(7),
+                dayNames.get(8)});
+        graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
+
+        series.setValueDependentColor(new ValueDependentColor<DataPoint>() {
+            @Override
+            public int get(DataPoint data) {
+                return R.color.colorPrimary;
+            }
+        });
 
         graph.addSeries(series);
 
