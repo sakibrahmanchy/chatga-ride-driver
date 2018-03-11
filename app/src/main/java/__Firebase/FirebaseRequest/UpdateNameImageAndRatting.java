@@ -49,7 +49,7 @@ public class UpdateNameImageAndRatting {
                         dataSnapshot.getChildren().iterator().next().getRef().updateChildren(updateImage);
 
                         Map<String, Object> updateRatting = new HashMap<>();
-                        updateRatting.put(FirebaseConstant.IMAGE_URL, Rider.ImageUrl);
+                        updateRatting.put(FirebaseConstant.RATTING, Rider.ImageUrl);
                         dataSnapshot.getChildren().iterator().next().getRef().updateChildren(updateRatting);
 
                         Log.d(FirebaseConstant.UPDATE_NAME_IMAGE_URL, FirebaseConstant.UPDATE_NAME_IMAGE_URL);
