@@ -133,7 +133,7 @@ public class FirstAppLoadingActivity extends AppCompatActivity {
                         String json = gson.toJson(newLoginData);
                         editor.putString("userData",json);
                         editor.commit();
-                        main.UpdateNameImageAndRatting(null,null,newLoginData.getRating()+"");
+                        main.UpdateNameImageAndRatting(newLoginData.getFirstName()+" "+newLoginData.getLastName(),newLoginData.getAvatar(),newLoginData.getRating()+"");
                         main.GetRiderStatus(Long.parseLong(userInformation.getuserInformation().getRiderId()));
                         InitializeApp();
                         break;
