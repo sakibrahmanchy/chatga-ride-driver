@@ -47,7 +47,6 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
     }
 
     public boolean IsRiderAlreadyCreated(RiderModel RiderModel) {
-
         firebaseWrapper = FirebaseWrapper.getInstance();
         FirebaseRequestInstance = firebaseWrapper.getFirebaseRequestInstance();
         FirebaseRequestInstance.IsRiderAlreadyCreated(RiderModel, Main.this);

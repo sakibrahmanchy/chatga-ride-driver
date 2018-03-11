@@ -80,11 +80,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
                         startActivity(intent);
                         finish();
 
-                    } else if (!connectionCheck.isGpsEnable()) {
-                        Intent intent = new Intent(MainActivity.this, InternetCheckActivity.class);
-                        startActivity(intent);
-                        finish();
-                    } else {
+                    }  else {
                         manager.beginTransaction().replace(R.id.content, mapfragment, mapfragment.getTag()).commit();
                     }
                     return true;
@@ -120,12 +116,6 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
 
 
         if (!connectionCheck.isNetworkConnected()) {
-
-            Intent intent = new Intent(MainActivity.this, InternetCheckActivity.class);
-            startActivity(intent);
-            finish();
-
-        } else if (!connectionCheck.isGpsEnable()) {
 
             Intent intent = new Intent(MainActivity.this, InternetCheckActivity.class);
             startActivity(intent);

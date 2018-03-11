@@ -80,13 +80,7 @@ public class Mapfragment extends Fragment implements OnMapReadyCallback, GoogleM
         }
         connectionCheck  = new ConnectionCheck(getContext());
         main = new Main(getContext());
-
-        if (getCurrentLocation.isGPSEnabled && getCurrentLocation.isGPSEnabled) {
-            getLocationPermission();
-        } else {
-            getCurrentLocation.showSettingsAlert();
-        }
-
+          getLocationPermission();
         traffic_mode = mapview.findViewById(R.id.traffice_mode);
         traffic_mode.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,10 +104,8 @@ public class Mapfragment extends Fragment implements OnMapReadyCallback, GoogleM
         mMap = googleMap;
         //ask for permissions..
 
-        if (ConstentUtilityModel.mLocationPermissionsGranted &&connectionCheck.isGpsEnable() && connectionCheck.isNetworkConnected()) {
+        if (connectionCheck.isNetworkConnected()) {
             getDeviceLocation();
-
-
             if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling
                 //    ActivityCompat#requestPermissions
@@ -141,9 +133,15 @@ public class Mapfragment extends Fragment implements OnMapReadyCallback, GoogleM
 
 
     private void getDeviceLocation(){
-        moveCamera(new LatLng(getCurrentLocation.getLatitude(), getCurrentLocation.getLongitude()),
-                ConstentUtilityModel.DEFAULT_ZOOM,
-                "My Location");
+        if(connectionCheck.isGpsEnable()){
+            moveCamera(new LatLng(getCurrentLocation.getLatitude(), getCurrentLocation.getLongitude()),
+                    ConstentUtilityModel.DEFAULT_ZOOM,
+                    "My Location");
+        }
+        else{
+              Toast.makeText(getContext(),"GPS OFF",Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     private void getLocationPermission(){
