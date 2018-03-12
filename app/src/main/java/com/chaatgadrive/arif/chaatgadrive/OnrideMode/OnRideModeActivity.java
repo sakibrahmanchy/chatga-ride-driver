@@ -245,13 +245,14 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                     setTitle("You are in Ride");
                     AppConstant.ON_RIDE_MODE=1;
                     distanceModel.setSourceLat(getCurrentLocation.getLatitude());
-                    distanceModel.setDestinationLat(getCurrentLocation.getLongitude());
+                    distanceModel.setSourceLong(getCurrentLocation.getLongitude());
                     editor.remove("DistanceModel");
                     Gson gson = new Gson();
                     String json = gson.toJson(distanceModel);
                     editor.putString("DistanceModel",json);
                     editor.commit();
                     initialAndFinalCostEstimation.UpdateStartRide(AppConstant.CURRENT_HISTORY_ID);
+
                     AppConstant.PREVIOUS_LATLONG = new LatLng(getCurrentLocation.getLatitude(),getCurrentLocation.getLongitude());
 
                 }

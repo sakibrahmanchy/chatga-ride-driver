@@ -186,7 +186,7 @@ public class InitialAndFinalCostEstimation {
                             main.ForcedAcceptanceOfRide(FirebaseConstant.FINAL_ACCEPTANCE);
                             startRide.setVisibility(View.GONE);
                             finishRide.setVisibility(View.VISIBLE);
-                            Intent intent = new Intent(Onridecontext, DistanceCalculationService.class);
+                            Intent intent = new Intent(Onridecontext,DistanceCalculationService.class);
                             Onridecontext.startService(intent);
                         }
                         break;
@@ -229,10 +229,13 @@ public class InitialAndFinalCostEstimation {
                             mContext.stopService(intent);
                             rideFinishData = response.body().getData();
                             ForceFinishedRide();
+                            Intent intent1 = new Intent(Onridecontext,DistanceCalculationService.class);
+                            Onridecontext.stopService(intent1);
                             AppConstant.TOTAL_RIDING_COST = (int)rideFinishData.getCostAfterDiscount();
                             Intent Finishintent = new Intent(mContext, FinishRideActivity.class);
                             mContext.startActivity(Finishintent);
                             Onridecontext.finish();
+
                         }
                         break;
                     case 500:

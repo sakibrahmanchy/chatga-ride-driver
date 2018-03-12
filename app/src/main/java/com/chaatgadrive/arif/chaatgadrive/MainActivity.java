@@ -184,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
         MenuItem actionViewItem = menu.findItem(R.id.switchView);
         View v = MenuItemCompat.getActionView(actionViewItem);
         OffOnSwitch = (Switch) v.findViewById(R.id.switch1);
-
+        OffOnSwitch.setChecked(true);
         if (AppConstant.OnOffSwith == 1) {
             OffOnSwitch.setChecked(true);
             OffOnSwitch.setText("ON");
