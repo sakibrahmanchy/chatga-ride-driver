@@ -244,6 +244,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                     AppConstant.RIDING_FLAG = 2;
                     setTitle("You are in Ride");
                     AppConstant.ON_RIDE_MODE=1;
+
                     distanceModel.setSourceLat(getCurrentLocation.getLatitude());
                     distanceModel.setSourceLong(getCurrentLocation.getLongitude());
                     editor.remove("DistanceModel");

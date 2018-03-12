@@ -46,6 +46,7 @@ public class AppConstant {
     public static double DESTINATION_LATITUTE = 0;
     public static double DESTINATION_LOGITUTE = 0;
     public static boolean IS_ALARM = true;
+    public static boolean IS_RIDE_START =false;
 
     /*Notification Action and Type*/
     public static final String ACTION_TYPE = ("actionType");
