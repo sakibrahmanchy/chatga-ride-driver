@@ -359,6 +359,8 @@ public class EditProfile extends AppCompatActivity  {
                         editor.putString("userData",json);
                         editor.commit();
                         if(newLoginData.getAvatar()!=null){
+                            main.UpdateNameImageAndRatting(newLoginData.getFirstName() +" "+newLoginData.getLastName()
+                            ,newLoginData.getAvatar(),null);
                         }
                         break;
                     default:

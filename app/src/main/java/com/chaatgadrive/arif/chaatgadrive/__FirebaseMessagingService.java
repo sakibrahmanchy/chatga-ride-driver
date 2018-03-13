@@ -29,11 +29,10 @@ public class __FirebaseMessagingService extends FirebaseMessagingService {
 
         if (remoteMessage.getData().containsKey("typeId")) {
             if (remoteMessage.getData().get("typeId").equals("1")) {
+
                 Intent intent = new Intent(this, MainActivity.class);
                 PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-
                 Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                 builder.setSound(sound);
                 builder.setContentTitle(remoteMessage.getData().get("title"));
@@ -41,7 +40,6 @@ public class __FirebaseMessagingService extends FirebaseMessagingService {
                 builder.setAutoCancel(true);
                 builder.setSmallIcon(R.mipmap.ic_launcher);
                 builder.setContentIntent(pendingIntent);
-
                 NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 notificationManager.notify(0, builder.build());
             }
@@ -57,9 +55,7 @@ public class __FirebaseMessagingService extends FirebaseMessagingService {
         } else {
             NotificationModel notificationModel = FirebaseWrapper.getInstance().getNotificationModelInstance();
             ClientModel clientModel = FirebaseWrapper.getInstance().getClientModelInstance();
-
-            if (remoteMessage.getData().size() > 0) {
-
+             if (remoteMessage.getData().size() > 0) {
                 notificationModel.title = remoteMessage.getData().containsKey("title") ? remoteMessage.getData().get("title") : FirebaseConstant.Empty;
                 notificationModel.body = remoteMessage.getData().containsKey("body") ? remoteMessage.getData().get("body") : FirebaseConstant.Empty;
                 notificationModel.clientId = Long.parseLong(remoteMessage.getData().containsKey("clientId") ? remoteMessage.getData().get("clientId") : "0");
@@ -80,11 +76,11 @@ public class __FirebaseMessagingService extends FirebaseMessagingService {
                 notificationModel.totalCost = Long.parseLong(remoteMessage.getData().containsKey("totalCost") ? remoteMessage.getData().get("totalCost") : "0");
                 notificationModel.discountID = Long.parseLong(remoteMessage.getData().containsKey("discountID") ? remoteMessage.getData().get("discountID") : "0");
                 notificationModel.time = Long.parseLong(remoteMessage.getData().containsKey("time") ? remoteMessage.getData().get("time") : "0");
-
                 clientModel.ClientID = notificationModel.clientId;
                 clientModel.FullName = notificationModel.clientName;
                 clientModel.PhoneNumber = Long.parseLong(notificationModel.clientPhone);
                 clientModel.DeviceToken = notificationModel.clientDeviceToken;
+
             }
 
             AppConstant.SHOW_ACTIVITY_FOR_ACCEPT_AND_REJECT = true;
@@ -92,9 +88,7 @@ public class __FirebaseMessagingService extends FirebaseMessagingService {
             intent.putExtra(FirebaseConstant.RIDE_NOTIFICATION, FirebaseConstant.RIDE_NOTIFICATION);
             intent.setFlags(intent.FLAG_ACTIVITY_CLEAR_TOP);
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-
             Uri sound = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.siren);
             builder.setSound(sound);
             builder.setContentTitle(notificationModel.title);
@@ -102,7 +96,6 @@ public class __FirebaseMessagingService extends FirebaseMessagingService {
             builder.setAutoCancel(true);
             builder.setSmallIcon(R.mipmap.ic_launcher);
             builder.setContentIntent(pendingIntent);
-
             NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.notify(0, builder.build());
 
@@ -118,19 +111,22 @@ public class __FirebaseMessagingService extends FirebaseMessagingService {
 
     private void RIDE_CANCEL_BY_CLIENT_NOTF(int action, RemoteMessage remoteMessage) {
         if(remoteMessage.getData().size() > 0){
+
             if(remoteMessage.getData().containsKey(AppConstant.CLIENT_ID)){
                 long clientId = Long.parseLong(remoteMessage.getData().get(AppConstant.CLIENT_ID));
             }
+
             /*Your Own Pending Intent*/
             Intent intent = new Intent(this, MainActivity.class);
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             this.Notify(AppConstant.CANCEL_RIDE_TITLE, AppConstant.CANCEL_RIDE_BODY, pendingIntent);
+
         }
     }
 
     private void Notify(String Title, String Body, PendingIntent pendingIntent){
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         builder.setSound(sound);
         builder.setContentTitle(Title);
@@ -138,8 +134,8 @@ public class __FirebaseMessagingService extends FirebaseMessagingService {
         builder.setAutoCancel(true);
         builder.setSmallIcon(R.mipmap.ic_launcher);
         builder.setContentIntent(pendingIntent);
-
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(0, builder.build());
+
     }
 }
