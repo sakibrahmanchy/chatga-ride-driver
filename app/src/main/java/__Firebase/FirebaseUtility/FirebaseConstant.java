@@ -48,6 +48,7 @@ public class FirebaseConstant {
     public static String TIME = "time";
     public static String DATE = "date";
     public static String TIME_DATE_PATTERN = "yyyy-M-dd hh:mm:ss";
+    public static String APP_SETTINGS_INFO = "AppSettings";
 
     public static int ONLINE_NOT_BUSY_NO_RIDE = 100;
     public static int ONLINE_BUSY_NO_RIDE = 110;
@@ -121,6 +122,8 @@ public class FirebaseConstant {
     public static String NOTIFICATION_RESPONSE = "NOTIFICATION_RESPONSE";
     public static String FIREBASE_NOT_INITIALIZE = "FIREBASE_NOT_INITIALIZE";
     public static String UPDATE_NAME_IMAGE_URL = "UPDATE_NAME_IMAGE_URL";
+    public static String APP_SETTINGS = "APP_SETTINGS";
+    public static String APP_SETTINGS_LOADED = "APP_SETTINGS_LOADED";
 
     /*Notification Action Type*/
     public static final String RIDER_TO_CLIENT = "3012";
