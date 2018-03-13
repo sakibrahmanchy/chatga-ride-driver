@@ -226,8 +226,6 @@ public class InitialAndFinalCostEstimation {
                 switch(statusCode){
                     case 200:
                         if(response.body().isSuccess()){
-                            Intent intent = new Intent(mContext, DistanceCalculationService.class);
-                            mContext.stopService(intent);
                             rideFinishData = response.body().getData();
                             ForceFinishedRide();
                             AppConstant.TOTAL_RIDING_COST = (int)rideFinishData.getCostAfterDiscount();
@@ -235,7 +233,7 @@ public class InitialAndFinalCostEstimation {
                             mContext.startActivity(Finishintent);
                             Onridecontext.finish();
                             AppConstant.IS_RIDE=0;
-
+                            AppConstant.IS_RIDE_FINISH = true;
                         }
                         break;
                     case 500:

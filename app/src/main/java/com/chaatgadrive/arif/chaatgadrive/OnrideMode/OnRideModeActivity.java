@@ -244,7 +244,6 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                     AppConstant.RIDING_FLAG = 2;
                     setTitle("You are in Ride");
                     AppConstant.ON_RIDE_MODE=1;
-
                     distanceModel.setSourceLat(getCurrentLocation.getLatitude());
                     distanceModel.setSourceLong(getCurrentLocation.getLongitude());
                     editor.remove("DistanceModel");
@@ -253,9 +252,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                     editor.putString("DistanceModel",json);
                     editor.commit();
                     initialAndFinalCostEstimation.UpdateStartRide(AppConstant.CURRENT_HISTORY_ID);
-
                     AppConstant.PREVIOUS_LATLONG = new LatLng(getCurrentLocation.getLatitude(),getCurrentLocation.getLongitude());
-
                 }
 
         });
@@ -268,39 +265,25 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                     Intent intent = new Intent(OnRideModeActivity.this, InternetCheckActivity.class);
                     startActivityForResult(intent, AppConstant.INTERNET_CHECK);
                 }
-
-
                 else {
-                    AppConstant.IS_RIDE_FINISH = true;
                     new AlertDialog.Builder(OnRideModeActivity.this)
                             .setTitle("Really Exit?")
                             .setMessage("Are you sure you want to finish?")
                             .setNegativeButton(android.R.string.no, null)
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface arg0, int arg1) {
-
-                                    endTime = new Date();
-                                    try{
-                                        AppConstant.TOTAL_DURATION = ((endTime.getTime() - startTime.getTime())/(1000*60));
-                                    }catch ( Exception e){
-                                        AppConstant.TOTAL_DURATION=30;
-                                    }
-
                                     try {
-
-                                        initialAndFinalCostEstimation.UpdateFinalHistory(AppConstant.CURRENT_HISTORY_ID,AppConstant.TOTAL_DURATION,AppConstant.TOTAL_DISTANCE,
-                                                (int)AppConstant.CURRENT_CLIENT_DISCOUNT_ID, AppConstant.SOURCE_NAME,userInformation.GetRidingDistance().getTotaldistance()+"");
+                                        initialAndFinalCostEstimation.UpdateFinalHistory(AppConstant.CURRENT_HISTORY_ID,0,AppConstant.TOTAL_DISTANCE,
+                                                (int)AppConstant.CURRENT_CLIENT_DISCOUNT_ID, AppConstant.SOURCE_NAME,AppConstant.DESTINATION_NAME);
                                         AppConstant.ON_RIDE_MODE=0;
                                     }catch (Exception e){
                                         e.printStackTrace();
                                     }
-
                                 }
                             }).create().show();
                 }
             }
         });
-
         client_phone_call_number.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

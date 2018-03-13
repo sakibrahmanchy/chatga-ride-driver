@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/alart_image"
             android:layout_centerHorizontal="true"
-            android:text="Check Internet Connection!!!"
+            android:text="Check Internet and GPS Connection!!!"
             android:textColor="#FFFF"
             android:textSize="2.5mm" />
 

@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
             switch (item.getItemId()) {
 
                 case R.id.navigation_home:
-                    if (!connectionCheck.isNetworkConnected()) {
+                    if (!connectionCheck.isNetworkConnected() || !connectionCheck.isGpsEnable() ) {
                         Intent intent = new Intent(MainActivity.this, InternetCheckActivity.class);
                         startActivity(intent);
                         finish();
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
         MainActivityContext = this;
 
 
-        if (!connectionCheck.isNetworkConnected()) {
+        if (!connectionCheck.isNetworkConnected() || !connectionCheck.isGpsEnable()) {
 
             Intent intent = new Intent(MainActivity.this, InternetCheckActivity.class);
             startActivity(intent);
@@ -184,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
         MenuItem actionViewItem = menu.findItem(R.id.switchView);
         View v = MenuItemCompat.getActionView(actionViewItem);
         OffOnSwitch = (Switch) v.findViewById(R.id.switch1);
-        OffOnSwitch.setChecked(true);
+
         if (AppConstant.OnOffSwith == 1) {
             OffOnSwitch.setChecked(true);
             OffOnSwitch.setText("ON");
