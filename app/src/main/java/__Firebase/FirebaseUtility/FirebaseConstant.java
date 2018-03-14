@@ -125,6 +125,10 @@ public class FirebaseConstant {
     public static String APP_SETTINGS = "APP_SETTINGS";
     public static String APP_SETTINGS_LOADED = "APP_SETTINGS_LOADED";
 
+    public static int CURRENT_VERSION = 1000;
+    public static int FORCE_UPDATE_INTERVAL = 20;
+    public static int CONSECUTIVE_REQUEST_ACCEPT_INTERVAL = 60000;
+
     /*Notification Action Type*/
     public static final String RIDER_TO_CLIENT = "3012";
     public static final String GET_CURRENT_TIME = "4001";
