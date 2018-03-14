@@ -15,6 +15,8 @@ import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginData
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 
@@ -68,8 +70,11 @@ public class SettingActivity extends AppCompatActivity {
         Picasso.with(this).invalidate(url);
         Picasso.with(this)
                 .load(url)
+                .memoryPolicy(MemoryPolicy.NO_CACHE )
+                .networkPolicy(NetworkPolicy.NO_CACHE)
                 .placeholder(R.drawable.profile_image)
                 .error(R.drawable.profile_image)
+                .noFade()
                 .into(profileImage);
 
     }

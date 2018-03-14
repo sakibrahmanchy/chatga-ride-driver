@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
             switch (item.getItemId()) {
 
                 case R.id.navigation_home:
-                    if (!connectionCheck.isNetworkConnected()) {
+                    if (!connectionCheck.isNetworkConnected() || !connectionCheck.isGpsEnable() ) {
                         Intent intent = new Intent(MainActivity.this, InternetCheckActivity.class);
                         startActivity(intent);
                         finish();
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
         MainActivityContext = this;
 
 
-        if (!connectionCheck.isNetworkConnected()) {
+        if (!connectionCheck.isNetworkConnected() || !connectionCheck.isGpsEnable()) {
 
             Intent intent = new Intent(MainActivity.this, InternetCheckActivity.class);
             startActivity(intent);
@@ -250,7 +250,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
     @Override
     public void OnResponseServerTime(long Time, int type) {
         if (Time > 0 && type == FirebaseConstant.GET_NOTIFICATION_TO_NOTIFY_RIDER) {
-            if (Math.abs(FirebaseWrapper.getInstance().getNotificationModelInstance().time - Time) <= FirebaseConstant.ONE_MINUTE_IN_MILLISECOND) {
+            if (Math.abs(FirebaseWrapper.getInstance().getNotificationModelInstance().time - Time) <= FirebaseConstant.CONSECUTIVE_REQUEST_ACCEPT_INTERVAL) {
                 SwitchingActivity();
             }
         }

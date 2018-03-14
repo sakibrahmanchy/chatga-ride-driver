@@ -21,10 +21,12 @@ import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginData
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginModel;
 import com.chaatgadrive.arif.chaatgadrive.rest.ApiClient;
 import com.chaatgadrive.arif.chaatgadrive.rest.ApiInterface;
+import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 
 import ContactWithFirebase.Main;
+import io.fabric.sdk.android.Fabric;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -49,6 +51,7 @@ public class FirstAppLoadingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_first_app_loading);
         userInformation = new UserInformation(this);
         TAG = getApplicationContext().getApplicationInfo().className;
@@ -90,6 +93,7 @@ public class FirstAppLoadingActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     }
+                    main.UpdateNameImageAndRatting(loginData.getFirstName()+" "+loginData.getLastName(),loginData.getAvatar(),loginData.getRating()+"");
                 } else {
                     handler.postDelayed(this, 1000);
                 }
@@ -133,6 +137,7 @@ public class FirstAppLoadingActivity extends AppCompatActivity {
                         String json = gson.toJson(newLoginData);
                         editor.putString("userData",json);
                         editor.commit();
+
                         main.GetRiderStatus(Long.parseLong(userInformation.getuserInformation().getRiderId()));
                         InitializeApp();
                         break;

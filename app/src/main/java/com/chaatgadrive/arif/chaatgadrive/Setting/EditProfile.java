@@ -31,6 +31,8 @@ import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginMode
 import com.chaatgadrive.arif.chaatgadrive.rest.ApiClient;
 import com.chaatgadrive.arif.chaatgadrive.rest.ApiInterface;
 import com.google.gson.Gson;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
@@ -126,6 +128,9 @@ public class EditProfile extends AppCompatActivity  {
         Picasso.with(this).invalidate(url);
         Picasso.with(this)
                 .load(url)
+                .noFade()
+                .memoryPolicy(MemoryPolicy.NO_CACHE )
+                .networkPolicy(NetworkPolicy.NO_CACHE)
                 .placeholder(R.drawable.profile_image)
                 .error(R.drawable.profile_image)
                 .into(editProfile);
@@ -148,6 +153,7 @@ public class EditProfile extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
                 Intent pickImageIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                pickImageIntent.setType("image/*");
                 startActivityForResult(pickImageIntent, RESULT_LOAD_IMAGE);
             }
         });
@@ -359,6 +365,8 @@ public class EditProfile extends AppCompatActivity  {
                         editor.putString("userData",json);
                         editor.commit();
                         if(newLoginData.getAvatar()!=null){
+                            main.UpdateNameImageAndRatting(newLoginData.getFirstName() +" "+newLoginData.getLastName()
+                            ,newLoginData.getAvatar(),null);
                         }
                         break;
                     default:

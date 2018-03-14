@@ -10,6 +10,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+import __Firebase.FirebaseModel.AppSettingsModel;
 import __Firebase.FirebaseModel.ClientModel;
 import __Firebase.FirebaseModel.CurrentRidingHistoryModel;
 import __Firebase.FirebaseModel.RiderModel;
@@ -35,6 +36,7 @@ public class FirebaseWrapper {
     private RiderModel RiderModel;
     private CurrentRidingHistoryModel CurrentRidingHistoryModel;
     private NotificationModel NotificationModel;
+    private AppSettingsModel AppSettingsModel;
 
     private FirebaseWrapper() {
         FirebaseRootReference = FirebaseDatabase.getInstance().getReference();
@@ -114,6 +116,16 @@ public class FirebaseWrapper {
         return NotificationModel;
     }
 
+    public AppSettingsModel getAppSettingsModelInstance() {
+        if (AppSettingsModel == null) {
+            synchronized (FirebaseWrapper.class) {
+                if (AppSettingsModel == null)
+                    AppSettingsModel = new AppSettingsModel();
+            }
+        }
+        return AppSettingsModel;
+    }
+
     public static String getDeviceToken() {
         Log.d(FirebaseConstant.FIREBASE_TOKEN, FirebaseInstanceId.getInstance().getToken().toString());
         if(FirebaseInstanceId.getInstance() != null) {
@@ -121,40 +133,5 @@ public class FirebaseWrapper {
         }else{
             return FirebaseConstant.FIREBASE_NOT_INITIALIZE;
         }
-    }
-
-    public void ResponseUpdateLocation(RiderModel Rider) {
-
-        Query pendingTask = FirebaseRootReference.child(FirebaseConstant.RIDER).orderByChild(FirebaseConstant.RIDER_ID).equalTo(Rider.RiderID);
-        pendingTask.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    if (dataSnapshot.getChildren().iterator().hasNext()) {
-
-                        DataSnapshot dsp = dataSnapshot.getChildren().iterator().next();
-                        dsp.getRef().addValueEventListener(new ValueEventListener() {
-
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                if (dataSnapshot.exists()) {
-                                    Log.d(FirebaseConstant.REQUEST_FOR_ADD_CHILD, ": " + dataSnapshot.getValue().toString());
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
     }
 }

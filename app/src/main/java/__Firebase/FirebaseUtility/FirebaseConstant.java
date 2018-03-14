@@ -8,8 +8,8 @@ public class FirebaseConstant {
 
     public static String CLIENT = "Client";
     public static String CLIENT_ID = "ClientID";
-    public static String FULL_NAME = "FULL_NAME";
-    public static String IMAGE_URL = "IMAGE_URL";
+    public static String FULL_NAME = "FullName";
+    public static String IMAGE_URL = "ImageUrl";
     public static String RATTING = "Ratting";
     public static String CURRENT_RIDING_HISTORY_ID = "CurrentRidingHistoryID";
     public static String RIDER = "Rider";
@@ -48,6 +48,7 @@ public class FirebaseConstant {
     public static String TIME = "time";
     public static String DATE = "date";
     public static String TIME_DATE_PATTERN = "yyyy-M-dd hh:mm:ss";
+    public static String APP_SETTINGS_INFO = "AppSettings";
 
     public static int ONLINE_NOT_BUSY_NO_RIDE = 100;
     public static int ONLINE_BUSY_NO_RIDE = 110;
@@ -121,6 +122,12 @@ public class FirebaseConstant {
     public static String NOTIFICATION_RESPONSE = "NOTIFICATION_RESPONSE";
     public static String FIREBASE_NOT_INITIALIZE = "FIREBASE_NOT_INITIALIZE";
     public static String UPDATE_NAME_IMAGE_URL = "UPDATE_NAME_IMAGE_URL";
+    public static String APP_SETTINGS = "APP_SETTINGS";
+    public static String APP_SETTINGS_LOADED = "APP_SETTINGS_LOADED";
+
+    public static int CURRENT_VERSION = 1000;
+    public static int FORCE_UPDATE_INTERVAL = 20;
+    public static int CONSECUTIVE_REQUEST_ACCEPT_INTERVAL = 60000;
 
     /*Notification Action Type*/
     public static final String RIDER_TO_CLIENT = "3012";

@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
@@ -12,6 +13,9 @@ import android.util.Log;
 import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.squareup.picasso.Picasso;
+
+import java.io.IOException;
 
 import __Firebase.FirebaseModel.ClientModel;
 import __Firebase.FirebaseResponse.NotificationModel;
@@ -29,11 +33,10 @@ public class __FirebaseMessagingService extends FirebaseMessagingService {
 
         if (remoteMessage.getData().containsKey("typeId")) {
             if (remoteMessage.getData().get("typeId").equals("1")) {
+
                 Intent intent = new Intent(this, MainActivity.class);
                 PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-
                 Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                 builder.setSound(sound);
                 builder.setContentTitle(remoteMessage.getData().get("title"));
@@ -41,7 +44,6 @@ public class __FirebaseMessagingService extends FirebaseMessagingService {
                 builder.setAutoCancel(true);
                 builder.setSmallIcon(R.mipmap.ic_launcher);
                 builder.setContentIntent(pendingIntent);
-
                 NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 notificationManager.notify(0, builder.build());
             }
@@ -57,9 +59,7 @@ public class __FirebaseMessagingService extends FirebaseMessagingService {
         } else {
             NotificationModel notificationModel = FirebaseWrapper.getInstance().getNotificationModelInstance();
             ClientModel clientModel = FirebaseWrapper.getInstance().getClientModelInstance();
-
-            if (remoteMessage.getData().size() > 0) {
-
+             if (remoteMessage.getData().size() > 0) {
                 notificationModel.title = remoteMessage.getData().containsKey("title") ? remoteMessage.getData().get("title") : FirebaseConstant.Empty;
                 notificationModel.body = remoteMessage.getData().containsKey("body") ? remoteMessage.getData().get("body") : FirebaseConstant.Empty;
                 notificationModel.clientId = Long.parseLong(remoteMessage.getData().containsKey("clientId") ? remoteMessage.getData().get("clientId") : "0");
@@ -80,33 +80,55 @@ public class __FirebaseMessagingService extends FirebaseMessagingService {
                 notificationModel.totalCost = Long.parseLong(remoteMessage.getData().containsKey("totalCost") ? remoteMessage.getData().get("totalCost") : "0");
                 notificationModel.discountID = Long.parseLong(remoteMessage.getData().containsKey("discountID") ? remoteMessage.getData().get("discountID") : "0");
                 notificationModel.time = Long.parseLong(remoteMessage.getData().containsKey("time") ? remoteMessage.getData().get("time") : "0");
-
                 clientModel.ClientID = notificationModel.clientId;
                 clientModel.FullName = notificationModel.clientName;
                 clientModel.PhoneNumber = Long.parseLong(notificationModel.clientPhone);
                 clientModel.DeviceToken = notificationModel.clientDeviceToken;
+
             }
 
-            AppConstant.SHOW_ACTIVITY_FOR_ACCEPT_AND_REJECT = true;
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra(FirebaseConstant.RIDE_NOTIFICATION, FirebaseConstant.RIDE_NOTIFICATION);
-            intent.setFlags(intent.FLAG_ACTIVITY_CLEAR_TOP);
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            String picture = notificationModel.clientImageUrl;
 
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+            Bitmap bmp;
+            try {
+                if(picture.equals("users/default.png")){
+                    bmp = Picasso.with(getApplicationContext()).load(R.drawable.profile_image).get();
+                }
+                else {
+                    bmp = Picasso.with(getApplicationContext()).load(picture).get();
+                }
 
-            Uri sound = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.siren);
-            builder.setSound(sound);
-            builder.setContentTitle(notificationModel.title);
-            builder.setContentText(notificationModel.body);
-            builder.setAutoCancel(true);
-            builder.setSmallIcon(R.mipmap.ic_launcher);
-            builder.setContentIntent(pendingIntent);
+                AppConstant.SHOW_ACTIVITY_FOR_ACCEPT_AND_REJECT = true;
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.putExtra(FirebaseConstant.RIDE_NOTIFICATION, FirebaseConstant.RIDE_NOTIFICATION);
+                intent.setFlags(intent.FLAG_ACTIVITY_CLEAR_TOP);
+                PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+                Uri sound = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.siren);
+                builder.setSound(sound);
+                builder.setContentTitle("Found a Ride !!");
+                builder.setContentText(notificationModel.totalCost+"Tk");
+                builder.setAutoCancel(true);
+                builder.setSmallIcon(R.mipmap.ic_launcher);
+                builder.setLargeIcon(bmp)
+                        .setStyle(new NotificationCompat
+                                .BigTextStyle()
+                                .bigText(notificationModel.sourceName +"\n"+"To"+"\n"+
+                                notificationModel.destinationName+"\n"));
+                builder.setWhen(System.currentTimeMillis());
+                  builder.addAction(R.drawable.ic_google_map, "Tab to view details", pendingIntent);
+                builder.setContentIntent(pendingIntent);
+                NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                notificationManager.notify(0, builder.build());
 
-            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.notify(0, builder.build());
+                Log.d(FirebaseConstant.NOTIFICATION_MESSAGE, FirebaseConstant.NOTIFICATION_MESSAGE);
 
-            Log.d(FirebaseConstant.NOTIFICATION_MESSAGE, FirebaseConstant.NOTIFICATION_MESSAGE);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+
         }
 
     }
@@ -118,6 +140,7 @@ public class __FirebaseMessagingService extends FirebaseMessagingService {
 
     private void RIDE_CANCEL_BY_CLIENT_NOTF(int action, RemoteMessage remoteMessage) {
         if(remoteMessage.getData().size() > 0){
+
             if(remoteMessage.getData().containsKey(AppConstant.CLIENT_ID)){
                 long clientId = Long.parseLong(remoteMessage.getData().get(AppConstant.CLIENT_ID));
             }
@@ -125,12 +148,13 @@ public class __FirebaseMessagingService extends FirebaseMessagingService {
             Intent intent = new Intent(this, MainActivity.class);
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             this.Notify(AppConstant.CANCEL_RIDE_TITLE, AppConstant.CANCEL_RIDE_BODY, pendingIntent);
+
         }
     }
 
     private void Notify(String Title, String Body, PendingIntent pendingIntent){
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         builder.setSound(sound);
         builder.setContentTitle(Title);
@@ -138,8 +162,8 @@ public class __FirebaseMessagingService extends FirebaseMessagingService {
         builder.setAutoCancel(true);
         builder.setSmallIcon(R.mipmap.ic_launcher);
         builder.setContentIntent(pendingIntent);
-
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(0, builder.build());
+
     }
 }
