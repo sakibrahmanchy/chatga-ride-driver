@@ -93,6 +93,7 @@ public class FirstAppLoadingActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     }
+                    main.UpdateNameImageAndRatting(loginData.getFirstName()+" "+loginData.getLastName(),loginData.getAvatar(),loginData.getRating()+"");
                 } else {
                     handler.postDelayed(this, 1000);
                 }
@@ -136,7 +137,7 @@ public class FirstAppLoadingActivity extends AppCompatActivity {
                         String json = gson.toJson(newLoginData);
                         editor.putString("userData",json);
                         editor.commit();
-                        main.UpdateNameImageAndRatting(newLoginData.getFirstName()+" "+newLoginData.getLastName(),newLoginData.getAvatar(),newLoginData.getRating()+"");
+
                         main.GetRiderStatus(Long.parseLong(userInformation.getuserInformation().getRiderId()));
                         InitializeApp();
                         break;

@@ -24,12 +24,12 @@ public class DistanceCalculationService extends Service {
     private static final String TAG = "BOOMBOOMTESTGPS";
     private LocationManager mLocationManager = null;
     private static final int LOCATION_INTERVAL = 10000;
-    private static final float LOCATION_DISTANCE = 10f;
-    SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref",0);
-    private SharedPreferences.Editor editor = pref.edit();
-    private UserInformation userInformation = new UserInformation(this);
-    GetDistanceFromMap getDistanceFromMap  = new GetDistanceFromMap();
-    DistanceModel distanceModel = new DistanceModel();
+    private static final float LOCATION_DISTANCE = 0;
+    SharedPreferences pref ;
+    private SharedPreferences.Editor editor;
+    private UserInformation userInformation;
+    GetDistanceFromMap getDistanceFromMap;
+    DistanceModel distanceModel;
     private class LocationListener implements android.location.LocationListener
     {
         Location mLastLocation;
@@ -44,14 +44,15 @@ public class DistanceCalculationService extends Service {
         public void onLocationChanged(Location location)
         {
             if(location !=null){
-                LatLng SharePrefLatLon = new LatLng(userInformation.GetRidingDistance().getDestinationLat(),userInformation.GetRidingDistance().getDestinationLong());
+                LatLng SharePrefLatLon = new LatLng(userInformation.GetRidingDistance().getSourceLat(),userInformation.GetRidingDistance().getSourceLong());
                 LatLng currentLatlong = new LatLng(location.getLatitude(),location.getLongitude());
                 double Currentdistance= getDistanceFromMap.getDistance(currentLatlong,SharePrefLatLon);
-
                 distanceModel = userInformation.GetRidingDistance();
                 AppConstant.TOTAL_DISTANCE = distanceModel.getTotaldistance();
                 AppConstant.TOTAL_DISTANCE += (Currentdistance/1000.0);
                 distanceModel.setTotaldistance(AppConstant.TOTAL_DISTANCE);
+                distanceModel.setSourceLat(currentLatlong.latitude);
+                distanceModel.setSourceLong(currentLatlong.longitude);
                 Gson gson = new Gson();
                 String json = gson.toJson(distanceModel);
                 editor.putString("DistanceModel",json);
@@ -103,6 +104,12 @@ public class DistanceCalculationService extends Service {
     public void onCreate()
     {
         Log.e(TAG, "onCreate");
+
+        pref= getSharedPreferences("MyPref",0);
+        editor = pref.edit();
+         userInformation = new UserInformation(this);
+         getDistanceFromMap  = new GetDistanceFromMap();
+         distanceModel = new DistanceModel();
         initializeLocationManager();
         try {
             mLocationManager.requestLocationUpdates(
@@ -113,15 +120,7 @@ public class DistanceCalculationService extends Service {
         } catch (IllegalArgumentException ex) {
             Log.d(TAG, "network provider does not exist, " + ex.getMessage());
         }
-        try {
-            mLocationManager.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER, LOCATION_INTERVAL, LOCATION_DISTANCE,
-                    mLocationListeners[0]);
-        } catch (java.lang.SecurityException ex) {
-            Log.i(TAG, "fail to request location update, ignore", ex);
-        } catch (IllegalArgumentException ex) {
-            Log.d(TAG, "gps provider does not exist " + ex.getMessage());
-        }
+
     }
 
     @Override

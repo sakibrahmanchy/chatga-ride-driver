@@ -77,7 +77,7 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
         riderModel.IsRiderOnRide = FirebaseConstant.SET_RIDER_NO_RIDE;
         riderModel.OnlineBusyOnRide = FirebaseConstant.ONLINE_NOT_BUSY_NO_RIDE;
         riderModel.ImageUrl = loginData.getAvatar();
-        riderModel.Ratting = "100%";
+        riderModel.Ratting = loginData.getRating()+"";
 
         this.IsRiderAlreadyCreated(riderModel);
         this.GetAppSettings();

@@ -118,7 +118,6 @@ public class EarningFragment extends Fragment {
                         EarningData earningData = response.body().getData();
                         Gson gson = new Gson();
                         String json = gson.toJson(earningByDay);
-
                         totalRideRequest.setText(earningData.getRideRequests());
                         totalEarning.setText(earningData.getEarnings());
                         totalCompleteTrips.setText(earningData.getTripsCompleted());
@@ -137,7 +136,7 @@ public class EarningFragment extends Fragment {
                                 String key = (String) keys.next();
                                 dayNames.add(key);
                                 String value = "" +json_array.get(key);
-                                list.add(new DataPoint(i, Integer.parseInt(value)));
+                                list.add(new DataPoint(i, Double.parseDouble(value)));
                                 i++;
                             }
                             dayNames.add("");

@@ -47,11 +47,9 @@ import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
-import java.util.Date;
 
 import ContactWithFirebase.Main;
 import __Firebase.FirebaseModel.CurrentRidingHistoryModel;
-import __Firebase.FirebaseModel.RiderModel;
 import __Firebase.FirebaseResponse.NotificationModel;
 import __Firebase.FirebaseUtility.FirebaseConstant;
 import __Firebase.FirebaseUtility.FirebaseUtilMethod;
@@ -78,7 +76,6 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     private long CurrentTimeInSecond = 0;
     private Main main = null;
     private CostEstimation costEstimation;
-    private Date startTime,endTime;
     SharedPreferences pref;
     private SharedPreferences.Editor editor;
     Calendar rightNow = Calendar.getInstance();
@@ -94,7 +91,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     private NestedScrollView bootmsheet;
     private ImageView clientImage;
     private TextView accepRide,rejectRide,sourceAdress,destinationAdress,totalCost,dateTime,Currentclient_Name;
-    public  static Activity onRideModeContext;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,7 +126,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         dateTime =(TextView) findViewById(R.id.date_time);
         Currentclient_Name =(TextView) findViewById(R.id.current_client_name);
         clientImage = (ImageView) findViewById(R.id.client_image);
-        onRideModeContext =this;
+
 
 
         bottomSheet = findViewById( R.id.bottom_sheet );
@@ -151,6 +148,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
             AppConstant.CURRENT_CLIENT_DISCOUNT_ID = (int) notificationModel.discountID;
             AppConstant.CLIENT_NAME = notificationModel.clientName;
             AppConstant.PHONE_NUMBER = Long.parseLong(notificationModel.clientPhone);
+            clientRating.setText( notificationModel.clientRatting);
             Picasso.with(this).invalidate(notificationModel.clientImageUrl);
             Picasso.with(this)
                     .load(notificationModel.clientImageUrl)
@@ -159,12 +157,12 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                     .into(clientProfileImage);
         }
 
-        if(AppConstant.SHOW_ACTIVITY_FOR_ACCEPT_AND_REJECT){
+        if( AppConstant.SHOW_ACTIVITY_FOR_ACCEPT_AND_REJECT){
             StartAndFinish.setVisibility(View.GONE);
             bootmsheet.setVisibility(View.GONE);
             sourceAdress.setText(notificationModel.sourceName);
             Currentclient_Name.setText(notificationModel.clientName);
-                   totalCost.setText("Estimated: "+notificationModel.totalCost);
+                   totalCost.setText("Estimated: "+notificationModel.totalCost +"Tk");
             Picasso.with(this).invalidate(notificationModel.clientImageUrl);
             Picasso.with(this)
                     .load(notificationModel.clientImageUrl)
@@ -205,6 +203,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                 AppConstant.ON_RIDE_MODE=1;
                 AppConstant.CLIENT_NAME = AppConstant.ClientModel.FullName;
                 AppConstant.PHONE_NUMBER = AppConstant.ClientModel.PhoneNumber;
+                clientRating.setText( AppConstant.ClientModel.Ratting);
                 Picasso.with(this).invalidate(AppConstant.ClientModel.ImageUrl);
                 Picasso.with(this)
                         .load(AppConstant.ClientModel.ImageUrl)
@@ -231,28 +230,38 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     void AllActionClick(){
 
 
-        clientRating.setText("100%");
-        clientName.setText(AppConstant.CLIENT_NAME);
-        client_phone.setText(AppConstant.PHONE_NUMBER+"");
 
+        clientName.setText(AppConstant.CLIENT_NAME);
+        client_phone.setText("+880"+AppConstant.PHONE_NUMBER+"");
 
         startRide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    startTime = new Date();
-                    //noinspection deprecation
-                    AppConstant.RIDING_FLAG = 2;
-                    setTitle("You are in Ride");
-                    AppConstant.ON_RIDE_MODE=1;
-                    distanceModel.setSourceLat(getCurrentLocation.getLatitude());
-                    distanceModel.setDestinationLat(getCurrentLocation.getLongitude());
-                    editor.remove("DistanceModel");
-                    Gson gson = new Gson();
-                    String json = gson.toJson(distanceModel);
-                    editor.putString("DistanceModel",json);
-                    editor.commit();
-                    initialAndFinalCostEstimation.UpdateStartRide(AppConstant.CURRENT_HISTORY_ID);
-                    AppConstant.PREVIOUS_LATLONG = new LatLng(getCurrentLocation.getLatitude(),getCurrentLocation.getLongitude());
+                new AlertDialog.Builder(OnRideModeActivity.this,R.style.CustomDialogTheme)
+                        .setTitle("RIDE START")
+                        .setMessage("Are you sure  want to start ride?")
+                        .setNegativeButton("NO", null)
+                        .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                try {
+
+                                    setTitle("You are in Ride");
+                                    AppConstant.ON_RIDE_MODE=1;
+                                    distanceModel.setSourceLat(getCurrentLocation.getLatitude());
+                                    distanceModel.setSourceLong(getCurrentLocation.getLongitude());
+                                    editor.remove("DistanceModel");
+                                    Gson gson = new Gson();
+                                    String json = gson.toJson(distanceModel);
+                                    editor.putString("DistanceModel",json);
+                                    editor.commit();
+                                    initialAndFinalCostEstimation.UpdateStartRide(AppConstant.CURRENT_HISTORY_ID);
+                                    AppConstant.PREVIOUS_LATLONG = new LatLng(getCurrentLocation.getLatitude(),getCurrentLocation.getLongitude());
+
+                                }catch (Exception e){
+                                    e.printStackTrace();
+                                }
+                            }
+                        }).create().show();
 
                 }
 
@@ -266,39 +275,25 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                     Intent intent = new Intent(OnRideModeActivity.this, InternetCheckActivity.class);
                     startActivityForResult(intent, AppConstant.INTERNET_CHECK);
                 }
-
-
                 else {
-                    AppConstant.IS_RIDE_FINISH = true;
-                    new AlertDialog.Builder(OnRideModeActivity.this)
+                    new AlertDialog.Builder(OnRideModeActivity.this,R.style.CustomDialogTheme)
                             .setTitle("Really Exit?")
                             .setMessage("Are you sure you want to finish?")
                             .setNegativeButton(android.R.string.no, null)
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface arg0, int arg1) {
-
-                                    endTime = new Date();
-                                    try{
-                                        AppConstant.TOTAL_DURATION = ((endTime.getTime() - startTime.getTime())/(1000*60));
-                                    }catch ( Exception e){
-                                        AppConstant.TOTAL_DURATION=30;
-                                    }
-
                                     try {
-
-                                        initialAndFinalCostEstimation.UpdateFinalHistory(AppConstant.CURRENT_HISTORY_ID,AppConstant.TOTAL_DURATION,AppConstant.TOTAL_DISTANCE,
-                                                (int)AppConstant.CURRENT_CLIENT_DISCOUNT_ID, AppConstant.SOURCE_NAME,userInformation.GetRidingDistance().getTotaldistance()+"");
+                                        initialAndFinalCostEstimation.UpdateFinalHistory(AppConstant.CURRENT_HISTORY_ID,0,AppConstant.TOTAL_DISTANCE,
+                                                (int)AppConstant.CURRENT_CLIENT_DISCOUNT_ID, AppConstant.SOURCE_NAME,AppConstant.DESTINATION_NAME);
                                         AppConstant.ON_RIDE_MODE=0;
                                     }catch (Exception e){
                                         e.printStackTrace();
                                     }
-
                                 }
                             }).create().show();
                 }
             }
         });
-
         client_phone_call_number.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -325,7 +320,6 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                     } catch (Exception e){
                         e.printStackTrace();
                     }
-
 
                 }
                 else{
@@ -382,30 +376,9 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     @Override
     public void onBackPressed() {
 
-        new AlertDialog.Builder(this)
-                .setTitle("Really Exit?")
-                .setMessage("Are you sure you want to exit?")
-                .setNegativeButton(android.R.string.no, null)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        Intent intent = new Intent(OnRideModeActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                }).create().show();
-
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode ==0) {
-            if (resultCode == RESULT_OK) {
-                Intent intent = getIntent();
-                finish();
-                startActivity(intent);
-            }
-        }
-    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -419,24 +392,26 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.cancel_ride:
-
-                RiderModel riderModel = FirebaseWrapper.getInstance().getRiderModelInstance();
                 CurrentRidingHistoryModel currentRidingHistoryModel = FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance();
                if(currentRidingHistoryModel.IsRideStart == -1){
-
-                   new AlertDialog.Builder(OnRideModeActivity.this)
-                           .setTitle("Really Exit?")
-                           .setMessage("Are you sure you want to Cancel the Ride?")
-                           .setNegativeButton(android.R.string.no, null)
-                           .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                   new AlertDialog.Builder(OnRideModeActivity.this,R.style.CustomDialogTheme)
+                           .setTitle("CANCEL RIDE ")
+                           .setMessage("Are you sure  want to cancel ride?")
+                           .setNegativeButton("NO", null)
+                           .setPositiveButton("YES", new DialogInterface.OnClickListener() {
                                public void onClick(DialogInterface arg0, int arg1) {
-                                   main.ForcedCancelRide(FirebaseConstant.HISTORY_CREATED_FOR_THIS_RIDE);
-                                   Intent intent = new Intent(OnRideModeActivity.this, MainActivity.class);
-                                   intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                   startActivity(intent);
+                                   try {
+                                       main.ForcedCancelRide(FirebaseConstant.HISTORY_CREATED_FOR_THIS_RIDE);
+                                       Intent intent = new Intent(OnRideModeActivity.this, MainActivity.class);
+                                       startActivity(intent);
+                                       finish();
+                                   }catch (Exception e){
+                                       e.printStackTrace();
+                                   }
                                }
                            }).create().show();
                }
+
                else{
                    Toast.makeText(getApplicationContext(),"You Can not Cancel the Ride",Toast.LENGTH_LONG).show();
                }
@@ -511,13 +486,13 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     @Override
     public void onStart() {
         super.onStart();
-        AppConstant.ONRIDEMODE_ACTIVITY = true;
+
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        AppConstant.ONRIDEMODE_ACTIVITY = false;
+
     }
 }
 

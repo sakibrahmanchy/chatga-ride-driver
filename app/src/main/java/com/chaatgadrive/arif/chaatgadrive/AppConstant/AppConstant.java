@@ -18,7 +18,6 @@ public class AppConstant {
     public static final double PER_KILOMITTER = 10;
     public static final double DURATION_PER_KILOMITTER = 1;
     public static final int NOTIFICATION_ID = 1010;
-    public static int RIDING_FLAG = 1;
     public static int INTERNET_CHECK = 0;
     public static String DISTANCE = ("");
     public static String DURATION = ("");
@@ -46,6 +45,7 @@ public class AppConstant {
     public static double DESTINATION_LATITUTE = 0;
     public static double DESTINATION_LOGITUTE = 0;
     public static boolean IS_ALARM = true;
+    public static boolean IS_RIDE_START =false;
 
     /*Notification Action and Type*/
     public static final String ACTION_TYPE = ("actionType");

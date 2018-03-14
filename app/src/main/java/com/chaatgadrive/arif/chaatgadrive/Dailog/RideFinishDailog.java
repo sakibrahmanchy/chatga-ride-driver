@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Pair;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -14,14 +13,10 @@ import android.widget.TextView;
 
 import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
 import com.chaatgadrive.arif.chaatgadrive.MainActivity;
-import com.chaatgadrive.arif.chaatgadrive.OnrideMode.OnRideModeActivity;
 import com.chaatgadrive.arif.chaatgadrive.R;
 import com.chaatgadrive.arif.chaatgadrive.Rating.UserRating;
 
 import ContactWithFirebase.Main;
-import __Firebase.FirebaseModel.ClientModel;
-import __Firebase.FirebaseResponse.NotificationModel;
-import __Firebase.FirebaseWrapper;
 
 /**
  * Created by Arif on 1/17/2018.

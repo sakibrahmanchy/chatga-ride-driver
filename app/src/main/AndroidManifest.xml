@@ -113,6 +113,10 @@
             android:name=".OnLocationChange.UpdateLocationService"
             android:enabled="true"
             android:exported="false" />
+        <service
+            android:name=".OnrideMode.DistanceCalculationService"
+            android:enabled="true"
+            android:exported="false" />
 
         <activity
             android:name=".FinishRideActivity.FinishRideActivity"
