@@ -4,8 +4,6 @@ import android.location.Location;
 
 import com.google.android.gms.maps.model.LatLng;
 
-import java.security.acl.LastOwnerException;
-
 /**
  * Created by Arif on 1/11/2018.
  */
@@ -24,11 +22,16 @@ public class GetDistanceFromMap {
 
     public double getDistance(LatLng startPoint, LatLng endPoint){
 
-        Startlocation.setLatitude(startPoint.latitude);
-        Startlocation.setLongitude(startPoint.longitude);
-        Endlocation.setLatitude(endPoint.latitude);
-        Endlocation.setLongitude(endPoint.longitude);
-        double distance = Startlocation.distanceTo(Endlocation);//in meters
-        return  distance;
+//        Startlocation.setLatitude(startPoint.latitude);
+//        Startlocation.setLongitude(startPoint.longitude);
+//        Endlocation.setLatitude(endPoint.latitude);
+//        Endlocation.setLongitude(endPoint.longitude);
+        float[] results = new float[1];
+        Location.distanceBetween(
+                startPoint.latitude,startPoint.longitude,
+                endPoint.latitude, endPoint.longitude, results);
+
+      //  double distance = Startlocation.distanceTo(Endlocation);//in meters
+        return  results[0];
     }
 }

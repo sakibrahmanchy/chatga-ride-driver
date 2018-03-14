@@ -171,10 +171,10 @@ public class EarningFragment extends Fragment {
     public void setGraphValue(GraphView graph, ArrayList<String> dayNames){
 
         StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
-        staticLabelsFormatter.setHorizontalLabels(new String[]{
-                dayNames.get(0),dayNames.get(1),dayNames.get(2),dayNames.get(3),
-                dayNames.get(4),dayNames.get(5),dayNames.get(6),dayNames.get(7),
-                dayNames.get(8)});
+//        staticLabelsFormatter.setHorizontalLabels(new String[]{
+//                dayNames.get(0),dayNames.get(1),dayNames.get(2),dayNames.get(3),
+//                dayNames.get(4),dayNames.get(5),dayNames.get(6),dayNames.get(7),
+//                dayNames.get(8)});
         graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
 
         series.setValueDependentColor(new ValueDependentColor<DataPoint>() {
