@@ -96,7 +96,7 @@ public class EarningFragment extends Fragment {
     public void getGraphData(){
         
         dialog = new ProgressDialog(getContext());
-        dialog.setMessage("Logging in To App..");
+        dialog.setMessage("Please wait...");
         dialog.show();
 
         String authHeader = "Bearer "+pref.getString("access_token",null);
@@ -186,9 +186,6 @@ public class EarningFragment extends Fragment {
         });
 
         graph.addSeries(series);
-
-
-
 
 // draw values on top
         series.setSpacing(20);
