@@ -14,10 +14,12 @@ public class AppSettingsModel {
 
     public int CurrentUpdateVersion;
     public int ForceUpdateInterval;
-    public int NumberOfConsecutiveRequest;
-    public int EachRequestInterval;
     public int ConsecutiveRequestInterval;
+    public int NumberOfConsecutiveRequest;
+    public int EachRequestBundleInterval;
     public String Message;
+    public long ShortestDistance;
+    public int ConsecutiveRequestAcceptInterval;
 
     public AppSettingsModel() {
     }
@@ -28,9 +30,11 @@ public class AppSettingsModel {
             this.CurrentUpdateVersion = appSettingsModel.CurrentUpdateVersion;
             this.ForceUpdateInterval = appSettingsModel.ForceUpdateInterval;
             this.NumberOfConsecutiveRequest = appSettingsModel.NumberOfConsecutiveRequest;
-            this.EachRequestInterval = appSettingsModel.EachRequestInterval;
+            this.EachRequestBundleInterval = appSettingsModel.EachRequestBundleInterval;
             this.ConsecutiveRequestInterval = appSettingsModel.ConsecutiveRequestInterval;
             this.Message = appSettingsModel.Message;
+            this.ShortestDistance = appSettingsModel.ShortestDistance;
+            this.ConsecutiveRequestAcceptInterval = appSettingsModel.ConsecutiveRequestAcceptInterval;
         } catch (Exception e) {
             Log.d(FirebaseConstant.APP_SETTINGS, e.getStackTrace().toString());
         }

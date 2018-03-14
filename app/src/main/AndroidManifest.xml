@@ -119,6 +119,9 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".RiderDocumentsActivity"></activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="e8cd72fce93bff8f1f3bdef92f592af0978a34e8" />
     </application>
 
 </manifest>

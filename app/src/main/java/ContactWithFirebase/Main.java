@@ -47,7 +47,7 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
     }
 
     public boolean IsRiderAlreadyCreated(RiderModel RiderModel) {
-        
+
         firebaseWrapper = FirebaseWrapper.getInstance();
         FirebaseRequestInstance = firebaseWrapper.getFirebaseRequestInstance();
         FirebaseRequestInstance.IsRiderAlreadyCreated(RiderModel, Main.this);
@@ -716,6 +716,11 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
     @Override
     public void OnAppSettingsLoaded(boolean value) {
         Log.d(FirebaseConstant.APP_SETTINGS_LOADED, Boolean.toString(value));
+        if (value == true) {
+            FirebaseConstant.CURRENT_VERSION = firebaseWrapper.getAppSettingsModelInstance().CurrentUpdateVersion;
+            FirebaseConstant.FORCE_UPDATE_INTERVAL = firebaseWrapper.getAppSettingsModelInstance().ForceUpdateInterval;
+            FirebaseConstant.CONSECUTIVE_REQUEST_ACCEPT_INTERVAL = firebaseWrapper.getAppSettingsModelInstance().ConsecutiveRequestAcceptInterval;
+        }
     }
 
     @Override
