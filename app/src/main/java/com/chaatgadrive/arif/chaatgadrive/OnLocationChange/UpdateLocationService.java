@@ -104,21 +104,24 @@ public class UpdateLocationService extends Service implements GoogleApiClient.Co
             }
 
             if(AppConstant.IS_RIDE==1){
-                LatLng SharePrefLatLon = new LatLng(userInformation.GetRidingDistance().getSourceLat(),userInformation.GetRidingDistance().getSourceLong());
-                LatLng currentLatlong = new LatLng(location.getLatitude(),location.getLongitude());
-                double Currentdistance= getDistanceFromMap.getDistance(currentLatlong,SharePrefLatLon);
-                if(Currentdistance>20.0){
-                    distanceModel = userInformation.GetRidingDistance();
-                    AppConstant.TOTAL_DISTANCE = distanceModel.getTotaldistance();
-                    AppConstant.TOTAL_DISTANCE += (Currentdistance/1000.0);
-                    distanceModel.setTotaldistance(AppConstant.TOTAL_DISTANCE);
-                    distanceModel.setSourceLat(currentLatlong.latitude);
-                    distanceModel.setSourceLong(currentLatlong.longitude);
-                    Gson gson = new Gson();
-                    String json = gson.toJson(distanceModel);
-                    editor.putString("DistanceModel",json);
-                    editor.commit();
+                if(userInformation.GetRidingDistance() !=null){
+                    LatLng SharePrefLatLon = new LatLng(userInformation.GetRidingDistance().getSourceLat(),userInformation.GetRidingDistance().getSourceLong());
+                    LatLng currentLatlong = new LatLng(location.getLatitude(),location.getLongitude());
+                    double Currentdistance= getDistanceFromMap.getDistance(currentLatlong,SharePrefLatLon);
+                    if(Currentdistance>20.0){
+                        distanceModel = userInformation.GetRidingDistance();
+                        AppConstant.TOTAL_DISTANCE = distanceModel.getTotaldistance();
+                        AppConstant.TOTAL_DISTANCE += (Currentdistance/1000.0);
+                        distanceModel.setTotaldistance(AppConstant.TOTAL_DISTANCE);
+                        distanceModel.setSourceLat(currentLatlong.latitude);
+                        distanceModel.setSourceLong(currentLatlong.longitude);
+                        Gson gson = new Gson();
+                        String json = gson.toJson(distanceModel);
+                        editor.putString("DistanceModel",json);
+                        editor.commit();
+                    }
                 }
+
 
 
             }
