@@ -187,8 +187,8 @@ public class InitialAndFinalCostEstimation {
                             startRide.setVisibility(View.GONE);
                             finishRide.setVisibility(View.VISIBLE);
                             AppConstant.IS_RIDE=1;
-                           // Intent intent = new Intent(Onridecontext,DistanceCalculationService.class);
-                          //  Onridecontext.startService(intent);
+//                            Intent intent = new Intent(Onridecontext,DistanceCalculationService.class);
+//                            Onridecontext.startService(intent);
                         }
                         break;
                     case 500:
@@ -228,6 +228,8 @@ public class InitialAndFinalCostEstimation {
                         if(response.body().isSuccess()){
                             rideFinishData = response.body().getData();
                             ForceFinishedRide();
+//                            Intent intent = new Intent(Onridecontext,DistanceCalculationService.class);
+//                            Onridecontext.stopService(intent);
                             AppConstant.TOTAL_RIDING_COST = (int)rideFinishData.getCostAfterDiscount();
                             Intent Finishintent = new Intent(mContext, FinishRideActivity.class);
                             mContext.startActivity(Finishintent);

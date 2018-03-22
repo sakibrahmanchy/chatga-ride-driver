@@ -204,6 +204,8 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                 AppConstant.CLIENT_NAME = AppConstant.ClientModel.FullName;
                 AppConstant.PHONE_NUMBER = AppConstant.ClientModel.PhoneNumber;
                 clientRating.setText( AppConstant.ClientModel.Ratting);
+//                Intent intent = new Intent(Onridecontext,DistanceCalculationService.class);
+//                startService(intent);
                 Picasso.with(this).invalidate(AppConstant.ClientModel.ImageUrl);
                 Picasso.with(this)
                         .load(AppConstant.ClientModel.ImageUrl)

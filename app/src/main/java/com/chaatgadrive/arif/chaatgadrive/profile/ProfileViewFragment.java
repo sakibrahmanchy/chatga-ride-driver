@@ -160,7 +160,7 @@ public class ProfileViewFragment extends Fragment{
     public void getProfileStats(){
 
         dialog = new ProgressDialog(getContext());
-        dialog.setMessage("Logging in To App..");
+        dialog.setMessage("Please wait..");
         dialog.show();
 
         apiService =
