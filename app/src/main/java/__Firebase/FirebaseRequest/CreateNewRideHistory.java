@@ -5,6 +5,7 @@ import android.util.Log;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 
+import __Firebase.Exception.FabricExceptionLog;
 import __Firebase.ICallbacklisteners.ICallbackMain;
 import __Firebase.FirebaseModel.CurrentRidingHistoryModel;
 import __Firebase.FirebaseUtility.FirebaseConstant;
@@ -27,8 +28,8 @@ public class CreateNewRideHistory {
 
     private void Request(){
 
-        FirebaseWrapper firebaseWrapper = FirebaseWrapper.getInstance();
         try {
+            FirebaseWrapper firebaseWrapper = FirebaseWrapper.getInstance();
             firebaseWrapper.FirebaseRootReference.child(FirebaseConstant.HISTORY).push()
                     .setValue(HistoryModel, new DatabaseReference.CompletionListener() {
                         @Override
@@ -39,8 +40,7 @@ public class CreateNewRideHistory {
 
         } catch (Exception e) {
             callBackListener.OnResponseCreateNewHistory(false);
-            e.printStackTrace();
-            Log.d(FirebaseConstant.NEW_HISTORY_ERROR, e.toString());
+            FabricExceptionLog.sendLogToFabric(true, this.getClass().getSimpleName(), e.toString());
         }
     }
 }

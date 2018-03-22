@@ -2,6 +2,7 @@ package __Firebase.FirebaseRequest;
 
 import android.support.v7.app.AppCompatActivity;
 
+import __Firebase.Exception.UncaughtException;
 import __Firebase.FirebaseModel.ClientModel;
 import __Firebase.FirebaseModel.CurrentRidingHistoryModel;
 import __Firebase.FirebaseModel.RiderModel;
@@ -28,6 +29,7 @@ public class __FirebaseRequest extends AppCompatActivity {
                 new IsRiderAlreadyCreated(Rider, callBackListener);
             }
         };
+        thread.setUncaughtExceptionHandler(new UncaughtException());
         thread.start();
     }
 
@@ -39,6 +41,7 @@ public class __FirebaseRequest extends AppCompatActivity {
                 new CreateRiderFirstTime(Rider, callBackListener);
             }
         };
+        thread.setUncaughtExceptionHandler(new UncaughtException());
         thread.start();
     }
 
@@ -50,6 +53,7 @@ public class __FirebaseRequest extends AppCompatActivity {
                 new SetRiderBusyOrFree(Rider, callBackListener);
             }
         };
+        thread.setUncaughtExceptionHandler(new UncaughtException());
         thread.start();
     }
 
@@ -61,6 +65,7 @@ public class __FirebaseRequest extends AppCompatActivity {
                 new SetRiderOnRideOrFree(Rider, callBackListener);
             }
         };
+        thread.setUncaughtExceptionHandler(new UncaughtException());
         thread.start();
     }
 
@@ -72,6 +77,7 @@ public class __FirebaseRequest extends AppCompatActivity {
                 new SetRiderOnLineOrOffLine(Rider, callBackListener);
             }
         };
+        thread.setUncaughtExceptionHandler(new UncaughtException());
         thread.start();
     }
 
@@ -95,6 +101,7 @@ public class __FirebaseRequest extends AppCompatActivity {
                 new SetRiderOnlineBusyOnRider(Rider, callBackListener);
             }
         };
+        thread.setUncaughtExceptionHandler(new UncaughtException());
         thread.start();
     }
 
@@ -106,6 +113,7 @@ public class __FirebaseRequest extends AppCompatActivity {
                 new SetDeviceTokenToRiderTable(Rider, deviceToken, callBackListener);
             }
         };
+        thread.setUncaughtExceptionHandler(new UncaughtException());
         thread.start();
     }
 
@@ -117,6 +125,7 @@ public class __FirebaseRequest extends AppCompatActivity {
                 new SetHistoryIDonRiderTable(HistoryModel, Rider, callBackListener);
             }
         };
+        thread.setUncaughtExceptionHandler(new UncaughtException());
         thread.start();
     }
 
@@ -129,6 +138,7 @@ public class __FirebaseRequest extends AppCompatActivity {
                 new CreateNewRideHistory(HistoryModel, callBackListener);
             }
         };
+        thread.setUncaughtExceptionHandler(new UncaughtException());
         thread.start();
     }
 
@@ -141,6 +151,7 @@ public class __FirebaseRequest extends AppCompatActivity {
                 new FinishedRide(HistoryModel, callBackListener);
             }
         };
+        thread.setUncaughtExceptionHandler(new UncaughtException());
         thread.start();
     }
 
@@ -152,6 +163,7 @@ public class __FirebaseRequest extends AppCompatActivity {
                 new ResetRiderStatus(Rider, callBackListener);
             }
         };
+        thread.setUncaughtExceptionHandler(new UncaughtException());
         thread.start();
     }
 
@@ -167,6 +179,7 @@ public class __FirebaseRequest extends AppCompatActivity {
                 new UpdateRiderLocation(Rider, callBackListener);
             }
         };
+        thread.setUncaughtExceptionHandler(new UncaughtException());
         thread.start();
     }
 
@@ -179,6 +192,7 @@ public class __FirebaseRequest extends AppCompatActivity {
                 new FinalAcceptanceOfRide(HistoryModel, Rider, callBackListener);
             }
         };
+        thread.setUncaughtExceptionHandler(new UncaughtException());
         thread.start();
     }
 
@@ -197,6 +211,7 @@ public class __FirebaseRequest extends AppCompatActivity {
                 new InitialAcceptanceOfRide(Rider, callBackListener);
             }
         };
+        thread.setUncaughtExceptionHandler(new UncaughtException());
         thread.start();
     }
 
@@ -208,6 +223,7 @@ public class __FirebaseRequest extends AppCompatActivity {
                 new GetCurrentClient(ClientID, callBackListener);
             }
         };
+        thread.setUncaughtExceptionHandler(new UncaughtException());
         thread.start();
     }
 
@@ -219,6 +235,7 @@ public class __FirebaseRequest extends AppCompatActivity {
                 new GetRiderStatus(RiderID, callBackListener);
             }
         };
+        thread.setUncaughtExceptionHandler(new UncaughtException());
         thread.start();
     }
 
@@ -230,6 +247,7 @@ public class __FirebaseRequest extends AppCompatActivity {
                 new RideRejectedByRider(ClientID, RiderId, Time, callBackListener);
             }
         };
+        thread.setUncaughtExceptionHandler(new UncaughtException());
         thread.start();
     }
 
@@ -241,6 +259,7 @@ public class __FirebaseRequest extends AppCompatActivity {
                 new GetCurrentRider(RiderID, callBackListener);
             }
         };
+        thread.setUncaughtExceptionHandler(new UncaughtException());
         thread.start();
     }
 
@@ -252,6 +271,7 @@ public class __FirebaseRequest extends AppCompatActivity {
                 new HasAnyRide(RiderID, callBackListener);
             }
         };
+        thread.setUncaughtExceptionHandler(new UncaughtException());
         thread.start();
     }
 
@@ -263,6 +283,7 @@ public class __FirebaseRequest extends AppCompatActivity {
                 new GetRecentHistory(HistoryID, callBackListener);
             }
         };
+        thread.setUncaughtExceptionHandler(new UncaughtException());
         thread.start();
     }
 
@@ -274,6 +295,7 @@ public class __FirebaseRequest extends AppCompatActivity {
                 new SetHistoryIDToClient(HistoryModel, Client, Time, callBackListener);
             }
         };
+        thread.setUncaughtExceptionHandler(new UncaughtException());
         thread.start();
     }
 
@@ -285,6 +307,7 @@ public class __FirebaseRequest extends AppCompatActivity {
                 new CancelRideByRider(HistoryModel, Rider, callBackListener);
             }
         };
+        thread.setUncaughtExceptionHandler(new UncaughtException());
         thread.start();
     }
 
@@ -295,6 +318,7 @@ public class __FirebaseRequest extends AppCompatActivity {
                 new UpdateNameImageAndRatting(Rider, callBackListener);
             }
         };
+        thread.setUncaughtExceptionHandler(new UncaughtException());
         thread.start();
     }
 
@@ -305,6 +329,7 @@ public class __FirebaseRequest extends AppCompatActivity {
                 new GetAppSettings(callBackListener);
             }
         };
+        thread.setUncaughtExceptionHandler(new UncaughtException());
         thread.start();
     }
 }
