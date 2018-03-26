@@ -124,6 +124,9 @@ public class FirebaseConstant {
     public static String UPDATE_NAME_IMAGE_URL = "UPDATE_NAME_IMAGE_URL";
     public static String APP_SETTINGS = "APP_SETTINGS";
     public static String APP_SETTINGS_LOADED = "APP_SETTINGS_LOADED";
+    public static String UNCAUGHT_EXCEPTION = "UNCAUGHT_EXCEPTION";
+    public static String NO_TAG_CLASS_FOUND = "NO_TAG_CLASS_FOUND";
+    public static String NO_TAG_MESSAGE_FOUND = "NO_TAG_MESSAGE_FOUND";
 
     public static int CURRENT_VERSION = 1000;
     public static int FORCE_UPDATE_INTERVAL = 20;

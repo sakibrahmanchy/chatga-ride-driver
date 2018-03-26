@@ -10,10 +10,11 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 import java.util.Map;
 
-import __Firebase.ICallbacklisteners.ICallbackMain;
+import __Firebase.Exception.FabricExceptionLog;
 import __Firebase.FirebaseModel.RiderModel;
 import __Firebase.FirebaseUtility.FirebaseConstant;
 import __Firebase.FirebaseWrapper;
+import __Firebase.ICallbacklisteners.ICallbackMain;
 
 /**
  * Created by User on 11/28/2017.
@@ -25,50 +26,54 @@ public class UpdateRiderLocation {
     private Pair<Double, Double> NewLocation = null;
     private ICallbackMain callBackListener = null;
 
-    public UpdateRiderLocation(RiderModel Rider, ICallbackMain callBackListener){
+    public UpdateRiderLocation(RiderModel Rider, ICallbackMain callBackListener) {
         this.Rider = Rider;
         this.callBackListener = callBackListener;
 
         Request();
     }
 
-    public void Request(){
+    public void Request() {
 
-        FirebaseWrapper firebaseWrapper = FirebaseWrapper.getInstance();
-        Query updateLocation = firebaseWrapper.FirebaseRootReference.child(FirebaseConstant.RIDER).orderByChild(FirebaseConstant.RIDER_ID).equalTo(Rider.RiderID);
+        try {
+            FirebaseWrapper firebaseWrapper = FirebaseWrapper.getInstance();
+            Query updateLocation = firebaseWrapper.FirebaseRootReference.child(FirebaseConstant.RIDER).orderByChild(FirebaseConstant.RIDER_ID).equalTo(Rider.RiderID);
 
-        updateLocation.addListenerForSingleValueEvent(new ValueEventListener() {
+            updateLocation.addListenerForSingleValueEvent(new ValueEventListener() {
 
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
 
-                if(dataSnapshot.exists() && dataSnapshot.hasChildren()) {
-                    if(dataSnapshot.getChildren().iterator().hasNext()) {
-                        DataSnapshot dsp = dataSnapshot.getChildren().iterator().next();
-                        if(dsp.exists() && dsp.hasChildren()) {
-                            if (dsp.getChildren().iterator().hasNext()) {
+                    if (dataSnapshot.exists() && dataSnapshot.hasChildren()) {
+                        if (dataSnapshot.getChildren().iterator().hasNext()) {
+                            DataSnapshot dsp = dataSnapshot.getChildren().iterator().next();
+                            if (dsp.exists() && dsp.hasChildren()) {
+                                if (dsp.getChildren().iterator().hasNext()) {
 
-                                Map<String, Object> RequestForUpdateLocation = new HashMap<>();
-                                RequestForUpdateLocation.put(FirebaseConstant.REQUEST_FOR_UPDATE_LOCATION, Rider.CurrentRiderLocation.RequestForUpdateLocation);
-                                dsp.getChildren().iterator().next().getRef().updateChildren(RequestForUpdateLocation);
+                                    Map<String, Object> RequestForUpdateLocation = new HashMap<>();
+                                    RequestForUpdateLocation.put(FirebaseConstant.REQUEST_FOR_UPDATE_LOCATION, Rider.CurrentRiderLocation.RequestForUpdateLocation);
+                                    dsp.getChildren().iterator().next().getRef().updateChildren(RequestForUpdateLocation);
 
-                                Map<String, Object> Longitude = new HashMap<>();
-                                Longitude.put(FirebaseConstant.LATITUDE, Rider.CurrentRiderLocation.Latitude);
-                                dsp.getChildren().iterator().next().getRef().updateChildren(Longitude);
+                                    Map<String, Object> Longitude = new HashMap<>();
+                                    Longitude.put(FirebaseConstant.LATITUDE, Rider.CurrentRiderLocation.Latitude);
+                                    dsp.getChildren().iterator().next().getRef().updateChildren(Longitude);
 
-                                Map<String, Object> Latitude = new HashMap<>();
-                                Latitude.put(FirebaseConstant.LONGITUDE, Rider.CurrentRiderLocation.Longitude);
-                                dsp.getChildren().iterator().next().getRef().updateChildren(Latitude);
+                                    Map<String, Object> Latitude = new HashMap<>();
+                                    Latitude.put(FirebaseConstant.LONGITUDE, Rider.CurrentRiderLocation.Longitude);
+                                    dsp.getChildren().iterator().next().getRef().updateChildren(Latitude);
+                                }
                             }
                         }
                     }
                 }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    FabricExceptionLog.sendLogToFabric(true, this.getClass().getSimpleName(), databaseError.toString());
+                }
+            });
+        } catch (Exception e) {
+            FabricExceptionLog.sendLogToFabric(true, this.getClass().getSimpleName(), e.toString());
+        }
     }
-
 }
