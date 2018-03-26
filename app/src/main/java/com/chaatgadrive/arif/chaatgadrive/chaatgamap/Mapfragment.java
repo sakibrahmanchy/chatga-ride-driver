@@ -27,6 +27,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -103,6 +104,9 @@ public class Mapfragment extends Fragment implements OnMapReadyCallback, GoogleM
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         //ask for permissions..
+        mMap.setMapStyle(
+                MapStyleOptions.loadRawResourceStyle(
+                        getContext(), R.raw.style_json));
 
         if (connectionCheck.isNetworkConnected()) {
             getDeviceLocation();
@@ -121,7 +125,7 @@ public class Mapfragment extends Fragment implements OnMapReadyCallback, GoogleM
             uiSettings = googleMap.getUiSettings();
             uiSettings.setMapToolbarEnabled(false);
 
-            googleMap.setTrafficEnabled(true);
+            googleMap.setTrafficEnabled(false);
             //noinspection deprecation
             mMap.setOnMyLocationChangeListener(this);
          //   init();

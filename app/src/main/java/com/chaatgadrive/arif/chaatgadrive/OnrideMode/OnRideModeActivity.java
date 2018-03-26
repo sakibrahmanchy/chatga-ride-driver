@@ -30,6 +30,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -100,6 +101,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     private ImageView clientImage;
     private TextView accepRide,rejectRide,sourceAdress,destinationAdress,totalCost,dateTime,Currentclient_Name;
     private ImageView navigate;
+    private RatingBar clientRatingwhenRequest;
 
 
     @Override
@@ -136,7 +138,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         Currentclient_Name =(TextView) findViewById(R.id.current_client_name);
         clientImage = (ImageView) findViewById(R.id.client_image);
         navigate = (ImageView) findViewById(R.id.ic_navigate);
-
+        clientRatingwhenRequest = (RatingBar) findViewById(R.id.content_rating_stars);
 
 
         bottomSheet = findViewById( R.id.bottom_sheet );
@@ -172,14 +174,16 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
             bootmsheet.setVisibility(View.GONE);
             sourceAdress.setText(notificationModel.sourceName);
             Currentclient_Name.setText(notificationModel.clientName);
-                   totalCost.setText("Estimated: "+notificationModel.totalCost +"Tk");
+                   totalCost.setText(notificationModel.totalCost +"৳");
             Picasso.with(this).invalidate(notificationModel.clientImageUrl);
             Picasso.with(this)
                     .load(notificationModel.clientImageUrl)
                     .placeholder(R.drawable.profile_image)
                     .error(R.drawable.profile_image)
                     .into(clientImage);
+            clientRatingwhenRequest.setRating(Float.parseFloat(notificationModel.clientRatting));
             destinationAdress.setText(notificationModel.destinationName);
+
             accepRide.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

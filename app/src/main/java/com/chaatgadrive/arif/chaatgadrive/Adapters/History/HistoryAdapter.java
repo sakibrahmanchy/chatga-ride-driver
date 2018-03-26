@@ -42,9 +42,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             pickPoint = history.getPickPointAddress();
         String destinationPoint = "";
         if(history.getDestinationAddress().length()>18)
-            destinationPoint = history.getPickPointAddress().substring(18);
+            destinationPoint = history.getDestinationAddress().substring(18);
         else
-            destinationPoint = history.getPickPointAddress();
+            destinationPoint = history.getDestinationAddress();
         viewHolder.tv_src_address.setText(pickPoint);
         viewHolder.tv_dest_address.setText(destinationPoint);
         viewHolder.tv_total_fare.setText(history.getTotalFare());
