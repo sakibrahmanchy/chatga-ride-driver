@@ -76,6 +76,7 @@ public class FirstAppLoadingActivity extends AppCompatActivity {
                 if (AppConstant.OnOffSwith != 2 && AppConstant.IS_RIDE != 2) {
 
                     if (AppConstant.IS_RIDE == 0) {
+                        main.UpdateNameImageAndRatting(loginData.getFirstName()+" "+loginData.getLastName(),loginData.getAvatar(),loginData.getRating()+"");
                         Intent intent = new Intent(FirstAppLoadingActivity.this, MainActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
@@ -93,7 +94,6 @@ public class FirstAppLoadingActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     }
-                    main.UpdateNameImageAndRatting(loginData.getFirstName()+" "+loginData.getLastName(),loginData.getAvatar(),loginData.getRating()+"");
                 } else {
                     handler.postDelayed(this, 1000);
                 }
@@ -137,7 +137,6 @@ public class FirstAppLoadingActivity extends AppCompatActivity {
                         String json = gson.toJson(newLoginData);
                         editor.putString("userData",json);
                         editor.commit();
-
                         main.GetRiderStatus(Long.parseLong(userInformation.getuserInformation().getRiderId()));
                         InitializeApp();
                         break;

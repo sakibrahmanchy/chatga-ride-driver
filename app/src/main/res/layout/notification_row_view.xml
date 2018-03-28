@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.v7.widget.CardView
         android:id="@+id/cv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:cardBackgroundColor="#FDF2E9"
         android:layout_marginTop="10dp"
         android:background="@drawable/profile_border">
 
@@ -27,8 +29,12 @@
                     android:layout_height="wrap_content"
                     android:layout_weight=".5"
                     android:padding="10dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:text="NWY20X"
-                    android:textSize="25sp" />
+                    android:textStyle="bold"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -40,20 +46,21 @@
                 android:paddingBottom="10dp"
                 android:weightSum="10">
 
-                    <TextView
-                        android:id="@+id/notification_descriptions"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="20% off on your next 3 rides"
-                        android:textSize="18sp" />
+                <TextView
+                    android:id="@+id/notification_descriptions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="20% off on your next 3 rides"
+                    android:textSize="16sp" />
 
-                    <TextView
-                        android:id="@+id/notification_start_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="20dp"
-                        android:text="December 3, 2017"
-                        android:layout_gravity="right"
-                        android:textSize="15sp" />
+                <TextView
+                    android:id="@+id/notification_start_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:text="December 3, 2017"
+                    android:layout_gravity="right"
+                    android:textColor="#7B241C"
+                    android:textSize="12sp" />
 
             </LinearLayout>
 

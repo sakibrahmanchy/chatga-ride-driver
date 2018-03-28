@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,6 +21,7 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -27,6 +30,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,10 +43,15 @@ import com.chaatgadrive.arif.chaatgadrive.R;
 import com.chaatgadrive.arif.chaatgadrive.SharedPreferences.UserInformation;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.GetCurrentLocation;
 import com.chaatgadrive.arif.chaatgadrive.models.DistanceModel;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -91,6 +100,8 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     private NestedScrollView bootmsheet;
     private ImageView clientImage;
     private TextView accepRide,rejectRide,sourceAdress,destinationAdress,totalCost,dateTime,Currentclient_Name;
+    private ImageView navigate;
+    private RatingBar clientRatingwhenRequest;
 
 
     @Override
@@ -126,7 +137,8 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         dateTime =(TextView) findViewById(R.id.date_time);
         Currentclient_Name =(TextView) findViewById(R.id.current_client_name);
         clientImage = (ImageView) findViewById(R.id.client_image);
-
+        navigate = (ImageView) findViewById(R.id.ic_navigate);
+        clientRatingwhenRequest = (RatingBar) findViewById(R.id.content_rating_stars);
 
 
         bottomSheet = findViewById( R.id.bottom_sheet );
@@ -162,14 +174,16 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
             bootmsheet.setVisibility(View.GONE);
             sourceAdress.setText(notificationModel.sourceName);
             Currentclient_Name.setText(notificationModel.clientName);
-                   totalCost.setText("Estimated: "+notificationModel.totalCost +"Tk");
+                   totalCost.setText(notificationModel.totalCost +"৳");
             Picasso.with(this).invalidate(notificationModel.clientImageUrl);
             Picasso.with(this)
                     .load(notificationModel.clientImageUrl)
                     .placeholder(R.drawable.profile_image)
                     .error(R.drawable.profile_image)
                     .into(clientImage);
+            clientRatingwhenRequest.setRating(Float.parseFloat(notificationModel.clientRatting));
             destinationAdress.setText(notificationModel.destinationName);
+
             accepRide.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -185,6 +199,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                     finish();
                 }
             });
+
         }
         else{
 
@@ -300,6 +315,16 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
             @Override
             public void onClick(View v) {
                 onCall();
+
+            }
+        });
+
+        navigate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String uri = "http://maps.google.com/maps?f=d&hl=en&saddr="+AppConstant.SOURCE_LATITUTE+","+AppConstant.SOURCE_LOGITUTE+"&daddr="+AppConstant.DESTINATION_LATITUTE+","+AppConstant.DESTINATION_LOGITUTE;
+                Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
+                startActivity(Intent.createChooser(intent,"Chatga Ride"));
             }
         });
     }
@@ -315,9 +340,26 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                     // Getting URL to the Google Directions API
 
                     try {
-                        String url = getDirectionsUrl(source, destination);
-                        DownloadTask downloadTask = new DownloadTask(OnRideModeActivity.this, mMap,source,destination);
-                        downloadTask.execute(url);
+//                        String url = getDirectionsUrl(source, destination);
+//                        DownloadTask downloadTask = new DownloadTask(OnRideModeActivity.this, mMap,source,destination);
+//                        downloadTask.execute(url);
+
+                        mMap.addMarker(new MarkerOptions().position(destination).icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("ic_marker_destination",200,200))).anchor(.5f,.5f));//.icon(BitmapDescriptorFactory.fromBitmap(resizedMarker(200,200) )));
+                        mMap.addMarker(new MarkerOptions()
+                                .position(source).icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("ic_marker_pickup",400,300))).anchor(.5f,.5f));
+
+                        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                        builder.include(source).include(destination);
+                        TypedValue tv = new TypedValue();
+                        int googleMapPadding=0;
+                        if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
+                        {
+                            googleMapPadding = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
+                        }
+
+
+                        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(builder.build(), googleMapPadding+100);
+                        mMap.animateCamera(cameraUpdate);
 
                     } catch (Exception e){
                         e.printStackTrace();
@@ -495,6 +537,10 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     protected void onDestroy() {
         super.onDestroy();
 
+    }
+    public Bitmap resizeMapIcons(String iconName, int width, int height){
+        Bitmap decodeResource = BitmapFactory.decodeResource(getResources(),getResources().getIdentifier(iconName, "drawable", getPackageName()));
+        return Bitmap.createScaledBitmap(decodeResource, (int) (((double) decodeResource.getWidth()) * .25d), (int) (((double) decodeResource.getHeight()) * .25d), false);
     }
 }
 
