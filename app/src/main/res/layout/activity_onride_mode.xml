@@ -78,7 +78,7 @@
                                         android:gravity="right"
                                         android:text="TK.200"
                                         android:textColor="@android:color/holo_green_dark"
-                                        android:textSize="20sp"
+                                        android:textSize="@dimen/large_font_size"
                                         android:textStyle="bold" />
 
                                 </LinearLayout>
@@ -101,8 +101,8 @@
                                 android:weightSum="10">
 
                                 <ImageView
-                                    android:layout_width="20dp"
-                                    android:layout_height="20dp"
+                                    android:layout_width="10dp"
+                                    android:layout_height="10dp"
                                     android:layout_weight="2"
                                     android:src="@drawable/red" />
 
@@ -111,7 +111,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="8"
-                                    android:textSize="14sp"
+                                    android:textSize="@dimen/small_font_size"
                                     android:text="Something, adfasdsda, a dsaassa, as d" />
                             </LinearLayout>
 
@@ -123,8 +123,8 @@
                                 android:weightSum="10">
 
                                 <ImageView
-                                    android:layout_width="20dp"
-                                    android:layout_height="20dp"
+                                    android:layout_width="10dp"
+                                    android:layout_height="10dp"
                                     android:layout_weight="2"
                                     android:src="@drawable/indicator_unfilled" />
 
@@ -133,7 +133,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="8"
-                                    android:textSize="14sp"
+                                    android:textSize="@dimen/small_font_size"
                                     android:text="Something, adfasdsda, a dsaassa, as d" />
                             </LinearLayout>
                         </LinearLayout>
@@ -168,7 +168,7 @@
                                 android:layout_gravity="center"
                                 android:text="Mr. Abul Kalam"
                                 android:textColor="@color/colorPrimary"
-                                android:textSize="20sp"
+                                android:textSize="@dimen/large_font_size"
                                 android:textStyle="bold" />
                             <RatingBar
                                 android:id="@+id/content_rating_stars"
@@ -207,7 +207,7 @@
                             android:gravity="right"
                             android:text="ACCEPT"
                             android:textColor="@android:color/holo_green_dark"
-                            android:textSize="20sp" />
+                            android:textSize="@dimen/large_font_size" />
 
                     </LinearLayout>
 
@@ -235,6 +235,7 @@
                     android:layout_height="match_parent"
                     android:layout_margin="5dp"
                     android:text="@string/final_start_ride"
+                    android:textSize="@dimen/large_font_size"
                     android:theme="@style/ThemeOverlay.MyDarkButton" />
 
                 <Button
@@ -243,6 +244,7 @@
                     android:layout_height="match_parent"
                     android:layout_margin="5dp"
                     android:text="@string/final_finish_ride"
+                    android:textSize="@dimen/large_font_size"
                     android:theme="@style/ThemeOverlay.MyDarkButton" />
             </FrameLayout>
         </LinearLayout>
@@ -300,7 +302,7 @@
                                     android:layout_marginBottom="20dp"
                                     android:text="Client Info"
                                     android:textColor="@color/colorPrimary"
-                                    android:textSize="25dp" />
+                                    android:textSize="@dimen/large_font_size" />
 
                                 <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                                     android:id="@+id/Client_profile_pic"
@@ -335,7 +337,7 @@
                                         android:layout_marginLeft="20dp"
                                         android:text="Name"
                                         android:textColor="@color/colorPrimary"
-                                        android:textSize="20dp" />
+                                        android:textSize="@dimen/large_font_size" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -359,7 +361,7 @@
                                         android:layout_marginLeft="20dp"
                                         android:text="Phone Number"
                                         android:textColor="@color/colorPrimary"
-                                        android:textSize="15dp" />
+                                        android:textSize="@dimen/midum_font_size" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -383,7 +385,7 @@
                                         android:layout_marginLeft="20dp"
                                         android:text="Rating"
                                         android:textColor="@color/colorPrimary"
-                                        android:textSize="15dp" />
+                                        android:textSize="@dimen/midum_font_size" />
                                 </LinearLayout>
 
 
@@ -409,7 +411,7 @@
                             android:gravity="right"
                             android:text="Contact Rider"
                             android:textColor="#000"
-                            android:textSize="18sp" />
+                            android:textSize="@dimen/large_font_size" />
 
                     </LinearLayout>
 
@@ -444,12 +446,13 @@
                             android:layout_marginBottom="8dp"
                             android:text="Chatga Rides"
                             android:textColor="#000"
-                            android:textSize="18sp" />
+                            android:textSize="@dimen/midum_font_size" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="You are on ride. Have a safe journey."
+                            android:textSize="@dimen/small_font_size"
                             android:textColor="#555" />
                     </LinearLayout>
 

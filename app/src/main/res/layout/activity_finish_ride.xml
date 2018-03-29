@@ -31,7 +31,7 @@
                     android:gravity="center"
                     android:text="Ride Finished"
                     android:textColor="@android:color/white"
-                    android:textSize="30sp" />
+                    android:textSize="@dimen/large_font_size" />
 
 
 
@@ -67,7 +67,7 @@
                             android:gravity="center"
                             android:text="৳85"
                             android:textColor="@android:color/holo_green_dark"
-                            android:textSize="40sp" />
+                            android:textSize="@dimen/large_font_size" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -85,7 +85,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@android:color/black"
                         android:text="How much do you love our client?"
-                        android:textSize="20sp" />
+                        android:textSize="@dimen/midum_font_size" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -107,7 +107,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="OK"
-                        android:textSize="20sp"
+                        android:textSize="@dimen/midum_font_size"
                         android:background="@color/colorAccent"
                         android:textColor="@android:color/white"
                         android:layout_margin="20dp"/>

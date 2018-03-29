@@ -445,10 +445,11 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                            .setPositiveButton("YES", new DialogInterface.OnClickListener() {
                                public void onClick(DialogInterface arg0, int arg1) {
                                    try {
-                                       main.ForcedCancelRide(FirebaseConstant.HISTORY_CREATED_FOR_THIS_RIDE);
                                        Intent intent = new Intent(OnRideModeActivity.this, MainActivity.class);
                                        startActivity(intent);
                                        finish();
+
+                                       main.ForcedCancelRide(FirebaseConstant.HISTORY_CREATED_FOR_THIS_RIDE);
                                    }catch (Exception e){
                                        e.printStackTrace();
                                    }

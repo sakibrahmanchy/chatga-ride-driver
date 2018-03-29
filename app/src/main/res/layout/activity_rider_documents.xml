@@ -56,7 +56,7 @@
                             android:layout_marginBottom="10dp"
                             android:text="You must upload these documents to be a verified rider."
                             android:textColor="@android:color/white"
-                            android:textSize="20sp" />
+                            android:textSize="@dimen/midum_font_size" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -90,7 +90,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="10dp"
                             android:text="NID *"
-                            android:textSize="20sp" />
+                            android:textSize="@dimen/large_font_size" />
 
                         <TextView
                             android:id="@+id/tv_nid_upload_status"
@@ -99,7 +99,7 @@
                             android:lineSpacingExtra="10dp"
                             android:text="Missing "
                             android:textColor="@color/colorAccent"
-                            android:textSize="18sp" />
+                            android:textSize="@dimen/small_font_size" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -148,7 +148,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="10dp"
                             android:text="Bike Registration Number *"
-                            android:textSize="20sp" />
+                            android:textSize="@dimen/large_font_size" />
 
                         <TextView
                             android:id="@+id/tv_bike_registration_upload_status"
@@ -157,7 +157,7 @@
                             android:lineSpacingExtra="10dp"
                             android:text="Missing "
                             android:textColor="@color/colorAccent"
-                            android:textSize="18sp" />
+                            android:textSize="@dimen/small_font_size" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -209,7 +209,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="10dp"
                             android:text="Driving License *"
-                            android:textSize="20sp" />
+                            android:textSize="@dimen/large_font_size" />
 
                         <TextView
                             android:id="@+id/tv_driving_license_text"
@@ -218,7 +218,7 @@
                             android:lineSpacingExtra="10dp"
                             android:text="Missing "
                             android:textColor="@color/colorAccent"
-                            android:textSize="18sp" />
+                            android:textSize="@dimen/small_font_size" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -248,6 +248,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@color/colorAccent"
                 android:text="Update Documents"
+                android:textSize="@dimen/large_font_size"
                 android:textColor="@android:color/white" />
         </LinearLayout>
     </ScrollView>

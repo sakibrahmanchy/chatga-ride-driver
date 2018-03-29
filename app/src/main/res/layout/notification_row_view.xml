@@ -34,7 +34,7 @@
                     android:text="NWY20X"
                     android:textStyle="bold"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="20sp" />
+                    android:textSize="@dimen/large_font_size" />
             </LinearLayout>
 
             <LinearLayout
@@ -51,7 +51,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="20% off on your next 3 rides"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/small_font_size" />
 
                 <TextView
                     android:id="@+id/notification_start_time"
@@ -60,7 +60,7 @@
                     android:text="December 3, 2017"
                     android:layout_gravity="right"
                     android:textColor="#7B241C"
-                    android:textSize="12sp" />
+                    android:textSize="@dimen/tinny_font_size" />
 
             </LinearLayout>
 

@@ -18,7 +18,7 @@
         android:background="@color/colorButtonBlack"
         android:textColor="@android:color/white"
         android:padding="10dp"
-        android:textSize="18sp"
+        android:textSize="@dimen/midum_font_size"
         android:text="For ride sharing,Please come to our office or call us +8801675908553"/>
     <ImageView
         android:layout_width="wrap_content"

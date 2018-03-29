@@ -39,6 +39,7 @@
                 android:hint="First Name"
                 android:inputType="text"
                 android:maxLines="1"
+                android:textSize="@dimen/midum_font_size"
                 android:singleLine="true" />
 
             <EditText
@@ -47,6 +48,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Last Name"
                 android:inputType="text"
+                android:textSize="@dimen/midum_font_size"
                 android:maxLines="1"
                 android:singleLine="true" />
 
@@ -56,6 +58,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/prompt_email"
+                android:textSize="@dimen/midum_font_size"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:singleLine="true" />
@@ -72,12 +75,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
+                    android:textSize="@dimen/midum_font_size"
                     android:text="male" />
 
                 <RadioButton
                     android:id="@+id/female_radio_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="@dimen/midum_font_size"
                     android:text="female" />
             </RadioGroup>
 
@@ -86,6 +91,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
+                android:textSize="@dimen/midum_font_size"
                 android:hint="Birth Date" />
 
             <EditText
@@ -93,6 +99,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
+                android:textSize="@dimen/midum_font_size"
                 android:hint="National Identity No.:" />
 
             <EditText
@@ -100,6 +107,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
+                android:textSize="@dimen/midum_font_size"
                 android:hint="Driving License No.:" />
 
             <EditText
@@ -107,6 +115,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
+                android:textSize="@dimen/midum_font_size"
                 android:hint="Motorbike Registration No.:" />
 
             <Button
@@ -115,6 +124,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:textSize="@dimen/large_font_size"
                 android:text="@string/action_sign_in"
                 android:theme="@style/ThemeOverlay.MyDarkButton"/>
 
