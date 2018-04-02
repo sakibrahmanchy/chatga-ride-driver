@@ -41,6 +41,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         else
             pickPoint = history.getPickPointAddress();
         String destinationPoint = "";
+        int length = history.getDestinationAddress().length();
         if(history.getDestinationAddress().length()>18)
             destinationPoint = history.getDestinationAddress().substring(18);
         else
