@@ -32,6 +32,9 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
             <EditText
                 android:id="@+id/userFirstName"
                 android:layout_width="match_parent"
@@ -41,7 +44,11 @@
                 android:maxLines="1"
                 android:textSize="@dimen/midum_font_size"
                 android:singleLine="true" />
+            </android.support.design.widget.TextInputLayout>
 
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
             <EditText
                 android:id="@+id/userLastName"
                 android:layout_width="match_parent"
@@ -51,9 +58,13 @@
                 android:textSize="@dimen/midum_font_size"
                 android:maxLines="1"
                 android:singleLine="true" />
+            </android.support.design.widget.TextInputLayout>
 
 
-            <AutoCompleteTextView
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <EditText
                 android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -62,6 +73,8 @@
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:singleLine="true" />
+            </android.support.design.widget.TextInputLayout>
+
 
             <RadioGroup
                 android:id="@+id/gender_radio_group"
@@ -85,15 +98,21 @@
                     android:textSize="@dimen/midum_font_size"
                     android:text="female" />
             </RadioGroup>
-
-            <EditText
-                android:id="@+id/birthday_edittext"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight=".5"
-                android:textSize="@dimen/midum_font_size"
-                android:hint="Birth Date" />
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/birthday_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".5"
+                    android:textSize="@dimen/midum_font_size"
+                    android:hint="Birth Date" />
+            </android.support.design.widget.TextInputLayout>
 
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
             <EditText
                 android:id="@+id/nid_edittext"
                 android:layout_width="match_parent"
@@ -101,7 +120,10 @@
                 android:layout_weight=".5"
                 android:textSize="@dimen/midum_font_size"
                 android:hint="National Identity No.:" />
-
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
             <EditText
                 android:id="@+id/driving_license_edittext"
                 android:layout_width="match_parent"
@@ -109,7 +131,10 @@
                 android:layout_weight=".5"
                 android:textSize="@dimen/midum_font_size"
                 android:hint="Driving License No.:" />
-
+        </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
             <EditText
                 android:id="@+id/motorbike_registration_edittext"
                 android:layout_width="match_parent"
@@ -117,6 +142,18 @@
                 android:layout_weight=".5"
                 android:textSize="@dimen/midum_font_size"
                 android:hint="Motorbike Registration No.:" />
+        </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/referral_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".5"
+                    android:textSize="@dimen/midum_font_size"
+                    android:hint="Referralcode" />
+            </android.support.design.widget.TextInputLayout>
 
             <Button
                 android:id="@+id/email_sign_in_button"

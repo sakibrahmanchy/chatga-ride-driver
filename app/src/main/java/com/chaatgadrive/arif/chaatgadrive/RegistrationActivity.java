@@ -14,7 +14,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -52,13 +51,14 @@ public class RegistrationActivity extends Activity {
 
 
     // UI references.
-    private AutoCompleteTextView mEmailView;
+    private EditText mEmailView;
     private EditText userFirstName,userLastName;
+    private EditText referralCode;
     private View mProgressView;
     private View mLoginFormView;
     private RadioGroup mGender;
     private  String email,phoneNumber, firstName,lastName,password,gender,
-            deviceToken,birthDate, nid, drivingLicense, motorbikeRegistration;
+            deviceToken,birthDate, nid, drivingLicense, motorbikeRegistration,promocode;
     private   ApiInterface apiService ;
     private ProgressDialog dialog;
     private EditText birthDayText;
@@ -76,10 +76,11 @@ public class RegistrationActivity extends Activity {
         setContentView(R.layout.activity_registration);
         // Set up the login form.
 
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        mEmailView = (EditText) findViewById(R.id.email);
         mGender = (RadioGroup) findViewById(R.id.gender_radio_group);
         userFirstName = (EditText) findViewById(R.id.userFirstName);
         userLastName = (EditText) findViewById(R.id.userLastName);
+        referralCode = (EditText) findViewById(R.id.referral_code);
         dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         phoneNumber = getIntent().getStringExtra("phoneNumber");
 
@@ -151,6 +152,7 @@ public class RegistrationActivity extends Activity {
         nid = nidText.getText().toString();
         drivingLicense = drivingLicenseText.getText().toString();
         motorbikeRegistration = motorbikeRegistrationText.getText().toString();
+        promocode =referralCode.getText().toString();
 
         int selectedId = mGender.getCheckedRadioButtonId();
 
