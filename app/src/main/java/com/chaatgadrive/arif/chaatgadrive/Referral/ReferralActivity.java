@@ -14,8 +14,7 @@ import com.chaatgadrive.arif.chaatgadrive.R;
 import com.chaatgadrive.arif.chaatgadrive.SharedPreferences.UserInformation;
 
 
-
-public class Refarrel extends AppCompatActivity {
+public class ReferralActivity extends AppCompatActivity {
 
     private UserInformation userInformation;
     private TextView referral,copy ;
@@ -32,7 +31,7 @@ public class Refarrel extends AppCompatActivity {
         invitebtn = findViewById(R.id.invite_btn);
 
 
-        //referral.setText(userInformation.getuserInformation().getReferralCode());
+        referral.setText(userInformation.getuserInformation().getReferralCode());
         copy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,4 +61,3 @@ public class Refarrel extends AppCompatActivity {
 
     }
 }
-
