@@ -72,15 +72,16 @@ public class Mapfragment extends Fragment implements OnMapReadyCallback, GoogleM
         getCurrentLocation = new GetCurrentLocation(getContext());
         userInformation = new UserInformation(getContext());
         loginData = userInformation.getuserInformation();
+        main = new Main(getContext());
         DriverVerifiedStatus = mapview.findViewById(R.id.service_not_available);
         if(loginData.getIsVerified()==1){
             DriverVerifiedStatus.setVisibility(View.INVISIBLE);
         }
         else {
             DriverVerifiedStatus.setVisibility(View.VISIBLE);
+
         }
         connectionCheck  = new ConnectionCheck(getContext());
-        main = new Main(getContext());
           getLocationPermission();
         traffic_mode = mapview.findViewById(R.id.traffice_mode);
         traffic_mode.setOnClickListener(new View.OnClickListener() {
