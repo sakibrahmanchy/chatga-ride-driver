@@ -4,15 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -123,25 +119,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
 
         } else {
             SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
-            if (pref.getString("userData", null) == null) {
-                int MyVersion = Build.VERSION.SDK_INT;
-                if (MyVersion > Build.VERSION_CODES.LOLLIPOP_MR1) {
-                    Toast.makeText(getApplicationContext(), "We need Some Permission", Toast.LENGTH_SHORT).show();
-                    if (!checkIfAlreadyhavePermission()) {
-                        requestForSpecificPermission();
-                    }
-                    else{
-                        Intent intent = new Intent(MainActivity.this, UserCheckActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                }
-                else{
-                    Intent intent = new Intent(MainActivity.this, UserCheckActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-            } else {
+            if (pref.getString("userData", null) != null) {
                 manager.beginTransaction().replace(R.id.content, mapfragment, mapfragment.getTag()).commit();
                 BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
                 navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -185,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
         View v = MenuItemCompat.getActionView(actionViewItem);
         OffOnSwitch = (Switch) v.findViewById(R.id.switch1);
 
-        if(loginData.getIsVerified()==1){
+        if(loginData !=null && loginData.getIsVerified()==1){
             if (AppConstant.OnOffSwith == 1) {
                 OffOnSwitch.setChecked(true);
                 OffOnSwitch.setText("ON");
@@ -290,36 +268,6 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
         AppConstant.MAIN_ACTIVITY = false;
     }
 
-    private boolean checkIfAlreadyhavePermission() {
-        int result = ContextCompat.checkSelfPermission(this, android.Manifest.permission.GET_ACCOUNTS);
-        if (result == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    private void requestForSpecificPermission() {
-        ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.RECEIVE_SMS, android.Manifest.permission.READ_SMS,
-                android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.CALL_PHONE}, 101);
-    }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case 101:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1]==PackageManager.PERMISSION_GRANTED &&
-                        grantResults[2]==PackageManager.PERMISSION_GRANTED) {
-                    Intent intent = new Intent(MainActivity.this, FacebookAccountVerificationActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    //not granted
-                    finish();
-                    Toast.makeText(getApplicationContext(),"Please Restart Application",Toast.LENGTH_SHORT).show();
-                }
-                break;
-            default:
-                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-    }
+
 }
