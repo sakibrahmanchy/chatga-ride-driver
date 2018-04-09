@@ -71,7 +71,6 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.facebook.android:account-kit-sdk:4.+'
     compile 'com.jjoe64:graphview:4.2.1'
-    compile 'com.jaeger.statusbarutil:library:1.4.0'
     compile('com.crashlytics.sdk.android:crashlytics:2.9.1@aar') {
         transitive = true;
     }
