@@ -5,18 +5,25 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
+import com.chaatgadrive.arif.chaatgadrive.FacebookAccountVerificationActivity;
 import com.chaatgadrive.arif.chaatgadrive.MainActivity;
 import com.chaatgadrive.arif.chaatgadrive.OnLocationChange.UpdateLocationService;
 import com.chaatgadrive.arif.chaatgadrive.OnrideMode.OnRideModeActivity;
 import com.chaatgadrive.arif.chaatgadrive.R;
 import com.chaatgadrive.arif.chaatgadrive.SharedPreferences.UserInformation;
+import com.chaatgadrive.arif.chaatgadrive.UserCheckActivity;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginData;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginModel;
 import com.chaatgadrive.arif.chaatgadrive.rest.ApiClient;
@@ -60,10 +67,22 @@ public class FirstAppLoadingActivity extends AppCompatActivity {
             GetRiderAllInformations((loginData.getRiderId()));
         }
         else {
-            Intent intent = new Intent(FirstAppLoadingActivity.this, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            finish();
+            int MyVersion = Build.VERSION.SDK_INT;
+            if (MyVersion > Build.VERSION_CODES.LOLLIPOP_MR1) {
+                if (!checkIfAlreadyhavePermission()) {
+                    requestForSpecificPermission();
+                }
+                else{
+                    Intent intent = new Intent(FirstAppLoadingActivity.this, UserCheckActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+            else{
+                Intent intent = new Intent(FirstAppLoadingActivity .this, UserCheckActivity.class);
+                startActivity(intent);
+                finish();
+            }
         }
     }
 
@@ -76,6 +95,7 @@ public class FirstAppLoadingActivity extends AppCompatActivity {
                 if (AppConstant.OnOffSwith != 2 && AppConstant.IS_RIDE != 2) {
 
                     if (AppConstant.IS_RIDE == 0) {
+                        main.UpdateNameImageAndRatting(loginData.getFirstName()+" "+loginData.getLastName(),loginData.getAvatar(),loginData.getRating()+"");
                         Intent intent = new Intent(FirstAppLoadingActivity.this, MainActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
@@ -93,7 +113,6 @@ public class FirstAppLoadingActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     }
-                    main.UpdateNameImageAndRatting(loginData.getFirstName()+" "+loginData.getLastName(),loginData.getAvatar(),loginData.getRating()+"");
                 } else {
                     handler.postDelayed(this, 1000);
                 }
@@ -137,7 +156,6 @@ public class FirstAppLoadingActivity extends AppCompatActivity {
                         String json = gson.toJson(newLoginData);
                         editor.putString("userData",json);
                         editor.commit();
-
                         main.GetRiderStatus(Long.parseLong(userInformation.getuserInformation().getRiderId()));
                         InitializeApp();
                         break;
@@ -154,6 +172,39 @@ public class FirstAppLoadingActivity extends AppCompatActivity {
                 Log.e(TAG, t.toString());
             }
         });
+    }
+
+    private boolean checkIfAlreadyhavePermission() {
+        int result = ContextCompat.checkSelfPermission(this, android.Manifest.permission.GET_ACCOUNTS);
+        if (result == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    private void requestForSpecificPermission() {
+        ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.RECEIVE_SMS, android.Manifest.permission.READ_SMS,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.CALL_PHONE}, 101);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case 101:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1]==PackageManager.PERMISSION_GRANTED &&
+                        grantResults[2]==PackageManager.PERMISSION_GRANTED) {
+                    Intent intent = new Intent(FirstAppLoadingActivity.this, FacebookAccountVerificationActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    //not granted
+                    finish();
+                    Toast.makeText(getApplicationContext(),"Please Restart Application",Toast.LENGTH_SHORT).show();
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 
 }

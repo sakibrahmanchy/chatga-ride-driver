@@ -30,7 +30,7 @@
             android:layout_centerHorizontal="true"
             android:text="Check Internet and GPS Connection!!!"
             android:textColor="#FFFF"
-            android:textSize="2.5mm" />
+            android:textSize="@dimen/midum_font_size" />
 
         <ImageView
             android:id="@+id/internet_check"

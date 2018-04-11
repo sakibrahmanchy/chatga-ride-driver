@@ -27,6 +27,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -71,15 +72,16 @@ public class Mapfragment extends Fragment implements OnMapReadyCallback, GoogleM
         getCurrentLocation = new GetCurrentLocation(getContext());
         userInformation = new UserInformation(getContext());
         loginData = userInformation.getuserInformation();
+        main = new Main(getContext());
         DriverVerifiedStatus = mapview.findViewById(R.id.service_not_available);
         if(loginData.getIsVerified()==1){
             DriverVerifiedStatus.setVisibility(View.INVISIBLE);
         }
         else {
             DriverVerifiedStatus.setVisibility(View.VISIBLE);
+
         }
         connectionCheck  = new ConnectionCheck(getContext());
-        main = new Main(getContext());
           getLocationPermission();
         traffic_mode = mapview.findViewById(R.id.traffice_mode);
         traffic_mode.setOnClickListener(new View.OnClickListener() {
@@ -103,6 +105,9 @@ public class Mapfragment extends Fragment implements OnMapReadyCallback, GoogleM
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         //ask for permissions..
+        mMap.setMapStyle(
+                MapStyleOptions.loadRawResourceStyle(
+                        getContext(), R.raw.style_json));
 
         if (connectionCheck.isNetworkConnected()) {
             getDeviceLocation();
@@ -121,7 +126,7 @@ public class Mapfragment extends Fragment implements OnMapReadyCallback, GoogleM
             uiSettings = googleMap.getUiSettings();
             uiSettings.setMapToolbarEnabled(false);
 
-            googleMap.setTrafficEnabled(true);
+            googleMap.setTrafficEnabled(false);
             //noinspection deprecation
             mMap.setOnMyLocationChangeListener(this);
          //   init();

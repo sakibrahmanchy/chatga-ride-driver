@@ -1,7 +1,6 @@
 package com.chaatgadrive.arif.chaatgadrive.profile;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,28 +17,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chaatgadrive.arif.chaatgadrive.Adapters.History.RiderHistoryActivity;
-import com.chaatgadrive.arif.chaatgadrive.FacebookAccountVerificationActivity;
-import com.chaatgadrive.arif.chaatgadrive.MainActivity;
 import com.chaatgadrive.arif.chaatgadrive.R;
+import com.chaatgadrive.arif.chaatgadrive.Referral.ReferralActivity;
 import com.chaatgadrive.arif.chaatgadrive.RiderDocumentsActivity;
 import com.chaatgadrive.arif.chaatgadrive.Setting.EditProfile;
 import com.chaatgadrive.arif.chaatgadrive.SharedPreferences.UserInformation;
-import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginData;
-import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginModel;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RiderProfileStats.RiderProfileStats;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RiderProfileStats.RiderProfileStatsResponse;
 import com.chaatgadrive.arif.chaatgadrive.rest.ApiClient;
 import com.chaatgadrive.arif.chaatgadrive.rest.ApiInterface;
-import com.google.gson.Gson;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-
-import __Firebase.FirebaseWrapper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -56,11 +45,12 @@ public class ProfileViewFragment extends Fragment{
     private TextView mail, totalTrips, rating, totalEarning;
     private ImageView uploadProfile;
     private UserInformation userInformation;
-    private LinearLayout profileView,historyView,documentationsView;
+    private LinearLayout profileView,historyView,documentationsView,referralView;
     private ProgressDialog dialog;
     private ApiInterface apiService;
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
+
 
     public ProfileViewFragment() {
     }
@@ -86,6 +76,7 @@ public class ProfileViewFragment extends Fragment{
         totalTrips = (TextView) view.findViewById(R.id.total_trips);
         rating = (TextView) view.findViewById(R.id.rating);
         totalEarning = (TextView) view.findViewById(R.id.total_earning);
+        referralView = (LinearLayout) view.findViewById(R.id.referral);
 
         pref = getActivity().getSharedPreferences("MyPref", 0);
         userInformation = new UserInformation(getContext());
@@ -139,6 +130,13 @@ public class ProfileViewFragment extends Fragment{
             public void onClick(View v) {
                 Intent docuemntationsViewIntent = new Intent(getActivity(), RiderDocumentsActivity.class);
                 startActivity(docuemntationsViewIntent);
+            }
+        });
+        referralView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent referralViewIntent = new Intent(getActivity(), ReferralActivity.class);
+                startActivity(referralViewIntent);
             }
         });
 

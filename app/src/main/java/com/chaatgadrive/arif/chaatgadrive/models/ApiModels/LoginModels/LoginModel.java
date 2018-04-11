@@ -8,10 +8,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class LoginModel {
 
-    public String getSuccess() {
-        return success;
-    }
-
 
 
     @SerializedName("success")
@@ -19,6 +15,7 @@ public class LoginModel {
 
     @SerializedName("response_code")
     private String responseCode;
+
     @SerializedName("message")
     private String message;
 
@@ -34,6 +31,10 @@ public class LoginModel {
 
     public void setSuccess(String success) {
         this.success = success;
+    }
+
+    public String getSuccess() {
+        return success;
     }
 
     public String getResponseCode() {

@@ -47,7 +47,7 @@
                 android:layout_marginTop="70dp"
                 android:text="Laxman Marothiya"
                 android:textColor="#fff"
-                android:textSize="35sp"
+                android:textSize="@dimen/large_font_size"
                 android:textStyle="bold" />
 
             <TextView
@@ -59,7 +59,7 @@
                 android:layout_marginTop="10dp"
                 android:text="Surat"
                 android:textColor="#fff"
-                android:textSize="16sp" />
+                android:textSize="@dimen/midum_font_size" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -78,7 +78,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:textSize="30dp"
+                        android:textSize="@dimen/large_font_size"
                         android:id="@+id/total_trips"
                         android:textColor="@android:color/white"
                         android:text="2,228"/>
@@ -87,7 +87,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:textSize="15dp"
+                        android:textSize="@dimen/small_font_size"
                         android:textColor="@android:color/white"
                         android:text="Trips"/>
 
@@ -104,7 +104,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/rating"
                         android:layout_gravity="center"
-                        android:textSize="30dp"
+                        android:textSize="@dimen/large_font_size"
                         android:textColor="@android:color/white"
                         android:text="100%"/>
 
@@ -112,7 +112,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:textSize="15dp"
+                        android:textSize="@dimen/small_font_size"
                         android:textColor="@android:color/white"
                         android:text="Rating"/>
 
@@ -129,7 +129,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:id="@+id/total_earning"
-                        android:textSize="30dp"
+                        android:textSize="@dimen/large_font_size"
                         android:textColor="@android:color/white"
                         android:text="10,000Tk"/>
 
@@ -137,7 +137,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:textSize="15dp"
+                        android:textSize="@dimen/small_font_size"
                         android:textColor="@android:color/white"
                         android:text="Earnings"/>
 
@@ -297,7 +297,7 @@
                         android:layout_marginLeft="20dp"
                         android:text="Documentation"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="20dp" />
+                        android:textSize="@dimen/midum_font_size" />
                 </LinearLayout>
 
 
@@ -322,7 +322,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginLeft="20dp"
-                        android:textSize="20dp"
+                        android:textSize="@dimen/midum_font_size"
                         android:textColor="@color/colorPrimary"
                         android:text="History"/>
                 </LinearLayout>
@@ -348,9 +348,36 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginLeft="20dp"
-                        android:textSize="20dp"
+                        android:textSize="@dimen/midum_font_size"
                         android:textColor="@color/colorPrimary"
                         android:text="Setting"/>
+                </LinearLayout>
+
+
+            </TableRow>
+            <TableRow
+                android:layout_height="fill_parent"
+                android:layout_width="fill_parent">
+                <LinearLayout
+                    android:id="@+id/referral"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:background="@drawable/profile_border"
+                    android:layout_height="50dp">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/referral"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="20dp"
+                        android:textSize="@dimen/midum_font_size"
+                        android:textColor="@color/colorPrimary"
+                        android:text="Referral"/>
                 </LinearLayout>
 
 

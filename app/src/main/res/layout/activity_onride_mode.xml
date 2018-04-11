@@ -18,6 +18,14 @@
             android:layout_height="match_parent"
             android:layout_alignParentStart="true"
             tools:context=".MapsActivity" />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/ic_navigate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:scaleType="center"
+            android:backgroundTint="@color/colorPrimary"
+            android:src="@drawable/ic_navigate" />
 
         <LinearLayout
             android:id="@+id/accep_reject_card_layout"
@@ -36,150 +44,188 @@
                     android:orientation="vertical">
 
                     <LinearLayout
+                        android:id="@+id/details"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="16dp">
+                        android:paddingBottom="6dp"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:paddingTop="9dp">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:weightSum="1">
+                        <!-- avatar and name part -->
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent">
 
-                            <LinearLayout
+                            <TextView
+                                android:id="@+id/total_fare"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight=".5"
-                                android:orientation="horizontal"
-                                android:weightSum="1">
+                                android:layout_weight="1"
+                                android:gravity="right"
+                                android:text="TK.200"
+                                android:textColor="@android:color/holo_green_dark"
+                                android:textSize="@dimen/large_font_size"
+                                android:textStyle="bold" />
 
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:orientation="vertical"
-                                    android:weightSum="1">
+                            <TextView
+                                android:id="@+id/type"
+                                style="@style/ContentMainBadgeTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:layout_marginBottom="5dp"
+                                android:text="RIDER"
+                                android:textSize="@dimen/tinny_font_size" />
 
-                                    <TextView
-                                        android:id="@+id/total_fare"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:gravity="right"
-                                        android:text="TK.200"
-                                        android:textColor="@android:color/holo_green_dark"
-                                        android:textSize="15sp"
-                                        android:textStyle="bold" />
+                            <ImageView
+                                android:id="@+id/client_image"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:layout_below="@id/type"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/profile_image" />
 
-                                </LinearLayout>
-                            </LinearLayout>
+                            <TextView
+                                android:id="@+id/current_client_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignTop="@id/client_image"
+                                android:layout_marginBottom="2dp"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginStart="10dp"
+                                android:layout_toEndOf="@id/client_image"
+                                android:layout_toRightOf="@id/client_image"
+                                android:text="@string/client_name_mock"
+                                android:textColor="@color/mainTextColor"
+                                android:textSize="@dimen/midum_font_size"
+                                android:textStyle="bold" />
 
-                        </LinearLayout>
+                            <RatingBar
+                                android:id="@+id/content_rating_stars"
+                                style="?android:attr/ratingBarStyleSmall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignLeft="@id/current_client_name"
+                                android:layout_alignStart="@id/current_client_name"
+                                android:layout_below="@id/current_client_name" />
+                        </RelativeLayout>
 
+                        <!-- divider line -->
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginBottom="6dp"
+                            android:layout_marginTop="9dp"
+                            android:src="@color/contentDividerLine" />
+
+                        <!-- addresses part -->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="16dp"
-                            android:weightSum="10">
+                            android:baselineAligned="false"
+                            android:orientation="horizontal">
 
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="5"
-                                android:orientation="horizontal"
-                                android:weightSum="10">
+                            <RelativeLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1">
 
-                                <ImageView
-                                    android:layout_width="20dp"
-                                    android:layout_height="20dp"
-                                    android:layout_weight="2"
-                                    android:src="@drawable/source" />
+                                <TextView
+                                    android:id="@+id/content_from_badge"
+                                    style="@style/ContentMainBadgeTitle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_alignParentStart="true"
+                                    android:text="@string/from_badge"
+                                    android:textSize="@dimen/tinny_font_size" />
 
                                 <TextView
                                     android:id="@+id/source_address"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="8"
-                                    android:text="Something, adfasdsda, a dsaassa, as d" />
-                            </LinearLayout>
+                                    android:layout_below="@id/content_from_badge"
+                                    android:text="@string/content_from2_mock"
+                                    android:textColor="@color/mainTextColor"
+                                    android:textSize="@dimen/tinny_font_size" />
 
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="5"
-                                android:orientation="horizontal"
-                                android:weightSum="10">
+                            </RelativeLayout>
 
-                                <ImageView
-                                    android:layout_width="20dp"
-                                    android:layout_height="20dp"
-                                    android:layout_weight="2"
-                                    android:src="@drawable/destination" />
+                            <RelativeLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1">
+
+                                <TextView
+                                    android:id="@+id/content_to_badge"
+                                    style="@style/ContentMainBadgeTitle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_alignParentStart="true"
+                                    android:text="@string/to_badge"
+                                    android:textSize="@dimen/tinny_font_size" />
 
                                 <TextView
                                     android:id="@+id/destination_address"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="8"
-                                    android:text="Something, adfasdsda, a dsaassa, as d" />
-                            </LinearLayout>
+                                    android:layout_below="@id/content_to_badge"
+                                    android:text="@string/content_to2_mock"
+                                    android:textColor="@color/mainTextColor"
+                                    android:textSize="@dimen/tinny_font_size" />
+
+                            </RelativeLayout>
+
                         </LinearLayout>
-                    </LinearLayout>
 
+                        <!-- divider line -->
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginBottom="6dp"
+                            android:layout_marginTop="7dp"
+                            android:src="@color/contentDividerLine" />
+
+                        <!-- dates part -->
+                        <!-- request button -->
+
+                    </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/profile_border"
                         android:elevation="5dp"
                         android:orientation="horizontal"
-                        android:padding="15dp">
-
-                        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                            android:id="@+id/client_image"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center"
-                            android:clickable="true"
-                            android:src="@drawable/profile_image"
-                            app:civ_border_color="#FFFFFFFF"
-                            app:civ_border_width="3dp" />
-
-                        <TextView
-                            android:id="@+id/current_client_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="20dp"
-                            android:layout_gravity="center"
-                            android:text="Mr. Abul Kalam"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/profile_border"
-                        android:elevation="5dp"
-                        android:orientation="horizontal"
+                        android:layout_weight="10"
                         android:padding="15dp">
 
                         <TextView
                             android:id="@+id/reject_ride"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_weight="5"
+                            android:layout_height="wrap_content"
                             android:text="CANCEL"
-                            android:textColor="@android:color/holo_red_dark"
-                            android:textSize="20sp" />
+                            android:background="@android:color/holo_red_dark"
+                            android:textColor="@android:color/white"
+                            android:padding="20dp"
+                            android:textSize="@dimen/large_font_size"
+                            android:gravity="left"/>
 
                         <TextView
                             android:id="@+id/accept_ride"
-                            android:layout_width="match_parent"
+                            android:layout_weight="5"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="right"
                             android:text="ACCEPT"
-                            android:textColor="@android:color/holo_green_dark"
-                            android:textSize="20sp" />
+                            android:padding="20dp"
+                            android:background="@android:color/holo_green_dark"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/large_font_size" />
 
                     </LinearLayout>
 
@@ -207,6 +253,7 @@
                     android:layout_height="match_parent"
                     android:layout_margin="5dp"
                     android:text="@string/final_start_ride"
+                    android:textSize="@dimen/large_font_size"
                     android:theme="@style/ThemeOverlay.MyDarkButton" />
 
                 <Button
@@ -215,6 +262,7 @@
                     android:layout_height="match_parent"
                     android:layout_margin="5dp"
                     android:text="@string/final_finish_ride"
+                    android:textSize="@dimen/large_font_size"
                     android:theme="@style/ThemeOverlay.MyDarkButton" />
             </FrameLayout>
         </LinearLayout>
@@ -230,6 +278,7 @@
         android:layout_alignParentTop="true"
         android:background="@android:drawable/screen_background_dark_transparent"
         android:clipToPadding="true"
+        android:visibility="gone"
         app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
 
         <LinearLayout
@@ -271,7 +320,7 @@
                                     android:layout_marginBottom="20dp"
                                     android:text="Client Info"
                                     android:textColor="@color/colorPrimary"
-                                    android:textSize="25dp" />
+                                    android:textSize="@dimen/large_font_size" />
 
                                 <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                                     android:id="@+id/Client_profile_pic"
@@ -306,7 +355,7 @@
                                         android:layout_marginLeft="20dp"
                                         android:text="Name"
                                         android:textColor="@color/colorPrimary"
-                                        android:textSize="20dp" />
+                                        android:textSize="@dimen/large_font_size" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -330,7 +379,7 @@
                                         android:layout_marginLeft="20dp"
                                         android:text="Phone Number"
                                         android:textColor="@color/colorPrimary"
-                                        android:textSize="15dp" />
+                                        android:textSize="@dimen/midum_font_size" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -354,7 +403,7 @@
                                         android:layout_marginLeft="20dp"
                                         android:text="Rating"
                                         android:textColor="@color/colorPrimary"
-                                        android:textSize="15dp" />
+                                        android:textSize="@dimen/midum_font_size" />
                                 </LinearLayout>
 
 
@@ -380,7 +429,7 @@
                             android:gravity="right"
                             android:text="Contact Rider"
                             android:textColor="#000"
-                            android:textSize="18sp" />
+                            android:textSize="@dimen/large_font_size" />
 
                     </LinearLayout>
 
@@ -390,7 +439,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="4dp"
-                app:cardUseCompatPadding="true">
+                app:cardUseCompatPadding="true"
+                android:background="@color/grey_300">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -415,12 +465,13 @@
                             android:layout_marginBottom="8dp"
                             android:text="Chatga Rides"
                             android:textColor="#000"
-                            android:textSize="18sp" />
+                            android:textSize="@dimen/midum_font_size" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="You are on ride. Have a safe journey."
+                            android:textSize="@dimen/small_font_size"
                             android:textColor="#555" />
                     </LinearLayout>
 
