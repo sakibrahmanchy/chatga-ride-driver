@@ -187,6 +187,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
             accepRide.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     initialAndFinalCostEstimation.CreateInitialHistory();
 
                 }
@@ -448,7 +449,6 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                                        Intent intent = new Intent(OnRideModeActivity.this, MainActivity.class);
                                        startActivity(intent);
                                        finish();
-
                                        main.ForcedCancelRide(FirebaseConstant.HISTORY_CREATED_FOR_THIS_RIDE);
                                    }catch (Exception e){
                                        e.printStackTrace();
