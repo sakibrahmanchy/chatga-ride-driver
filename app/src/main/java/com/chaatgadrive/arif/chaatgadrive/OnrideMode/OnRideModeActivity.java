@@ -10,9 +10,9 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
@@ -33,9 +33,9 @@ import android.widget.Toast;
 
 import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
 import com.chaatgadrive.arif.chaatgadrive.CostEstimation.CostEstimation;
+import com.chaatgadrive.arif.chaatgadrive.FirstAppLoadingActivity.FirstAppLoadingActivity;
 import com.chaatgadrive.arif.chaatgadrive.InternetConnection.ConnectionCheck;
 import com.chaatgadrive.arif.chaatgadrive.InternetConnection.InternetCheckActivity;
-import com.chaatgadrive.arif.chaatgadrive.MainActivity;
 import com.chaatgadrive.arif.chaatgadrive.R;
 import com.chaatgadrive.arif.chaatgadrive.SharedPreferences.UserInformation;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.GetCurrentLocation;
@@ -96,6 +96,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     private Handler remainingTimeHandler = new Handler();
     private Runnable runnable;
     private boolean canResponse = true;
+    private FloatingActionButton googleNavigateBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,6 +131,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         dateTime = (TextView) findViewById(R.id.date_time);
         Currentclient_Name = (TextView) findViewById(R.id.current_client_name);
         clientImage = (ImageView) findViewById(R.id.client_image);
+        googleNavigateBtn = (FloatingActionButton) findViewById(R.id.ic_navigate);
 
         bottomSheet = findViewById(R.id.bottom_sheet);
         mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
@@ -175,7 +177,14 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
             accepRide.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    initialAndFinalCostEstimation.CreateInitialHistory();
+                    if(canResponse){
+                        initialAndFinalCostEstimation.CreateInitialHistory();
+                        closeHandler();
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(),"Time Out",Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
 
                 }
             });
@@ -184,6 +193,8 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                 @Override
                 public void onClick(View v) {
                     RejectRide();
+                    Intent intent = new Intent(OnRideModeActivity.this, FirstAppLoadingActivity.class);
+                    startActivity(intent);
                     finish();
                 }
             });
@@ -269,7 +280,6 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                                     initialAndFinalCostEstimation.UpdateStartRide(AppConstant.CURRENT_HISTORY_ID);
                                     AppConstant.PREVIOUS_LATLONG = new LatLng(getCurrentLocation.getLatitude(), getCurrentLocation.getLongitude());
 
-                                    closeHandler();
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
@@ -310,6 +320,15 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
             @Override
             public void onClick(View v) {
                 onCall();
+            }
+        });
+
+        googleNavigateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String uri = "http://maps.google.com/maps?f=d&hl=en&saddr="+AppConstant.SOURCE_LATITUTE+","+AppConstant.SOURCE_LOGITUTE+"&daddr="+AppConstant.DESTINATION_LATITUTE+","+AppConstant.DESTINATION_LOGITUTE;
+                Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
+                startActivity(Intent.createChooser(intent, "Chadga Ride"));
             }
         });
     }
@@ -412,7 +431,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                                 public void onClick(DialogInterface arg0, int arg1) {
                                     try {
                                         main.ForcedCancelRide(FirebaseConstant.HISTORY_CREATED_FOR_THIS_RIDE);
-                                        Intent intent = new Intent(OnRideModeActivity.this, MainActivity.class);
+                                        Intent intent = new Intent(OnRideModeActivity.this, FirstAppLoadingActivity.class);
                                         startActivity(intent);
                                         finish();
                                     } catch (Exception e) {

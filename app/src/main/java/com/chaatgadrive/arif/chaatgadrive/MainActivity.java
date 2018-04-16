@@ -11,6 +11,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -126,6 +127,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
                 userInformation = new UserInformation(this);
                 loginData = userInformation.getuserInformation();
                 getCurrentLocation = new GetCurrentLocation(this);
+
                 this.MandatoryCall();
             }
         }
@@ -247,7 +249,11 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
     public void OnResponseServerTime(long Time, int type) {
         if (Time > 0 && type == FirebaseConstant.GET_NOTIFICATION_TO_NOTIFY_RIDER) {
             if (Math.abs(FirebaseWrapper.getInstance().getNotificationModelInstance().time - Time) <= FirebaseConstant.CONSECUTIVE_REQUEST_ACCEPT_INTERVAL) {
+               // Log.d("FirebaseWrapper.getInstance().getNotificationModelInstance().time = ",FirebaseWrapper.getInstance().getNotificationModelInstance().time +"");
                 long remainingInterval = Math.abs(FirebaseWrapper.getInstance().getNotificationModelInstance().time - Time);
+                Log.d("remainingInterval-1",remainingInterval+"");
+                remainingInterval = Math.abs(remainingInterval - FirebaseConstant.CONSECUTIVE_REQUEST_ACCEPT_INTERVAL);
+                Log.d("remainingInterval-2",remainingInterval+"");
                 SwitchingActivity(remainingInterval);
             }
         }
