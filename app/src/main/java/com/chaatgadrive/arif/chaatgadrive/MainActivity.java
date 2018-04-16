@@ -228,7 +228,6 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
     }
 
     private void MandatoryCall() {
-        new Main(this);
         Intent intent = new Intent(MainActivity.this, UpdateLocationService.class);
         startService(intent);
         if (loginData != null) {
@@ -238,8 +237,9 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
         }
     }
 
-    private void SwitchingActivity(){
+    private void SwitchingActivity(long remainingInterval){
        Intent intent = new Intent(MainActivity.this, OnRideModeActivity.class);
+       intent.putExtra(FirebaseConstant.REMAINING_TIME, Long.toString(remainingInterval));
        startActivity(intent);
     }
 
@@ -247,7 +247,8 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
     public void OnResponseServerTime(long Time, int type) {
         if (Time > 0 && type == FirebaseConstant.GET_NOTIFICATION_TO_NOTIFY_RIDER) {
             if (Math.abs(FirebaseWrapper.getInstance().getNotificationModelInstance().time - Time) <= FirebaseConstant.CONSECUTIVE_REQUEST_ACCEPT_INTERVAL) {
-                SwitchingActivity();
+                long remainingInterval = Math.abs(FirebaseWrapper.getInstance().getNotificationModelInstance().time - Time);
+                SwitchingActivity(remainingInterval);
             }
         }
     }

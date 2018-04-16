@@ -49,6 +49,7 @@ public class FirebaseConstant {
     public static String DATE = "date";
     public static String TIME_DATE_PATTERN = "yyyy-M-dd hh:mm:ss";
     public static String APP_SETTINGS_INFO = "AppSettings";
+    public static String REMAINING_TIME = "REMAINING_TIME";
 
     public static int ONLINE_NOT_BUSY_NO_RIDE = 100;
     public static int ONLINE_BUSY_NO_RIDE = 110;
