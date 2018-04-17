@@ -28,6 +28,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -96,6 +97,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     private Handler remainingTimeHandler = new Handler();
     private Runnable runnable;
     private boolean canResponse = true;
+    private RatingBar contentRatingStars;
     private FloatingActionButton googleNavigateBtn;
 
     @Override
@@ -132,6 +134,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         Currentclient_Name = (TextView) findViewById(R.id.current_client_name);
         clientImage = (ImageView) findViewById(R.id.client_image);
         googleNavigateBtn = (FloatingActionButton) findViewById(R.id.ic_navigate);
+        contentRatingStars = (RatingBar) findViewById(R.id.content_rating_stars);
 
         bottomSheet = findViewById(R.id.bottom_sheet);
         mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
@@ -153,6 +156,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
             AppConstant.CLIENT_NAME = notificationModel.clientName;
             AppConstant.PHONE_NUMBER = Long.parseLong(notificationModel.clientPhone);
             clientRating.setText(notificationModel.clientRatting);
+
             Picasso.with(this).invalidate(notificationModel.clientImageUrl);
             Picasso.with(this)
                     .load(notificationModel.clientImageUrl)
@@ -166,6 +170,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
             bootmsheet.setVisibility(View.GONE);
             sourceAdress.setText(notificationModel.sourceName);
             Currentclient_Name.setText(notificationModel.clientName);
+            contentRatingStars.setRating(Float.parseFloat(notificationModel.clientRatting));
             totalCost.setText("Estimated: " + notificationModel.totalCost + "Tk");
             Picasso.with(this).invalidate(notificationModel.clientImageUrl);
             Picasso.with(this)
