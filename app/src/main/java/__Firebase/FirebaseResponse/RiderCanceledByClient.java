@@ -2,6 +2,7 @@ package __Firebase.FirebaseResponse;
 
 import android.content.Intent;
 
+import com.chaatgadrive.arif.chaatgadrive.FirstAppLoadingActivity.FirstAppLoadingActivity;
 import com.chaatgadrive.arif.chaatgadrive.MainActivity;
 
 import ContactWithFirebase.Main;
@@ -25,7 +26,7 @@ public class RiderCanceledByClient {
     private void Response(){
 
         ClearData();
-            Intent intent = new Intent(Onridecontext,MainActivity.class);
+            Intent intent = new Intent(Onridecontext,FirstAppLoadingActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             Onridecontext.startActivity(intent);
             Onridecontext.finish();
