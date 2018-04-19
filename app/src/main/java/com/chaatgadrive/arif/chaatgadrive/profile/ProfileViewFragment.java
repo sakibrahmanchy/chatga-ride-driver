@@ -175,12 +175,10 @@ public class ProfileViewFragment extends Fragment{
 
                 switch(statusCode){
                     case 200:
-
                         RiderProfileStats stats = response.body().getData();
                         totalTrips.setText(stats.getTrips());
                         totalEarning.setText(stats.getEarnings());
                         rating.setText(stats.getRating());
-
                         break;
                     default:
                         Snackbar.make(getActivity().findViewById(R.id.content),"Error loading profile",Snackbar.LENGTH_LONG);

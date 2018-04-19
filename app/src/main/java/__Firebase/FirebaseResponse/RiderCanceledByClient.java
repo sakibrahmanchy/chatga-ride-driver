@@ -25,7 +25,7 @@ public class RiderCanceledByClient {
 
     private void Response(){
 
-        ClearData();
+            ClearData();
             Intent intent = new Intent(Onridecontext,FirstAppLoadingActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             Onridecontext.startActivity(intent);

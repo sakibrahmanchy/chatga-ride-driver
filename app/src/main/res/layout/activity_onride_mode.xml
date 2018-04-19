@@ -105,7 +105,7 @@
 
                             <RatingBar
                                 android:id="@+id/content_rating_stars"
-                                style="?android:attr/ratingBarStyleSmall"
+                                style="@style/Widget.AppCompat.RatingBar.Small"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignLeft="@id/current_client_name"
