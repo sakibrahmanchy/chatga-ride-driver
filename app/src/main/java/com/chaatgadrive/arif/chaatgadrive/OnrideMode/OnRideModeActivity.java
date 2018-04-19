@@ -47,6 +47,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -268,7 +269,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         startRide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog.Builder(OnRideModeActivity.this, R.style.CustomDialogTheme)
+                new AlertDialog.Builder(OnRideModeActivity.this)
                         .setTitle("RIDE START")
                         .setMessage("Are you sure  want to start ride?")
                         .setNegativeButton("NO", null)
@@ -305,7 +306,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                     Intent intent = new Intent(OnRideModeActivity.this, InternetCheckActivity.class);
                     startActivityForResult(intent, AppConstant.INTERNET_CHECK);
                 } else {
-                    new AlertDialog.Builder(OnRideModeActivity.this, R.style.CustomDialogTheme)
+                    new AlertDialog.Builder(OnRideModeActivity.this)
                             .setTitle("Really Exit?")
                             .setMessage("Are you sure you want to finish?")
                             .setNegativeButton(android.R.string.no, null)
@@ -381,6 +382,9 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
             return;
         }
         mMap.setMyLocationEnabled(true);
+        mMap.setMapStyle(
+                MapStyleOptions.loadRawResourceStyle(
+                        OnRideModeActivity.this, R.raw.style_json));
         setUpMap();
 
     }
