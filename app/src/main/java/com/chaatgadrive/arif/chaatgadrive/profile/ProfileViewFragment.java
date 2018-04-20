@@ -18,7 +18,6 @@ import android.widget.TextView;
 
 import com.chaatgadrive.arif.chaatgadrive.Adapters.History.RiderHistoryActivity;
 import com.chaatgadrive.arif.chaatgadrive.R;
-import com.chaatgadrive.arif.chaatgadrive.Referral.ReferralActivity;
 import com.chaatgadrive.arif.chaatgadrive.RiderDocumentsActivity;
 import com.chaatgadrive.arif.chaatgadrive.Setting.EditProfile;
 import com.chaatgadrive.arif.chaatgadrive.SharedPreferences.UserInformation;
@@ -76,7 +75,7 @@ public class ProfileViewFragment extends Fragment{
         totalTrips = (TextView) view.findViewById(R.id.total_trips);
         rating = (TextView) view.findViewById(R.id.rating);
         totalEarning = (TextView) view.findViewById(R.id.total_earning);
-        referralView = (LinearLayout) view.findViewById(R.id.referral);
+       // referralView = (LinearLayout) view.findViewById(R.id.referral);
 
         pref = getActivity().getSharedPreferences("MyPref", 0);
         userInformation = new UserInformation(getContext());
@@ -132,13 +131,13 @@ public class ProfileViewFragment extends Fragment{
                 startActivity(docuemntationsViewIntent);
             }
         });
-        referralView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent referralViewIntent = new Intent(getActivity(), ReferralActivity.class);
-                startActivity(referralViewIntent);
-            }
-        });
+//        referralView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent referralViewIntent = new Intent(getActivity(), ReferralActivity.class);
+//                startActivity(referralViewIntent);
+//            }
+//        });
 
 
     }
@@ -176,12 +175,10 @@ public class ProfileViewFragment extends Fragment{
 
                 switch(statusCode){
                     case 200:
-
                         RiderProfileStats stats = response.body().getData();
                         totalTrips.setText(stats.getTrips());
                         totalEarning.setText(stats.getEarnings());
                         rating.setText(stats.getRating());
-
                         break;
                     default:
                         Snackbar.make(getActivity().findViewById(R.id.content),"Error loading profile",Snackbar.LENGTH_LONG);

@@ -67,7 +67,7 @@
                             android:gravity="center"
                             android:text="৳85"
                             android:textColor="@android:color/holo_green_dark"
-                            android:textSize="@dimen/large_font_size" />
+                            android:textSize="40sp" />
                     </LinearLayout>
 
                 </LinearLayout>

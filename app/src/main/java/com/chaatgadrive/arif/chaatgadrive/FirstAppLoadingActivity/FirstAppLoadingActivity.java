@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -23,12 +24,12 @@ import com.chaatgadrive.arif.chaatgadrive.OnLocationChange.UpdateLocationService
 import com.chaatgadrive.arif.chaatgadrive.OnrideMode.OnRideModeActivity;
 import com.chaatgadrive.arif.chaatgadrive.R;
 import com.chaatgadrive.arif.chaatgadrive.SharedPreferences.UserInformation;
-import com.chaatgadrive.arif.chaatgadrive.UserCheckActivity;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginData;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginModel;
 import com.chaatgadrive.arif.chaatgadrive.rest.ApiClient;
 import com.chaatgadrive.arif.chaatgadrive.rest.ApiInterface;
 import com.crashlytics.android.Crashlytics;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 
@@ -54,6 +55,7 @@ public class FirstAppLoadingActivity extends AppCompatActivity {
     private SharedPreferences.Editor editor;
     private Context context;
     private String TAG;
+    private LocationRequest locationRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,22 +66,31 @@ public class FirstAppLoadingActivity extends AppCompatActivity {
         TAG = getApplicationContext().getApplicationInfo().className;
         loginData = userInformation.getuserInformation();
         if (loginData != null) {
-            GetRiderAllInformations((loginData.getRiderId()));
+            if(getLocationMode()==0 || getLocationMode()==2 ){
+                Toast.makeText(getApplicationContext(),"Location on with Higher Acuracy Mode",Toast.LENGTH_LONG).show();
+                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+            }
+            else{
+                GetRiderAllInformations((loginData.getRiderId()));
+            }
+
         }
         else {
             int MyVersion = Build.VERSION.SDK_INT;
             if (MyVersion > Build.VERSION_CODES.LOLLIPOP_MR1) {
+
+
                 if (!checkIfAlreadyhavePermission()) {
                     requestForSpecificPermission();
                 }
                 else{
-                    Intent intent = new Intent(FirstAppLoadingActivity.this, UserCheckActivity.class);
+                    Intent intent = new Intent(FirstAppLoadingActivity.this, FacebookAccountVerificationActivity.class);
                     startActivity(intent);
                     finish();
                 }
             }
             else{
-                Intent intent = new Intent(FirstAppLoadingActivity .this, UserCheckActivity.class);
+                Intent intent = new Intent(FirstAppLoadingActivity .this, FacebookAccountVerificationActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -205,6 +216,17 @@ public class FirstAppLoadingActivity extends AppCompatActivity {
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+    }
+
+    public int getLocationMode()
+    {
+        try {
+           return Settings.Secure.getInt(getContentResolver(), Settings.Secure.LOCATION_MODE);
+        } catch (Settings.SettingNotFoundException e) {
+            e.printStackTrace();
+            return -1;
+        }
+
     }
 
 }

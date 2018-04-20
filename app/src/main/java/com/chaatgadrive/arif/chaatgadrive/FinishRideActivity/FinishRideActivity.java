@@ -9,7 +9,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
-import com.chaatgadrive.arif.chaatgadrive.MainActivity;
+import com.chaatgadrive.arif.chaatgadrive.FirstAppLoadingActivity.FirstAppLoadingActivity;
 import com.chaatgadrive.arif.chaatgadrive.R;
 import com.chaatgadrive.arif.chaatgadrive.Rating.UserRating;
 
@@ -48,7 +48,7 @@ public class FinishRideActivity extends AppCompatActivity implements android.vie
                 if(AppConstant.RATING !=0){
                     new UserRating(this).RatingClient();
                 }
-                Intent intent = new Intent(this,MainActivity.class);
+                Intent intent = new Intent(this,FirstAppLoadingActivity.class);
                 startActivity(intent);
                 finish();
 
