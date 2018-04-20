@@ -273,7 +273,4 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
         super.onStop();
         AppConstant.MAIN_ACTIVITY = false;
     }
-
-
-
 }
