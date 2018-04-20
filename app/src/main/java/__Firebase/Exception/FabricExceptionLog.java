@@ -3,9 +3,11 @@ package __Firebase.Exception;
 import android.util.Log;
 
 import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
+import com.chaatgadrive.arif.chaatgadrive.MainActivity;
 import com.crashlytics.android.Crashlytics;
 
 import __Firebase.FirebaseUtility.FirebaseConstant;
+import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by User on 3/22/2018.
@@ -25,11 +27,13 @@ public class FabricExceptionLog {
         }
 
         Throwable throwable = new Exception(message);
+        Fabric.with(MainActivity.getContextOfApplication(), new Crashlytics());
         Crashlytics.logException(throwable);
     }
 
     public static void sendLogToFabric(String message) {
         Throwable throwable = new Exception(message);
+        Fabric.with(MainActivity.getContextOfApplication(), new Crashlytics());
         Crashlytics.logException(throwable);
     }
 

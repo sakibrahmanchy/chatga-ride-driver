@@ -32,6 +32,7 @@ import com.chaatgadrive.arif.chaatgadrive.chaatgamap.Mapfragment;
 import com.chaatgadrive.arif.chaatgadrive.dashboard.DashboardFragment;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginData;
 import com.chaatgadrive.arif.chaatgadrive.profile.ProfileViewFragment;
+import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 
@@ -40,6 +41,7 @@ import __Firebase.FirebaseUtility.FirebaseConstant;
 import __Firebase.FirebaseUtility.FirebaseUtilMethod;
 import __Firebase.FirebaseWrapper;
 import __Firebase.ICallbacklisteners.ICallBackCurrentServerTime;
+import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity implements ICallBackCurrentServerTime {
 
@@ -104,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
         super.onCreate(savedInstanceState);
 
         contextOfApplication = getApplicationContext();
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
         getCurrentLocation = new GetCurrentLocation(this);
         connectionCheck = new ConnectionCheck(this);
@@ -248,6 +251,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
         if (Time > 0 && type == FirebaseConstant.GET_NOTIFICATION_TO_NOTIFY_RIDER) {
             if (Math.abs(FirebaseWrapper.getInstance().getNotificationModelInstance().time - Time) <= FirebaseConstant.CONSECUTIVE_REQUEST_ACCEPT_INTERVAL) {
                 long remainingInterval = Math.abs(FirebaseWrapper.getInstance().getNotificationModelInstance().time - Time);
+                remainingInterval = Math.abs(remainingInterval - FirebaseConstant.CONSECUTIVE_REQUEST_ACCEPT_INTERVAL);
                 SwitchingActivity(remainingInterval);
             }
         }
@@ -268,7 +272,4 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
         super.onStop();
         AppConstant.MAIN_ACTIVITY = false;
     }
-
-
-
 }
