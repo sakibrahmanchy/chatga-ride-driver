@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.chaatgadrive.arif.chaatgadrive.OnrideMode.OnRideModeActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            tools:context=".MapsActivity" />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/ic_navigate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:scaleType="center"
+            android:src="@drawable/ic_navigate" />
+
+        <LinearLayout
+            android:id="@+id/accep_reject_card_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_accept_and_reject"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/details"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingBottom="6dp"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:paddingTop="9dp">
+
+                        <!-- avatar and name part -->
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                android:id="@+id/total_fare"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="right"
+                                android:text="TK.200"
+                                android:textColor="@android:color/holo_green_dark"
+                                android:textSize="@dimen/large_font_size"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/type"
+                                style="@style/ContentMainBadgeTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:layout_marginBottom="5dp"
+                                android:text="RIDER"
+                                android:textSize="@dimen/tinny_font_size" />
+
+                            <ImageView
+                                android:id="@+id/client_image"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:layout_below="@id/type"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/profile_image" />
+
+                            <TextView
+                                android:id="@+id/current_client_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignTop="@id/client_image"
+                                android:layout_marginBottom="2dp"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginStart="10dp"
+                                android:layout_toEndOf="@id/client_image"
+                                android:layout_toRightOf="@id/client_image"
+                                android:text="@string/client_name_mock"
+                                android:textColor="@color/mainTextColor"
+                                android:textSize="@dimen/midum_font_size"
+                                android:textStyle="bold" />
+
+                            <!--<RatingBar-->
+                                <!--android:id="@+id/content_rating_stars"-->
+                                <!--style="@style/Widget.AppCompat.RatingBar.Small"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_alignLeft="@id/current_client_name"-->
+                                <!--android:layout_alignStart="@id/current_client_name"-->
+                                <!--android:layout_below="@id/current_client_name" />-->
+                        </RelativeLayout>
+
+                        <!-- divider line -->
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginBottom="6dp"
+                            android:layout_marginTop="9dp"
+                            android:src="@color/contentDividerLine" />
+
+                        <!-- addresses part -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:baselineAligned="false"
+                            android:orientation="horizontal">
+
+                            <RelativeLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1">
+
+                                <TextView
+                                    android:id="@+id/content_from_badge"
+                                    style="@style/ContentMainBadgeTitle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_alignParentStart="true"
+                                    android:text="@string/from_badge"
+                                    android:textSize="@dimen/tinny_font_size" />
+
+                                <TextView
+                                    android:id="@+id/source_address"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@id/content_from_badge"
+                                    android:text="@string/content_from2_mock"
+                                    android:textColor="@color/mainTextColor"
+                                    android:textSize="@dimen/tinny_font_size" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1">
+
+                                <TextView
+                                    android:id="@+id/content_to_badge"
+                                    style="@style/ContentMainBadgeTitle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_alignParentStart="true"
+                                    android:text="@string/to_badge"
+                                    android:textSize="@dimen/tinny_font_size" />
+
+                                <TextView
+                                    android:id="@+id/destination_address"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@id/content_to_badge"
+                                    android:text="@string/content_to2_mock"
+                                    android:textColor="@color/mainTextColor"
+                                    android:textSize="@dimen/tinny_font_size" />
+
+                            </RelativeLayout>
+
+                        </LinearLayout>
+
+                        <!-- divider line -->
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginBottom="6dp"
+                            android:layout_marginTop="7dp"
+                            android:src="@color/contentDividerLine" />
+
+                        <!-- dates part -->
+                        <!-- request button -->
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/profile_border"
+                        android:elevation="5dp"
+                        android:orientation="horizontal"
+                        android:layout_weight="10"
+                        android:padding="15dp">
+
+                        <TextView
+                            android:id="@+id/reject_ride"
+                            android:layout_width="wrap_content"
+                            android:layout_weight="5"
+                            android:layout_height="wrap_content"
+                            android:text="CANCEL"
+                            android:background="@android:color/holo_red_dark"
+                            android:textColor="@android:color/white"
+                            android:padding="20dp"
+                            android:textSize="@dimen/large_font_size"
+                            android:gravity="left"/>
+
+                        <TextView
+                            android:id="@+id/accept_ride"
+                            android:layout_weight="5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="ACCEPT"
+                            android:padding="20dp"
+                            android:background="@android:color/holo_green_dark"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/large_font_size" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="100dp">
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/start_and_finish_layout">
+
+                <Button
+                    android:id="@+id/startBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:text="@string/final_start_ride"
+                    android:textSize="@dimen/large_font_size"
+                    android:theme="@style/ThemeOverlay.MyDarkButton" />
+
+                <Button
+                    android:id="@+id/finishbtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:text="@string/final_finish_ride"
+                    android:textSize="@dimen/large_font_size"
+                    android:theme="@style/ThemeOverlay.MyDarkButton" />
+            </FrameLayout>
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/grey_300"
+        android:visibility="gone"
+        app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="4dp"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TableLayout
+                        android:id="@+id/profile_table"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent">
+
+                        <TableRow
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:background="@drawable/profile_border"
+                            android:padding="10dp">
+
+                            <LinearLayout
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/button2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="20dp"
+                                    android:text="Client Info"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="@dimen/large_font_size" />
+
+                                <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                                    android:id="@+id/Client_profile_pic"
+                                    android:layout_width="80dp"
+                                    android:layout_height="80dp"
+                                    android:clickable="true"
+                                    android:elevation="5dp"
+                                    android:src="@drawable/profile_image"
+                                    app:civ_border_color="#FFFFFFFF"
+                                    app:civ_border_width="3dp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginTop="60dp"
+                                    android:clickable="true"
+                                    android:focusable="true"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/client_name"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_marginLeft="20dp"
+                                        android:text="Name"
+                                        android:textColor="@color/colorPrimary"
+                                        android:textSize="@dimen/large_font_size" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:clickable="true"
+                                    android:focusable="true"
+                                    android:orientation="horizontal">
+
+                                    <ImageView
+                                        android:layout_width="20dp"
+                                        android:layout_height="20dp"
+                                        android:layout_gravity="center"
+                                        android:src="@android:drawable/ic_menu_call" />
+
+                                    <TextView
+                                        android:id="@+id/phone_number"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_marginLeft="20dp"
+                                        android:text="Phone Number"
+                                        android:textColor="@color/colorPrimary"
+                                        android:textSize="@dimen/midum_font_size" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:clickable="true"
+                                    android:focusable="true"
+                                    android:orientation="horizontal">
+
+                                    <ImageView
+                                        android:layout_width="20dp"
+                                        android:layout_height="20dp"
+                                        android:layout_gravity="center"
+                                        android:src="@android:drawable/btn_star" />
+
+                                    <TextView
+                                        android:id="@+id/client_rating"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_marginLeft="20dp"
+                                        android:text="Rating"
+                                        android:textColor="@color/colorPrimary"
+                                        android:textSize="@dimen/midum_font_size" />
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+
+                        </TableRow>
+
+                    </TableLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:id="@+id/contact_with_client"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:layout_marginBottom="8dp"
+                            android:gravity="right"
+                            android:text="Contact Rider"
+                            android:textColor="#000"
+                            android:textSize="@dimen/large_font_size" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="4dp"
+                app:cardUseCompatPadding="true"
+                android:background="@color/grey_300">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="160dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/bg_destination_wait" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:text="Chatga Rides"
+                            android:textColor="#000"
+                            android:textSize="@dimen/midum_font_size" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="You are on ride. Have a safe journey."
+                            android:textSize="@dimen/small_font_size"
+                            android:textColor="#555" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+</android.support.design.widget.CoordinatorLayout>
