@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.FloatingActionButton;
@@ -28,6 +29,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,6 +47,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -73,7 +76,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     private Button finishRide;
     private InitialAndFinalCostEstimation initialAndFinalCostEstimation;
     private GetDistanceAndDuration getDistanceAndDuration;
-    private Handler handler = new Handler();
+    private Handler handler;
     private GetDistanceFromMap getDistanceFromMap;
     private long CurrentTimeInSecond = 0;
     private long remainingTime = 0;
@@ -266,7 +269,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         startRide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog.Builder(OnRideModeActivity.this, R.style.CustomDialogTheme)
+                new AlertDialog.Builder(OnRideModeActivity.this)
                         .setTitle("RIDE START")
                         .setMessage("Are you sure  want to start ride?")
                         .setNegativeButton("NO", null)
@@ -303,7 +306,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
                     Intent intent = new Intent(OnRideModeActivity.this, InternetCheckActivity.class);
                     startActivityForResult(intent, AppConstant.INTERNET_CHECK);
                 } else {
-                    new AlertDialog.Builder(OnRideModeActivity.this, R.style.CustomDialogTheme)
+                    new AlertDialog.Builder(OnRideModeActivity.this)
                             .setTitle("Really Exit?")
                             .setMessage("Are you sure you want to finish?")
                             .setNegativeButton(android.R.string.no, null)
@@ -379,6 +382,9 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
             return;
         }
         mMap.setMyLocationEnabled(true);
+        mMap.setMapStyle(
+                MapStyleOptions.loadRawResourceStyle(
+                        OnRideModeActivity.this, R.raw.style_json));
         setUpMap();
 
     }
@@ -428,17 +434,49 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
             case R.id.cancel_ride:
                 CurrentRidingHistoryModel currentRidingHistoryModel = FirebaseWrapper.getInstance().getRidingHistoryModelModelInstance();
                 if (currentRidingHistoryModel.IsRideStart == -1) {
-                    new AlertDialog.Builder(OnRideModeActivity.this, R.style.CustomDialogTheme)
+                    new AlertDialog.Builder(OnRideModeActivity.this)
                             .setTitle("CANCEL RIDE ")
                             .setMessage("Are you sure  want to cancel ride?")
                             .setNegativeButton("NO", null)
                             .setPositiveButton("YES", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface arg0, int arg1) {
                                     try {
-                                        main.ForcedCancelRide(FirebaseConstant.HISTORY_CREATED_FOR_THIS_RIDE);
-                                        Intent intent = new Intent(OnRideModeActivity.this, FirstAppLoadingActivity.class);
-                                        startActivity(intent);
-                                        finish();
+                                        // display the progressbar on the screen
+                                        final ProgressDialog progressDialog = new ProgressDialog(OnRideModeActivity.this);
+                                        progressDialog.setMessage("loading...");
+                                        progressDialog.show();
+
+                                        // start the time consuming task in a new thread
+                                        Thread thread = new Thread() {
+
+                                            public void run () {
+
+                                                // this is the time consuming task (like, network call, database call)
+                                                handler = new Handler(Looper.getMainLooper());
+                                                handler.getLooper().prepare();
+                                                main.ForcedCancelRide(FirebaseConstant.HISTORY_CREATED_FOR_THIS_RIDE);
+                                                Intent intent = new Intent(OnRideModeActivity.this, FirstAppLoadingActivity.class);
+                                                startActivity(intent);
+                                                finish();
+
+                                                // Now we are on a different thread than UI thread
+                                                // and we would like to update our UI, as this task is completed
+
+                                                handler.post(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+
+                                                        // Update your UI or do any Post job after the time consuming task
+
+                                                        // remember to dismiss the progress dialog on UI thread
+                                                        progressDialog.dismiss();
+
+                                                    }
+                                                });
+
+                                            }
+                                        };
+                                        thread.start();
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
