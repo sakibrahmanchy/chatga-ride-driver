@@ -134,7 +134,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         Currentclient_Name = (TextView) findViewById(R.id.current_client_name);
         clientImage = (ImageView) findViewById(R.id.client_image);
         googleNavigateBtn = (FloatingActionButton) findViewById(R.id.ic_navigate);
-        contentRatingStars = (RatingBar) findViewById(R.id.content_rating_stars);
+        //contentRatingStars = (RatingBar) findViewById(R.id.content_rating_stars);
 
         bottomSheet = findViewById(R.id.bottom_sheet);
         mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
@@ -170,7 +170,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
             bootmsheet.setVisibility(View.GONE);
             sourceAdress.setText(notificationModel.sourceName);
             Currentclient_Name.setText(notificationModel.clientName);
-            contentRatingStars.setRating(Float.parseFloat(notificationModel.clientRatting));
+            //contentRatingStars.setRating(Float.parseFloat(notificationModel.clientRatting));
             totalCost.setText("Estimated: " + notificationModel.totalCost + "Tk");
             Picasso.with(this).invalidate(notificationModel.clientImageUrl);
             Picasso.with(this)

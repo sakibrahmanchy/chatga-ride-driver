@@ -24,7 +24,6 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:scaleType="center"
-            android:backgroundTint="@color/colorPrimary"
             android:src="@drawable/ic_navigate" />
 
         <LinearLayout
@@ -103,14 +102,14 @@
                                 android:textSize="@dimen/midum_font_size"
                                 android:textStyle="bold" />
 
-                            <RatingBar
-                                android:id="@+id/content_rating_stars"
-                                style="@style/Widget.AppCompat.RatingBar.Small"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignLeft="@id/current_client_name"
-                                android:layout_alignStart="@id/current_client_name"
-                                android:layout_below="@id/current_client_name" />
+                            <!--<RatingBar-->
+                                <!--android:id="@+id/content_rating_stars"-->
+                                <!--style="@style/Widget.AppCompat.RatingBar.Small"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_alignLeft="@id/current_client_name"-->
+                                <!--android:layout_alignStart="@id/current_client_name"-->
+                                <!--android:layout_below="@id/current_client_name" />-->
                         </RelativeLayout>
 
                         <!-- divider line -->
