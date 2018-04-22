@@ -116,7 +116,7 @@ public class __FirebaseMessagingService extends FirebaseMessagingService {
                                 .bigText(notificationModel.sourceName +"\n"+"To"+"\n"+
                                 notificationModel.destinationName+"\n"));
                 builder.setWhen(System.currentTimeMillis());
-                  builder.addAction(R.drawable.ic_google_map, "Tab to view details", pendingIntent);
+                  builder.addAction(R.drawable.ic_google_map, "Tap to view details", pendingIntent);
                 builder.setContentIntent(pendingIntent);
                 NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 notificationManager.notify(0, builder.build());

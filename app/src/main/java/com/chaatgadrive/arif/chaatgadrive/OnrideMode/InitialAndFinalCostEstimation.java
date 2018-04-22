@@ -245,12 +245,7 @@ public class InitialAndFinalCostEstimation {
                                     Handler handler = new Handler(Looper.getMainLooper());
                                     handler.getLooper().prepare();
                                     ForceFinishedRide();
-                                    AppConstant.TOTAL_RIDING_COST = (int)rideFinishData.getCostAfterDiscount();
-                                    Intent Finishintent = new Intent(mContext, FinishRideActivity.class);
-                                    mContext.startActivity(Finishintent);
-                                    Onridecontext.finish();
-                                    AppConstant.IS_RIDE=0;
-                                    AppConstant.IS_RIDE_FINISH = true;
+
 
                                     // Now we are on a different thread than UI thread
                                     // and we would like to update our UI, as this task is completed
@@ -262,6 +257,12 @@ public class InitialAndFinalCostEstimation {
                                             // Update your UI or do any Post job after the time consuming task
 
                                             // remember to dismiss the progress dialog on UI thread
+                                            AppConstant.TOTAL_RIDING_COST = (int)rideFinishData.getCostAfterDiscount();
+                                            Intent Finishintent = new Intent(mContext, FinishRideActivity.class);
+                                            mContext.startActivity(Finishintent);
+                                            Onridecontext.finish();
+                                            AppConstant.IS_RIDE=0;
+                                            AppConstant.IS_RIDE_FINISH = true;
                                             progressDialog.dismiss();
 
                                         }
