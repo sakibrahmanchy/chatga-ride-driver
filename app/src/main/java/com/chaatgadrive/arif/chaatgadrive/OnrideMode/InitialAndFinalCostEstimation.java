@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.widget.NestedScrollView;
 import android.util.Log;
 import android.util.Pair;
@@ -16,6 +18,7 @@ import android.widget.LinearLayout;
 import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
 import com.chaatgadrive.arif.chaatgadrive.CostEstimation.CostEstimation;
 import com.chaatgadrive.arif.chaatgadrive.FinishRideActivity.FinishRideActivity;
+import com.chaatgadrive.arif.chaatgadrive.FirstAppLoadingActivity.FirstAppLoadingActivity;
 import com.chaatgadrive.arif.chaatgadrive.R;
 import com.chaatgadrive.arif.chaatgadrive.SharedPreferences.UserInformation;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideFinishModel.RideFinishData;
@@ -229,14 +232,45 @@ public class InitialAndFinalCostEstimation {
                             rideFinishData = response.body().getData();
 //                            Intent intent = new Intent(Onridecontext,DistanceCalculationService.class);
 //                            Onridecontext.stopService(intent);
-                            ForceFinishedRide();
-                            AppConstant.TOTAL_RIDING_COST = (int)rideFinishData.getCostAfterDiscount();
-                            Intent Finishintent = new Intent(mContext, FinishRideActivity.class);
-                            mContext.startActivity(Finishintent);
-                            Onridecontext.finish();
-                            AppConstant.IS_RIDE=0;
-                            AppConstant.IS_RIDE_FINISH = true;
+                            final ProgressDialog progressDialog = new ProgressDialog(mContext);
+                            progressDialog.setMessage("Finishing ride, please wait...");
+                            progressDialog.show();
 
+                            // start the time consuming task in a new thread
+                            Thread thread = new Thread() {
+
+                                public void run () {
+
+                                    // this is the time consuming task (like, network call, database call)
+                                    Handler handler = new Handler(Looper.getMainLooper());
+                                    handler.getLooper().prepare();
+                                    ForceFinishedRide();
+
+
+                                    // Now we are on a different thread than UI thread
+                                    // and we would like to update our UI, as this task is completed
+
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+
+                                            // Update your UI or do any Post job after the time consuming task
+
+                                            // remember to dismiss the progress dialog on UI thread
+                                            AppConstant.TOTAL_RIDING_COST = (int)rideFinishData.getCostAfterDiscount();
+                                            Intent Finishintent = new Intent(mContext, FinishRideActivity.class);
+                                            mContext.startActivity(Finishintent);
+                                            Onridecontext.finish();
+                                            AppConstant.IS_RIDE=0;
+                                            AppConstant.IS_RIDE_FINISH = true;
+                                            progressDialog.dismiss();
+
+                                        }
+                                    });
+
+                                }
+                            };
+                            thread.start();
                         }
                         break;
                     case 500:
