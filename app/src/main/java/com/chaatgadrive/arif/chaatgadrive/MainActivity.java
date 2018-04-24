@@ -11,7 +11,6 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -25,7 +24,6 @@ import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
 import com.chaatgadrive.arif.chaatgadrive.Earning.EarningFragment;
 import com.chaatgadrive.arif.chaatgadrive.InternetConnection.ConnectionCheck;
 import com.chaatgadrive.arif.chaatgadrive.InternetConnection.InternetCheckActivity;
-import com.chaatgadrive.arif.chaatgadrive.OnLocationChange.UpdateLocationService;
 import com.chaatgadrive.arif.chaatgadrive.OnrideMode.OnRideModeActivity;
 import com.chaatgadrive.arif.chaatgadrive.SharedPreferences.UserInformation;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.GetCurrentLocation;
@@ -232,8 +230,8 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
     }
 
     private void MandatoryCall() {
-        Intent intent = new Intent(MainActivity.this, UpdateLocationService.class);
-        startService(intent);
+
+
         if (loginData != null) {
             main.CreateNewRiderFirebase(loginData, userInformation.getRiderPhoneNumber());
         } else {
