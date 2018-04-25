@@ -2,6 +2,7 @@ package com.chaatgadrive.arif.chaatgadrive;
 
 import android.util.Log;
 
+import com.chaatgadrive.arif.chaatgadrive.SharedPreferences.UserInformation;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
@@ -19,11 +20,15 @@ public class __FirebaseInstanceIDService extends FirebaseInstanceIdService {
 
     @Override
     public void onTokenRefresh() {
-        this.recentToken = FirebaseInstanceId.getInstance().getToken();
-        new Main(this).SetDeviceTokenToRiderTable(
-                FirebaseWrapper.getInstance().getRiderModelInstance(),
-                recentToken
-        );
+        UserInformation userInformation = new UserInformation(this);
+        if(userInformation.getuserInformation() !=null){
+            this.recentToken = FirebaseInstanceId.getInstance().getToken();
+            new Main(this).SetDeviceTokenToRiderTable(
+                    FirebaseWrapper.getInstance().getRiderModelInstance(),
+                    recentToken
+            );
+        }
+
         Log.d(FirebaseConstant.FIREBASE_TOKEN, recentToken);
     }
 

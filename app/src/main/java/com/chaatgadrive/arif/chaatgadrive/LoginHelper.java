@@ -8,7 +8,6 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
 import com.chaatgadrive.arif.chaatgadrive.FirstAppLoadingActivity.FirstAppLoadingActivity;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.AccessTokenModels.AuthToken;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.DeviceTokenModels.UpdateDeviceTokenData;
@@ -29,9 +28,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.content.ContentValues.TAG;
-import static com.chaatgadrive.arif.chaatgadrive.MainActivity.MainActivityContext;
-import static com.chaatgadrive.arif.chaatgadrive.RegistrationActivity.registrationActivity;
-import static com.chaatgadrive.arif.chaatgadrive.UserCheckActivity.UserCheckActivityContext;
 
 /**
  * Created by Sakib Rahman on 12/13/2017.
@@ -229,6 +225,34 @@ public class LoginHelper {
 
                         break;
                 }
+
+            }
+
+            @Override
+            public void onFailure(Call<UpdateDeviceTokenData> call, Throwable t) {
+                // Log error here since request failed
+                Log.e(TAG, "Failure "+t.toString());
+            }
+        });
+
+
+    }
+
+    public void updateDeviceToken(String phone){
+
+        final String phoneNumner = phone;
+        SharedPreferences pref = context.getSharedPreferences("MyPref",0);
+        ApiInterface apiService =
+                ApiClient.getClient().create(ApiInterface.class);
+        String authHeader = "Bearer "+pref.getString("access_token",null);;
+        String deviceToken = FirebaseWrapper.getDeviceToken();
+        Call<UpdateDeviceTokenData> call = apiService.updateDeviceToken(authHeader,phoneNumner, deviceToken);
+
+        call.enqueue(new Callback<UpdateDeviceTokenData>() {
+            @Override
+            public void onResponse(Call<UpdateDeviceTokenData> call, Response<UpdateDeviceTokenData> response) {
+
+                int statusCode = response.code();
 
             }
 

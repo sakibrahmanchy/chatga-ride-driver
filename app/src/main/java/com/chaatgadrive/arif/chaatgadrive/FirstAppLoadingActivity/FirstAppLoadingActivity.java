@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
 import com.chaatgadrive.arif.chaatgadrive.FacebookAccountVerificationActivity;
+import com.chaatgadrive.arif.chaatgadrive.LoginHelper;
 import com.chaatgadrive.arif.chaatgadrive.MainActivity;
 import com.chaatgadrive.arif.chaatgadrive.OnLocationChange.UpdateLocationService;
 import com.chaatgadrive.arif.chaatgadrive.OnrideMode.OnRideModeActivity;
@@ -56,6 +57,7 @@ public class FirstAppLoadingActivity extends AppCompatActivity {
     private Context context;
     private String TAG;
     private LocationRequest locationRequest;
+    private LoginHelper loginHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,21 +67,10 @@ public class FirstAppLoadingActivity extends AppCompatActivity {
         userInformation = new UserInformation(this);
         TAG = getApplicationContext().getApplicationInfo().className;
         loginData = userInformation.getuserInformation();
+        loginHelper = new LoginHelper(this);
         if (loginData != null) {
-            if(getLocationMode()==0 || getLocationMode()==2 ){
-                Toast.makeText(getApplicationContext(),"Location on with Higher Acuracy Mode",Toast.LENGTH_LONG).show();
-                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-            }
-            else{
-                Intent intent = new Intent(FirstAppLoadingActivity.this, UpdateLocationService.class);
-//{                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//                    startForegroundService(intent);
-//                }
-//                else
-                    startService(intent);
-             //   }
-                GetRiderAllInformations((loginData.getRiderId()));
-            }
+            requestForSpecificPermission();
+            loginHelper.updateDeviceToken(loginData.getPhone());
 
         }
         else {
@@ -211,11 +202,29 @@ public class FirstAppLoadingActivity extends AppCompatActivity {
             case 101:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1]==PackageManager.PERMISSION_GRANTED &&
                         grantResults[2]==PackageManager.PERMISSION_GRANTED) {
-                    Intent intent = new Intent(FirstAppLoadingActivity.this, FacebookAccountVerificationActivity.class);
-                    startActivity(intent);
-                    finish();
+                    if(loginData==null){
+                        Intent intent = new Intent(FirstAppLoadingActivity.this, FacebookAccountVerificationActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                    else{
+                        if(getLocationMode()==0 || getLocationMode()==2 ){
+                            Toast.makeText(getApplicationContext(),"Location on with Higher Acuracy Mode",Toast.LENGTH_LONG).show();
+                            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                        }
+                        else{
+                            Intent intent = new Intent(FirstAppLoadingActivity.this, UpdateLocationService.class);
+//{                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                    startForegroundService(intent);
+//                }
+//                else
+                            startService(intent);
+                            //   }
+                            GetRiderAllInformations((loginData.getRiderId()));
+                        }
+
+                    }
                 } else {
-                    //not granted
                     finish();
                     Toast.makeText(getApplicationContext(),"Please Restart Application",Toast.LENGTH_SHORT).show();
                 }
