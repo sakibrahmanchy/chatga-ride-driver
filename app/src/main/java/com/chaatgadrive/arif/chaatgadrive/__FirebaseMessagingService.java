@@ -39,16 +39,31 @@ public class __FirebaseMessagingService extends FirebaseMessagingService {
 
                 Intent intent = new Intent(this, MainActivity.class);
                 PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
                 Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                builder.setSound(sound);
-                builder.setContentTitle(remoteMessage.getData().get("title"));
-                builder.setContentText(remoteMessage.getData().get("body"));
-                builder.setAutoCancel(true);
-                builder.setSmallIcon(R.mipmap.ic_launcher);
-                builder.setContentIntent(pendingIntent);
+                String CHANNEL_ID = "my_channel_01";// The id of the channel.
+                CharSequence name = "Arif";// The user-visible name of the channel.
+                int importance = NotificationManager.IMPORTANCE_HIGH;
+                NotificationChannel mChannel = null;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
+                }
+
+                Notification builder =
+                        new NotificationCompat.Builder(this)
+                .setSound(sound)
+                .setContentTitle(remoteMessage.getData().get("title"))
+                .setContentText(remoteMessage.getData().get("body"))
+                .setAutoCancel(true)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentIntent(pendingIntent)
+                .setChannelId(CHANNEL_ID).build();
+
                 NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                notificationManager.notify(0, builder.build());
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    notificationManager.createNotificationChannel(mChannel);
+                }
+                notificationManager.notify(1, builder);
             }
         } else if (remoteMessage.getData().containsKey(AppConstant.ACTION_TYPE)) {
 
