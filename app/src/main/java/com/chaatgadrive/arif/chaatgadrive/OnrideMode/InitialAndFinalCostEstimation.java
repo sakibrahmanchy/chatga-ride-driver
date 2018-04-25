@@ -18,7 +18,6 @@ import android.widget.LinearLayout;
 import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
 import com.chaatgadrive.arif.chaatgadrive.CostEstimation.CostEstimation;
 import com.chaatgadrive.arif.chaatgadrive.FinishRideActivity.FinishRideActivity;
-import com.chaatgadrive.arif.chaatgadrive.FirstAppLoadingActivity.FirstAppLoadingActivity;
 import com.chaatgadrive.arif.chaatgadrive.R;
 import com.chaatgadrive.arif.chaatgadrive.SharedPreferences.UserInformation;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RideFinishModel.RideFinishData;
@@ -251,11 +250,9 @@ public class InitialAndFinalCostEstimation {
                                     // and we would like to update our UI, as this task is completed
 
                                     handler.post(new Runnable() {
-                                        @Override
-                                        public void run() {
+                                        @Override public void run() {
 
                                             // Update your UI or do any Post job after the time consuming task
-
                                             // remember to dismiss the progress dialog on UI thread
                                             AppConstant.TOTAL_RIDING_COST = (int)rideFinishData.getCostAfterDiscount();
                                             Intent Finishintent = new Intent(mContext, FinishRideActivity.class);
@@ -264,7 +261,6 @@ public class InitialAndFinalCostEstimation {
                                             AppConstant.IS_RIDE=0;
                                             AppConstant.IS_RIDE_FINISH = true;
                                             progressDialog.dismiss();
-
                                         }
                                     });
 

@@ -1,5 +1,7 @@
 package com.chaatgadrive.arif.chaatgadrive;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -7,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -59,7 +62,7 @@ public class __FirebaseMessagingService extends FirebaseMessagingService {
         } else {
             NotificationModel notificationModel = FirebaseWrapper.getInstance().getNotificationModelInstance();
             ClientModel clientModel = FirebaseWrapper.getInstance().getClientModelInstance();
-             if (remoteMessage.getData().size() > 0) {
+            if (remoteMessage.getData().size() > 0) {
                 notificationModel.title = remoteMessage.getData().containsKey("title") ? remoteMessage.getData().get("title") : FirebaseConstant.Empty;
                 notificationModel.body = remoteMessage.getData().containsKey("body") ? remoteMessage.getData().get("body") : FirebaseConstant.Empty;
                 notificationModel.clientId = Long.parseLong(remoteMessage.getData().containsKey("clientId") ? remoteMessage.getData().get("clientId") : "0");
@@ -103,31 +106,53 @@ public class __FirebaseMessagingService extends FirebaseMessagingService {
                 intent.putExtra(FirebaseConstant.RIDE_NOTIFICATION, FirebaseConstant.RIDE_NOTIFICATION);
                 intent.setFlags(intent.FLAG_ACTIVITY_CLEAR_TOP);
                 PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+//                NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
                 Uri sound = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.siren);
-                builder.setSound(sound);
-                builder.setContentTitle("Found a Ride !!");
-                builder.setContentText(notificationModel.totalCost+"Tk");
-                builder.setAutoCancel(true);
-                builder.setSmallIcon(R.mipmap.ic_launcher);
-                builder.setLargeIcon(bmp)
-                        .setStyle(new NotificationCompat
-                                .BigTextStyle()
-                                .bigText(notificationModel.sourceName +"\n"+"To"+"\n"+
-                                notificationModel.destinationName+"\n"));
-                builder.setWhen(System.currentTimeMillis());
-                  builder.addAction(R.drawable.ic_google_map, "Tap to view details", pendingIntent);
-                builder.setContentIntent(pendingIntent);
-                NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                notificationManager.notify(0, builder.build());
+
+//                NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//                notificationManager.notify(0, builder.build());
+                int notifyID = 1;
+                String CHANNEL_ID = "my_channel_01";// The id of the channel.
+                CharSequence name = "Arif";// The user-visible name of the channel.
+                int importance = NotificationManager.IMPORTANCE_HIGH;
+                NotificationChannel mChannel = null;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
+                }
+
+                Notification builder =
+                        new NotificationCompat.Builder(this)
+                                .setSound(sound)
+                                .setContentTitle("Found a Ride !!")
+                                .setContentText(notificationModel.totalCost+"Tk")
+                                .setAutoCancel(true)
+                                .setSmallIcon(R.mipmap.ic_launcher)
+                                .setLargeIcon(bmp)
+                                .setStyle(new NotificationCompat
+                                        .BigTextStyle()
+                                        .bigText(notificationModel.sourceName +"\n"+"To"+"\n"+
+                                                notificationModel.destinationName+"\n"))
+                                .setWhen(System.currentTimeMillis())
+                                .addAction(R.drawable.ic_google_map, "Tap to view details", pendingIntent)
+                                .setContentIntent(pendingIntent)
+                                .setChannelId(CHANNEL_ID).build();
+
+
+
+                NotificationManager mNotificationManager =
+                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    mNotificationManager.createNotificationChannel(mChannel);
+                }
+
+// Issue the notification.
+                mNotificationManager.notify(1 , builder);
 
                 Log.d(FirebaseConstant.NOTIFICATION_MESSAGE, FirebaseConstant.NOTIFICATION_MESSAGE);
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-
 
         }
 
@@ -154,16 +179,36 @@ public class __FirebaseMessagingService extends FirebaseMessagingService {
 
     private void Notify(String Title, String Body, PendingIntent pendingIntent){
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        builder.setSound(sound);
-        builder.setContentTitle(Title);
-        builder.setContentText(Body);
-        builder.setAutoCancel(true);
-        builder.setSmallIcon(R.mipmap.ic_launcher);
-        builder.setContentIntent(pendingIntent);
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(0, builder.build());
+        int notifyID = 1;
+        String CHANNEL_ID = "my_channel_01";// The id of the channel.
+        CharSequence name = "Arif";// The user-visible name of the channel.
+        int importance = NotificationManager.IMPORTANCE_HIGH;
+        NotificationChannel mChannel = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
+        }
+
+        Notification builder =
+                new NotificationCompat.Builder(this)
+                        .setSound(sound)
+                        .setContentTitle(Title)
+                        .setContentText(Body)
+                        .setAutoCancel(true)
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentIntent(pendingIntent)
+                        .setChannelId(CHANNEL_ID).build();
+
+
+
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            mNotificationManager.createNotificationChannel(mChannel);
+        }
+
+// Issue the notification.
+        mNotificationManager.notify(1 , builder);
 
     }
 }

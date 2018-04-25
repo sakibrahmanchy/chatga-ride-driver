@@ -71,6 +71,13 @@ public class FirstAppLoadingActivity extends AppCompatActivity {
                 startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
             }
             else{
+                Intent intent = new Intent(FirstAppLoadingActivity.this, UpdateLocationService.class);
+//{                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                    startForegroundService(intent);
+//                }
+//                else
+                    startService(intent);
+             //   }
                 GetRiderAllInformations((loginData.getRiderId()));
             }
 
