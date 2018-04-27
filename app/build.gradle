@@ -24,7 +24,7 @@ android {
     }
     defaultConfig {
         applicationId "com.chaatgadrive.arif.chaatgadrive"
-        minSdkVersion 17
+        minSdkVersion 19
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -49,32 +49,32 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     //noinspection GradleCompatible
     implementation 'com.android.support:support-v4:27.1.1'
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:27.1.1'
-    compile 'com.android.support:design:27.1.1'
-    compile 'com.android.support:support-vector-drawable:27.1.1'
-    testCompile 'junit:junit:4.12'
-    compile 'com.google.android.gms:play-services-maps:11.8.0'
-    compile 'com.google.android.gms:play-services:11.8.0'
-    compile 'com.google.android.gms:play-services-location:11.8.0'
-    compile 'com.google.maps:google-maps-services:0.1.20'
-    compile 'com.android.support:multidex:1.0.0'
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
-    compile 'com.google.code.gson:gson:2.6.2'
-    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
-    compile 'de.hdodenhof:circleimageview:2.1.0'
-    compile 'commons-net:commons-net:3.3'
-    compile 'com.android.volley:volley:1.0.0'
-    compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.10'
-    compile 'com.android.support:cardview-v7:27.1.1'
-    compile 'com.android.support:recyclerview-v7:27.1.1'
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.facebook.android:account-kit-sdk:4.32.0'
-    compile 'com.jjoe64:graphview:4.2.1'
-    compile('com.crashlytics.sdk.android:crashlytics:2.9.1@aar') {
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:design:27.1.1'
+    implementation 'com.android.support:support-vector-drawable:27.1.1'
+    implementation 'junit:junit:4.12'
+    implementation 'com.google.android.gms:play-services-maps:11.8.0'
+    implementation 'com.google.android.gms:play-services:11.8.0'
+    implementation 'com.google.android.gms:play-services-location:11.8.0'
+    implementation 'com.google.maps:google-maps-services:0.1.20'
+    implementation 'com.android.support:multidex:1.0.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.1.0'
+    implementation 'com.google.code.gson:gson:2.6.2'
+    implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
+    implementation 'de.hdodenhof:circleimageview:2.1.0'
+    implementation 'commons-net:commons-net:3.3'
+    implementation 'com.android.volley:volley:1.0.0'
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.11'
+    implementation 'com.android.support:cardview-v7:27.1.1'
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.facebook.android:account-kit-sdk:4.32.0'
+    implementation 'com.jjoe64:graphview:4.2.1'
+    implementation('com.crashlytics.sdk.android:crashlytics:2.9.1@aar') {
         transitive = true;
     }
 }
