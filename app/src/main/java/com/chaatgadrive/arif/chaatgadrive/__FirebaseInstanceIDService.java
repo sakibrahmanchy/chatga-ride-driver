@@ -27,9 +27,10 @@ public class __FirebaseInstanceIDService extends FirebaseInstanceIdService {
                     FirebaseWrapper.getInstance().getRiderModelInstance(),
                     recentToken
             );
+            Log.d(FirebaseConstant.FIREBASE_TOKEN, recentToken);
         }
 
-        Log.d(FirebaseConstant.FIREBASE_TOKEN, recentToken);
+
     }
 
     public static String getRecentToken(){

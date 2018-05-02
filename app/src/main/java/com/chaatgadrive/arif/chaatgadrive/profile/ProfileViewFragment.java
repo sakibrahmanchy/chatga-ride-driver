@@ -100,14 +100,6 @@ public class ProfileViewFragment extends Fragment{
     }
 
     void AllBuutonClick(){
-        uploadProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, 1);
-            }
-        });
 
         profileView.setOnClickListener(new View.OnClickListener() {
             @Override

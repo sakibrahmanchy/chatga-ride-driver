@@ -158,10 +158,8 @@ public class LoginHelper {
                                     deviceTokenCheck(phoneNumber);
                                     break;
                                 default:
-
                                     break;
                             }
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         } catch (IOException e) {

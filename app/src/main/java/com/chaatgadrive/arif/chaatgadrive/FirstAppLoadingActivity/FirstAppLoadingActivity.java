@@ -70,7 +70,6 @@ public class FirstAppLoadingActivity extends AppCompatActivity {
         loginHelper = new LoginHelper(this);
         if (loginData != null) {
             requestForSpecificPermission();
-            loginHelper.updateDeviceToken(loginData.getPhone());
 
         }
         else {
@@ -165,6 +164,7 @@ public class FirstAppLoadingActivity extends AppCompatActivity {
                         String json = gson.toJson(newLoginData);
                         editor.putString("userData",json);
                         editor.commit();
+                        loginHelper.updateDeviceToken(loginData.getPhone());
                         main.GetRiderStatus(Long.parseLong(userInformation.getuserInformation().getRiderId()));
                         InitializeApp();
                         break;

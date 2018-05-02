@@ -48,7 +48,6 @@ public class SettingActivity extends AppCompatActivity {
         pref = this.getSharedPreferences("MyPref", 0);
         editor = pref.edit();
 
-
         profileImage = (ImageView) findViewById(R.id.profile_pic);
         profileName = (TextView) findViewById(R.id.profile_name);
         phoneNumber = (TextView) findViewById(R.id.profile_phone);
