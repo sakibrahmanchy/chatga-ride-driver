@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.util.Pair;
 
+import com.chaatgadrive.arif.chaatgadrive.ActiveContext;
 import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
 import com.chaatgadrive.arif.chaatgadrive.SharedPreferences.UserInformation;
 import com.chaatgadrive.arif.chaatgadrive.chaatgamap.GetCurrentLocation;
@@ -38,12 +39,17 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
     private CurrentRidingHistoryModel currentRidingHistoryModel = null;
     private __FirebaseRequest FirebaseRequestInstance;
     private Context context = null;
+    private  UserInformation userInformation;
 
     private static long FinalCost;
     private static Pair<Double, Double> FinalLocation;
 
     public Main(Context context) {
         this.context = context;
+        if(ActiveContext.activeContext!=null){
+            userInformation = new UserInformation(ActiveContext.activeContext);
+        }
+
     }
 
     public boolean IsRiderAlreadyCreated(RiderModel RiderModel) {
@@ -51,6 +57,7 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
         firebaseWrapper = FirebaseWrapper.getInstance();
         FirebaseRequestInstance = firebaseWrapper.getFirebaseRequestInstance();
         FirebaseRequestInstance.IsRiderAlreadyCreated(RiderModel, Main.this);
+
         return true;
     }
 
@@ -69,7 +76,13 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
                 FirebaseConstant.UNSET_REQUEST_UPDATE_LOCATION
         );
 
-        riderModel.DeviceToken = FirebaseWrapper.getDeviceToken();
+        if(userInformation.GetDeviceToken()!= null){
+            riderModel.DeviceToken = userInformation.GetDeviceToken();
+        }
+        else{
+            riderModel.DeviceToken = FirebaseWrapper.getDeviceToken();
+        }
+
         riderModel.CurrentRidingHistoryID = FirebaseConstant.UNKNOWN;
         riderModel.DistanceFromClient = FirebaseConstant.UNKNOWN;
         riderModel.IsRiderBusy = FirebaseConstant.SET_RIDER_FREE;
@@ -614,21 +627,27 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
 
     @Override
     public void OnGetCurrentClient(boolean value) {
-        Log.d(FirebaseConstant.CLIENT_LOADED, value + "");
+        Log.d(FirebaseConstant.CLIENT_LOADED, value +"");
     }
 
     @Override
     public void OnResetRiderStatus(boolean value) {
-        Log.d(FirebaseConstant.RESET_RIDER_STATUS, value + "");
+        Log.d(FirebaseConstant.RESET_RIDER_STATUS, value +"");
     }
 
     @Override
     public void OnOnIsRiderAlreadyCreated(boolean value) {
         if (value == true) {
+            String Token;
+            if(userInformation.GetDeviceToken()!=null){
+                Token = userInformation.GetDeviceToken();
+            }
+            else{
+                Token =FirebaseWrapper.getDeviceToken();
+            }
             this.SetDeviceTokenToRiderTable(
                     FirebaseWrapper.getInstance().getRiderModelInstance(),
-                    FirebaseWrapper.getDeviceToken()
-            );
+                    Token);
             //this.OnGetRiderStatus(true);
         } else {
             FirebaseRequestInstance = FirebaseWrapper.getInstance().getFirebaseRequestInstance();
@@ -641,7 +660,14 @@ public class Main implements ICallbackMain, ICallBackCurrentServerTime, CallBack
 
     @Override
     public void OnSetDeviceTokenToRiderTable(boolean value) {
-        FirebaseWrapper.getInstance().getRiderModelInstance().DeviceToken = FirebaseWrapper.getDeviceToken();
+        String Token;
+        if(userInformation.GetDeviceToken()!=null){
+            Token = userInformation.GetDeviceToken();
+        }
+        else{
+            Token = FirebaseWrapper.getDeviceToken();
+        }
+        FirebaseWrapper.getInstance().getRiderModelInstance().DeviceToken = Token;
         Log.d(FirebaseConstant.DEVICE_TOKEN_UPDATE, Boolean.toString(value));
     }
 

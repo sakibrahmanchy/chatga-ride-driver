@@ -1,6 +1,7 @@
 package com.chaatgadrive.arif.chaatgadrive.OnrideMode;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -29,11 +30,11 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.chaatgadrive.arif.chaatgadrive.ActiveContext;
 import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
 import com.chaatgadrive.arif.chaatgadrive.CostEstimation.CostEstimation;
 import com.chaatgadrive.arif.chaatgadrive.FirstAppLoadingActivity.FirstAppLoadingActivity;
@@ -103,6 +104,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
     private RatingBar contentRatingStars;
     private FloatingActionButton googleNavigateBtn;
 
+    @SuppressLint("CommitPrefEdits")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,6 +113,7 @@ public class OnRideModeActivity extends AppCompatActivity implements OnMapReadyC
         mapFragment.getMapAsync(OnRideModeActivity.this);
         notificationModel = FirebaseWrapper.getInstance().getNotificationModelInstance();
         main = new Main(this);
+        new ActiveContext(this);
         connectionCheck = new ConnectionCheck(this);
         initialAndFinalCostEstimation = new InitialAndFinalCostEstimation(this);
         getCurrentLocation = new GetCurrentLocation(this);

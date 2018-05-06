@@ -152,7 +152,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight=".5"
                     android:textSize="@dimen/midum_font_size"
-                    android:hint="Referralcode" />
+                    android:hint="Referralcode(Optional)" />
             </android.support.design.widget.TextInputLayout>
 
             <Button

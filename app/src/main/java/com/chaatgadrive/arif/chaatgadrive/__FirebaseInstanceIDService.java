@@ -1,5 +1,6 @@
 package com.chaatgadrive.arif.chaatgadrive;
 
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.chaatgadrive.arif.chaatgadrive.SharedPreferences.UserInformation;
@@ -17,12 +18,21 @@ import __Firebase.FirebaseWrapper;
 public class __FirebaseInstanceIDService extends FirebaseInstanceIdService {
 
     private static String recentToken = null;
+    private SharedPreferences pref;
+    private SharedPreferences.Editor editor;
 
     @Override
     public void onTokenRefresh() {
         UserInformation userInformation = new UserInformation(this);
+        pref = getSharedPreferences("MyPref", 0);
+        editor = pref.edit();
+
+        this.recentToken = FirebaseInstanceId.getInstance().getToken();
+        editor.putString("DeviceToken",recentToken);
+        editor.apply();
+
         if(userInformation.getuserInformation() !=null){
-            this.recentToken = FirebaseInstanceId.getInstance().getToken();
+
             new Main(this).SetDeviceTokenToRiderTable(
                     FirebaseWrapper.getInstance().getRiderModelInstance(),
                     recentToken

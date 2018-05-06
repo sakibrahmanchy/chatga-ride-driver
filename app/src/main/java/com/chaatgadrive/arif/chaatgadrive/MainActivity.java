@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackCurrentS
         setContentView(R.layout.activity_main);
         getCurrentLocation = new GetCurrentLocation(this);
         connectionCheck = new ConnectionCheck(this);
-
+        new ActiveContext(this);
         MainActivityContext = this;
 
 

@@ -279,7 +279,13 @@ public class EditProfile extends AppCompatActivity  {
         firstName = editProfileFirstName.getText().toString();
         lastName = editProfileLastName.getText().toString();
 
-        deviceToken = FirebaseWrapper.getDeviceToken();
+        if(userInformation.GetDeviceToken()!=null){
+            deviceToken = userInformation.GetDeviceToken();
+        }
+        else{
+            deviceToken = FirebaseWrapper.getDeviceToken();
+        }
+
         birthDate = editDate.getText().toString();
 
         int selectedId = editGender.getCheckedRadioButtonId();

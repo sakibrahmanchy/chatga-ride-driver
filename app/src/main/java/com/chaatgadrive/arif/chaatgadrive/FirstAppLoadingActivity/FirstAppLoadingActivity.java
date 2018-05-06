@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.chaatgadrive.arif.chaatgadrive.ActiveContext;
 import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
 import com.chaatgadrive.arif.chaatgadrive.FacebookAccountVerificationActivity;
 import com.chaatgadrive.arif.chaatgadrive.LoginHelper;
@@ -45,7 +46,7 @@ public class FirstAppLoadingActivity extends AppCompatActivity {
     private UserInformation userInformation;
     private LoginData loginData;
     private Handler handler = new Handler();
-    private Main main =new Main(this);
+    private Main main;
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
@@ -68,6 +69,9 @@ public class FirstAppLoadingActivity extends AppCompatActivity {
         TAG = getApplicationContext().getApplicationInfo().className;
         loginData = userInformation.getuserInformation();
         loginHelper = new LoginHelper(this);
+        new ActiveContext(this);
+        main = new Main(this);
+
         if (loginData != null) {
             requestForSpecificPermission();
 
@@ -163,8 +167,9 @@ public class FirstAppLoadingActivity extends AppCompatActivity {
                         Gson gson = new Gson();
                         String json = gson.toJson(newLoginData);
                         editor.putString("userData",json);
-                        editor.commit();
+                        editor.apply();
                         loginHelper.updateDeviceToken(loginData.getPhone());
+                        main = new Main(FirstAppLoadingActivity.this);
                         main.GetRiderStatus(Long.parseLong(userInformation.getuserInformation().getRiderId()));
                         InitializeApp();
                         break;

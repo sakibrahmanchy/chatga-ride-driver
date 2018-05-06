@@ -69,4 +69,9 @@ public class UserInformation {
         editor.remove("DistanceModel");
         editor.commit();
     }
+
+    public String GetDeviceToken(){
+        String token = sharedpreferences.getString("DeviceToken", null);
+        return token;
+    }
 }

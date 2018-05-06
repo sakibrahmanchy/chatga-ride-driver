@@ -2,12 +2,8 @@ package __Firebase;
 
 import android.util.Log;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import __Firebase.FirebaseModel.AppSettingsModel;
@@ -127,8 +123,9 @@ public class FirebaseWrapper {
     }
 
     public static String getDeviceToken() {
-        Log.d(FirebaseConstant.FIREBASE_TOKEN, FirebaseInstanceId.getInstance().getToken().toString());
+
         if(FirebaseInstanceId.getInstance() != null) {
+            Log.d(FirebaseConstant.FIREBASE_TOKEN, FirebaseInstanceId.getInstance().getToken().toString());
             return FirebaseInstanceId.getInstance().getToken().toString();
         }else{
             return FirebaseConstant.FIREBASE_NOT_INITIALIZE;

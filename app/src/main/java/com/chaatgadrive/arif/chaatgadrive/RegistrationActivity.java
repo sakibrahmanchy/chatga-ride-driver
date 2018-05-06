@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 
 import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
+import com.chaatgadrive.arif.chaatgadrive.SharedPreferences.UserInformation;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.RegistrationModels.RegistrationModel;
 import com.chaatgadrive.arif.chaatgadrive.rest.ApiClient;
 import com.chaatgadrive.arif.chaatgadrive.rest.ApiInterface;
@@ -69,11 +70,13 @@ public class RegistrationActivity extends Activity {
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
     public static Activity registrationActivity;
+    private UserInformation userInformation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
+        userInformation = new UserInformation(this);
         // Set up the login form.
 
         mEmailView = (EditText) findViewById(R.id.email);
@@ -147,15 +150,20 @@ public class RegistrationActivity extends Activity {
         email = mEmailView.getText().toString();
         firstName = userFirstName.getText().toString();
         lastName = userLastName.getText().toString();
-        deviceToken = FirebaseWrapper.getDeviceToken();
+
+        if(userInformation.GetDeviceToken()!=null){
+            deviceToken = userInformation.GetDeviceToken();
+        }
+        else{
+            deviceToken = FirebaseWrapper.getDeviceToken();
+        }
+
         birthDate = birthDayText.getText().toString();
         nid = nidText.getText().toString();
         drivingLicense = drivingLicenseText.getText().toString();
         motorbikeRegistration = motorbikeRegistrationText.getText().toString();
         promocode =referralCode.getText().toString();
-
         int selectedId = mGender.getCheckedRadioButtonId();
-
         if(selectedId == R.id.female_radio_btn)
             gender = "Female";
         else

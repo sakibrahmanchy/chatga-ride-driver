@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.util.Pair;
 import android.widget.Toast;
 
+import com.chaatgadrive.arif.chaatgadrive.ActiveContext;
 import com.chaatgadrive.arif.chaatgadrive.AppConstant.AppConstant;
 import com.chaatgadrive.arif.chaatgadrive.OnrideMode.GetDistanceFromMap;
 import com.chaatgadrive.arif.chaatgadrive.SharedPreferences.UserInformation;
@@ -38,7 +39,9 @@ public class UpdateLocationService extends Service implements GoogleApiClient.Co
     GetDistanceFromMap getDistanceFromMap;
     DistanceModel distanceModel;
     private Main  main = new Main(this);
+
     public UpdateLocationService() {
+        ActiveContext.activeContext=this;
     }
 
     @Override

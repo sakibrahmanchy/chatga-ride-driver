@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.chaatgadrive.arif.chaatgadrive.FirstAppLoadingActivity.FirstAppLoadingActivity;
+import com.chaatgadrive.arif.chaatgadrive.SharedPreferences.UserInformation;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.AccessTokenModels.AuthToken;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.DeviceTokenModels.UpdateDeviceTokenData;
 import com.chaatgadrive.arif.chaatgadrive.models.ApiModels.LoginModels.LoginData;
@@ -48,11 +49,13 @@ public class LoginHelper {
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
     private Context context;
+    private UserInformation userInformation;
 
     public LoginHelper(Context context){
         this.context = context;
         pref = this.context.getSharedPreferences("MyPref", 0);
         editor = pref.edit();
+        userInformation = new UserInformation(context);
     }
 
 
@@ -115,8 +118,14 @@ public class LoginHelper {
         dialog = new ProgressDialog(context);
         dialog.setMessage("Logging in To App..");
         dialog.show();
+        String deviceToken;
+        if(userInformation.GetDeviceToken()!=null){
+            deviceToken = userInformation.GetDeviceToken();
+        }
+        else{
+            deviceToken = FirebaseWrapper.getDeviceToken();
+        }
 
-        String deviceToken = FirebaseWrapper.getDeviceToken();
         String authHeader = "Bearer "+pref.getString("access_token",null);
         Call<LoginModel> call = apiService.loginUser(authHeader,phoneNumber, deviceToken);
 
@@ -190,7 +199,15 @@ public class LoginHelper {
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
         String authHeader = "Bearer "+pref.getString("access_token",null);
-        String deviceToken = FirebaseWrapper.getDeviceToken();
+
+        String deviceToken;
+        if(userInformation.GetDeviceToken()!=null){
+            deviceToken = userInformation.GetDeviceToken();
+        }
+        else{
+            deviceToken = FirebaseWrapper.getDeviceToken();
+        }
+
         Call<UpdateDeviceTokenData> call = apiService.updateDeviceToken(authHeader,phoneNumner, deviceToken);
 
         call.enqueue(new Callback<UpdateDeviceTokenData>() {
